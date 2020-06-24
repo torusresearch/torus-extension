@@ -43,7 +43,7 @@ import {
 // METAMASK_TEST_CONFIG is used in e2e tests to set the default network to localhost
 const firstTimeState = Object.assign({}, rawFirstTimeState, global.METAMASK_TEST_CONFIG)
 
-log.setDefaultLevel(process.env.METAMASK_DEBUG ? 'debug' : 'warn')
+log.setDefaultLevel('debug')
 
 const platform = new ExtensionPlatform()
 const notificationManager = new NotificationManager()

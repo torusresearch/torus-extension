@@ -44,6 +44,7 @@ export function tryUnlockMetamask (password) {
     log.debug(`background.submitPassword`)
 
     return new Promise((resolve, reject) => {
+      // window.bg = background
       background.submitPassword(password, (error) => {
         if (error) {
           return reject(error)
@@ -87,6 +88,37 @@ export function createNewVaultAndRestore (password, seed) {
     return new Promise((resolve, reject) => {
       background.createNewVaultAndRestore(password, seed, (err, _vault) => {
         if (err) {
+          return reject(err)
+        }
+        vault = _vault
+        resolve()
+      })
+    })
+      .then(() => dispatch(unMarkPasswordForgotten()))
+      .then(() => {
+        dispatch(showAccountsPage())
+        dispatch(hideLoadingIndication())
+        return vault
+      })
+      .catch((err) => {
+        dispatch(displayWarning(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
+  }
+}
+
+export function createNewTorusVaultAndRestore (password, privateKey) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication())
+    log.debug(`background.createNewTorusVaultAndRestore`)
+    let vault
+    return new Promise((resolve, reject) => {
+      console.log('actions.js createnewtoruvaultcalled')
+      background.createNewTorusVaultAndRestore(password, privateKey, (err, _vault) => {
+        console.log('callback from vault')
+        if (err) {
+          console.error(err)
           return reject(err)
         }
         vault = _vault

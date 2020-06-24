@@ -67,6 +67,7 @@ import {
 } from '@metamask/controllers'
 
 import backEndMetaMetricsEvent from './lib/backend-metametrics'
+// import { CONSOLE_APPENDER } from 'karma/lib/constants'
 
 export default class MetamaskController extends EventEmitter {
 
@@ -505,6 +506,7 @@ export default class MetamaskController extends EventEmitter {
       setLocked: nodeify(this.setLocked, this),
       createNewVaultAndKeychain: nodeify(this.createNewVaultAndKeychain, this),
       createNewVaultAndRestore: nodeify(this.createNewVaultAndRestore, this),
+      createNewTorusVaultAndRestore: nodeify(this.createNewTorusVaultAndRestore, this),
       exportAccount: nodeify(keyringController.exportAccount, keyringController),
 
       // txController
@@ -648,6 +650,56 @@ export default class MetamaskController extends EventEmitter {
       this.selectFirstIdentity()
       return vault
     } catch (err) {
+      throw err
+    } finally {
+      releaseLock()
+    }
+  }
+
+  /** Torus private key
+   * Create a new Vault and restore an existent keyring.
+   * @param  {} password
+   * @param  {} seed
+   */
+  async createNewTorusVaultAndRestore (password, privateKey) {
+    const releaseLock = await this.createVaultMutex.acquire()
+    try {
+      const accounts, lastBalance
+
+      const keyringController = this.keyringController
+
+      // clear known identities
+      this.preferencesController.setAddresses([])
+
+      // clear permissions
+      this.permissionsController.clearPermissions()
+
+      // create new vault
+      const keyring = await this.keyringController.createNewTorusVaultAndRestore(password, privateKey)
+
+      const ethQuery = new EthQuery(this.provider)
+      accounts = await keyringController.getAccounts()
+      lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
+
+      const primaryKeyring = keyringController.getKeyringsByType('Simple Key Pair')[0]
+
+      if (!primaryKeyring) {
+        throw new Error('MetamaskController - Simple Key Pair not found')
+      }
+
+      // seek out the first zero balance
+      // while (lastBalance !== '0x0') {
+      //   await keyringController.addNewAccount(primaryKeyring)
+      //   accounts = await keyringController.getAccounts()
+      //   lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
+      // }
+
+      // set new identities
+      this.preferencesController.setAddresses(accounts)
+      this.selectFirstIdentity()
+      return keyring
+    } catch (err) {
+      log.error(err)
       throw err
     } finally {
       releaseLock()

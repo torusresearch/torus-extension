@@ -13,10 +13,10 @@ const createStaticAssetTasks = require('./static')
 const createEtcTasks = require('./etc')
 
 const browserPlatforms = [
-  'firefox',
+  // 'firefox',
   'chrome',
-  'brave',
-  'opera',
+  // 'brave',
+  // 'opera',
 ]
 
 defineAllTasks()

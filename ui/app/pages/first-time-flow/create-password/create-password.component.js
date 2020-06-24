@@ -4,9 +4,11 @@ import { Switch, Route } from 'react-router-dom'
 import NewAccount from './new-account'
 import MetaFoxLogo from '../../../components/ui/metafox-logo'
 import ImportWithSeedPhrase from './import-with-seed-phrase'
+import ImportWithTorus from './torus'
 import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
   INITIALIZE_IMPORT_WITH_SEED_PHRASE_ROUTE,
+  INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
   INITIALIZE_SEED_PHRASE_ROUTE,
 } from '../../../helpers/constants/routes'
 
@@ -43,6 +45,7 @@ export default class CreatePassword extends PureComponent {
               />
             )}
           />
+
           <Route
             exact
             path={INITIALIZE_CREATE_PASSWORD_ROUTE}
@@ -53,6 +56,18 @@ export default class CreatePassword extends PureComponent {
               />
             )}
           />
+
+          <Route
+            exact
+            path={INITIALIZE_IMPORT_WITH_TORUS_ROUTE}
+            render={(routeProps) => (
+              <ImportWithTorus
+                { ...routeProps }
+                onSubmit={onCreateNewAccountFromSeed}
+              />
+            )}
+          />
+
         </Switch>
       </div>
     )
