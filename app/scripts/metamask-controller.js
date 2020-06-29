@@ -664,7 +664,7 @@ export default class MetamaskController extends EventEmitter {
   async createNewTorusVaultAndRestore (password, privateKey) {
     const releaseLock = await this.createVaultMutex.acquire()
     try {
-      const accounts, lastBalance
+      // let lastBalance
 
       const keyringController = this.keyringController
 
@@ -677,9 +677,9 @@ export default class MetamaskController extends EventEmitter {
       // create new vault
       const keyring = await this.keyringController.createNewTorusVaultAndRestore(password, privateKey)
 
-      const ethQuery = new EthQuery(this.provider)
-      accounts = await keyringController.getAccounts()
-      lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
+      // const ethQuery = new EthQuery(this.provider)
+      const accounts = await keyringController.getAccounts()
+      // lastBalance = await this.getBalance(accounts[accounts.length - 1], ethQuery)
 
       const primaryKeyring = keyringController.getKeyringsByType('Simple Key Pair')[0]
 
