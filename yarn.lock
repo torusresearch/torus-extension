@@ -1930,6 +1930,21 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@rathishubham017/eth-keyring-controller@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rathishubham017/eth-keyring-controller/-/eth-keyring-controller-1.0.0.tgz#10ab46b72c619b8ce61ee9b6d2774b1e0c89c2cb"
+  integrity sha512-/fFPHHZh1n2dxlyRMUZ/4wlqEZFGsb6gIgaYk+OMiXWSWPNUYCfywm2qEMhLK81WprSGoOdU6JF48MdlLUm1VQ==
+  dependencies:
+    bip39 "^2.4.0"
+    bluebird "^3.5.0"
+    browser-passworder "^2.0.3"
+    eth-hd-keyring "^3.5.0"
+    eth-sig-util "^1.4.0"
+    eth-simple-keyring "^3.5.0"
+    ethereumjs-util "^5.1.2"
+    loglevel "^1.5.0"
+    obs-store "^4.0.3"
+
 "@reach/router@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@reach/router/-/router-1.2.1.tgz#34ae3541a5ac44fa7796e5506a5d7274a162be4e"
@@ -10482,21 +10497,6 @@ eth-keyring-controller@^5.3.0, eth-keyring-controller@^5.6.1:
   version "5.6.1"
   resolved "https://registry.yarnpkg.com/eth-keyring-controller/-/eth-keyring-controller-5.6.1.tgz#7b7268400704c8f5ce98a055910341177dd207ca"
   integrity sha512-sxJ87bJg7PvvPzj1sY1jJYHQL1HVUhh84Q/a4QPrcnzAAng1yibvvUfww0pCez4XJfHuMkJvUxfF8eAusJM8fQ==
-  dependencies:
-    bip39 "^2.4.0"
-    bluebird "^3.5.0"
-    browser-passworder "^2.0.3"
-    eth-hd-keyring "^3.5.0"
-    eth-sig-util "^1.4.0"
-    eth-simple-keyring "^3.5.0"
-    ethereumjs-util "^5.1.2"
-    loglevel "^1.5.0"
-    obs-store "^4.0.3"
-
-eth-keyring-controller@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/eth-keyring-controller/-/eth-keyring-controller-6.0.0.tgz#4629c7b9f08e9c2f24ecfa0a296fc40ea0fa98af"
-  integrity sha512-+tdXXwTklX0KX50YwlSriTU/6Xc0Ury0jmcp1mMcJfKSBFSKyWCmPmrhdkMxE9LRd4lbt4qx9LS5wZ3Ia05cLg==
   dependencies:
     bip39 "^2.4.0"
     bluebird "^3.5.0"
