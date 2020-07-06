@@ -130,33 +130,26 @@ export default class ImportFromTorus extends PureComponent {
       console.log(postBox)
 
       // get metadata from the metadata-store
-      // let keyDetails = await tb.initialize()
       let keyDetails = await tb.initialize()
       // let keyDetails = await tb.initializeNewKey()
       console.log(keyDetails)
 
-
       await new Promise(function (resolve, reject) {
       if (keyDetails.requiredShares > 0) {
-          chrome.storage.local.get(['OnDeviceShare'], async  (result) => {
-            console.log('Value currently is ' + result + JSON.stringify(result));
+          chrome.storage.sync.get(['OnDeviceShare'], async  (result) => {
             tb.inputShare(JSON.parse(result.OnDeviceShare))
-            console.log(tb.reconstructKey().toString('hex'))
             resolve()
           });
         } else {
-          chrome.storage.local.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
-            console.log('Value is set to ' + tb.outputShare(2));
+          chrome.storage.sync.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
             // resolve()
           });
         }
       })
         
       const keyring = await createNewTorusVaultAndRestore(password, tb.reconstructKey().toString('hex'))
-      console.log('keyring', keyring)
       history.push(INITIALIZE_END_OF_FLOW_ROUTE)
       
-      debugger;
 
 
 
