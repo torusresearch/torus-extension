@@ -175,7 +175,7 @@
     "single-call-balance-checker-abi": "^1.0.0",
     "swappable-obj-proxy": "^1.1.0",
     "textarea-caret": "^3.0.1",
-    "threshold-bak": "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.7.tgz",
+    "threshold-bak": "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.8.tgz",
     "valid-url": "^1.0.9",
     "web3": "^0.20.7",
     "web3-stream-provider": "^4.0.0"

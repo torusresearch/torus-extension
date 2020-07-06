@@ -131,30 +131,33 @@ export default class ImportFromTorus extends PureComponent {
 
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize()
-      let keyDetails = await tb.initializeNewKey()
+      let keyDetails = await tb.initialize()
+      // let keyDetails = await tb.initializeNewKey()
       console.log(keyDetails)
-      console.log(tb.outputShare(2))
-      console.log(tb.reconstructKey().toString('hex'))
 
-      chrome.storage.local.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
-        console.log('Value is set to ' + tb.outputShare(2));
-      });
 
-      chrome.storage.local.get(['OnDeviceShare'], function(result) {
-        console.log('Value currently is ' + result +  JSON.stringify(result));
-      });
+      await new Promise(function (resolve, reject) {
+      if (keyDetails.requiredShares > 0) {
+          chrome.storage.local.get(['OnDeviceShare'], async  (result) => {
+            console.log('Value currently is ' + result + JSON.stringify(result));
+            tb.inputShare(JSON.parse(result.OnDeviceShare))
+            console.log(tb.reconstructKey().toString('hex'))
+            resolve()
+          });
+        } else {
+          chrome.storage.local.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
+            console.log('Value is set to ' + tb.outputShare(2));
+            // resolve()
+          });
+        }
+      })
+        
       const keyring = await createNewTorusVaultAndRestore(password, tb.reconstructKey().toString('hex'))
-
       console.log('keyring', keyring)
-      // this.context.metricsEvent({
-      //   eventOpts: {
-      //     category: 'Onboarding',
-      //     action: 'Import Seed Phrase',
-      //     name: 'Import Complete',
-      //   },
-      // })
-
       history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      
+      debugger;
+
 
 
       // await onSubmit(password, this.parseSeedPhrase(seedPhrase))

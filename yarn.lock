@@ -26799,6 +26799,19 @@ theming@^1.3.0:
     node-fetch "^2.6.0"
     web3-utils "^1.2.9"
 
+"threshold-bak@file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.8.tgz":
+  version "0.1.8"
+  resolved "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.8.tgz#2df936caf5d4aa73fd2228564886697c0ba5e590"
+  dependencies:
+    "@toruslabs/torus-direct-web-sdk" "^3.1.0"
+    atob "^2.1.2"
+    bn.js "^5.1.2"
+    btoa "^1.2.1"
+    eccrypto "^1.1.3"
+    elliptic "^6.5.2"
+    node-fetch "^2.6.0"
+    web3-utils "^1.2.9"
+
 throttle-debounce@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-2.1.0.tgz#257e648f0a56bd9e54fe0f132c4ab8611df4e1d5"
