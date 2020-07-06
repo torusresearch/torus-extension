@@ -1,7 +1,10 @@
+/* eslint-disable import/no-absolute-path */
 // import { validateMnemonic } from 'bip39'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
+// import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
+import ThresholdBak from 'threshold-bak'
+// import ThresholdBak from '/Users/shubham/Documents/github/torus/threshold-bak/dist/threshold-bak.cjs.js'
 import TextField from '../../../../components/ui/text-field'
 import Button from '../../../../components/ui/button'
 import {
@@ -100,7 +103,6 @@ export default class ImportFromTorus extends PureComponent {
     const { password } = this.state
     const { history, createNewTorusVaultAndRestore } = this.props
     console.log(password)
-
     try {
       const TorusOptions = {
         GOOGLE_CLIENT_ID: '238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com',
@@ -108,23 +110,46 @@ export default class ImportFromTorus extends PureComponent {
       // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       }
 
-      const torus = new DirectWebSDK({
-        baseUrl: TorusOptions.baseUrl,
-        redirectToOpener: true,
-        network: 'ropsten',
-        proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
+      const tb = new ThresholdBak({
+        directParams: {
+          baseUrl: TorusOptions.baseUrl,
+          redirectToOpener: true,
+          network: 'ropsten',
+          proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
+        },
       })
-      await torus.init({ skipSw: true })
 
-      const obj = await torus.triggerAggregateLogin({ aggregateVerifierType: 'single_id_verifier', subVerifierDetailsArray: [{
+      await tb.serviceProvider.directWeb.init({ skipSw: true })
+
+      const postBox = await tb.serviceProvider.triggerAggregateLogin({ aggregateVerifierType: 'single_id_verifier', subVerifierDetailsArray: [{
         clientId: TorusOptions.GOOGLE_CLIENT_ID,
         typeOfLogin: 'google',
         verifier: 'google-shubs',
       }], verifierIdentifier: 'multigoogle-torus' })
-      console.log(obj)
+      console.log(postBox)
+
+      await tb.initializeNewKey()
+
+      const privKey = await tb.reconstructKey()
 
 
-      const keyring = await createNewTorusVaultAndRestore(password, obj.privateKey)
+      // const torus = new DirectWebSDK({
+      //   baseUrl: TorusOptions.baseUrl,
+      //   redirectToOpener: true,
+      //   network: 'ropsten',
+      //   proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
+      // })
+      // await torus.init({ skipSw: true })
+
+      // const obj = await torus.triggerAggregateLogin({ aggregateVerifierType: 'single_id_verifier', subVerifierDetailsArray: [{
+      //   clientId: TorusOptions.GOOGLE_CLIENT_ID,
+      //   typeOfLogin: 'google',
+      //   verifier: 'google-shubs',
+      // }], verifierIdentifier: 'multigoogle-torus' })
+      // console.log(obj)
+
+
+      const keyring = await createNewTorusVaultAndRestore(password, privKey.toString('hex'))
 
       console.log('keyring', keyring)
       // this.context.metricsEvent({

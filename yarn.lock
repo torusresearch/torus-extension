@@ -2609,6 +2609,14 @@
     web3-eth-contract "^1.2.9"
     web3-utils "^1.2.9"
 
+"@toruslabs/fetch-node-details@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-2.3.0.tgz#55ca927814812a029bb29816ace3d60d27fcd0b1"
+  integrity sha512-QWfYxBel+XUnUgkyPnjTLZpWiYJVl3Nz6I5MwSRJ/t3GteJvvGuq93zbsIzRmyhxK5C+e+FufnEUsKFwiXtPmA==
+  dependencies:
+    web3-eth-contract "^1.2.9"
+    web3-utils "^1.2.9"
+
 "@toruslabs/torus-direct-web-sdk@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-3.0.3.tgz#793686118a33eb8e5f09924afefd927d590f817a"
@@ -2624,10 +2632,37 @@
     loglevel "^1.6.8"
     web3-utils "^1.2.9"
 
+"@toruslabs/torus-direct-web-sdk@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-3.1.0.tgz#eef8e0eff354383a08581a8ae6611e4ecf17a070"
+  integrity sha512-bxSq4vnLugtGZkcY2HJFJ0L9IHHKlHxDBnCleidYbJXI/Y+02VCVVS/TIeeDBR8vsQ/jmH5T+Ley7Vh1ukgImQ==
+  dependencies:
+    "@chaitanyapotti/random-id" "^1.0.3"
+    "@chaitanyapotti/register-service-worker" "^1.7.3"
+    "@toruslabs/fetch-node-details" "^2.3.0"
+    "@toruslabs/torus.js" "^2.2.1"
+    broadcast-channel "^3.1.0"
+    deepmerge "^4.2.2"
+    jwt-decode "^2.2.0"
+    loglevel "^1.6.8"
+    web3-utils "^1.2.9"
+
 "@toruslabs/torus.js@^2.1.8":
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-2.1.9.tgz#f19ba09c763cb4d5960b1ae1c97e036edb7a663f"
   integrity sha512-onFqseyRwIwbpWCZ8MrdMcRsP0UNv0Qr12tGOOCKgnkgD0nCsnkKKd3o56POB2iUU+o60gfCbkEJt252H1Y1Ng==
+  dependencies:
+    bn.js "^5.1.2"
+    eccrypto "^1.1.3"
+    elliptic "^6.5.3"
+    json-stable-stringify "^1.0.1"
+    loglevel "^1.6.8"
+    web3-utils "^1.2.9"
+
+"@toruslabs/torus.js@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@toruslabs/torus.js/-/torus.js-2.2.1.tgz#4560b0dd96c70cb5a87b6a9b0478be8a80111751"
+  integrity sha512-WpGp5EtIx/bhQ5b6PbizW9oN1DCJBrUeKfbAy0kRQ9QeSWiAnDLhjH1NTgmABFB+LY7uevI6IGdiCTodeBqx+Q==
   dependencies:
     bn.js "^5.1.2"
     eccrypto "^1.1.3"
@@ -4305,6 +4340,11 @@ atob@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
   integrity sha1-ri1acpR38onWDdf5amMUoi3Wwio=
+
+atob@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
+  integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
 autoprefixer@^8.0.0:
   version "8.1.0"
@@ -9422,7 +9462,7 @@ elliptic@^6.4.1:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-elliptic@^6.5.3:
+elliptic@^6.5.2, elliptic@^6.5.3:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
   integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==
@@ -11384,7 +11424,7 @@ explain-error@^1.0.4:
   resolved "https://registry.yarnpkg.com/explain-error/-/explain-error-1.0.4.tgz#a793d3ac0cad4c6ab571e9968fbbab6cb2532929"
   integrity sha1-p5PTrAytTGq1cemWj7urbLJTKSk=
 
-express@^4.10.7, express@^4.13.3, express@^4.14.0, express@^4.17.0:
+express@^4.10.7, express@^4.13.3, express@^4.14.0, express@^4.17.0, express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
   integrity sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g==
@@ -26745,6 +26785,20 @@ theming@^1.3.0:
     is-function "^1.0.1"
     is-plain-object "^2.0.1"
     prop-types "^15.5.8"
+
+"threshold-bak@file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.1.tgz":
+  version "0.1.1"
+  resolved "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.1.tgz#5d2b0c29dfc23112fc980dc6c41cd6b8086f0515"
+  dependencies:
+    "@toruslabs/torus-direct-web-sdk" "^3.1.0"
+    atob "^2.1.2"
+    bn.js "^5.1.2"
+    btoa "^1.2.1"
+    eccrypto "^1.1.3"
+    elliptic "^6.5.2"
+    express "^4.17.1"
+    node-fetch "^2.6.0"
+    web3-utils "^1.2.9"
 
 throttle-debounce@^2.1.0:
   version "2.1.0"
