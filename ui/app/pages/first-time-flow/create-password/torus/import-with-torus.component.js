@@ -115,12 +115,13 @@ export default class ImportFromTorus extends PureComponent {
           baseUrl: TorusOptions.baseUrl,
           redirectToOpener: true,
           network: 'ropsten',
-          proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
-        },
+          proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net,
+        }
       })
 
       await tb.serviceProvider.directWeb.init({ skipSw: true })
 
+      // Login via torus service provider to get back 1 share
       const postBox = await tb.serviceProvider.triggerAggregateLogin({ aggregateVerifierType: 'single_id_verifier', subVerifierDetailsArray: [{
         clientId: TorusOptions.GOOGLE_CLIENT_ID,
         typeOfLogin: 'google',
@@ -128,28 +129,21 @@ export default class ImportFromTorus extends PureComponent {
       }], verifierIdentifier: 'multigoogle-torus' })
       console.log(postBox)
 
-      await tb.initializeNewKey()
+      // get metadata from the metadata-store
+      // let keyDetails = await tb.initialize()
+      let keyDetails = await tb.initializeNewKey()
+      console.log(keyDetails)
+      console.log(tb.outputShare(2))
+      console.log(tb.reconstructKey().toString('hex'))
 
-      const privKey = await tb.reconstructKey()
+      chrome.storage.local.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
+        console.log('Value is set to ' + tb.outputShare(2));
+      });
 
-
-      // const torus = new DirectWebSDK({
-      //   baseUrl: TorusOptions.baseUrl,
-      //   redirectToOpener: true,
-      //   network: 'ropsten',
-      //   proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
-      // })
-      // await torus.init({ skipSw: true })
-
-      // const obj = await torus.triggerAggregateLogin({ aggregateVerifierType: 'single_id_verifier', subVerifierDetailsArray: [{
-      //   clientId: TorusOptions.GOOGLE_CLIENT_ID,
-      //   typeOfLogin: 'google',
-      //   verifier: 'google-shubs',
-      // }], verifierIdentifier: 'multigoogle-torus' })
-      // console.log(obj)
-
-
-      const keyring = await createNewTorusVaultAndRestore(password, privKey.toString('hex'))
+      chrome.storage.local.get(['OnDeviceShare'], function(result) {
+        console.log('Value currently is ' + result +  JSON.stringify(result));
+      });
+      const keyring = await createNewTorusVaultAndRestore(password, tb.reconstructKey().toString('hex'))
 
       console.log('keyring', keyring)
       // this.context.metricsEvent({
