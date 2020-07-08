@@ -45,6 +45,7 @@ export function tryUnlockMetamask (password) {
 
     return new Promise((resolve, reject) => {
       // window.bg = background
+      debugger
       background.submitPassword(password, (error) => {
         if (error) {
           return reject(error)
@@ -57,22 +58,24 @@ export function tryUnlockMetamask (password) {
         dispatch(unlockSucceeded())
         return forceUpdateMetamaskState(dispatch)
       })
-      .then(() => {
-        return new Promise((resolve, reject) => {
-          background.verifySeedPhrase((err) => {
-            if (err) {
-              dispatch(displayWarning(err.message))
-              return reject(err)
-            }
+      // .then(() => {
+      //   return new Promise((resolve, reject) => {
+      //     debugger;
+      //     background.verifySeedPhrase((err) => {
+      //       if (err) {
+      //         dispatch(displayWarning(err.message))
+      //         return reject(err)
+      //       }
 
-            resolve()
-          })
-        })
-      })
+      //       resolve()
+      //     })
+      //   })
+      // })
       .then(() => {
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
+        debugger;
         dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)

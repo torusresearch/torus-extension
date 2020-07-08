@@ -48,7 +48,7 @@ export default class Welcome extends PureComponent {
             height="125"
           />
           <div className="welcome-page__header">
-            { t('welcome') }
+            Welcome to Torus-mask
           </div>
           <div className="welcome-page__description">
             <div>{ t('metamaskDescription') }</div>

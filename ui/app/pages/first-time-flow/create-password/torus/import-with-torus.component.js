@@ -174,22 +174,22 @@ export default class ImportFromTorus extends PureComponent {
   }
 
   isValid () {
-    const {
-      password,
-      confirmPassword,
-      passwordError,
-      confirmPasswordError,
-    } = this.state
+    // const {
+    //   password,
+    //   confirmPassword,
+    //   passwordError,
+    //   confirmPasswordError,
+    // } = this.state
 
-    if (!password || !confirmPassword || password !== confirmPassword) {
-      return false
-    }
+    // if (!password || !confirmPassword || password !== confirmPassword) {
+    //   return false
+    // }
 
-    if (password.length < 8) {
-      return false
-    }
+    // if (password.length < 8) {
+    //   return false
+    // }
 
-    return !passwordError && !confirmPasswordError
+    return true
   }
 
   onTermsKeyPress = ({ key }) => {
@@ -229,7 +229,7 @@ export default class ImportFromTorus extends PureComponent {
         <div className="first-time-flow__create-back">
           {`< Back`}
         </div>
-        <TextField
+        {/* <TextField
           id="password"
           label={t('newPassword')}
           type="password"
@@ -279,12 +279,12 @@ export default class ImportFromTorus extends PureComponent {
               </a>
             )])}
           </span>
-        </div>
+        </div> */}
         <Button
           type="primary"
           submit
           className="first-time-flow__button"
-          disabled={!this.isValid() || !termsChecked}
+          disabled={!this.isValid()}
         >
           { t('import') }
         </Button>

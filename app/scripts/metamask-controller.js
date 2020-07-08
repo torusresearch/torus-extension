@@ -814,7 +814,7 @@ export default class MetamaskController extends EventEmitter {
    */
   async submitPassword (password) {
     await this.keyringController.submitPassword(password)
-
+    debugger
     // verify keyrings
     const nonSimpleKeyrings = this.keyringController.keyrings.filter((keyring) => keyring.type !== 'Simple Key Pair')
     if (nonSimpleKeyrings.length > 1 && this.diagnostics) {
@@ -823,18 +823,18 @@ export default class MetamaskController extends EventEmitter {
 
     await this.blockTracker.checkForLatestBlock()
 
-    try {
-      const threeBoxSyncingAllowed = this.threeBoxController.getThreeBoxSyncingState()
-      if (threeBoxSyncingAllowed && !this.threeBoxController.box) {
-        // 'await' intentionally omitted to avoid waiting for initialization
-        this.threeBoxController.init()
-        this.threeBoxController.turnThreeBoxSyncingOn()
-      } else if (threeBoxSyncingAllowed && this.threeBoxController.box) {
-        this.threeBoxController.turnThreeBoxSyncingOn()
-      }
-    } catch (error) {
-      log.error(error)
-    }
+    // try {
+    //   const threeBoxSyncingAllowed = this.threeBoxController.getThreeBoxSyncingState()
+    //   if (threeBoxSyncingAllowed && !this.threeBoxController.box) {
+    //     // 'await' intentionally omitted to avoid waiting for initialization
+    //     this.threeBoxController.init()
+    //     this.threeBoxController.turnThreeBoxSyncingOn()
+    //   } else if (threeBoxSyncingAllowed && this.threeBoxController.box) {
+    //     this.threeBoxController.turnThreeBoxSyncingOn()
+    //   }
+    // } catch (error) {
+    //   log.error(error)
+    // }
 
     return this.keyringController.fullUpdate()
   }
@@ -1004,7 +1004,6 @@ export default class MetamaskController extends EventEmitter {
    * @returns {Promise<string>} - Seed phrase to be confirmed by the user.
    */
   async verifySeedPhrase () {
-
     const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
     if (!primaryKeyring) {
       throw new Error('MetamaskController - No HD Key Tree found')

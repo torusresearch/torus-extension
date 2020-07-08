@@ -47,9 +47,9 @@ export default class UnlockPage extends Component {
     const { password } = this.state
     const { onSubmit, forceUpdateMetamaskState, showOptInModal } = this.props
 
-    if (password === '' || this.submitting) {
-      return
-    }
+    // if (password === '' || this.submitting) {
+    //   return
+    // }
 
     this.setState({ error: null })
     this.submitting = true
@@ -67,7 +67,7 @@ export default class UnlockPage extends Component {
       })
 
       if (newState.participateInMetaMetrics === null || newState.participateInMetaMetrics === undefined) {
-        showOptInModal()
+        // showOptInModal()
       }
     } catch ({ message }) {
       if (message === 'Incorrect password') {
@@ -120,7 +120,7 @@ export default class UnlockPage extends Component {
       <Button
         type="submit"
         style={style}
-        disabled={!this.state.password}
+        disabled={false}
         fullWidth
         variant="raised"
         size="large"
