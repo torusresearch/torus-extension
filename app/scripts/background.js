@@ -460,6 +460,8 @@ async function openPopup () {
 
 // On first install, open a new tab with MetaMask
 extension.runtime.onInstalled.addListener(({ reason }) => {
+  debugger
+  console.log(reason)
   if (reason === 'install' && !(process.env.METAMASK_DEBUG || process.env.IN_TEST)) {
     platform.openExtensionInBrowser()
   }

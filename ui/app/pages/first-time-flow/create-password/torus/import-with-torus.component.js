@@ -128,12 +128,13 @@ export default class ImportFromTorus extends PureComponent {
         verifier: 'google-shubs',
       }], verifierIdentifier: 'multigoogle-torus' })
       console.log(postBox)
+      debugger;
 
       // get metadata from the metadata-store
       let keyDetails = await tb.initialize()
       // let keyDetails = await tb.initializeNewKey()
       console.log(keyDetails)
-
+      
       await new Promise(function (resolve, reject) {
       if (keyDetails.requiredShares > 0) {
           chrome.storage.sync.get(['OnDeviceShare'], async  (result) => {
@@ -142,7 +143,7 @@ export default class ImportFromTorus extends PureComponent {
           });
         } else {
           chrome.storage.sync.set({OnDeviceShare: JSON.stringify(tb.outputShare(2))}, function() {
-            // resolve()
+            resolve()
           });
         }
       })
