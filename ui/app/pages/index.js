@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
-import * as Sentry from '@sentry/browser'
+// import * as Sentry from '@sentry/browser'
 import ErrorPage from './error'
 import Routes from './routes'
 import { I18nProvider, LegacyI18nProvider } from '../contexts/i18n'
@@ -16,7 +16,7 @@ class Index extends PureComponent {
   }
 
   componentDidCatch (error) {
-    Sentry.captureException(error)
+    // Sentry.captureException(error)
   }
 
   render () {

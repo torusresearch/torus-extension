@@ -4,8 +4,12 @@
   justify-content: flex-start;
   align-items: center;
   max-width: 442px;
-  padding: 0 18px;
+  padding: 50px 50px;
   color: black;
+  border: 1px solid #F2F2F2;
+  box-sizing: border-box;
+  box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
+  border-radius: 6px;
 
   &__wrapper {
     display: flex;
@@ -17,17 +21,20 @@
   }
 
   &__header {
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 28px;
     margin-bottom: 22px;
     margin-top: 50px;
     text-align: center;
+    color: #5C6C7F;
   }
 
   &__description {
     text-align: center;
+    color: #5C6C7F;
 
     div {
-      font-size: 16px;
+      font-size: 12px;
     }
 
     @media screen and (max-width: 575px) {

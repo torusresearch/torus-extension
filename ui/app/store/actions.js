@@ -42,10 +42,8 @@ export function tryUnlockMetamask (password) {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
-
     return new Promise((resolve, reject) => {
       // window.bg = background
-      debugger
       background.submitPassword(password, (error) => {
         if (error) {
           return reject(error)

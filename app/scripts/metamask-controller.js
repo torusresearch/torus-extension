@@ -814,7 +814,6 @@ export default class MetamaskController extends EventEmitter {
    */
   async submitPassword (password) {
     await this.keyringController.submitPassword(password)
-    debugger
     // verify keyrings
     const nonSimpleKeyrings = this.keyringController.keyrings.filter((keyring) => keyring.type !== 'Simple Key Pair')
     if (nonSimpleKeyrings.length > 1 && this.diagnostics) {
@@ -1004,26 +1003,27 @@ export default class MetamaskController extends EventEmitter {
    * @returns {Promise<string>} - Seed phrase to be confirmed by the user.
    */
   async verifySeedPhrase () {
-    const primaryKeyring = this.keyringController.getKeyringsByType('HD Key Tree')[0]
+    const primaryKeyring = this.keyringController.getKeyringsByType('Simple Key Pair')[0]
+    console.log(primaryKeyring)
     if (!primaryKeyring) {
       throw new Error('MetamaskController - No HD Key Tree found')
     }
 
-    const serialized = await primaryKeyring.serialize()
-    const seedWords = serialized.mnemonic
+    // const serialized = await primaryKeyring.serialize()
+    // const seedWords = serialized.mnemonic
 
-    const accounts = await primaryKeyring.getAccounts()
-    if (accounts.length < 1) {
-      throw new Error('MetamaskController - No accounts found')
-    }
+    // const accounts = await primaryKeyring.getAccounts()
+    // if (accounts.length < 1) {
+    //   throw new Error('MetamaskController - No accounts found')
+    // }
 
-    try {
-      await seedPhraseVerifier.verifyAccounts(accounts, seedWords)
-      return seedWords
-    } catch (err) {
-      log.error(err.message)
-      throw err
-    }
+    // try {
+    //   await seedPhraseVerifier.verifyAccounts(accounts, seedWords)
+    //   return seedWords
+    // } catch (err) {
+    //   log.error(err.message)
+    //   throw err
+    // }
   }
 
   /**

@@ -5,9 +5,9 @@
 
 // these need to run before anything else
 import './lib/freezeGlobals'
-import setupFetchDebugging from './lib/setupFetchDebugging'
+// import setupFetchDebugging from './lib/setupFetchDebugging'
 
-setupFetchDebugging()
+// setupFetchDebugging()
 
 // polyfills
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
@@ -51,7 +51,7 @@ global.METAMASK_NOTIFIER = notificationManager
 
 // setup sentry error reporting
 const release = platform.getVersion()
-const sentry = setupSentry({ release })
+// const sentry = setupSentry({ release })
 
 let popupIsOpen = false
 let notificationIsOpen = false
@@ -177,17 +177,17 @@ async function loadStateFromPersistence () {
   if (versionedData && !versionedData.data) {
     // unable to recover, clear state
     versionedData = migrator.generateInitialState(firstTimeState)
-    sentry.captureMessage('MetaMask - Empty vault found - unable to recover')
+    // sentry.captureMessage('MetaMask - Empty vault found - unable to recover')
   }
 
   // report migration errors to sentry
   migrator.on('error', (err) => {
     // get vault structure without secrets
     const vaultStructure = getObjStructure(versionedData)
-    sentry.captureException(err, {
-      // "extra" key is required by Sentry
-      extra: { vaultStructure },
-    })
+    // sentry.captureException(err, {
+    //   // "extra" key is required by Sentry
+    //   extra: { vaultStructure },
+    // })
   })
 
   // migrate data
@@ -460,8 +460,6 @@ async function openPopup () {
 
 // On first install, open a new tab with MetaMask
 extension.runtime.onInstalled.addListener(({ reason }) => {
-  debugger
-  console.log(reason)
   if (reason === 'install' && !(process.env.METAMASK_DEBUG || process.env.IN_TEST)) {
     platform.openExtensionInBrowser()
   }

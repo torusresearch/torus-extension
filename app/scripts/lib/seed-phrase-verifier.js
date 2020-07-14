@@ -23,7 +23,6 @@ const seedPhraseVerifier = {
       if (!createdAccounts || createdAccounts.length < 1) {
         return reject(new Error('No created accounts defined.'))
       }
-
       const keyringController = new KeyringController({})
       const Keyring = keyringController.getKeyringClassForType('HD Key Tree')
       const opts = {
@@ -34,7 +33,6 @@ const seedPhraseVerifier = {
       const keyring = new Keyring(opts)
       keyring.getAccounts()
         .then((restoredAccounts) => {
-
           log.debug('Created accounts: ' + JSON.stringify(createdAccounts))
           log.debug('Restored accounts: ' + JSON.stringify(restoredAccounts))
 

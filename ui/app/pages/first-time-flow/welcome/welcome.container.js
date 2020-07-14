@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import { closeWelcomeScreen } from '../../../store/actions'
+import { closeWelcomeScreen, createNewTorusVaultAndRestore } from '../../../store/actions'
 import Welcome from './welcome.component'
 
 const mapStateToProps = ({ metamask }) => {
@@ -16,6 +16,9 @@ const mapStateToProps = ({ metamask }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     closeWelcomeScreen: () => dispatch(closeWelcomeScreen()),
+    createNewTorusVaultAndRestore: (password, privateKey) => {
+      return dispatch(createNewTorusVaultAndRestore(password, privateKey))
+    },
   }
 }
 

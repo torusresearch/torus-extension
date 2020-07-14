@@ -210,7 +210,7 @@ export default class ExtensionPlatform {
       {
         'type': 'basic',
         'title': title,
-        'iconUrl': extension.extension.getURL('../../images/icon-64.png'),
+        'iconUrl': extension.extension.getURL('../../images/torus-icon-blue.png'),
         'message': message,
       })
   }

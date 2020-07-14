@@ -44,7 +44,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const onSubmit = async (password) => {
+    // debugger
     await tryUnlockMetamask(password)
+    // debugger
     history.push(DEFAULT_ROUTE)
   }
 

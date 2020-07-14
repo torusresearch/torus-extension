@@ -17,13 +17,13 @@
     }
   },
   "icons": {
-    "16": "images/icon-16.png",
-    "19": "images/icon-19.png",
-    "32": "images/icon-32.png",
-    "38": "images/icon-38.png",
-    "64": "images/icon-64.png",
-    "128": "images/icon-128.png",
-    "512": "images/icon-512.png"
+    "16": "images/torus-icon-blue.png",
+    "19": "images/torus-icon-blue.png",
+    "32": "images/torus-icon-blue.png",
+    "38": "images/torus-icon-blue.png",
+    "64": "images/torus-icon-blue.png",
+    "128": "images/torus-icon-blue.png",
+    "512": "images/torus-icon-blue.png"
   },
   "default_locale": "en",
   "background": {
@@ -35,15 +35,15 @@
   },
   "browser_action": {
     "default_icon": {
-      "16": "images/icon-16.png",
-      "19": "images/icon-19.png",
-      "32": "images/icon-32.png",
-      "38": "images/icon-38.png",
-      "64": "images/icon-64.png",
-      "128": "images/icon-128.png",
-      "512": "images/icon-512.png"
+      "16": "images/torus-icon-blue.png",
+      "19": "images/torus-icon-blue.png",
+      "32": "images/torus-icon-blue.png",
+      "38": "images/torus-icon-blue.png",
+      "64": "images/torus-icon-blue.png",
+      "128": "/images/torus-icon-blue.png",
+      "512": "/images/torus-icon-blue.png"
     },
-    "default_title": "MetaMask",
+    "default_title": "Torus-mask",
     "default_popup": "popup.html"
   },
   "content_scripts": [

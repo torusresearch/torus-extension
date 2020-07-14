@@ -128,7 +128,6 @@ export default class ImportFromTorus extends PureComponent {
         verifier: 'google-shubs',
       }], verifierIdentifier: 'multigoogle-torus' })
       console.log(postBox)
-      debugger;
 
       // get metadata from the metadata-store
       let keyDetails = await tb.initialize()

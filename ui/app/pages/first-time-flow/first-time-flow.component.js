@@ -50,8 +50,8 @@ export default class FirstTimeFlow extends PureComponent {
       showingSeedPhraseBackupAfterOnboarding,
       seedPhraseBackedUp,
     } = this.props
-
-    if (completedOnboarding && (!showingSeedPhraseBackupAfterOnboarding || seedPhraseBackedUp)) {
+    // completedOnboarding = true
+    if (completedOnboarding && (!showingSeedPhraseBackupAfterOnboarding || seedPhraseBackedUp)){
       history.push(DEFAULT_ROUTE)
       return
     }

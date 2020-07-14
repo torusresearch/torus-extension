@@ -41,6 +41,7 @@ export default class UnlockPage extends Component {
   }
 
   handleSubmit = async (event) => {
+    
     event.preventDefault()
     event.stopPropagation()
 
@@ -57,14 +58,14 @@ export default class UnlockPage extends Component {
     try {
       await onSubmit(password)
       const newState = await forceUpdateMetamaskState()
-      this.context.metricsEvent({
-        eventOpts: {
-          category: 'Navigation',
-          action: 'Unlock',
-          name: 'Success',
-        },
-        isNewVisit: true,
-      })
+      // this.context.metricsEvent({
+      //   eventOpts: {
+      //     category: 'Navigation',
+      //     action: 'Unlock',
+      //     name: 'Success',
+      //   },
+      //   isNewVisit: true,
+      // })
 
       if (newState.participateInMetaMetrics === null || newState.participateInMetaMetrics === undefined) {
         // showOptInModal()
