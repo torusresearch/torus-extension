@@ -310,7 +310,7 @@ export default class AccountMenu extends Component {
           { this.renderScrollButton() }
         </div>
         <Divider />
-        <Item
+        {/* <Item
           onClick={() => {
             toggleAccountMenu()
             metricsEvent({
@@ -329,7 +329,7 @@ export default class AccountMenu extends Component {
             />
           )}
           text={t('createAccount')}
-        />
+        /> */}
         <Item
           onClick={() => {
             toggleAccountMenu()

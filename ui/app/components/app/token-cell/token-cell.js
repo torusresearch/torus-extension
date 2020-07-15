@@ -30,7 +30,7 @@ export default function TokenCell ({
           href={`https://ethplorer.io/address/${userAddress}`}
           rel="noopener noreferrer"
           target="_blank"
-          style={{ color: '#F7861C' }}
+          style={{ color: '#0364FF' }}
         >
           { t('here') }
         </a>

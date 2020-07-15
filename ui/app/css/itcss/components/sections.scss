@@ -26,7 +26,7 @@ textarea.twelve-word-phrase {
 .initialize-screen hr {
   width: 60px;
   margin: 12px;
-  border-color: #f7861c;
+  border-color: #0364FF;
   border-style: solid;
 }
 
@@ -45,7 +45,7 @@ textarea.twelve-word-phrase {
 
 /* unlock */
 .error {
-  color: #f7861c;
+  color: #0364FF;
   margin-bottom: 9px;
 }
 
@@ -231,7 +231,7 @@ textarea.twelve-word-phrase {
   margin-bottom: 2px;
   font-size: 11px;
   text-rendering: geometricPrecision;
-  color: #f7861c;
+  color: #0364FF;
 }
 
 .name-label:hover .edit-text {
@@ -324,14 +324,14 @@ textarea.twelve-word-phrase {
 .input-container:hover .buy-inputs {
   box-sizing: inherit;
   border: solid;
-  border-color: #f7861c;
+  border-color: #0364FF;
   border-width: .5px;
   border-radius: 2px;
 }
 
 .buy-inputs:focus {
   border: solid;
-  border-color: #f7861c;
+  border-color: #0364FF;
   border-width: .5px;
   border-radius: 2px;
 }
@@ -417,7 +417,7 @@ textarea.twelve-word-phrase {
 
 .qr-message {
   font-size: 12px;
-  color: #f7861c;
+  color: #0364FF;
 }
 
 div.message-container > div:first-child {
