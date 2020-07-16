@@ -13,13 +13,16 @@ import {
   INITIALIZE_END_OF_FLOW_ROUTE,
   DEFAULT_ROUTE
 } from "../../../helpers/constants/routes";
+import { getUserDetails } from "../../../store/actions";
 
 export default class Welcome extends PureComponent {
   static propTypes = {
     history: PropTypes.object,
     participateInMetaMetrics: PropTypes.bool,
     welcomeScreenSeen: PropTypes.bool,
-    createNewTorusVaultAndRestore: PropTypes.func
+    createNewTorusVaultAndRestore: PropTypes.func,
+    importNewAccount: PropTypes.func,
+    setUserDetails: PropTypes.func
   };
 
   static contextTypes = {
@@ -44,7 +47,7 @@ export default class Welcome extends PureComponent {
   }
 
   handleContinue = async () => {
-    const {history, createNewTorusVaultAndRestore } = this.props
+    const {history, createNewTorusVaultAndRestore, importNewAccount, setUserDetails } = this.props
 
     try {
       const TorusOptions = {
@@ -78,6 +81,7 @@ export default class Welcome extends PureComponent {
         verifierIdentifier: "multigoogle-torus"
       });
       console.log(postBox);
+      
 
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize();
@@ -100,10 +104,20 @@ export default class Welcome extends PureComponent {
         }
       });
 
+
+      // add threshold back key with empty password
       const keyring = await createNewTorusVaultAndRestore(
         "",
         tb.reconstructKey().toString("hex")
       );
+
+      // import postbox key
+      await importNewAccount('Private Key', [postBox.privateKey])
+        
+      // debugger
+      // add user details
+      setUserDetails(postBox.userInfo[0])
+
       history.push(INITIALIZE_END_OF_FLOW_ROUTE);
 
       // await onSubmit(password, this.parseSeedPhrase(seedPhrase))

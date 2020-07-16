@@ -489,6 +489,8 @@ export default class MetamaskController extends EventEmitter {
       setPreference: nodeify(preferencesController.setPreference, preferencesController),
       completeOnboarding: nodeify(preferencesController.completeOnboarding, preferencesController),
       addKnownMethodData: nodeify(preferencesController.addKnownMethodData, preferencesController),
+      getUserDetails: nodeify(preferencesController.getUserDetails, preferencesController),
+      setUserDetails: nodeify(preferencesController.setUserDetails, preferencesController),
 
       // AddressController
       setAddressBook: nodeify(this.addressBookController.set, this.addressBookController),

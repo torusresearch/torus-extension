@@ -21,6 +21,7 @@ import {
 } from '../selectors'
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
+import ThresholdBak from "threshold-bak";
 
 let background = null
 let promisifiedBackground = null
@@ -43,7 +44,6 @@ export function tryUnlockMetamask (password) {
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
     return new Promise((resolve, reject) => {
-      // window.bg = background
       background.submitPassword(password, (error) => {
         if (error) {
           return reject(error)
@@ -69,6 +69,36 @@ export function tryUnlockMetamask (password) {
       //     })
       //   })
       // })
+      .then(() => {
+        dispatch(hideLoadingIndication())
+      })
+      .catch((err) => {
+        debugger;
+        dispatch(unlockFailed(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
+  }
+}
+
+export function tryUnlockMetamask (password) {
+  return (dispatch) => {
+    dispatch(showLoadingIndication())
+    dispatch(unlockInProgress())
+    log.debug(`background.submitPassword`)
+    return new Promise((resolve, reject) => {
+      background.submitPassword(password, (error) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve()
+      })
+    })
+      .then(() => {
+        dispatch(unlockSucceeded())
+        return forceUpdateMetamaskState(dispatch)
+      })
       .then(() => {
         dispatch(hideLoadingIndication())
       })
@@ -1198,6 +1228,101 @@ async function _setSelectedAddress (dispatch, address) {
   const tokens = await promisifiedBackground.setSelectedAddress(address)
   dispatch(updateTokens(tokens))
 }
+
+export function getUserDetails() {
+  return () => {
+    return background.getUserDetails()
+  }
+}
+
+
+export function setUserDetails(el) {
+  return () => {
+    return background.setUserDetails(el)
+  }
+}
+
+export function googleLogin() {
+  return async (dispatch) => {
+    try {
+      // debugger
+      const TorusOptions = {
+        GOOGLE_CLIENT_ID:
+          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+        baseUrl: "http://localhost:3000/serviceworker"
+        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+      };
+
+      const tb = new ThresholdBak({
+        directParams: {
+          baseUrl: TorusOptions.baseUrl,
+          redirectToOpener: true,
+          network: "ropsten",
+          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+        }
+      });
+
+      await tb.serviceProvider.directWeb.init({ skipSw: true });
+
+      // Login via torus service provider to get back 1 share
+      const postBox = await tb.serviceProvider.triggerAggregateLogin({
+        aggregateVerifierType: "single_id_verifier",
+        subVerifierDetailsArray: [
+          {
+            clientId: TorusOptions.GOOGLE_CLIENT_ID,
+            typeOfLogin: "google",
+            verifier: "google-shubs"
+          }
+        ],
+        verifierIdentifier: "multigoogle-torus"
+      });
+      console.log(postBox);
+      
+
+      // get metadata from the metadata-store
+      // let keyDetails = await tb.initialize();
+      let keyDetails = await tb.initializeNewKey()
+      console.log(keyDetails);
+
+      debugger
+      await new Promise(function(resolve, reject) {
+        if (keyDetails.requiredShares > 0) {
+          chrome.storage.sync.get(["OnDeviceShare"], async result => {
+            tb.inputShare(JSON.parse(result.OnDeviceShare));
+            resolve();
+          });
+        } else {
+          chrome.storage.sync.set(
+            { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
+            function() {
+              resolve();
+            }
+          );
+        }
+      });
+
+
+      // add threshold back key with empty password
+      await createNewTorusVaultAndRestore(
+        "",
+        tb.reconstructKey().toString("hex")
+      );
+
+      // import postbox key
+      await importNewAccount('Private Key', [postBox.privateKey])
+        
+      // debugger
+      // add user details
+      dispatch(setUserDetails(postBox.userInfo[0]))
+      return 
+    } catch (error) {
+      // debugger
+      console.error(error);
+      this.setState({ seedPhraseError: error.message });
+    }
+  }
+}
+
 
 export function setSelectedAddress (address) {
   return async (dispatch) => {

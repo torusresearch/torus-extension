@@ -10,6 +10,7 @@ import {
   markPasswordForgotten,
   forceUpdateMetamaskState,
   showModal,
+  googleLogin
 } from '../../store/actions'
 import UnlockPage from './unlock-page.component'
 
@@ -27,6 +28,7 @@ const mapDispatchToProps = (dispatch) => {
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
     forceUpdateMetamaskState: () => forceUpdateMetamaskState(dispatch),
     showOptInModal: () => dispatch(showModal({ name: 'METAMETRICS_OPT_IN_MODAL' })),
+    googleLogin: () => dispatch(googleLogin())
   }
 }
 
@@ -50,6 +52,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     history.push(DEFAULT_ROUTE)
   }
 
+  const onGoogleLogin = async () => {
+    await googleLogin()
+    //await forceUpdateMetamaskState()
+    history.push(DEFAULT_ROUTE)
+    //await forceUpdateMetamaskState()
+  }
+
   return {
     ...stateProps,
     ...restDispatchProps,
@@ -58,6 +67,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onRestore: onImport,
     onSubmit: ownPropsSubmit || onSubmit,
     history,
+    onGoogleLogin: onGoogleLogin
   }
 }
 

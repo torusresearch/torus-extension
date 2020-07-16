@@ -14,6 +14,7 @@ import {
   getMetaMaskKeyrings,
   getOriginOfCurrentTab,
   getSelectedAddress,
+  getUserDetails
 } from '../../../selectors'
 import AccountMenu from './account-menu.component'
 
@@ -27,12 +28,13 @@ function mapStateToProps (state) {
   const accounts = getMetaMaskAccountsOrdered(state)
   const origin = getOriginOfCurrentTab(state)
   const selectedAddress = getSelectedAddress(state)
-
+  const userInfo = getUserDetails(state)
   return {
     isAccountMenuOpen,
     addressConnectedDomainMap: getAddressConnectedDomainMap(state),
     originOfCurrentTab: origin,
     selectedAddress: selectedAddress,
+    userInfo: userInfo,
     keyrings: getMetaMaskKeyrings(state),
     accounts,
     shouldShowAccountsSearch: accounts.length >= SHOW_SEARCH_ACCOUNTS_MIN_COUNT,
@@ -42,6 +44,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     toggleAccountMenu: () => dispatch(toggleAccountMenu()),
+    getUserDetails: () => dispatch(getUserDetails()),
     showAccountDetail: (address) => {
       dispatch(showAccountDetail(address))
       dispatch(hideSidebar())

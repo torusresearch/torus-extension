@@ -76,6 +76,10 @@ export function getSelectedAddress (state) {
   return state.metamask.selectedAddress
 }
 
+export function getUserDetails(state) {
+  return state.metamask.userDetails
+}
+
 export function getSelectedIdentity (state) {
   const selectedAddress = getSelectedAddress(state)
   const identities = state.metamask.identities

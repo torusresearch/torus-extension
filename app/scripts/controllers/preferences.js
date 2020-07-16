@@ -62,6 +62,9 @@ export default class PreferencesController {
 
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link',
+
+      //torus login details
+      userDetails: {}
     }, opts.initState)
 
     this.diagnostics = opts.diagnostics
@@ -77,6 +80,15 @@ export default class PreferencesController {
   }
   // PUBLIC METHODS
 
+  setUserDetails(el) {
+    this.store.updateState({ userDetails: el })
+  }
+
+  getUserDetails() {
+    // console.log(this.store.getState().userDetails)
+    return this.store.getState().userDetails
+  }
+  
   /**
    * Sets the {@code forgottenPassword} state property
    * @param {boolean} forgottenPassword - whether or not the user has forgotten their password

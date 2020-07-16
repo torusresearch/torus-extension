@@ -21,6 +21,7 @@ import {
 } from '../../../helpers/constants/routes'
 import TextField from '../../ui/text-field'
 import SearchIcon from '../../ui/search-icon'
+// import { getUserDetails } from '../../../store/actions'
 
 export default class AccountMenu extends Component {
   static contextTypes = {
@@ -39,7 +40,9 @@ export default class AccountMenu extends Component {
     showAccountDetail: PropTypes.func,
     toggleAccountMenu: PropTypes.func,
     addressConnectedDomainMap: PropTypes.object,
+    userInfo: PropTypes.object,
     originOfCurrentTab: PropTypes.string,
+    getUserDetails: PropTypes.func
   }
 
   accountsRef
@@ -47,6 +50,7 @@ export default class AccountMenu extends Component {
   state = {
     shouldShowScrollButton: false,
     searchQuery: '',
+    userimage: ''
   }
 
   addressFuse = new Fuse([], {
@@ -118,8 +122,13 @@ export default class AccountMenu extends Component {
       showAccountDetail,
       addressConnectedDomainMap,
       originOfCurrentTab,
+      userInfo,
+      getUserDetails
     } = this.props
     const { searchQuery } = this.state
+    
+    // const userInfo = getUserDetails()
+    console.log(userInfo)
 
     let filteredIdentities = accounts
     if (searchQuery) {
@@ -160,10 +169,17 @@ export default class AccountMenu extends Component {
           <div className="account-menu__check-mark">
             { isSelected && <div className="account-menu__check-mark-icon" /> }
           </div>
-          <Identicon
+          {/* <Identicon
             address={identity.address}
             diameter={24}
+          /> */}
+          <img
+            className="account-menu__userimage"
+            src="https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg"
+            width="25px"
+            height="25px"
           />
+
           <div className="account-menu__account-info">
             <div className="account-menu__name">
               { identity.name || '' }

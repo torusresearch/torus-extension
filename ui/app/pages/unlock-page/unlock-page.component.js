@@ -5,7 +5,7 @@ import TextField from '../../components/ui/text-field'
 import getCaretCoordinates from 'textarea-caret'
 import { EventEmitter } from 'events'
 import Mascot from '../../components/ui/mascot'
-import { DEFAULT_ROUTE } from '../../helpers/constants/routes'
+import { DEFAULT_ROUTE, ADVANCED_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE } from '../../helpers/constants/routes'
 
 export default class UnlockPage extends Component {
   static contextTypes = {
@@ -19,8 +19,10 @@ export default class UnlockPage extends Component {
     onImport: PropTypes.func,
     onRestore: PropTypes.func,
     onSubmit: PropTypes.func,
+    onGoogleLogin: PropTypes.func,
     forceUpdateMetamaskState: PropTypes.func,
     showOptInModal: PropTypes.func,
+    googleLogin: PropTypes.func,
   }
 
   state = {
@@ -37,6 +39,22 @@ export default class UnlockPage extends Component {
 
     if (isUnlocked) {
       history.push(DEFAULT_ROUTE)
+    }
+  }
+
+  handleLogin = async (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const { googleLogin, forceUpdateMetamaskState, history } = this.props
+    this.setState({ error: null })
+    this.submitting = true
+
+    try {
+      await googleLogin()
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -106,6 +124,35 @@ export default class UnlockPage extends Component {
     }
   }
 
+
+  renderGoogleButton () {
+    const style = {
+      backgroundColor: '#0364FF',
+      color: 'white',
+      marginTop: '60px',
+      height: '60px',
+      fontWeight: '400',
+      boxShadow: 'none',
+      borderRadius: '4px',
+    }
+
+    return (
+      <Button
+        type="submit"
+        style={style}
+        disabled={false}
+        fullWidth
+        variant="raised"
+        size="large"
+        onClick={this.handleLogin}
+        disableRipple
+      >
+        Google Login
+      </Button>
+    )
+  }
+
+
   renderSubmitButton () {
     const style = {
       backgroundColor: '#0364FF',
@@ -147,12 +194,25 @@ export default class UnlockPage extends Component {
             width="100"
             height="100"
             margin="10px"
-          />
+            />
           </div>
           <h1 className="unlock-page__title">
             { t('welcomeBack') }
           </h1>
-          <div>{ t('unlockMessage') }</div>
+          <div>{t('unlockMessage')}</div>
+
+          {/* <Button
+            type="primary"
+            className="first-time-flow__button"
+            onClick={this.handleLogin}
+          >
+            Continue with google
+          </Button> */}
+
+          
+          { this.renderGoogleButton() }
+
+
           <form
             className="unlock-page__form"
             onSubmit={this.handleSubmit}
