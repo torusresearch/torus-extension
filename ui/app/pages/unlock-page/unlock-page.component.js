@@ -46,13 +46,13 @@ export default class UnlockPage extends Component {
     event.preventDefault()
     event.stopPropagation()
 
-    const { googleLogin, forceUpdateMetamaskState, history } = this.props
+    const { onGoogleLogin, forceUpdateMetamaskState, history } = this.props
     this.setState({ error: null })
     this.submitting = true
 
     try {
-      await googleLogin()
-      history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      await onGoogleLogin()
+      // history.push(INITIALIZE_END_OF_FLOW_ROUTE)
     } catch (err) {
       console.log(err)
     }

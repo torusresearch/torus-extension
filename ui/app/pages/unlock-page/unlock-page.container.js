@@ -6,6 +6,7 @@ import { ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { DEFAULT_ROUTE, RESTORE_VAULT_ROUTE } from '../../helpers/constants/routes'
 import {
   tryUnlockMetamask,
+  tryUnlockMetamask2,
   forgotPassword,
   markPasswordForgotten,
   forceUpdateMetamaskState,
@@ -25,6 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     forgotPassword: () => dispatch(forgotPassword()),
     tryUnlockMetamask: (password) => dispatch(tryUnlockMetamask(password)),
+    tryUnlockMetamask2: () => dispatch(tryUnlockMetamask2()),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
     forceUpdateMetamaskState: () => forceUpdateMetamaskState(dispatch),
     showOptInModal: () => dispatch(showModal({ name: 'METAMETRICS_OPT_IN_MODAL' })),
@@ -33,7 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { markPasswordForgotten, tryUnlockMetamask, ...restDispatchProps } = dispatchProps
+  const { markPasswordForgotten, tryUnlockMetamask, tryUnlockMetamask2, ...restDispatchProps } = dispatchProps
   const { history, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps
 
   const onImport = async () => {
@@ -53,7 +55,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const onGoogleLogin = async () => {
-    await googleLogin()
+    try {
+      await tryUnlockMetamask2()
+    }
+    catch (err) {
+      console.log(err)
+    }
     //await forceUpdateMetamaskState()
     history.push(DEFAULT_ROUTE)
     //await forceUpdateMetamaskState()

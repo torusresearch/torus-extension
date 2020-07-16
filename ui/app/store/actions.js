@@ -81,25 +81,19 @@ export function tryUnlockMetamask (password) {
   }
 }
 
-export function tryUnlockMetamask (password) {
+export function tryUnlockMetamask2 () {
   return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
-    return new Promise((resolve, reject) => {
-      background.submitPassword(password, (error) => {
-        if (error) {
-          return reject(error)
-        }
-
-        resolve()
-      })
-    })
+    return googleLogin()
       .then(() => {
+        debugger
         dispatch(unlockSucceeded())
         return forceUpdateMetamaskState(dispatch)
       })
       .then(() => {
+        debugger
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
@@ -1243,7 +1237,7 @@ export function setUserDetails(el) {
 }
 
 export function googleLogin() {
-  return async (dispatch) => {
+  return new Promise(async (resolve, reject) => {
     try {
       // debugger
       const TorusOptions = {
@@ -1313,14 +1307,14 @@ export function googleLogin() {
         
       // debugger
       // add user details
-      dispatch(setUserDetails(postBox.userInfo[0]))
-      return 
+      setUserDetails(postBox.userInfo[0])
+      resolve()
     } catch (error) {
-      // debugger
+      debugger
       console.error(error);
-      this.setState({ seedPhraseError: error.message });
+      reject()
     }
-  }
+  })
 }
 
 

@@ -22,7 +22,7 @@ class LoadingScreen extends Component {
     return (
       <div className="loading-overlay">
         <div className="loading-overlay__container">
-          <Spinner color="#F7C06C" />
+          <Spinner color="#0364FF" />
           {this.renderMessage()}
         </div>
       </div>
