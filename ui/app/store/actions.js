@@ -87,14 +87,15 @@ export function tryUnlockMetamask2 () {
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
     return googleLogin()
-      .then(() => {
+      .then(async () => {
         debugger
         dispatch(unlockSucceeded())
-        return forceUpdateMetamaskState(dispatch)
+        dispatch(setCompletedOnboarding())
+        return submitPassword("")
       })
       .then(() => {
-        debugger
         dispatch(hideLoadingIndication())
+        return forceUpdateMetamaskState(dispatch)
       })
       .catch((err) => {
         debugger;
@@ -1278,7 +1279,6 @@ export function googleLogin() {
       let keyDetails = await tb.initializeNewKey()
       console.log(keyDetails);
 
-      debugger
       await new Promise(function(resolve, reject) {
         if (keyDetails.requiredShares > 0) {
           chrome.storage.sync.get(["OnDeviceShare"], async result => {

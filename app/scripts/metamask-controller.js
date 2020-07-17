@@ -814,7 +814,8 @@ export default class MetamaskController extends EventEmitter {
    * @param {string} password - The user's password
    * @returns {Promise<object>} - The keyringController update.
    */
-  async submitPassword (password) {
+  async submitPassword(password) {
+    debugger
     await this.keyringController.submitPassword(password)
     // verify keyrings
     const nonSimpleKeyrings = this.keyringController.keyrings.filter((keyring) => keyring.type !== 'Simple Key Pair')
