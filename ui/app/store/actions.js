@@ -86,12 +86,12 @@ export function tryUnlockMetamask2 () {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
     log.debug(`background.submitPassword`)
-    return googleLogin()
+    return googleLogin(dispatch)
       .then(async () => {
         debugger
         dispatch(unlockSucceeded())
         dispatch(setCompletedOnboarding())
-        return submitPassword("")
+        // return submitPassword("")
       })
       .then(() => {
         dispatch(hideLoadingIndication())
@@ -1237,7 +1237,7 @@ export function setUserDetails(el) {
   }
 }
 
-export function googleLogin() {
+export function googleLogin(dispatch) {
   return new Promise(async (resolve, reject) => {
     try {
       // debugger
@@ -1297,13 +1297,13 @@ export function googleLogin() {
 
 
       // add threshold back key with empty password
-      await createNewTorusVaultAndRestore(
+      await dispatch(createNewTorusVaultAndRestore(
         "",
         tb.reconstructKey().toString("hex")
-      );
+      ));
 
       // import postbox key
-      await importNewAccount('Private Key', [postBox.privateKey])
+      await dispatch(importNewAccount('Private Key', [postBox.privateKey]))
         
       // debugger
       // add user details
