@@ -249,13 +249,14 @@ export default class PreferencesController {
    * @param {string[]} addresses - An array of hex addresses
    *
    */
-  setAddresses (addresses) {
+  setAddresses (addresses, userDetails) {
     const oldIdentities = this.store.getState().identities
     const oldAccountTokens = this.store.getState().accountTokens
 
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {}
-      ids[address] = { name: `Account ${index + 1}`, address, ...oldId }
+      ids[address] = { address, ...oldId }
+      ids[address] = {...ids[address], name: userDetails.typeOfLogin || "Account"}
       return ids
     }, {})
     const accountTokens = addresses.reduce((tokens, address) => {
@@ -263,6 +264,7 @@ export default class PreferencesController {
       tokens[address] = oldTokens
       return tokens
     }, {})
+
     this.store.updateState({ identities, accountTokens })
   }
 

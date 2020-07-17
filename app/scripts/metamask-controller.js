@@ -663,7 +663,7 @@ export default class MetamaskController extends EventEmitter {
    * @param  {} password
    * @param  {} seed
    */
-  async createNewTorusVaultAndRestore (password, privateKey) {
+  async createNewTorusVaultAndRestore (password, privateKey, userDetails) {
     const releaseLock = await this.createVaultMutex.acquire()
     try {
       // let lastBalance
@@ -697,7 +697,7 @@ export default class MetamaskController extends EventEmitter {
       // }
 
       // set new identities
-      this.preferencesController.setAddresses(accounts)
+      this.preferencesController.setAddresses(accounts, userDetails)
       this.selectFirstIdentity()
       return keyring
     } catch (err) {
@@ -1073,13 +1073,13 @@ export default class MetamaskController extends EventEmitter {
    * @param  {any} args - The data required by that strategy to import an account.
    * @param  {Function} cb - A callback function called with a state update on success.
    */
-  async importAccountWithStrategy (strategy, args) {
+  async importAccountWithStrategy (strategy, args, userDetails) {
     const privateKey = await accountImporter.importAccount(strategy, args)
     const keyring = await this.keyringController.addNewKeyring('Simple Key Pair', [ privateKey ])
     const accounts = await keyring.getAccounts()
     // update accounts in preferences controller
     const allAccounts = await this.keyringController.getAccounts()
-    this.preferencesController.setAddresses(allAccounts)
+    this.preferencesController.setAddresses(allAccounts, userDetails)
     // set new account as selected
     await this.preferencesController.setSelectedAddress(accounts[0])
   }

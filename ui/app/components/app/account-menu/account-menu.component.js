@@ -127,9 +127,6 @@ export default class AccountMenu extends Component {
     } = this.props
     const { searchQuery } = this.state
     
-    // const userInfo = getUserDetails()
-    console.log(userInfo)
-
     let filteredIdentities = accounts
     if (searchQuery) {
       this.addressFuse.setCollection(accounts)

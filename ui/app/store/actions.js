@@ -88,17 +88,14 @@ export function tryUnlockMetamask2 () {
     log.debug(`background.submitPassword`)
     return googleLogin(dispatch)
       .then(async () => {
-        debugger
         dispatch(unlockSucceeded())
         dispatch(setCompletedOnboarding())
-        // return submitPassword("")
       })
       .then(() => {
         dispatch(hideLoadingIndication())
         return forceUpdateMetamaskState(dispatch)
       })
       .catch((err) => {
-        debugger;
         dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)
@@ -134,14 +131,14 @@ export function createNewVaultAndRestore (password, seed) {
   }
 }
 
-export function createNewTorusVaultAndRestore (password, privateKey) {
+export function createNewTorusVaultAndRestore (password, privateKey, userDetails) {
   return (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.createNewTorusVaultAndRestore`)
     let vault
     return new Promise((resolve, reject) => {
       console.log('actions.js createnewtoruvaultcalled')
-      background.createNewTorusVaultAndRestore(password, privateKey, (err, _vault) => {
+      background.createNewTorusVaultAndRestore(password, privateKey, userDetails, (err, _vault) => {
         console.log('callback from vault')
         if (err) {
           console.error(err)
@@ -340,13 +337,13 @@ export function removeAccount (address) {
   }
 }
 
-export function importNewAccount (strategy, args) {
+export function importNewAccount (strategy, args, userDetails) {
   return async (dispatch) => {
     let newState
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     try {
       log.debug(`background.importAccountWithStrategy`)
-      await promisifiedBackground.importAccountWithStrategy(strategy, args)
+      await promisifiedBackground.importAccountWithStrategy(strategy, args, userDetails)
       log.debug(`background.getState`)
       newState = await promisifiedBackground.getState()
     } catch (err) {
@@ -1295,19 +1292,20 @@ export function googleLogin(dispatch) {
         }
       });
 
-
       // add threshold back key with empty password
-      await dispatch(createNewTorusVaultAndRestore(
+      await createNewTorusVaultAndRestore(
         "",
-        tb.reconstructKey().toString("hex")
-      ));
+        tb.reconstructKey().toString("hex"),
+        { ...postBox.userInfo[0], typeOfLogin: "Vault" }
+      );
 
       // import postbox key
-      await dispatch(importNewAccount('Private Key', [postBox.privateKey]))
+      await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
         
       // debugger
       // add user details
       setUserDetails(postBox.userInfo[0])
+
       resolve()
     } catch (error) {
       debugger

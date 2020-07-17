@@ -170,6 +170,8 @@ export default class Home extends PureComponent {
     )
   }
   renderPopover = () => {
+    debugger;
+    
     const { setConnectedStatusPopoverHasBeenShown } = this.props
     const { t } = this.context
     return (

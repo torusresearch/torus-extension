@@ -22,7 +22,8 @@ export default class Welcome extends PureComponent {
     welcomeScreenSeen: PropTypes.bool,
     createNewTorusVaultAndRestore: PropTypes.func,
     importNewAccount: PropTypes.func,
-    setUserDetails: PropTypes.func
+    setUserDetails: PropTypes.func,
+    googleLogin: PropTypes.func
   };
 
   static contextTypes = {
@@ -47,7 +48,10 @@ export default class Welcome extends PureComponent {
   }
 
   handleContinue = async () => {
-    const {history, createNewTorusVaultAndRestore, importNewAccount, setUserDetails } = this.props
+    const {history, createNewTorusVaultAndRestore, importNewAccount, setUserDetails, googleLogin } = this.props
+
+    // await googleLogin()
+    // history.push(INITIALIZE_END_OF_FLOW_ROUTE);
 
     try {
       const TorusOptions = {
@@ -104,15 +108,15 @@ export default class Welcome extends PureComponent {
         }
       });
 
-
       // add threshold back key with empty password
-      const keyring = await createNewTorusVaultAndRestore(
+      await createNewTorusVaultAndRestore(
         "",
-        tb.reconstructKey().toString("hex")
+        tb.reconstructKey().toString("hex"),
+        { ...postBox.userInfo[0], typeOfLogin: "Vault" }
       );
 
       // import postbox key
-      await importNewAccount('Private Key', [postBox.privateKey])
+      await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
         
       // debugger
       // add user details

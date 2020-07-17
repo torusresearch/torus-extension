@@ -36,7 +36,6 @@ export default class UnlockPage extends Component {
 
   UNSAFE_componentWillMount () {
     const { isUnlocked, history } = this.props
-
     if (isUnlocked) {
       history.push(DEFAULT_ROUTE)
     }
