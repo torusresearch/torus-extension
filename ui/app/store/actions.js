@@ -82,24 +82,16 @@ export function tryUnlockMetamask (password) {
 }
 
 export function tryUnlockMetamask2 () {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
+    await dispatch(googleLogin(dispatch))
+    dispatch(unlockSucceeded())
+    dispatch(setCompletedOnboarding())
+
+    dispatch(hideLoadingIndication())
+    await forceUpdateMetamaskState(dispatch)
     log.debug(`background.submitPassword`)
-    return googleLogin(dispatch)
-      .then(async () => {
-        dispatch(unlockSucceeded())
-        dispatch(setCompletedOnboarding())
-      })
-      .then(() => {
-        dispatch(hideLoadingIndication())
-        return forceUpdateMetamaskState(dispatch)
-      })
-      .catch((err) => {
-        dispatch(unlockFailed(err.message))
-        dispatch(hideLoadingIndication())
-        return Promise.reject(err)
-      })
   }
 }
 
@@ -1235,84 +1227,84 @@ export function setUserDetails(el) {
 }
 
 export function googleLogin(dispatch) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      // debugger
-      const TorusOptions = {
-        GOOGLE_CLIENT_ID:
-          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-        baseUrl: "http://localhost:3000/serviceworker"
-        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-      };
+  return async (dispatch) => {
+      try {
+        // debugger
+        const TorusOptions = {
+          GOOGLE_CLIENT_ID:
+            "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+          baseUrl: "http://localhost:3000/serviceworker"
+          // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+        };
 
-      const tb = new ThresholdBak({
-        directParams: {
-          baseUrl: TorusOptions.baseUrl,
-          redirectToOpener: true,
-          network: "ropsten",
-          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        }
-      });
-
-      await tb.serviceProvider.directWeb.init({ skipSw: true });
-
-      // Login via torus service provider to get back 1 share
-      const postBox = await tb.serviceProvider.triggerAggregateLogin({
-        aggregateVerifierType: "single_id_verifier",
-        subVerifierDetailsArray: [
-          {
-            clientId: TorusOptions.GOOGLE_CLIENT_ID,
-            typeOfLogin: "google",
-            verifier: "google-shubs"
+        const tb = new ThresholdBak({
+          directParams: {
+            baseUrl: TorusOptions.baseUrl,
+            redirectToOpener: true,
+            network: "ropsten",
+            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
           }
-        ],
-        verifierIdentifier: "multigoogle-torus"
-      });
-      console.log(postBox);
+        });
+
+        await tb.serviceProvider.directWeb.init({ skipSw: true });
+
+        // Login via torus service provider to get back 1 share
+        const postBox = await tb.serviceProvider.triggerAggregateLogin({
+          aggregateVerifierType: "single_id_verifier",
+          subVerifierDetailsArray: [
+            {
+              clientId: TorusOptions.GOOGLE_CLIENT_ID,
+              typeOfLogin: "google",
+              verifier: "google-shubs"
+            }
+          ],
+          verifierIdentifier: "multigoogle-torus"
+        });
+        console.log(postBox);
       
 
-      // get metadata from the metadata-store
-      // let keyDetails = await tb.initialize();
-      let keyDetails = await tb.initializeNewKey()
-      console.log(keyDetails);
+        // get metadata from the metadata-store
+        // let keyDetails = await tb.initialize();
+        let keyDetails = await tb.initializeNewKey()
+        console.log(keyDetails);
 
-      await new Promise(function(resolve, reject) {
-        if (keyDetails.requiredShares > 0) {
-          chrome.storage.sync.get(["OnDeviceShare"], async result => {
-            tb.inputShare(JSON.parse(result.OnDeviceShare));
-            resolve();
-          });
-        } else {
-          chrome.storage.sync.set(
-            { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
-            function() {
+        await new Promise(function (resolve, reject) {
+          if (keyDetails.requiredShares > 0) {
+            chrome.storage.sync.get(["OnDeviceShare"], async result => {
+              tb.inputShare(JSON.parse(result.OnDeviceShare));
               resolve();
-            }
-          );
-        }
-      });
+            });
+          } else {
+            chrome.storage.sync.set(
+              { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
+              function () {
+                resolve();
+              }
+            );
+          }
+        });
 
-      // add threshold back key with empty password
-      await createNewTorusVaultAndRestore(
-        "",
-        tb.reconstructKey().toString("hex"),
-        { ...postBox.userInfo[0], typeOfLogin: "Vault" }
-      );
+        // add threshold back key with empty password
+        await dispatch(createNewTorusVaultAndRestore(
+          "",
+          tb.reconstructKey().toString("hex"),
+          { ...postBox.userInfo[0], typeOfLogin: "Vault" }
+        ));
 
-      // import postbox key
-      await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
+        // import postbox key
+        await dispatch(importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0]))
         
-      // debugger
-      // add user details
-      setUserDetails(postBox.userInfo[0])
+        // debugger
+        // add user details
+        setUserDetails(postBox.userInfo[0])
 
-      resolve()
-    } catch (error) {
-      debugger
-      console.error(error);
-      reject()
-    }
-  })
+        // resolve()
+      } catch (error) {
+        debugger
+        console.error(error);
+       // reject()
+      }
+  }
 }
 
 
