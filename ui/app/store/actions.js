@@ -1302,11 +1302,10 @@ export function googleLogin(dispatch) {
       } catch (error) {
         debugger
         console.error(error);
-       // reject()
+        return Promise.reject(error)
       }
   }
 }
-
 
 export function setSelectedAddress (address) {
   return async (dispatch) => {

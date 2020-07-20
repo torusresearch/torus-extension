@@ -401,6 +401,7 @@ export default class AccountMenu extends Component {
         <Item
           onClick={() => {
             toggleAccountMenu()
+            debugger;
             history.push(SETTINGS_ROUTE)
             this.context.metricsEvent({
               eventOpts: {

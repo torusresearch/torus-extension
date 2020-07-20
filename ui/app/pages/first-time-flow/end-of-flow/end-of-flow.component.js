@@ -23,7 +23,6 @@ export default class EndOfFlowScreen extends PureComponent {
   }
 
   onComplete = async () => {
-    debugger;
     const { history, completeOnboarding, completionMetaMetricsName, onboardingInitiator } = this.props
 
     await completeOnboarding()

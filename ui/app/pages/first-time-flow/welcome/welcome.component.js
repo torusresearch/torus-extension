@@ -48,12 +48,20 @@ export default class Welcome extends PureComponent {
   }
 
   handleContinue = async () => {
-    const {history, createNewTorusVaultAndRestore, importNewAccount, setUserDetails, googleLogin } = this.props
+    const {
+      history,
+      createNewTorusVaultAndRestore,
+      importNewAccount,
+      setUserDetails,
+      googleLogin
+    } = this.props;
 
-    await googleLogin()
-    
-    debugger;
-    history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+    try {
+      await googleLogin();
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+    } catch (err) {
+      console.error(err);
+    }
 
     // try {
     //   const TorusOptions = {
@@ -87,7 +95,6 @@ export default class Welcome extends PureComponent {
     //     verifierIdentifier: "multigoogle-torus"
     //   });
     //   console.log(postBox);
-      
 
     //   // get metadata from the metadata-store
     //   // let keyDetails = await tb.initialize();
@@ -119,7 +126,7 @@ export default class Welcome extends PureComponent {
 
     //   // import postbox key
     //   await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
-        
+
     //   // debugger
     //   // add user details
     //   setUserDetails(postBox.userInfo[0])

@@ -249,14 +249,14 @@ export default class PreferencesController {
    * @param {string[]} addresses - An array of hex addresses
    *
    */
-  setAddresses (addresses, userDetails) {
+  setAddresses(addresses, userDetails) {
     const oldIdentities = this.store.getState().identities
     const oldAccountTokens = this.store.getState().accountTokens
 
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {}
       ids[address] = { address, ...oldId }
-      ids[address] = {...ids[address], name: userDetails.typeOfLogin || "Account"}
+      ids[address] = {...ids[address], name: oldId["name"] === "Vault" ? "Vault": userDetails.typeOfLogin}
       return ids
     }, {})
     const accountTokens = addresses.reduce((tokens, address) => {
@@ -309,10 +309,11 @@ export default class PreferencesController {
         return
       }
       // add missing identity
+      
       const identityCount = Object.keys(identities).length
 
       accountTokens[address] = {}
-      identities[address] = { name: `Account ${identityCount + 1}`, address }
+      // identities[address] = { name: `Account ${identityCount + 1}`, address }
     })
     this.store.updateState({ identities, accountTokens })
   }
@@ -325,7 +326,6 @@ export default class PreferencesController {
    * @returns {Promise<string>} - selectedAddress the selected address.
    */
   syncAddresses (addresses) {
-
     if (!Array.isArray(addresses) || addresses.length === 0) {
       throw new Error('Expected non-empty array of addresses.')
     }
