@@ -5,7 +5,9 @@ import TextField from '../../components/ui/text-field'
 import getCaretCoordinates from 'textarea-caret'
 import { EventEmitter } from 'events'
 import Mascot from '../../components/ui/mascot'
+import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { DEFAULT_ROUTE, ADVANCED_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE } from '../../helpers/constants/routes'
+import { ENVIRONMENT_TYPE_FULLSCREEN } from '../../../../app/scripts/lib/enums'
 
 export default class UnlockPage extends Component {
   static contextTypes = {
@@ -36,6 +38,9 @@ export default class UnlockPage extends Component {
 
   UNSAFE_componentWillMount () {
     const { isUnlocked, history } = this.props
+
+    getEnvironmentType() === ENVIRONMENT_TYPE_FULLSCREEN ? void (0) : global.platform.openExtensionInBrowser();
+          
     if (isUnlocked) {
       history.push(DEFAULT_ROUTE)
     }
@@ -44,14 +49,13 @@ export default class UnlockPage extends Component {
   handleLogin = async (event) => {
     event.preventDefault()
     event.stopPropagation()
-
     const { onGoogleLogin, forceUpdateMetamaskState, history } = this.props
     this.setState({ error: null })
     this.submitting = true
 
     try {
       await onGoogleLogin()
-      // history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE)
     } catch (err) {
       console.log(err)
     }
