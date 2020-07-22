@@ -233,3 +233,14 @@ async function domIsReady () {
   // wait for load
   return new Promise((resolve) => window.addEventListener('DOMContentLoaded', resolve, { once: true }))
 }
+
+extension.runtime.onMessageExternal.addListener(
+  function (request, sender, sendResponse) {
+    debugger;
+    
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request.greeting == "hello")
+      sendResponse({farewell: "goodbye"});
+  });

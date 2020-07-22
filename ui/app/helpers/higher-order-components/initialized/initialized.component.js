@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Redirect, Route } from 'react-router-dom'
 import { INITIALIZE_ROUTE } from '../../constants/routes'
 
-export default function Initialized (props) {
+export default function Initialized(props) {
+  debugger;
   return props.completedOnboarding
     ? <Route { ...props } />
     : <Redirect to={{ pathname: INITIALIZE_ROUTE }} />

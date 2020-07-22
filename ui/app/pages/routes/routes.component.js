@@ -90,23 +90,25 @@ export default class Routes extends Component {
 
   UNSAFE_componentWillMount () {
     const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
-
+    debugger;
+    
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()
     }
 
     this.props.history.listen((locationObj, action) => {
+      debugger
       if (action === 'PUSH') {
         pageChanged(locationObj.pathname)
-        const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
-        this.context.metricsEvent({}, {
-          currentPath: '',
-          pathname: locationObj.pathname,
-          url,
-          pageOpts: {
-            hideDimensions: true,
-          },
-        })
+        // const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
+        // this.context.metricsEvent({}, {
+        //   currentPath: '',
+        //   pathname: locationObj.pathname,
+        //   url,
+        //   pageOpts: {
+        //     hideDimensions: true,
+        //   },
+        // })
       }
     })
   }
@@ -199,6 +201,8 @@ export default class Routes extends Component {
       submittedPendingTransactions,
       isMouseUser,
     } = this.props
+    debugger
+    
     const isLoadingNetwork = network === 'loading'
     const loadMessage = (loadingMessage || isLoadingNetwork)
       ? this.getConnectingLabel(loadingMessage)

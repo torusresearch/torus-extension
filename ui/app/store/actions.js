@@ -1300,7 +1300,6 @@ export function googleLogin(dispatch) {
 
         // resolve()
       } catch (error) {
-        debugger
         console.error(error);
         return Promise.reject(error)
       }

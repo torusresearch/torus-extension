@@ -39,7 +39,7 @@ export default class UnlockPage extends Component {
   UNSAFE_componentWillMount () {
     const { isUnlocked, history } = this.props
 
-    getEnvironmentType() === ENVIRONMENT_TYPE_FULLSCREEN ? void (0) : global.platform.openExtensionInBrowser();
+    // getEnvironmentType() === ENVIRONMENT_TYPE_FULL SCREEN ? void (0) : global.platform.openExtensionInBrowser();
           
     if (isUnlocked) {
       history.push(DEFAULT_ROUTE)

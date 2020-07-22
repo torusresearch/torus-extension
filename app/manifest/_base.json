@@ -81,11 +81,14 @@
   ],
   "web_accessible_resources": [
     "inpage.js",
-    "phishing.html"
+    "phishing.html",
+    "home.html"
   ],
   "externally_connectable": {
     "matches": [
-      "https://metamask.io/*"
+      "https://metamask.io/*",
+      "*://localhost/*",
+      "https://google.com/*"
     ],
     "ids": [
       "*"
