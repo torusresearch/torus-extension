@@ -63,7 +63,7 @@ async function setupStreams () {
     name: 'contentscript',
     target: 'inpage',
   })
-  const extensionPort = extension.runtime.connect({ name: 'contentscript' })
+  const extensionPort = extension.runtime.connect({ name: 'contentscript' })  
   const extensionStream = new PortStream(extensionPort)
 
   // create and connect channel muxers
@@ -233,14 +233,3 @@ async function domIsReady () {
   // wait for load
   return new Promise((resolve) => window.addEventListener('DOMContentLoaded', resolve, { once: true }))
 }
-
-extension.runtime.onMessageExternal.addListener(
-  function (request, sender, sendResponse) {
-    debugger;
-    
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello")
-      sendResponse({farewell: "goodbye"});
-  });

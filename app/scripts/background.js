@@ -468,8 +468,9 @@ extension.runtime.onInstalled.addListener(({ reason }) => {
 extension.runtime.onMessageExternal.addListener(
   function (request, sender, sendResponse) {
     debugger
-    if (sender.url == blacklistedWebsite)
-      return;  // don't allow this web page access
-    if (request.openUrlInEditor)
-      openUrl(request.openUrlInEditor);
+    console.log(sender.url)
+
+    extension.runtime.sendMessage({message: sender.url}, (response) => {
+      console.log(response);
+    });
   });

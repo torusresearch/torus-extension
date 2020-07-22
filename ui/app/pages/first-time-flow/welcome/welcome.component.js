@@ -39,6 +39,18 @@ export default class Welcome extends PureComponent {
   componentDidMount() {
     const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props;
 
+    chrome.runtime.onMessage.addListener(
+      (request, sender, sendResponse) => {
+        debugger
+        console.log(request)
+        if (request === "hi")
+          sendResponse({message: "hi to you"});
+      });
+    
+    chrome.runtime.sendMessage("hi", function(response) {
+        console.log(response)
+      });
+    
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
       history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
