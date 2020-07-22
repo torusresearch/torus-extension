@@ -147,6 +147,7 @@ function setupControllerConnection (connectionStream, cb) {
   })
   connectionStream.pipe(backgroundDnode).pipe(connectionStream)
   backgroundDnode.once('remote', function (backgroundConnection) {
+    debugger
     backgroundConnection.on = eventEmitter.on.bind(eventEmitter)
     cb(null, backgroundConnection)
   })

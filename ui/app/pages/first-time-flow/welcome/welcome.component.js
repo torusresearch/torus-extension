@@ -23,7 +23,8 @@ export default class Welcome extends PureComponent {
     createNewTorusVaultAndRestore: PropTypes.func,
     importNewAccount: PropTypes.func,
     setUserDetails: PropTypes.func,
-    googleLogin: PropTypes.func
+    googleLogin: PropTypes.func,
+    getIdToken: PropTypes.func,
   };
 
   static contextTypes = {
@@ -37,8 +38,10 @@ export default class Welcome extends PureComponent {
   }
 
   componentDidMount() {
-    const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props;
-
+    const { history, participateInMetaMetrics, welcomeScreenSeen, getIdToken } = this.props;
+    getIdToken().then((url) => {
+      console.log('URLTORUS', url)
+    })
     chrome.runtime.onMessage.addListener(
       (request, sender, sendResponse) => {
         debugger

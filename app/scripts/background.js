@@ -469,8 +469,8 @@ extension.runtime.onMessageExternal.addListener(
   function (request, sender, sendResponse) {
     debugger
     console.log(sender.url)
-
-    extension.runtime.sendMessage({message: sender.url}, (response) => {
-      console.log(response);
-    });
+    global.TorusURLToSend = sender.url
+    // extension.runtime.sendMessage({message: sender.url}, (response) => {
+    //   console.log(response);
+    // });
   });

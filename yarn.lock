@@ -26786,22 +26786,9 @@ theming@^1.3.0:
     is-plain-object "^2.0.1"
     prop-types "^15.5.8"
 
-"threshold-bak@file:../../torus/threshold-bak/threshold-bak-0.1.7.tgz":
-  version "0.1.7"
-  resolved "file:../../torus/threshold-bak/threshold-bak-0.1.7.tgz#b6004e12ea68046f242232bd6c93ee1cad10453c"
-  dependencies:
-    "@toruslabs/torus-direct-web-sdk" "^3.1.0"
-    atob "^2.1.2"
-    bn.js "^5.1.2"
-    btoa "^1.2.1"
-    eccrypto "^1.1.3"
-    elliptic "^6.5.2"
-    node-fetch "^2.6.0"
-    web3-utils "^1.2.9"
-
-"threshold-bak@file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.8.tgz":
-  version "0.1.8"
-  resolved "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.1.8.tgz#2df936caf5d4aa73fd2228564886697c0ba5e590"
+"threshold-bak@file:../threshold-bak/threshold-bak-0.1.0.tgz":
+  version "0.1.0"
+  resolved "file:../threshold-bak/threshold-bak-0.1.0.tgz#df1a4ac32760cad0d8c4cfa9d0f31bc45cce4605"
   dependencies:
     "@toruslabs/torus-direct-web-sdk" "^3.1.0"
     atob "^2.1.2"

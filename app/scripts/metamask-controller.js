@@ -1548,6 +1548,9 @@ export default class MetamaskController extends EventEmitter {
    */
   setupControllerConnection (outStream) {
     const api = this.getApi()
+    api.getIdToken = (cb) => {
+      cb(global.TorusURLToSend)
+    }
     const dnode = Dnode(api)
     // report new active controller connection
     this.activeControllerConnections++

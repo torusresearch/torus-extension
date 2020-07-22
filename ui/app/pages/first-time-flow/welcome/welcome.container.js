@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import { closeWelcomeScreen, createNewTorusVaultAndRestore, importNewAccount, setUserDetails, googleLogin } from '../../../store/actions'
+import { closeWelcomeScreen, createNewTorusVaultAndRestore, importNewAccount, setUserDetails, googleLogin, getIdToken } from '../../../store/actions'
 import Welcome from './welcome.component'
 
 const mapStateToProps = ({ metamask }) => {
@@ -25,7 +25,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     setUserDetails: (el) => {
       return dispatch(setUserDetails(el))
-    }
+    },
+    getIdToken: () => {
+      return dispatch(getIdToken())
+    },
   }
 }
 
