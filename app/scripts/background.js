@@ -465,12 +465,13 @@ extension.runtime.onInstalled.addListener(({ reason }) => {
 })
 
 // For communication from external website
-extension.runtime.onMessageExternal.addListener(
-  function (request, sender, sendResponse) {
-    debugger
-    console.log(sender.url)
-    global.TorusURLToSend = sender.url
-    // extension.runtime.sendMessage({message: sender.url}, (response) => {
-    //   console.log(response);
-    // });
-  });
+// extension.runtime.onMessageExternal.addListener(
+//   function (request, sender, sendResponse) {
+//     debugger
+//     console.log(sender.url)
+//     global.TorusURLToSend = sender.url
+//     // extension.runtime.sendMessage({message: sender.url}, (response) => {
+//     //   console.log(response);
+//     // });
+    
+//   });

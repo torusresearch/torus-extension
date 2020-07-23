@@ -1236,83 +1236,124 @@ export function setUserDetails(el) {
 
 export function googleLogin(dispatch) {
   return async (dispatch) => {
-      try {
-        // debugger
-        const TorusOptions = {
-          GOOGLE_CLIENT_ID:
-            "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-          baseUrl: "http://localhost:3000/serviceworker"
-          // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-        };
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    // dispatch(unlockInProgress())
+    log.debug(`background.torusGoogleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusGoogleLogin((error) => {
+        debugger
+        if (error) {
+          return reject(error)
+        }
+        resolve()
+      })
+    })
+      .then(() => {
+        debugger
+        dispatch(unMarkPasswordForgotten())
+        return promisifiedBackground.getState()
+      })
+      .then(newState => {
+        debugger
+        dispatch(updateMetamaskState(newState))
+        dispatch(showAccountsPage())
+        dispatch(hideLoadingIndication())
 
-        const tb = new ThresholdBak({
-          directParams: {
-            baseUrl: TorusOptions.baseUrl,
-            redirectToOpener: true,
-            network: "ropsten",
-            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-          }
-        });
-
-        await tb.serviceProvider.directWeb.init({ skipSw: true });
-
-        // Login via torus service provider to get back 1 share
-        const postBox = await tb.serviceProvider.triggerAggregateLogin({
-          aggregateVerifierType: "single_id_verifier",
-          subVerifierDetailsArray: [
-            {
-              clientId: TorusOptions.GOOGLE_CLIENT_ID,
-              typeOfLogin: "google",
-              verifier: "google-shubs"
-            }
-          ],
-          verifierIdentifier: "multigoogle-torus"
-        });
-        console.log(postBox);
-      
-
-        // get metadata from the metadata-store
-        // let keyDetails = await tb.initialize();
-        let keyDetails = await tb.initializeNewKey()
-        console.log(keyDetails);
-
-        await new Promise(function (resolve, reject) {
-          if (keyDetails.requiredShares > 0) {
-            chrome.storage.sync.get(["OnDeviceShare"], async result => {
-              tb.inputShare(JSON.parse(result.OnDeviceShare));
-              resolve();
-            });
-          } else {
-            chrome.storage.sync.set(
-              { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
-              function () {
-                resolve();
-              }
-            );
-          }
-        });
-
-        // add threshold back key with empty password
-        await dispatch(createNewTorusVaultAndRestore(
-          "",
-          tb.reconstructKey().toString("hex"),
-          { ...postBox.userInfo[0], typeOfLogin: "Vault" }
-        ));
-
-        // import postbox key
-        await dispatch(importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0]))
-        
-        // debugger
-        // add user details
-        setUserDetails(postBox.userInfo[0])
-
-        // resolve()
-      } catch (error) {
-        console.error(error);
-        return Promise.reject(error)
-      }
+        if (newState.selectedAddress) {
+          dispatch({
+            type: actionConstants.SHOW_ACCOUNT_DETAIL,
+            value: newState.selectedAddress,
+          })
+        }
+        return newState
+      })
+      .catch((err) => {
+        dispatch(displayWarning(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
   }
 }
+
+// export function googleLogin(dispatch) {
+//   return async (dispatch) => {
+//       try {
+//         // debugger
+//         const TorusOptions = {
+//           GOOGLE_CLIENT_ID:
+//             "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+//           baseUrl: "http://localhost:3000/serviceworker"
+//           // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+//         };
+
+//         const tb = new ThresholdBak({
+//           directParams: {
+//             baseUrl: TorusOptions.baseUrl,
+//             redirectToOpener: true,
+//             network: "ropsten",
+//             proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+//           }
+//         });
+
+//         await tb.serviceProvider.directWeb.init({ skipSw: true });
+
+//         // Login via torus service provider to get back 1 share
+//         const postBox = await tb.serviceProvider.triggerAggregateLogin({
+//           aggregateVerifierType: "single_id_verifier",
+//           subVerifierDetailsArray: [
+//             {
+//               clientId: TorusOptions.GOOGLE_CLIENT_ID,
+//               typeOfLogin: "google",
+//               verifier: "google-shubs"
+//             }
+//           ],
+//           verifierIdentifier: "multigoogle-torus"
+//         });
+//         console.log(postBox);
+      
+
+//         // get metadata from the metadata-store
+//         // let keyDetails = await tb.initialize();
+//         let keyDetails = await tb.initializeNewKey()
+//         console.log(keyDetails);
+
+//         await new Promise(function (resolve, reject) {
+//           if (keyDetails.requiredShares > 0) {
+//             chrome.storage.sync.get(["OnDeviceShare"], async result => {
+//               tb.inputShare(JSON.parse(result.OnDeviceShare));
+//               resolve();
+//             });
+//           } else {
+//             chrome.storage.sync.set(
+//               { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
+//               function () {
+//                 resolve();
+//               }
+//             );
+//           }
+//         });
+
+//         // add threshold back key with empty password
+//         await dispatch(createNewTorusVaultAndRestore(
+//           "",
+//           tb.reconstructKey().toString("hex"),
+//           { ...postBox.userInfo[0], typeOfLogin: "Vault" }
+//         ));
+
+//         // import postbox key
+//         await dispatch(importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0]))
+        
+//         // debugger
+//         // add user details
+//         setUserDetails(postBox.userInfo[0])
+
+//         // resolve()
+//       } catch (error) {
+//         console.error(error);
+//         return Promise.reject(error)
+//       }
+//   }
+// }
 
 export function setSelectedAddress (address) {
   return async (dispatch) => {

@@ -59,6 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
+import ThresholdBak from "threshold-bak";
 
 import {
   AddressBookController,
@@ -453,6 +454,9 @@ export default class MetamaskController extends EventEmitter {
       safelistPhishingDomain: this.safelistPhishingDomain.bind(this),
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
       getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
+
+      //torus key
+      torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2107,5 +2111,80 @@ export default class MetamaskController extends EventEmitter {
    */
   setLocked () {
     return this.keyringController.setLocked()
+  }
+
+
+  /**
+   * Torus google login
+   */
+  async torusGoogleLogin() {
+    try {
+      // debugger
+      const TorusOptions = {
+        GOOGLE_CLIENT_ID:
+          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+        baseUrl: "http://localhost:3000/serviceworker"
+        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+      };
+
+      const tb = new ThresholdBak({
+        directParams: {
+          baseUrl: TorusOptions.baseUrl,
+          redirectToOpener: true,
+          network: "ropsten",
+          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+        }
+      });
+
+      await tb.serviceProvider.directWeb.init({ skipSw: true });
+
+      // Login via torus service provider to get back 1 share
+      const postBox = await tb.serviceProvider.triggerAggregateLogin({
+        aggregateVerifierType: "single_id_verifier",
+        subVerifierDetailsArray: [
+          {
+            clientId: TorusOptions.GOOGLE_CLIENT_ID,
+            typeOfLogin: "google",
+            verifier: "google-shubs"
+          }
+        ],
+        verifierIdentifier: "multigoogle-torus"
+      });
+      console.log(postBox);
+      // get metadata from the metadata-store
+      // let keyDetails = await tb.initialize();
+      let keyDetails = await tb.initializeNewKey()
+      console.log(keyDetails);
+
+      await new Promise(function (resolve, reject) {
+        if (keyDetails.requiredShares > 0) {
+          chrome.storage.sync.get(["OnDeviceShare"], async result => {
+            tb.inputShare(JSON.parse(result.OnDeviceShare));
+            resolve();
+          });
+        } else {
+          chrome.storage.sync.set(
+            { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
+            function () {
+              resolve();
+            }
+          );
+        }
+      });
+      
+      //add threshold back key with empty password
+      await this.createNewTorusVaultAndRestore(
+        "",
+        tb.reconstructKey().toString("hex"),
+        { ...postBox.userInfo[0], typeOfLogin: "Vault" }
+      );
+      
+      // import postbox key
+      await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
+
+      } catch (error) {
+        console.error(error);
+        return Promise.reject(error)
+      }
   }
 }
