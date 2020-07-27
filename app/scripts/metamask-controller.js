@@ -59,7 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
-import ThresholdBak from "threshold-bak";
+import { ThresholdBak, SecurityQuestionsModule} from "threshold-bak";
 
 import {
   AddressBookController,
@@ -457,6 +457,7 @@ export default class MetamaskController extends EventEmitter {
 
       //torus key
       torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
+      torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2119,7 +2120,7 @@ export default class MetamaskController extends EventEmitter {
    */
   async torusGoogleLogin() {
     try {
-      // debugger
+      debugger
       const TorusOptions = {
         GOOGLE_CLIENT_ID:
           "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
@@ -2127,19 +2128,20 @@ export default class MetamaskController extends EventEmitter {
         // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
 
-      const tb = new ThresholdBak({
+      this.tb = new ThresholdBak({
         directParams: {
           baseUrl: TorusOptions.baseUrl,
           redirectToOpener: true,
           network: "ropsten",
           proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        }
+        },
+        modules: { securityQuestions: new SecurityQuestionsModule() }
       });
 
-      await tb.serviceProvider.directWeb.init({ skipSw: true });
+      await this.tb.serviceProvider.directWeb.init({ skipSw: true });
 
       // Login via torus service provider to get back 1 share
-      const postBox = await tb.serviceProvider.triggerAggregateLogin({
+      const postBox = await this.tb.serviceProvider.triggerAggregateLogin({
         aggregateVerifierType: "single_id_verifier",
         subVerifierDetailsArray: [
           {
@@ -2153,29 +2155,34 @@ export default class MetamaskController extends EventEmitter {
       console.log(postBox);
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize();
-      let keyDetails = await tb.initializeNewKey()
+      let keyDetails = await this.tb.initializeNewKey()
       console.log(keyDetails);
 
-      await new Promise(function (resolve, reject) {
+      await new Promise((resolve, reject) => {
         if (keyDetails.requiredShares > 0) {
           chrome.storage.sync.get(["OnDeviceShare"], async result => {
-            tb.inputShare(JSON.parse(result.OnDeviceShare));
+            this.tb.inputShare(JSON.parse(result.OnDeviceShare));
             resolve();
           });
         } else {
+          debugger
+          console.log(this.tb.outputShare(2))
           chrome.storage.sync.set(
-            { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
+            { OnDeviceShare: JSON.stringify(this.tb.outputShare(2)) },
             function () {
               resolve();
             }
           );
         }
       });
+
+      // Add new share (password)
+      
       
       //add threshold back key with empty password
       await this.createNewTorusVaultAndRestore(
         "",
-        tb.reconstructKey().toString("hex"),
+        this.tb.reconstructKey().toString("hex"),
         { ...postBox.userInfo[0], typeOfLogin: "Vault" }
       );
       
@@ -2186,5 +2193,16 @@ export default class MetamaskController extends EventEmitter {
         console.error(error);
         return Promise.reject(error)
       }
+  }
+
+  async torusAddPasswordShare(password) {
+
+    // add new share
+    try {
+      await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "who is your password?");
+    } catch (err) {
+      console.error(err)
+      return err
+    }
   }
 }

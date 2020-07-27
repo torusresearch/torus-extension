@@ -11,6 +11,7 @@ import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
   INITIALIZE_SELECT_ACTION_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
+  INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
   DEFAULT_ROUTE
 } from "../../../helpers/constants/routes";
 import { getUserDetails } from "../../../store/actions";
@@ -39,20 +40,20 @@ export default class Welcome extends PureComponent {
 
   componentDidMount() {
     const { history, participateInMetaMetrics, welcomeScreenSeen, getIdToken } = this.props;
-    getIdToken().then((url) => {
-      console.log('URLTORUS', url)
-    })
-    chrome.runtime.onMessage.addListener(
-      (request, sender, sendResponse) => {
-        debugger
-        console.log(request)
-        if (request === "hi")
-          sendResponse({message: "hi to you"});
-      });
+    // getIdToken().then((url) => {
+    //   console.log('URLTORUS', url)
+    // })
+    // chrome.runtime.onMessage.addListener(
+    //   (request, sender, sendResponse) => {
+    //     debugger
+    //     console.log(request)
+    //     if (request === "hi")
+    //       sendResponse({message: "hi to you"});
+    //   });
     
-    chrome.runtime.sendMessage("hi", function(response) {
-        console.log(response)
-      });
+    // chrome.runtime.sendMessage("hi", function(response) {
+    //     console.log(response)
+    //   });
     
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
@@ -73,7 +74,8 @@ export default class Welcome extends PureComponent {
 
     try {
       await googleLogin();
-      history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+      debugger
+      history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
     } catch (err) {
       console.error(err);
     }

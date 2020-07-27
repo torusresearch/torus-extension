@@ -20,12 +20,13 @@ export default class CreatePassword extends PureComponent {
     onCreateNewAccountFromSeed: PropTypes.func,
   }
 
-  componentDidMount () {
+  componentDidMount() {
+    debugger;
     const { isInitialized, history } = this.props
 
-    if (isInitialized) {
-      history.push(INITIALIZE_SEED_PHRASE_ROUTE)
-    }
+    // if (isInitialized) {
+    //   history.push(INITIALIZE_SEED_PHRASE_ROUTE)
+    // }
   }
 
   render () {
