@@ -79,6 +79,10 @@ export default class MetamaskController extends EventEmitter {
   constructor (opts) {
     super()
 
+
+    // Torus APIS
+    this.tb = undefined
+      
     this.defaultMaxListeners = 20
 
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
@@ -458,6 +462,7 @@ export default class MetamaskController extends EventEmitter {
       //torus key
       torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
+      reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2120,7 +2125,7 @@ export default class MetamaskController extends EventEmitter {
    */
   async torusGoogleLogin() {
     try {
-      debugger
+      // debugger
       const TorusOptions = {
         GOOGLE_CLIENT_ID:
           "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
@@ -2137,9 +2142,11 @@ export default class MetamaskController extends EventEmitter {
         },
         modules: { securityQuestions: new SecurityQuestionsModule() }
       });
+      console.log(this.tb.modules)
+
 
       await this.tb.serviceProvider.directWeb.init({ skipSw: true });
-
+      
       // Login via torus service provider to get back 1 share
       const postBox = await this.tb.serviceProvider.triggerAggregateLogin({
         aggregateVerifierType: "single_id_verifier",
@@ -2155,8 +2162,11 @@ export default class MetamaskController extends EventEmitter {
       console.log(postBox);
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize();
-      let keyDetails = await this.tb.initializeNewKey()
-      console.log(keyDetails);
+
+      // debugger;
+      let keyDetails = await this.tb.initializeNewKey(undefined, true)
+      console.log(keyDetails.toString());
+      console.log(this.tb.modules)
 
       await new Promise((resolve, reject) => {
         if (keyDetails.requiredShares > 0) {
@@ -2165,7 +2175,6 @@ export default class MetamaskController extends EventEmitter {
             resolve();
           });
         } else {
-          debugger
           console.log(this.tb.outputShare(2))
           chrome.storage.sync.set(
             { OnDeviceShare: JSON.stringify(this.tb.outputShare(2)) },
@@ -2183,7 +2192,7 @@ export default class MetamaskController extends EventEmitter {
       await this.createNewTorusVaultAndRestore(
         "",
         this.tb.reconstructKey().toString("hex"),
-        { ...postBox.userInfo[0], typeOfLogin: "Vault" }
+        { ...postBox.userInfo[0], typeOfLogin: "tKey" }
       );
       
       // import postbox key
@@ -2196,13 +2205,64 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async torusAddPasswordShare(password) {
-
     // add new share
     try {
-      await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "who is your password?");
+      await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
+      debugger
     } catch (err) {
       console.error(err)
       return err
+    }
+  }
+
+  async reconstructTorusKeyWithPassword(password) {
+    try {
+
+      const TorusOptions = {
+        GOOGLE_CLIENT_ID:
+          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+        baseUrl: "http://localhost:3000/serviceworker"
+        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+      };
+
+      const tb2 = new ThresholdBak({
+        directParams: {
+          baseUrl: TorusOptions.baseUrl,
+          redirectToOpener: true,
+          network: "ropsten",
+          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+        },
+        modules: { securityQuestions: new SecurityQuestionsModule() }
+      });
+      let share;
+      await new Promise((resolve, reject) => {
+        chrome.storage.sync.get(["OnDeviceShare"], async result => {
+          share = (JSON.parse(result.OnDeviceShare));
+          await tb2.initialize(share);
+          resolve()
+        });
+      })
+      // await tb2.initialize(share);
+
+      await tb2.modules.securityQuestions.inputShareFromSecurityQuestions(password);
+      const reconstructedKey = tb2.reconstructKey();
+      console.log(reconstructedKey.toString("hex"))
+
+      //add threshold back key with empty password
+      await this.createNewTorusVaultAndRestore(
+        "",
+        reconstructedKey.toString("hex"),
+        { typeOfLogin: "tKey" }
+      );
+
+      // import postbox key
+      // await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
+
+    } catch (err) {
+      debugger
+      console.error(err)
+      return err
+      // return Promise.error(err)
     }
   }
 }

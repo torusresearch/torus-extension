@@ -94,17 +94,17 @@ export default class UnlockPage extends Component {
     } catch ({ message }) {
       if (message === 'Incorrect password') {
         const newState = await forceUpdateMetamaskState()
-        this.context.metricsEvent({
-          eventOpts: {
-            category: 'Navigation',
-            action: 'Unlock',
-            name: 'Incorrect Passowrd',
-          },
-          customVariables: {
-            numberOfTokens: newState.tokens.length,
-            numberOfAccounts: Object.keys(newState.accounts).length,
-          },
-        })
+        // this.context.metricsEvent({
+        //   eventOpts: {
+        //     category: 'Navigation',
+        //     action: 'Unlock',
+        //     name: 'Incorrect Passowrd',
+        //   },
+        //   customVariables: {
+        //     numberOfTokens: newState.tokens.length,
+        //     numberOfAccounts: Object.keys(newState.accounts).length,
+        //   },
+        // })
       }
 
       this.setState({ error: message })

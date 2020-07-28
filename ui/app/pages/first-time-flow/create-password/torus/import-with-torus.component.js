@@ -105,8 +105,10 @@ export default class ImportFromTorus extends PureComponent {
     const { password } = this.state
     const { history, addPasswordShare } = this.props
     console.log(password)
-    debugger
+
     await addPasswordShare(password)
+    history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+
   }
 
   isValid () {

@@ -22,6 +22,7 @@ import {
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
 import ThresholdBak from "threshold-bak";
+import { dispatch } from 'd3'
 
 let background = null
 let promisifiedBackground = null
@@ -101,6 +102,42 @@ export function tryUnlockMetamask2 () {
     await forceUpdateMetamaskState(dispatch)
     log.debug(`background.submitPassword`)
   }
+}
+
+export function tryUnlockMetamask3(password) {
+  
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      background.reconstructTorusKeyWithPassword(password, (err) => {
+        debugger
+        if (err) reject(err)
+        resolve()
+      })
+    }).then(() => {
+        
+      dispatch(unMarkPasswordForgotten())
+      return promisifiedBackground.getState()
+    })
+    .then(newState => {
+      
+      dispatch(updateMetamaskState(newState))
+      dispatch(showAccountsPage())
+      dispatch(hideLoadingIndication())
+
+      if (newState.selectedAddress) {
+        dispatch({
+          type: actionConstants.SHOW_ACCOUNT_DETAIL,
+          value: newState.selectedAddress,
+        })
+      }
+      return newState
+    })
+    .catch((err) => {
+      dispatch(displayWarning(err.message))
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
+    })
+  }  
 }
 
 export function createNewVaultAndRestore (password, seed) {
@@ -1234,16 +1271,20 @@ export function setUserDetails(el) {
   }
 }
 
-export function addPasswordShare(password, dispatch) {
+export function addPasswordShare(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     // dispatch(unlockInProgress())
     log.debug(`background.torusGoogleLogin`)
     return new Promise((resolve, reject) => {
-      background.torusAddPasswordShare(password, (error) => {
+      background.torusAddPasswordShare(password, (err) => {
         if (err) return reject(err)
         resolve()
-       })
+      })
+    }).then(() => { 
+      dispatch(hideLoadingIndication())
+    }).catch(err => {
+      reject(err)
     })
   }
 }

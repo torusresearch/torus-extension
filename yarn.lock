@@ -26850,9 +26850,9 @@ theming@^1.3.0:
     is-plain-object "^2.0.1"
     prop-types "^15.5.8"
 
-"threshold-bak@file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.2.0.tgz":
-  version "0.2.0"
-  resolved "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.2.0.tgz#6c305012d773737272fbe82b04f887fc8cb55579"
+"threshold-bak@file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.2.2.tgz":
+  version "0.2.2"
+  resolved "file:/Users/shubham/Documents/github/torus/threshold-bak/threshold-bak-0.2.2.tgz#4a4a9cecc828b23e10981dd2cfbf7b81efe0d90f"
   dependencies:
     "@toruslabs/eccrypto" "^1.1.3"
     "@toruslabs/http-helpers" "^1.3.0"

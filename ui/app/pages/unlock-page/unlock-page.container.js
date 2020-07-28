@@ -7,6 +7,7 @@ import { DEFAULT_ROUTE, RESTORE_VAULT_ROUTE } from '../../helpers/constants/rout
 import {
   tryUnlockMetamask,
   tryUnlockMetamask2,
+  tryUnlockMetamask3,
   forgotPassword,
   markPasswordForgotten,
   forceUpdateMetamaskState,
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     forgotPassword: () => dispatch(forgotPassword()),
     tryUnlockMetamask: (password) => dispatch(tryUnlockMetamask(password)),
+    tryUnlockMetamask3: (password) => dispatch(tryUnlockMetamask3(password)),
     tryUnlockMetamask2: () => dispatch(tryUnlockMetamask2()),
     markPasswordForgotten: () => dispatch(markPasswordForgotten()),
     forceUpdateMetamaskState: () => forceUpdateMetamaskState(dispatch),
@@ -35,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { markPasswordForgotten, tryUnlockMetamask, tryUnlockMetamask2, ...restDispatchProps } = dispatchProps
+  const { markPasswordForgotten, tryUnlockMetamask, tryUnlockMetamask2, tryUnlockMetamask3, ...restDispatchProps } = dispatchProps
   const { history, onSubmit: ownPropsSubmit, ...restOwnProps } = ownProps
 
   const onImport = async () => {
@@ -47,9 +49,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     }
   }
 
+  // const onSubmit = async (password) => {
+  //   // debugger
+  //   await tryUnlockMetamask(password)
+  //   // debugger
+  //   history.push(DEFAULT_ROUTE)
+  // }
+
   const onSubmit = async (password) => {
-    // debugger
-    await tryUnlockMetamask(password)
+    
+    await tryUnlockMetamask3(password)
     // debugger
     history.push(DEFAULT_ROUTE)
   }
