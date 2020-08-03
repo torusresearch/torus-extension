@@ -2124,8 +2124,6 @@ export default class MetamaskController extends EventEmitter {
    * Torus google login
    */
   async torusGoogleLogin() {
-    debugger
-    
     try {
       // debugger
       const TorusOptions = {
@@ -2169,44 +2167,38 @@ export default class MetamaskController extends EventEmitter {
 
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize();
-      chrome.storage.sync.clear()
+      // chrome.storage.sync.clear()
+      await new Promise((resolve, reject) => {
+        chrome.storage.sync.get(null, function(items) {
+          var allKeys = Object.keys(items);
+          console.log(allKeys);
+          resolve()
+        });
+      })
 
       debugger;
       await this.tb.initialize()
-      let keyDetails = await this.tb.initializeNewKey(undefined, true)
-      
-      
-      await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, function(items) {
-          var allKeys = Object.keys(items);
-          console.log(allKeys);
-          resolve()
-        });
-      })
-    
-      
-      await this.tb.modules.chromeExtensionStorage.storeDeviceShare(chrome, verifierId, this.tb.outputShare(2))
-
-      await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, function(items) {
-          var allKeys = Object.keys(items);
-          console.log(allKeys);
-          resolve()
-        });
-      })
-    
-      
-      let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
-
-      await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, function(items) {
-          var allKeys = Object.keys(items);
-          console.log(allKeys);
-          resolve()
-        });
+      let metadataSharesDescriptions = Object.keys(this.tb.metadata.shareDescriptions).map(el => {
+        return JSON.parse(this.tb.metadata.shareDescriptions[el])
       })
       
-      await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage(chrome, verifierId)
+      if (metadataSharesDescriptions.length === 0) {
+        let keyDetails = await this.tb.initializeNewKey(undefined, true)
+        await this.tb.modules.chromeExtensionStorage.storeDeviceShare(chrome, verifierId, this.tb.outputShare(2))
+        let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
+        await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage(chrome, verifierId)
+      } else {
+        try {
+          let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
+          await this.tb.inputShare(checkifset)
+        } catch(err){
+          debugger
+          console.log("share not on device")
+        }
+      }
+            
+      // Store a share on chrome storage
+      
 
       // console.log(keyDetails.toString());
       // console.log(this.tb.modules)
