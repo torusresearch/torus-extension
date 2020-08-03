@@ -1296,7 +1296,6 @@ export function googleLogin(dispatch) {
     log.debug(`background.torusGoogleLogin`)
     return new Promise((resolve, reject) => {
       background.torusGoogleLogin((error) => {
-        
         if (error) {
           return reject(error)
         }

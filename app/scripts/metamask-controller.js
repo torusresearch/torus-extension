@@ -59,7 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
-import { ThresholdBak, SecurityQuestionsModule} from "threshold-bak";
+import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule} from "threshold-bak";
 
 import {
   AddressBookController,
@@ -2124,6 +2124,8 @@ export default class MetamaskController extends EventEmitter {
    * Torus google login
    */
   async torusGoogleLogin() {
+    debugger
+    
     try {
       // debugger
       const TorusOptions = {
@@ -2140,10 +2142,9 @@ export default class MetamaskController extends EventEmitter {
           network: "ropsten",
           proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
         },
-        modules: { securityQuestions: new SecurityQuestionsModule() }
+        modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() }
       });
       console.log(this.tb.modules)
-
 
       await this.tb.serviceProvider.directWeb.init({ skipSw: true });
       
@@ -2159,39 +2160,81 @@ export default class MetamaskController extends EventEmitter {
         ],
         verifierIdentifier: "multigoogle-torus"
       });
+
+      debugger; 
+
       console.log(postBox);
+      let verifierId = postBox.userInfo[0].email
+      this.userInfo = postBox.userInfo[0]
+
       // get metadata from the metadata-store
       // let keyDetails = await tb.initialize();
+      chrome.storage.sync.clear()
 
-      // debugger;
+      debugger;
+      await this.tb.initialize()
       let keyDetails = await this.tb.initializeNewKey(undefined, true)
-      console.log(keyDetails.toString());
-      console.log(this.tb.modules)
+      
+      
+      await new Promise((resolve, reject) => {
+        chrome.storage.sync.get(null, function(items) {
+          var allKeys = Object.keys(items);
+          console.log(allKeys);
+          resolve()
+        });
+      })
+    
+      
+      await this.tb.modules.chromeExtensionStorage.storeDeviceShare(chrome, verifierId, this.tb.outputShare(2))
 
       await new Promise((resolve, reject) => {
-        if (keyDetails.requiredShares > 0) {
-          chrome.storage.sync.get(["OnDeviceShare"], async result => {
-            this.tb.inputShare(JSON.parse(result.OnDeviceShare));
-            resolve();
-          });
-        } else {
-          console.log(this.tb.outputShare(2))
-          chrome.storage.sync.set(
-            { OnDeviceShare: JSON.stringify(this.tb.outputShare(2)) },
-            function () {
-              resolve();
-            }
-          );
-        }
-      });
+        chrome.storage.sync.get(null, function(items) {
+          var allKeys = Object.keys(items);
+          console.log(allKeys);
+          resolve()
+        });
+      })
+    
+      
+      let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
 
-      // Add new share (password)
+      await new Promise((resolve, reject) => {
+        chrome.storage.sync.get(null, function(items) {
+          var allKeys = Object.keys(items);
+          console.log(allKeys);
+          resolve()
+        });
+      })
       
+      await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage(chrome, verifierId)
+
+      // console.log(keyDetails.toString());
+      // console.log(this.tb.modules)
+
+      // await new Promise((resolve, reject) => {
+      //   if (keyDetails.requiredShares > 0) {
+      //     chrome.storage.sync.get([verifierId], async result => {
+      //       this.tb.inputShare(JSON.parse(result.verifierId));
+      //       resolve();
+      //     });
+      //   } else {
+      //     console.log(this.tb.outputShare(2))
+      //     chrome.storage.sync.set(
+      //       { verifierId: JSON.stringify(this.tb.outputShare(2)) },
+      //       function () {
+      //         resolve();
+      //       }
+      //     );
+      //   }
+      // });
       
+      var reconstructedKey = await this.tb.reconstructKey()
+      reconstructedKey = reconstructedKey.toString('hex')
+
       //add threshold back key with empty password
       await this.createNewTorusVaultAndRestore(
         "",
-        this.tb.reconstructKey().toString("hex"),
+        reconstructedKey,
         { ...postBox.userInfo[0], typeOfLogin: "tKey" }
       );
       
@@ -2236,7 +2279,7 @@ export default class MetamaskController extends EventEmitter {
       });
       let share;
       await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(["OnDeviceShare"], async result => {
+        chrome.storage.sync.get([this.userInfo.email], async result => {
           share = (JSON.parse(result.OnDeviceShare));
           await tb2.initialize(share);
           resolve()
