@@ -2159,8 +2159,6 @@ export default class MetamaskController extends EventEmitter {
         verifierIdentifier: "multigoogle-torus"
       });
 
-      debugger;
-
       console.log(postBox);
       let verifierId = postBox.userInfo[0].email
       this.userInfo = postBox.userInfo[0]
@@ -2186,7 +2184,9 @@ export default class MetamaskController extends EventEmitter {
       
       try {
         if (metadataSharesDescriptions.length === 0) {
-          // No share desc found
+          // No share description found, 
+          // case 1: metadata store failed
+          // case 2: no module share descriptions exist.
 
           // for debugging
           try {
@@ -2195,18 +2195,27 @@ export default class MetamaskController extends EventEmitter {
           } catch (err) {
             // new device because no local key could be found
             console.error(err)
-            await this.tb.modules.chromeExtensionStorage.storeDeviceShare(this.tb.outputShare(20))
+            await this.tb.storeDeviceShare(this.tb.outputShare("20"))
           }
         } else {
           // share desc found, input from chrome storage
-          await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+          try {
+            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+          } catch (err) {
+            // not available, reinitialise tkey
+            // initialize new key will create 2 shares. one with torus login and another one assigned to chromestoragemodule
+            let newShare = await this.tb.initializeNewKey()
+            console.log(newShare)
+          }
         }
       } catch (err) {
+        console.log(err)
         console.log("share not on device")
       }
-
+      
+      // Reconstruct the private key again
       var reconstructedKey = await this.tb.reconstructKey()
-      reconstructedKey = reconstructedKey.toString('hex')
+      reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
 
       //add threshold back key with empty password
       await this.createNewTorusVaultAndRestore(
