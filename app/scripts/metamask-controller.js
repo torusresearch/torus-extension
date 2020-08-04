@@ -2125,7 +2125,7 @@ export default class MetamaskController extends EventEmitter {
    */
   async torusGoogleLogin() {
     try {
-      // debugger
+      // debugger  
       const TorusOptions = {
         GOOGLE_CLIENT_ID:
           "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
@@ -2159,7 +2159,7 @@ export default class MetamaskController extends EventEmitter {
         verifierIdentifier: "multigoogle-torus"
       });
 
-      debugger; 
+      debugger;
 
       console.log(postBox);
       let verifierId = postBox.userInfo[0].email
@@ -2169,7 +2169,7 @@ export default class MetamaskController extends EventEmitter {
       // let keyDetails = await tb.initialize();
       // chrome.storage.sync.clear()
       await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, function(items) {
+        chrome.storage.sync.get(null, function (items) {
           var allKeys = Object.keys(items);
           console.log(allKeys);
           resolve()
@@ -2178,48 +2178,33 @@ export default class MetamaskController extends EventEmitter {
 
       debugger;
       await this.tb.initialize()
+      // await this.tb.initializeNewKey(undefined, true)
+
       let metadataSharesDescriptions = Object.keys(this.tb.metadata.shareDescriptions).map(el => {
         return JSON.parse(this.tb.metadata.shareDescriptions[el])
       })
       
-      if (metadataSharesDescriptions.length === 0) {
-        let keyDetails = await this.tb.initializeNewKey(undefined, true)
-        await this.tb.modules.chromeExtensionStorage.storeDeviceShare(chrome, verifierId, this.tb.outputShare(2))
-        let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
-        await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage(chrome, verifierId)
-      } else {
-        try {
-          let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage(chrome, verifierId)
-          await this.tb.inputShare(checkifset)
-        } catch(err){
-          debugger
-          console.log("share not on device")
+      try {
+        if (metadataSharesDescriptions.length === 0) {
+          // No share desc found
+
+          // for debugging
+          try {
+            let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+            console.log(checkifset)
+          } catch (err) {
+            // new device because no local key could be found
+            console.error(err)
+            await this.tb.modules.chromeExtensionStorage.storeDeviceShare(this.tb.outputShare(20))
+          }
+        } else {
+          // share desc found, input from chrome storage
+          await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
         }
+      } catch (err) {
+        console.log("share not on device")
       }
-            
-      // Store a share on chrome storage
-      
 
-      // console.log(keyDetails.toString());
-      // console.log(this.tb.modules)
-
-      // await new Promise((resolve, reject) => {
-      //   if (keyDetails.requiredShares > 0) {
-      //     chrome.storage.sync.get([verifierId], async result => {
-      //       this.tb.inputShare(JSON.parse(result.verifierId));
-      //       resolve();
-      //     });
-      //   } else {
-      //     console.log(this.tb.outputShare(2))
-      //     chrome.storage.sync.set(
-      //       { verifierId: JSON.stringify(this.tb.outputShare(2)) },
-      //       function () {
-      //         resolve();
-      //       }
-      //     );
-      //   }
-      // });
-      
       var reconstructedKey = await this.tb.reconstructKey()
       reconstructedKey = reconstructedKey.toString('hex')
 
@@ -2233,6 +2218,7 @@ export default class MetamaskController extends EventEmitter {
       // import postbox key
       await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
 
+      debugger
       } catch (error) {
         console.error(error);
         return Promise.reject(error)
