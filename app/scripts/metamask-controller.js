@@ -2175,20 +2175,26 @@ export default class MetamaskController extends EventEmitter {
       })
 
       debugger;
+      /**
+       * Initialise tb. 
+       * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
+       *    update shareDescriptions() and metadata.
+       * 2. Existing user (metadata exists), init with shareStore
+       */
       await this.tb.initialize()
-      // await this.tb.initializeNewKey(undefined, true)
 
-      let metadataSharesDescriptions = Object.keys(this.tb.metadata.shareDescriptions).map(el => {
-        return JSON.parse(this.tb.metadata.shareDescriptions[el])
+      // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
+      let metadataSharesDescriptions = Object.values(this.tb.metadata.shareDescriptions).map(el => {
+        return JSON.parse(el[0])
       })
-      
+  
       try {
         if (metadataSharesDescriptions.length === 0) {
           // No share description found, 
           // case 1: metadata store failed
-          // case 2: no module share descriptions exist.
+          // case 2: no module share descriptions exist. Create
 
-          // for debugging
+          // for debugging, delete later
           try {
             let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
             console.log(checkifset)
@@ -2202,8 +2208,9 @@ export default class MetamaskController extends EventEmitter {
           try {
             await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
           } catch (err) {
+            // This is forcing user to reinit a new tb key
             // not available, reinitialise tkey
-            // initialize new key will create 2 shares. one with torus login and another one assigned to chromestoragemodule
+            // initialize new key will create 2 shares, i.e., torus login share and chrome extension share
             let newShare = await this.tb.initializeNewKey()
             console.log(newShare)
           }
