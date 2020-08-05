@@ -19,11 +19,12 @@ export default class SecurityTab extends PureComponent {
     setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
+    getTkeyState: PropTypes.func.isRequired
   }
 
-  renderSeedWords () {
+  renderSeedWords() {
     const { t } = this.context
-    const { history } = this.props
+    const { history, getTkeyState } = this.props
 
     return (
       <div className="settings-page__content-row">

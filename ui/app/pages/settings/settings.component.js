@@ -10,6 +10,7 @@ import AdvancedTab from './advanced-tab'
 import InfoTab from './info-tab'
 import SecurityTab from './security-tab'
 import ContactListTab from './contact-list-tab'
+import TkeyTab from './tkey-tab'
 import {
   ALERTS_ROUTE,
   ADVANCED_ROUTE,
@@ -27,7 +28,6 @@ import {
   CONTACT_MY_ACCOUNTS_VIEW_ROUTE,
   CONTACT_MY_ACCOUNTS_EDIT_ROUTE,
 } from '../../helpers/constants/routes'
-import TkeyTab from './tkey-tab/tkey-tab.component'
 
 class SettingsPage extends PureComponent {
   static propTypes = {
@@ -85,7 +85,7 @@ class SettingsPage extends PureComponent {
     )
   }
 
-  renderTitle () {
+  renderTitle() {
     const { t } = this.context
     const { isPopupView, pathnameI18nKey, addressName } = this.props
 
@@ -119,7 +119,7 @@ class SettingsPage extends PureComponent {
       history,
       initialBreadCrumbKey,
     } = this.props
-
+    debugger
     let subheaderText
 
     if (isPopupView && isAddressEntryPage) {
@@ -127,7 +127,7 @@ class SettingsPage extends PureComponent {
     } else if (initialBreadCrumbKey) {
       subheaderText = t(initialBreadCrumbKey)
     } else {
-      subheaderText = t(pathnameI18nKey || 'general')
+      subheaderText = t(pathnameI18nKey || 'general') || 'tkey' //TODO: fix
     }
 
     return currentPath !== NETWORKS_ROUTE && (

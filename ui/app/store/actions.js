@@ -1289,6 +1289,23 @@ export function addPasswordShare(password) {
   }
 }
 
+export function getTkeyState(dispatch) {
+  debugger
+  return async (dispatch) => {
+    background.getTbState((error) => { 
+      if (error) {
+        return err
+      }
+      return
+    }).then(el => {
+      console.log(el)
+      return el
+    }).catch(err => {
+      console.error(err)
+    })
+  }
+}
+
 export function googleLogin(dispatch) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))

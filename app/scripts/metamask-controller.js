@@ -463,6 +463,7 @@ export default class MetamaskController extends EventEmitter {
       torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
       reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
+      getTbState: nodeify(this.getTbState, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2275,11 +2276,18 @@ export default class MetamaskController extends EventEmitter {
   async reconstructTorusKeyWithPassword(password) {
     try {
 
-      //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore( "", this.tempPrivateKey, { ...this.userInfo[0], typeOfLogin: "tKey" });
+      // //add threshold back key with empty password
+      // await this.createNewTorusVaultAndRestore( "", this.tempPrivateKey, { ...this.userInfo, typeOfLogin: "tKey" });
       
-      // import postbox key
-      await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo[0])
+      // // import postbox key
+      // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
+
+      // //add threshold back key with empty password
+      await this.createNewTorusVaultAndRestore( "", "ec430670674fd370950179f922d8a2465b2adf09a5d25a0437c58239bd87ce2f", {typeOfLogin: "google"});
+      
+      // // import postbox key
+      // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
+
 
       debugger
 
@@ -2289,5 +2297,9 @@ export default class MetamaskController extends EventEmitter {
       return err
       // return Promise.error(err)
     }
+  }
+
+  async getTbState() {
+    return this.tb
   }
 }

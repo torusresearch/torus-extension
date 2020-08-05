@@ -9,6 +9,7 @@ import { getEnvironmentType } from '../../../../app/scripts/lib/util'
 import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
 import {
+  TKEY_ROUTE,
   CONNECTIONS_ROUTE,
   ADVANCED_ROUTE,
   SECURITY_ROUTE,
@@ -26,6 +27,7 @@ import {
 } from '../../helpers/constants/routes'
 
 const ROUTES_TO_I18N_KEYS = {
+  [TKEY_ROUTE]: 'tkey',
   [GENERAL_ROUTE]: 'general',
   [CONNECTIONS_ROUTE]: 'connections',
   [ADVANCED_ROUTE]: 'advanced',
