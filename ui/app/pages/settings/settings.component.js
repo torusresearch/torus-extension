@@ -15,6 +15,7 @@ import {
   ADVANCED_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
+  TKEY_ROUTE,
   ABOUT_US_ROUTE,
   SETTINGS_ROUTE,
   NETWORKS_ROUTE,
@@ -26,6 +27,7 @@ import {
   CONTACT_MY_ACCOUNTS_VIEW_ROUTE,
   CONTACT_MY_ACCOUNTS_EDIT_ROUTE,
 } from '../../helpers/constants/routes'
+import TkeyTab from './tkey-tab/tkey-tab.component'
 
 class SettingsPage extends PureComponent {
   static propTypes = {
@@ -157,6 +159,7 @@ class SettingsPage extends PureComponent {
     return (
       <TabBar
         tabs={[
+          { content: 'tkey', description: "tkey", key: TKEY_ROUTE },
           { content: t('general'), description: t('generalSettingsDescription'), key: GENERAL_ROUTE },
           { content: t('advanced'), description: t('advancedSettingsDescription'), key: ADVANCED_ROUTE },
           { content: t('contacts'), description: t('contactsSettingsDescription'), key: CONTACT_LIST_ROUTE },
@@ -183,6 +186,11 @@ class SettingsPage extends PureComponent {
           exact
           path={GENERAL_ROUTE}
           component={SettingsTab}
+        />
+        <Route
+          exact
+          path={TKEY_ROUTE}
+          component={TkeyTab}
         />
         <Route
           exact

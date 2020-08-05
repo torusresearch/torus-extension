@@ -2160,6 +2160,7 @@ export default class MetamaskController extends EventEmitter {
       });
 
       console.log(postBox);
+      this.postBox = postBox
       let verifierId = postBox.userInfo[0].email
       this.userInfo = postBox.userInfo[0]
 
@@ -2175,61 +2176,80 @@ export default class MetamaskController extends EventEmitter {
       })
 
       debugger;
+
       /**
        * Initialise tb. 
        * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
        *    update shareDescriptions() and metadata.
        * 2. Existing user (metadata exists), init with shareStore
        */
-      await this.tb.initialize()
+       // let somedata = await this.tb.initialize()
+      
+      /**
+       * Create new account. Useful for development purposes
+       */
+      await this.tb.initializeNewKey(undefined, true)
+      let somedata = this.tb.getKeyDetails()
+
+      let requiredShares = somedata.requiredShares
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
-      let metadataSharesDescriptions = Object.values(this.tb.metadata.shareDescriptions).map(el => {
+      let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
         return JSON.parse(el[0])
       })
-  
-      try {
-        if (metadataSharesDescriptions.length === 0) {
-          // No share description found, 
-          // case 1: metadata store failed
-          // case 2: no module share descriptions exist. Create
+      let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { el.module})
+      
+      // Here comes the UI
 
-          // for debugging, delete later
-          try {
-            let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
-            console.log(checkifset)
-          } catch (err) {
-            // new device because no local key could be found
-            console.error(err)
-            await this.tb.storeDeviceShare(this.tb.outputShare("20"))
-          }
-        } else {
-          // share desc found, input from chrome storage
-          try {
-            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-          } catch (err) {
-            // This is forcing user to reinit a new tb key
-            // not available, reinitialise tkey
-            // initialize new key will create 2 shares, i.e., torus login share and chrome extension share
-            let newShare = await this.tb.initializeNewKey()
-            console.log(newShare)
-          }
-        }
-      } catch (err) {
-        console.log(err)
-        console.log("share not on device")
+      while (requiredShares > 0) {
+        let one = metadataSharesDescriptions.pop()
+        await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+        requiredShares--
       }
+
+      // try {
+      //   if (metadataSharesDescriptions.length === 0) {
+      //     // No share description found, 
+      //     // case 1: metadata store failed
+      //     // case 2: no module share descriptions exist. 
+
+      //     // for debugging, delete later
+      //     // try {
+      //     //   let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+      //     //   console.log(checkifset)
+      //     // } catch (err) {
+      //     //   // new device because no local key could be found
+      //     //   console.error(err)
+      //     //   // await this.tb.storeDeviceShare(this.tb.outputShare("20"))
+      //     // }
+      //   } else {
+      //     // share desc found, input from chrome storage
+      //     try {
+      //       await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+      //     } catch (err) {
+      //       // This is forcing user to reinit a new tb key
+      //       // not available, reinitialise tkey
+      //       // initialize new key will create 2 shares, i.e., torus login share and chrome extension share
+      //       // let newShare = await this.tb.initializeNewKey()
+      //       // console.log(newShare)
+      //       return err
+      //     }
+      //   }
+      // } catch (err) {
+      //   // Failures from catch block
+      //   console.log(err)
+      //   console.log("share not on device")
+      // }
       
       // Reconstruct the private key again
-      var reconstructedKey = await this.tb.reconstructKey()
+      // Exposed on metamask controller for development purposes. delete later.
+
+      let reconstructedKey = await this.tb.reconstructKey()
       reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
+      this.tempPrivateKey = reconstructedKey // dev purposes
 
       //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore(
-        "",
-        reconstructedKey,
-        { ...postBox.userInfo[0], typeOfLogin: "tKey" }
-      );
+      await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...postBox.userInfo[0], typeOfLogin: "tKey" });
       
       // import postbox key
       await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
@@ -2255,45 +2275,13 @@ export default class MetamaskController extends EventEmitter {
   async reconstructTorusKeyWithPassword(password) {
     try {
 
-      const TorusOptions = {
-        GOOGLE_CLIENT_ID:
-          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-        baseUrl: "http://localhost:3000/serviceworker"
-        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-      };
-
-      const tb2 = new ThresholdBak({
-        directParams: {
-          baseUrl: TorusOptions.baseUrl,
-          redirectToOpener: true,
-          network: "ropsten",
-          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        },
-        modules: { securityQuestions: new SecurityQuestionsModule() }
-      });
-      let share;
-      await new Promise((resolve, reject) => {
-        chrome.storage.sync.get([this.userInfo.email], async result => {
-          share = (JSON.parse(result.OnDeviceShare));
-          await tb2.initialize(share);
-          resolve()
-        });
-      })
-      // await tb2.initialize(share);
-
-      await tb2.modules.securityQuestions.inputShareFromSecurityQuestions(password);
-      const reconstructedKey = tb2.reconstructKey();
-      console.log(reconstructedKey.toString("hex"))
-
       //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore(
-        "",
-        reconstructedKey.toString("hex"),
-        { typeOfLogin: "tKey" }
-      );
-
+      await this.createNewTorusVaultAndRestore( "", this.tempPrivateKey, { ...this.userInfo[0], typeOfLogin: "tKey" });
+      
       // import postbox key
-      // await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
+      await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo[0])
+
+      debugger
 
     } catch (err) {
       debugger

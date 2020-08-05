@@ -3,6 +3,7 @@ const UNLOCK_ROUTE = '/unlock'
 const LOCK_ROUTE = '/lock'
 const ASSET_ROUTE = '/asset'
 const SETTINGS_ROUTE = '/settings'
+const TKEY_ROUTE = '/settings/tkey'
 const GENERAL_ROUTE = '/settings/general'
 const CONNECTIONS_ROUTE = '/settings/connections'
 const ADVANCED_ROUTE = '/settings/advanced'
@@ -97,6 +98,7 @@ export {
   ADVANCED_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
+  TKEY_ROUTE,
   CONNECTIONS_ROUTE,
   ABOUT_US_ROUTE,
   CONTACT_LIST_ROUTE,
