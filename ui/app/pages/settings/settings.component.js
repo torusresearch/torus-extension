@@ -119,7 +119,7 @@ class SettingsPage extends PureComponent {
       history,
       initialBreadCrumbKey,
     } = this.props
-    debugger
+    
     let subheaderText
 
     if (isPopupView && isAddressEntryPage) {

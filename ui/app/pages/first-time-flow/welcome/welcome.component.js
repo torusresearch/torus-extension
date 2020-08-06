@@ -74,7 +74,6 @@ export default class Welcome extends PureComponent {
 
     try {
       await googleLogin();
-      debugger
       history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
     } catch (err) {
       console.error(err);

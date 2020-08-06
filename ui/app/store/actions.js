@@ -1228,7 +1228,8 @@ const backgroundSetLocked = () => {
   })
 }
 
-export function lockMetamask () {
+export function lockMetamask() {
+  debugger
   log.debug(`background.setLocked`)
 
   return (dispatch) => {
@@ -1290,19 +1291,27 @@ export function addPasswordShare(password) {
 }
 
 export function getTkeyState(dispatch) {
-  debugger
   return async (dispatch) => {
-    background.getTbState((error) => { 
-      if (error) {
-        return err
-      }
-      return
-    }).then(el => {
-      console.log(el)
-      return el
-    }).catch(err => {
-      console.error(err)
-    })
+    let tb = await promisifiedBackground.getTbState()
+    console.log(tb)
+    return tb
+    // promisifiedBackground.getTbState((error) => { 
+    //   if (error) {
+    //     return err
+    //   }
+    //   return
+    // }).then(el => {
+    //   console.log(el)
+    //   return el
+    // }).catch(err => {
+    //   console.error(err)
+    // })
+  }
+}
+
+export function getTkeyState2(dispatch) {
+  return (dispatch) => {
+    return background.getTbState2()
   }
 }
 

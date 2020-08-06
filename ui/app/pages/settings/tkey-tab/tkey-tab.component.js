@@ -15,6 +15,7 @@ export default class tkeyTab extends PureComponent {
     metricsEvent: PropTypes.func
   };
 
+
   static propTypes = {
     warning: PropTypes.string,
     history: PropTypes.object,
@@ -24,53 +25,62 @@ export default class tkeyTab extends PureComponent {
     // setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     // setUsePhishDetect: PropTypes.func.isRequired,
     // usePhishDetect: PropTypes.bool.isRequired,
-    getTkeyState: PropTypes.func.isRequired
+    getTkeyState: PropTypes.func.isRequired,
+    getTkeyState2: PropTypes.func.isRequired
   };
 
-  renderThresholdPanels() {
-    const { getTkeyState } = this.props
-    let el = getTkeyState()
-    console.log(el)
+  componentWillMount() {
+    this.renderThresholdPanels()  
+  }
 
-    return (
-      <div>
-        <ExpansionPanel>
-          <ExpansionPanelSummary>
-            <Typography className="tkey-tab__heading">
-              Expansion Panel 1
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel>
-          <ExpansionPanelSummary>
-            <Typography className="tkey-tab__heading">
-              Expansion Panel 2
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-              eget.
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-        <ExpansionPanel disabled>
-          <ExpansionPanelSummary>
-            <Typography className="tkey-tab__heading">
-              Disabled Expansion Panel
-            </Typography>
-          </ExpansionPanelSummary>
-        </ExpansionPanel>
-      </div>
-    );
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      torusPanel: null,
+      deviceSharePanel: null,
+      passwordPanel: null
+    }
+  }
+
+  renderThresholdPanels() {
+    const { getTkeyState2, getTkeyState } = this.props
+    let el = getTkeyState().then(el => {
+      console.log(el)
+      let isTorusServiceProviderLoggedIn = el.serviceProvider.postboxKey !== "0"
+      let isOnDeviceShare = Object.keys(el.metadata.shareDescriptions).length != 0
+      
+      this.setState({
+        torusPanel: (
+          <div>
+            <ExpansionPanel>
+              <ExpansionPanelSummary>
+                <Typography className="tkey-tab__heading">
+                    Torus Login
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                  {isTorusServiceProviderLoggedIn ? "torus login completed" : "torus login not completed"}
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel>
+              <ExpansionPanelSummary>
+                <Typography className="tkey-tab__heading">
+                  On device share
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography>
+                    {isOnDeviceShare ? "Chrome storage share available": "chrome storage share unavailable"}
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
+        )
+      });
+    })
   }
 
   render() {
@@ -78,7 +88,21 @@ export default class tkeyTab extends PureComponent {
 
     return (
       <div className="settings-page__body">        
-        {this.renderThresholdPanels()}
+        {this.state.torusPanel === null ? 
+                <div>Loading</div>
+            :
+                <div>{this.state.torusPanel}</div>
+        }
+        {this.state.deviceSharePanel === null ? 
+                <div>Loading</div>
+            :
+                <div>{this.state.deviceSharePanel}</div>
+        }
+        {this.state.passwordPanel === null ? 
+                <div>Loading</div>
+            :
+                <div>{this.state.passwordPanel}</div>
+            }
 
         {/* { this.renderSeedWords() }
         { this.renderIncomingTransactionsOptIn() }

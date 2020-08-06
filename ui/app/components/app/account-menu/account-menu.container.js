@@ -26,7 +26,6 @@ const SHOW_SEARCH_ACCOUNTS_MIN_COUNT = 5
 function mapStateToProps (state) {
   const { metamask: { isAccountMenuOpen } } = state
   const accounts = getMetaMaskAccountsOrdered(state)
-  console.log(accounts)
   const origin = getOriginOfCurrentTab(state)
   const selectedAddress = getSelectedAddress(state)
   const userInfo = getUserDetails(state)

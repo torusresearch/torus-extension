@@ -62,8 +62,6 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount = 0,
       firstPermissionsRequestId,
     } = this.props
-
-    debugger;
     
     if (firstPermissionsRequestId) {
       history.push(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)

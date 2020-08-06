@@ -51,7 +51,6 @@ export default class FirstTimeFlow extends PureComponent {
       seedPhraseBackedUp,
     } = this.props
 
-    debugger;
     
     // completedOnboarding = true
     if (completedOnboarding && (!showingSeedPhraseBackupAfterOnboarding || seedPhraseBackedUp)){

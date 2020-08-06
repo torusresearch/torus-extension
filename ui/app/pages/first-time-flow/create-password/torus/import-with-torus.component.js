@@ -34,7 +34,6 @@ export default class ImportFromTorus extends PureComponent {
 
 
   UNSAFE_componentWillMount() {
-    debugger;
     // this._onBeforeUnload = () => this.context.metricsEvent({
     //   eventOpts: {
     //     category: 'Onboarding',
@@ -131,7 +130,6 @@ export default class ImportFromTorus extends PureComponent {
   }
 
   handleSkip = async () =>{
-    debugger;
     const { history } = this.props
     history.push(INITIALIZE_END_OF_FLOW_ROUTE);
   }

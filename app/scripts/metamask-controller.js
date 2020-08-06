@@ -59,7 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
-import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule} from "threshold-bak";
+import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule, TorusServiceProvider} from "threshold-bak";
 
 import {
   AddressBookController,
@@ -122,6 +122,7 @@ export default class MetamaskController extends EventEmitter {
       network: this.networkController,
     })
 
+    
     this.appStateController = new AppStateController({
       addUnlockListener: this.on.bind(this, 'unlock'),
       isUnlocked: this.isUnlocked.bind(this),
@@ -328,7 +329,8 @@ export default class MetamaskController extends EventEmitter {
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
 
-    const password = process.env.CONF?.password
+    // const password = process.env.CONF?.password
+    const password = ""
     if (
       password && !this.isUnlocked() &&
       this.onboardingController.completedOnboarding
@@ -464,6 +466,7 @@ export default class MetamaskController extends EventEmitter {
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
       reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
       getTbState: nodeify(this.getTbState, this),
+      getTbState2: nodeify(this.getTbState2, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -1833,7 +1836,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * @returns {boolean} Whether the extension is unlocked.
    */
-  isUnlocked () {
+  isUnlocked() {
     return this.keyringController.memStore.getState().isUnlocked
   }
 
@@ -2117,7 +2120,7 @@ export default class MetamaskController extends EventEmitter {
    * Locks MetaMask
    */
   setLocked () {
-    return this.keyringController.setLocked()
+    // return this.keyringController.setLocked()
   }
 
 
@@ -2135,33 +2138,34 @@ export default class MetamaskController extends EventEmitter {
       };
 
       this.tb = new ThresholdBak({
-        directParams: {
+        modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
+        serviceProvider: new TorusServiceProvider({ directParams: {
           baseUrl: TorusOptions.baseUrl,
           redirectToOpener: true,
           network: "ropsten",
           proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        },
-        modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() }
+        }, postboxKey: "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852" })
       });
       console.log(this.tb.modules)
 
       await this.tb.serviceProvider.directWeb.init({ skipSw: true });
       
       // Login via torus service provider to get back 1 share
-      const postBox = await this.tb.serviceProvider.triggerAggregateLogin({
-        aggregateVerifierType: "single_id_verifier",
-        subVerifierDetailsArray: [
-          {
-            clientId: TorusOptions.GOOGLE_CLIENT_ID,
-            typeOfLogin: "google",
-            verifier: "google-shubs"
-          }
-        ],
-        verifierIdentifier: "multigoogle-torus"
-      });
+      // const postBox = await this.tb.serviceProvider.triggerAggregateLogin({
+      //   aggregateVerifierType: "single_id_verifier",
+      //   subVerifierDetailsArray: [
+      //     {
+      //       clientId: TorusOptions.GOOGLE_CLIENT_ID,
+      //       typeOfLogin: "google",
+      //       verifier: "google-shubs"
+      //     }
+      //   ],
+      //   verifierIdentifier: "multigoogle-torus"
+      // });
 
-      console.log(postBox);
-      this.postBox = postBox
+      this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
+      
+      let postBox = this.postBox
       let verifierId = postBox.userInfo[0].email
       this.userInfo = postBox.userInfo[0]
 
@@ -2176,15 +2180,13 @@ export default class MetamaskController extends EventEmitter {
         });
       })
 
-      debugger;
-
       /**
        * Initialise tb. 
        * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
        *    update shareDescriptions() and metadata.
        * 2. Existing user (metadata exists), init with shareStore
        */
-       // let somedata = await this.tb.initialize()
+      //  let somedata = await this.tb.initialize()
       
       /**
        * Create new account. Useful for development purposes
@@ -2198,7 +2200,7 @@ export default class MetamaskController extends EventEmitter {
       let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
         return JSON.parse(el[0])
       })
-      let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { el.module})
+      let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { return el.module})
       
       // Here comes the UI
 
@@ -2207,40 +2209,6 @@ export default class MetamaskController extends EventEmitter {
         await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
         requiredShares--
       }
-
-      // try {
-      //   if (metadataSharesDescriptions.length === 0) {
-      //     // No share description found, 
-      //     // case 1: metadata store failed
-      //     // case 2: no module share descriptions exist. 
-
-      //     // for debugging, delete later
-      //     // try {
-      //     //   let checkifset = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
-      //     //   console.log(checkifset)
-      //     // } catch (err) {
-      //     //   // new device because no local key could be found
-      //     //   console.error(err)
-      //     //   // await this.tb.storeDeviceShare(this.tb.outputShare("20"))
-      //     // }
-      //   } else {
-      //     // share desc found, input from chrome storage
-      //     try {
-      //       await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-      //     } catch (err) {
-      //       // This is forcing user to reinit a new tb key
-      //       // not available, reinitialise tkey
-      //       // initialize new key will create 2 shares, i.e., torus login share and chrome extension share
-      //       // let newShare = await this.tb.initializeNewKey()
-      //       // console.log(newShare)
-      //       return err
-      //     }
-      //   }
-      // } catch (err) {
-      //   // Failures from catch block
-      //   console.log(err)
-      //   console.log("share not on device")
-      // }
       
       // Reconstruct the private key again
       // Exposed on metamask controller for development purposes. delete later.
@@ -2276,6 +2244,8 @@ export default class MetamaskController extends EventEmitter {
   async reconstructTorusKeyWithPassword(password) {
     try {
 
+      // "{"share":{"share":"bf2c4158dcc0f6693824fd6b4d09ad6e2e61be077a749ad5a1ececa7c7c87336","shareIndex":"01"},"polynomialID":"1b4f3cc67ce3930d3f3cdebfbf93de165eb94c51914c0c9793222ab90e93a6c9|cb6f160bc680a6ed6a5ea16142461dbc39e34351d669bdaf2ed752c756c853de"}"
+
       // //add threshold back key with empty password
       // await this.createNewTorusVaultAndRestore( "", this.tempPrivateKey, { ...this.userInfo, typeOfLogin: "tKey" });
       
@@ -2283,8 +2253,10 @@ export default class MetamaskController extends EventEmitter {
       // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
 
       // //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore( "", "ec430670674fd370950179f922d8a2465b2adf09a5d25a0437c58239bd87ce2f", {typeOfLogin: "google"});
       
+      await this.createNewTorusVaultAndRestore( "", "ec430670674fd370950179f922d8a2465b2adf09a5d25a0437c58239bd87ce2f", {typeOfLogin: "google"});
+      await this.importAccountWithStrategy('Private Key', "0x65cbb9462072230dec982990c04aa8ac1ab17be1200218204b1ee964e688b459", {typeOfLogin: "google"})
+
       // // import postbox key
       // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
 
@@ -2300,6 +2272,11 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async getTbState() {
+    return this.tb
+  }
+
+  getTbState2() {
+    debugger
     return this.tb
   }
 }
