@@ -6,11 +6,11 @@ import Button from "../../../components/ui/button";
 import TextField from "../../../components/ui/text-field";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import {
   // INITIALIZE_SELECT_ACTION_ROUTE,
-  TKEY_ROUTE,
-} from '../../../helpers/constants/routes'
+  TKEY_ROUTE
+} from "../../../helpers/constants/routes";
 
 export default class tkeyTab extends PureComponent {
   static contextTypes = {
@@ -42,21 +42,69 @@ export default class tkeyTab extends PureComponent {
       torusPanel: null,
       deviceSharePanel: null,
       passwordPanel: null,
-      accountPassword: '',
-      accountPasswordError: ''
+      accountPassword: "",
+      accountPasswordError: ""
     };
   }
 
+  renderPasswordPanel(passwordShare) {
+    if (passwordShare.available) {
+      this.setState({
+        passwordPanel: (
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">Account Password</p>
+            <div className="tkey-tab__subshare">
+              <p>*******</p>
+              <DeleteOutlinedIcon />
+            </div>
+            <Button
+              type="secondary"
+              className="tkey-tab__addshareButton"
+              onClick={() => this.changePassword()}
+            >
+              Change password
+            </Button>
+          </div>
+        )
+      });
+    } else {
+      this.setState({
+        passwordPanel: (
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">Account Password</p>
+            <div className="tkey-tab__subshare">
+                <input
+                  type="text"
+                  value={this.state.password}
+                  onChange={event =>
+                    this.handlePasswordChange(event.target.value)
+                  }
+                  id="password"
+                />
+            </div>
+            <Button
+              type="secondary"
+              className="tkey-tab__addshareButton"
+              onClick={() => this.addAccountPassword()}
+            >
+              Add Password
+            </Button>
+          </div>
+        )
+      });
+    }
+  }
+
   renderThresholdPanels() {
-    const {
-      getTkeyDataForSettingsPage
-    } = this.props;
+    const { getTkeyDataForSettingsPage } = this.props;
 
     getTkeyDataForSettingsPage().then(el => {
       console.log(el);
       let serviceProvider = el.serviceProvider;
       let deviceShare = el.deviceShare;
-      let passwordShare = el.passwordShare;
+      // let passwordShare = el.passwordShare;
+
+      this.renderPasswordPanel(el.passwordShare);
 
       this.setState({
         torusPanel: (
@@ -78,9 +126,7 @@ export default class tkeyTab extends PureComponent {
           <div className="tkey-tab__share">
             <p className="tkey-tab__subheading">Device - Chrome extension</p>
             <div className="tkey-tab__subshare">
-              <p>
-                {deviceShare.userAgent.substr(0,50)}
-              </p>
+              <p>{deviceShare.userAgent.substr(0, 50)}</p>
               <DeleteOutlinedIcon />
             </div>
             <Button type="secondary" className="tkey-tab__addshareButton">
@@ -89,59 +135,44 @@ export default class tkeyTab extends PureComponent {
           </div>
         )
       });
-
-      this.setState({
-        passwordPanel: (
-          <div className="tkey-tab__share">
-            <p className="tkey-tab__subheading">Account Password</p>
-            <div className="tkey-tab__subshare">
-              <input
-                type="text"
-                value={this.state.password}
-                onChange={(event) => this.handlePasswordChange(event.target.value)}
-                id="password"
-              />
-              
-            </div>
-            <Button type="secondary" className="tkey-tab__addshareButton" onClick={() => this.addAccountPassword()}>
-              Add Password
-            </Button>
-          </div>
-        )
-      });
     });
   }
 
   handlePasswordChange(el) {
-    this.setState((state) => {
-      const { accountPassword } = state
-      let accountPasswordError = ''
+    this.setState(state => {
+      const { accountPassword } = state;
+      let accountPasswordError = "";
 
       // Add check for password if minimum 10 digits
       if (el.length < 10) {
-        accountPasswordError = 'Password should be minimum 10 digis'
+        accountPasswordError = "Password should be minimum 10 digis";
       }
 
       return {
         accountPassword: el,
-        accountPasswordError: accountPasswordError,
-      }
-    })
+        accountPasswordError: accountPasswordError
+      };
+    });
   }
 
   async addAccountPassword() {
-    debugger
+    debugger;
 
-    const { accountPassword, accountPasswordError } = this.state
-    const { history, addPasswordShare } = this.props
-    console.log(accountPassword)
+    const { accountPassword, accountPasswordError } = this.state;
+    const { history, addPasswordShare } = this.props;
+    console.log(accountPassword);
 
-    if (accountPasswordError == '') {
-      await addPasswordShare(password)
-      history.push(TKEY_ROUTE);
+    if (accountPasswordError == "") {
+      await addPasswordShare(password);
+      this.renderThresholdPanels() // reload panel
     } else {
       // Show error
     }
+  }
+
+  // Maybe create a new page for password to separate concerns
+  handlePasswordChange() {
+    
   }
 
   render() {

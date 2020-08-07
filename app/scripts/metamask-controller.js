@@ -2277,7 +2277,7 @@ export default class MetamaskController extends EventEmitter {
 
   async getTkeyDataForSettingsPage() {
     let tkey = this.tb
-    let deviceShare = {}, passwordShare = false
+    let deviceShare = {}, passwordShare = {}
     
     let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
       return JSON.parse(el[0])
@@ -2297,11 +2297,8 @@ export default class MetamaskController extends EventEmitter {
     }
 
     // ForpasswordShare
-    try {
-      let el = sdObj.filter(el => el.module == "securityQuestions")
-    } catch{
-      passwordShare = false
-    }
+    let el = sdObj.filter(el => el.module == "securityQuestions")
+    passwordShare.available = el.length > 0 ? true : false
 
     return {
       serviceProvider: {
@@ -2309,9 +2306,7 @@ export default class MetamaskController extends EventEmitter {
         verifierId: this.postBox.userInfo[0].email
       },
       deviceShare: deviceShare,
-      passwordShare: {
-        available: passwordShare
-      },
+      passwordShare: passwordShare,
       tkey: tkey
     }
   }
