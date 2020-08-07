@@ -166,6 +166,7 @@ async function loadStateFromPersistence () {
 
   // read from disk
   // first from preferred, async API:
+  console.log(await localStore.get(), 'this is the local store')
   versionedData = (await localStore.get()) ||
                   migrator.generateInitialState(firstTimeState)
 
@@ -244,6 +245,10 @@ function setupController (initState, initLangCode) {
       return openMetamaskTabsIDs
     },
   })
+
+  window.controller = controller
+  // setInterval(async function () { console.log("controller", controller)}, 1000)
+
 
   setupEnsIpfsResolver({
     getCurrentNetwork: controller.getCurrentNetwork,
@@ -456,6 +461,8 @@ async function openPopup () {
     }
   )
 }
+
+// setInterval(async function () { console.log(await localStore.get())}, 1000)
 
 // On first install, open a new tab with MetaMask
 extension.runtime.onInstalled.addListener(({ reason }) => {

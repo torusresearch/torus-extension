@@ -7,7 +7,8 @@ import {
   setParticipateInMetaMetrics,
   setUsePhishDetect,
   getTkeyState,
-  getTkeyState2
+  getTkeyState2,
+  getTkeyDataForSettingsPage
 } from '../../../store/actions'
 
 const mapStateToProps = (state) => {
@@ -34,7 +35,8 @@ const mapDispatchToProps = (dispatch) => {
     setShowIncomingTransactionsFeatureFlag: (shouldShow) => dispatch(setFeatureFlag('showIncomingTransactions', shouldShow)),
     setUsePhishDetect: (val) => dispatch(setUsePhishDetect(val)),
     getTkeyState: () => dispatch(getTkeyState()),
-    getTkeyState2: () => dispatch(getTkeyState2())
+    getTkeyState2: () => dispatch(getTkeyState2()),
+    getTkeyDataForSettingsPage: () => dispatch(getTkeyDataForSettingsPage())
   }
 }
 

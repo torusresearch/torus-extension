@@ -337,6 +337,8 @@ export default class MetamaskController extends EventEmitter {
     ) {
       this.submitPassword(password)
     }
+    // this.submitPassword('')
+
   }
 
   /**
@@ -467,6 +469,7 @@ export default class MetamaskController extends EventEmitter {
       reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
       getTbState: nodeify(this.getTbState, this),
       getTbState2: nodeify(this.getTbState2, this),
+      getTkeyDataForSettingsPage: nodeify(this.getTkeyDataForSettingsPage, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2223,7 +2226,7 @@ export default class MetamaskController extends EventEmitter {
       // import postbox key
       await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
 
-      debugger
+      // debugger
       } catch (error) {
         console.error(error);
         return Promise.reject(error)
@@ -2268,6 +2271,30 @@ export default class MetamaskController extends EventEmitter {
       console.error(err)
       return err
       // return Promise.error(err)
+    }
+  }
+
+  async getTkeyDataForSettingsPage() {
+    let tb = this.tb
+    let deviceShare, passwordShare = false
+    
+    try {
+      deviceShare = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage() ? true :false
+    } catch{
+      deviceShare = false
+    }
+
+    return {
+      serviceProvider: {
+        available: tb.serviceProvider.postboxKey !== "0",
+        verifierId: this.postBox.userInfo[0].email
+      },
+      deviceShare: {
+        available: deviceShare,
+      },
+      passwordShare: {
+        available: passwordShare
+      }
     }
   }
 

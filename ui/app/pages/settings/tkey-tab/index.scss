@@ -1,8 +1,82 @@
 .tkey-tab {
+    &__expansionPanel{
+      margin: 10px 0;
+      padding: 5px;
+    }
+
+    &__share{
+      position: relative;
+      background: #FBFCFF;
+      border: 1px solid #D3D5E2;
+      box-sizing: border-box;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 20px 0;
+    }
+
+    &__subshare{
+      height: 40px;
+      padding: 0 10px;
+      margin: 10px 0;
+      background: #FFFFFF;
+      border: 1px solid #D3D5E2;
+      box-sizing: border-box;
+      border-radius: 6px;
+
+      p{
+        font-size: 12px;
+        line-height: 40px;
+      }
+
+      input{
+        border: none;
+        background: transparent;
+        outline: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0 -5px;
+      }
+
+      icon{
+        font-size: 32px,
+      }
+
+      svg{
+        top: calc(50% - 24px);
+        right: 20px;
+        height: 20px;
+        position: absolute;
+      }
+    }
+
+    &__addshareButton{
+      position: relative;
+      left: 75%;
+      width: 150px;
+      border: 1.30275px solid #0364FF;
+      box-sizing: border-box;
+      filter: drop-shadow(0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06));
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
     &__heading{
         font-size: 10px;
         font-weight: 200;
     }
+
+    &__subheading{
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
     &__error {
       padding-bottom: 20px;
       text-align: center;

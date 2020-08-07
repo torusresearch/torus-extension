@@ -3,18 +3,16 @@ import PropTypes from "prop-types";
 import ToggleButton from "../../../components/ui/toggle-button";
 import { REVEAL_SEED_ROUTE } from "../../../helpers/constants/routes";
 import Button from "../../../components/ui/button";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import TextField from "../../../components/ui/text-field";
 import Typography from "@material-ui/core/Typography";
-// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Paper from "@material-ui/core/Paper";
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 
 export default class tkeyTab extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
     metricsEvent: PropTypes.func
   };
-
 
   static propTypes = {
     warning: PropTypes.string,
@@ -26,13 +24,13 @@ export default class tkeyTab extends PureComponent {
     // setUsePhishDetect: PropTypes.func.isRequired,
     // usePhishDetect: PropTypes.bool.isRequired,
     getTkeyState: PropTypes.func.isRequired,
-    getTkeyState2: PropTypes.func.isRequired
+    getTkeyState2: PropTypes.func.isRequired,
+    getTkeyDataForSettingsPage: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
-    this.renderThresholdPanels()  
+  componentDidMount() {
+    this.renderThresholdPanels();
   }
-
 
   constructor(props) {
     super(props);
@@ -40,69 +38,95 @@ export default class tkeyTab extends PureComponent {
       torusPanel: null,
       deviceSharePanel: null,
       passwordPanel: null
-    }
+    };
   }
 
   renderThresholdPanels() {
-    const { getTkeyState2, getTkeyState } = this.props
-    let el = getTkeyState().then(el => {
-      console.log(el)
-      let isTorusServiceProviderLoggedIn = el.serviceProvider.postboxKey !== "0"
-      let isOnDeviceShare = Object.keys(el.metadata.shareDescriptions).length != 0
-      
+    const {
+      getTkeyState2,
+      getTkeyState,
+      getTkeyDataForSettingsPage
+    } = this.props;
+
+    getTkeyDataForSettingsPage().then(el => {
+      console.log(el);
+      let serviceProvider = el.serviceProvider;
+      let deviceShare = el.deviceShare;
+      let passwordShare = el.passwordShare;
+
       this.setState({
         torusPanel: (
-          <div>
-            <ExpansionPanel>
-              <ExpansionPanelSummary>
-                <Typography className="tkey-tab__heading">
-                    Torus Login
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  {isTorusServiceProviderLoggedIn ? "torus login completed" : "torus login not completed"}
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel>
-              <ExpansionPanelSummary>
-                <Typography className="tkey-tab__heading">
-                  On device share
-                </Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                    {isOnDeviceShare ? "Chrome storage share available": "chrome storage share unavailable"}
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">Torus Network</p>
+            <div className="tkey-tab__subshare">
+              <p>{serviceProvider.verifierId}</p>
+              <DeleteOutlinedIcon />
+            </div>
+            <Button type="secondary" className="tkey-tab__addshareButton">
+              Add share
+            </Button>
           </div>
         )
       });
-    })
+
+      this.setState({
+        deviceSharePanel: (
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">Device - Chrome extension</p>
+            <div className="tkey-tab__subshare">
+              <p>
+                {deviceShare.available
+                  ? "Chrome storage share available"
+                  : "chrome storage share unavailable"}
+              </p>
+              <DeleteOutlinedIcon />
+            </div>
+            <Button type="secondary" className="tkey-tab__addshareButton">
+              Add new browser
+            </Button>
+          </div>
+        )
+      });
+
+      this.setState({
+        passwordPanel: (
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">Account Password</p>
+            <div className="tkey-tab__subshare">
+              <input
+                type="text"
+              />
+              
+            </div>
+            <Button type="secondary" className="tkey-tab__addshareButton">
+              Add Password
+            </Button>
+          </div>
+        )
+      });
+    });
   }
 
   render() {
     const { warning } = this.props;
 
     return (
-      <div className="settings-page__body">        
-        {this.state.torusPanel === null ? 
-                <div>Loading</div>
-            :
-                <div>{this.state.torusPanel}</div>
-        }
-        {this.state.deviceSharePanel === null ? 
-                <div>Loading</div>
-            :
-                <div>{this.state.deviceSharePanel}</div>
-        }
-        {this.state.passwordPanel === null ? 
-                <div>Loading</div>
-            :
-                <div>{this.state.passwordPanel}</div>
-            }
+      <div className="settings-page__body">
+        {this.state.torusPanel === null ? (
+          <div>Loading</div>
+        ) : (
+          <div>{this.state.torusPanel}</div>
+        )}
+        {this.state.deviceSharePanel === null ? (
+          <div>Loading</div>
+        ) : (
+          <div>{this.state.deviceSharePanel}</div>
+        )}
+        {this.state.passwordPanel === null ? (
+          <div>Loading</div>
+        ) : (
+          <div>{this.state.passwordPanel}</div>
+        )}
 
         {/* { this.renderSeedWords() }
         { this.renderIncomingTransactionsOptIn() }

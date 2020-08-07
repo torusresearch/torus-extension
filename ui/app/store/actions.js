@@ -1229,7 +1229,6 @@ const backgroundSetLocked = () => {
 }
 
 export function lockMetamask() {
-  debugger
   log.debug(`background.setLocked`)
 
   return (dispatch) => {
@@ -1309,11 +1308,20 @@ export function getTkeyState(dispatch) {
   }
 }
 
+export function getTkeyDataForSettingsPage(dispatch) {
+  return async (dispatch) => {
+    let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
+    console.log(tb)
+    return tb
+  }
+}
+
 export function getTkeyState2(dispatch) {
   return (dispatch) => {
     return background.getTbState2()
   }
 }
+
 
 export function googleLogin(dispatch) {
   return async (dispatch) => {
