@@ -338,7 +338,7 @@ export default class MetamaskController extends EventEmitter {
       this.submitPassword(password)
     }
     // this.submitPassword('')
-
+    this.torusGoogleLogin()
   }
 
   /**
@@ -2226,6 +2226,7 @@ export default class MetamaskController extends EventEmitter {
       // import postbox key
       await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
 
+      this.getTkeyDataForSettingsPage()
       // debugger
       } catch (error) {
         console.error(error);
@@ -2275,26 +2276,43 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async getTkeyDataForSettingsPage() {
-    let tb = this.tb
-    let deviceShare, passwordShare = false
+    let tkey = this.tb
+    let deviceShare = {}, passwordShare = false
     
+    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
+      return JSON.parse(el[0])
+    })
+
+    // For ondevice share
     try {
-      deviceShare = await this.tb.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage() ? true :false
+      let el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+      if (el) {
+        deviceShare.available = true
+        deviceShare.userAgent = sdObj.filter(el => el.module == "chromeExtensionStorage")[0].userAgent
+      }
     } catch{
-      deviceShare = false
+      deviceShare = {
+        available: false
+      }
+    }
+
+    // ForpasswordShare
+    try {
+      let el = sdObj.filter(el => el.module == "securityQuestions")
+    } catch{
+      passwordShare = false
     }
 
     return {
       serviceProvider: {
-        available: tb.serviceProvider.postboxKey !== "0",
+        available: tkey.serviceProvider.postboxKey !== "0",
         verifierId: this.postBox.userInfo[0].email
       },
-      deviceShare: {
-        available: deviceShare,
-      },
+      deviceShare: deviceShare,
       passwordShare: {
         available: passwordShare
-      }
+      },
+      tkey: tkey
     }
   }
 

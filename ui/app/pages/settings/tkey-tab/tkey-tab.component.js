@@ -7,6 +7,10 @@ import TextField from "../../../components/ui/text-field";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import {
+  // INITIALIZE_SELECT_ACTION_ROUTE,
+  TKEY_ROUTE,
+} from '../../../helpers/constants/routes'
 
 export default class tkeyTab extends PureComponent {
   static contextTypes = {
@@ -37,14 +41,14 @@ export default class tkeyTab extends PureComponent {
     this.state = {
       torusPanel: null,
       deviceSharePanel: null,
-      passwordPanel: null
+      passwordPanel: null,
+      accountPassword: '',
+      accountPasswordError: ''
     };
   }
 
   renderThresholdPanels() {
     const {
-      getTkeyState2,
-      getTkeyState,
       getTkeyDataForSettingsPage
     } = this.props;
 
@@ -75,9 +79,7 @@ export default class tkeyTab extends PureComponent {
             <p className="tkey-tab__subheading">Device - Chrome extension</p>
             <div className="tkey-tab__subshare">
               <p>
-                {deviceShare.available
-                  ? "Chrome storage share available"
-                  : "chrome storage share unavailable"}
+                {deviceShare.userAgent.substr(0,50)}
               </p>
               <DeleteOutlinedIcon />
             </div>
@@ -95,16 +97,51 @@ export default class tkeyTab extends PureComponent {
             <div className="tkey-tab__subshare">
               <input
                 type="text"
+                value={this.state.password}
+                onChange={(event) => this.handlePasswordChange(event.target.value)}
+                id="password"
               />
               
             </div>
-            <Button type="secondary" className="tkey-tab__addshareButton">
+            <Button type="secondary" className="tkey-tab__addshareButton" onClick={() => this.addAccountPassword()}>
               Add Password
             </Button>
           </div>
         )
       });
     });
+  }
+
+  handlePasswordChange(el) {
+    this.setState((state) => {
+      const { accountPassword } = state
+      let accountPasswordError = ''
+
+      // Add check for password if minimum 10 digits
+      if (el.length < 10) {
+        accountPasswordError = 'Password should be minimum 10 digis'
+      }
+
+      return {
+        accountPassword: el,
+        accountPasswordError: accountPasswordError,
+      }
+    })
+  }
+
+  async addAccountPassword() {
+    debugger
+
+    const { accountPassword, accountPasswordError } = this.state
+    const { history, addPasswordShare } = this.props
+    console.log(accountPassword)
+
+    if (accountPasswordError == '') {
+      await addPasswordShare(password)
+      history.push(TKEY_ROUTE);
+    } else {
+      // Show error
+    }
   }
 
   render() {

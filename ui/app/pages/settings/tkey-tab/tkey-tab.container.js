@@ -8,7 +8,8 @@ import {
   setUsePhishDetect,
   getTkeyState,
   getTkeyState2,
-  getTkeyDataForSettingsPage
+  getTkeyDataForSettingsPage,
+  addPasswordShare
 } from '../../../store/actions'
 
 const mapStateToProps = (state) => {
@@ -36,7 +37,8 @@ const mapDispatchToProps = (dispatch) => {
     setUsePhishDetect: (val) => dispatch(setUsePhishDetect(val)),
     getTkeyState: () => dispatch(getTkeyState()),
     getTkeyState2: () => dispatch(getTkeyState2()),
-    getTkeyDataForSettingsPage: () => dispatch(getTkeyDataForSettingsPage())
+    getTkeyDataForSettingsPage: () => dispatch(getTkeyDataForSettingsPage()),
+    addPasswordShare: (el) => dispatch(addPasswordShare())
   }
 }
 
