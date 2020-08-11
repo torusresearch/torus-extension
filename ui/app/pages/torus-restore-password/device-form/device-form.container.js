@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import * as actions from '../../../store/actions'
+import {getTotalDeviceShares} from '../../../store/actions'
 import DeviceForm from './device-form.component'
 // import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
@@ -18,14 +18,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createAccount: (newAccountName) => {
-      return dispatch(actions.addNewAccount())
-        .then((newAccountAddress) => {
-          if (newAccountName) {
-            dispatch(actions.setAccountLabel(newAccountAddress, newAccountName))
-          }
-        })
-    },
+    getTotalDeviceShares: () => dispatch(getTotalDeviceShares()),
   }
 }
 

@@ -470,6 +470,7 @@ export default class MetamaskController extends EventEmitter {
       getTbState: nodeify(this.getTbState, this),
       getTbState2: nodeify(this.getTbState2, this),
       getTkeyDataForSettingsPage: nodeify(this.getTkeyDataForSettingsPage, this),
+      getTotalDeviceShares: nodeify(this.getTotalDeviceShares, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2277,7 +2278,7 @@ export default class MetamaskController extends EventEmitter {
 
   async getTkeyDataForSettingsPage() {
     let tkey = this.tb
-    let deviceShare = {}, passwordShare = {}
+    let onDeviceShare = {}, passwordShare = {}
     
     let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
       return JSON.parse(el[0])
@@ -2287,11 +2288,11 @@ export default class MetamaskController extends EventEmitter {
     try {
       let el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
       if (el) {
-        deviceShare.available = true
-        deviceShare.userAgent = sdObj.filter(el => el.module == "chromeExtensionStorage")[0].userAgent
+        onDeviceShare.available = true
+        onDeviceShare.userAgent = sdObj.filter(el => el.module == "chromeExtensionStorage")[0].userAgent
       }
     } catch{
-      deviceShare = {
+      onDeviceShare = {
         available: false
       }
     }
@@ -2305,10 +2306,20 @@ export default class MetamaskController extends EventEmitter {
         available: tkey.serviceProvider.postboxKey !== "0",
         verifierId: this.postBox.userInfo[0].email
       },
-      deviceShare: deviceShare,
+      deviceShare: onDeviceShare,
       passwordShare: passwordShare,
       tkey: tkey
     }
+  }
+
+  async getTotalDeviceShares() {
+    let tkey = this.tb
+
+    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
+      return JSON.parse(el[0])
+    }).filter(el => el.module == "chromeExtensionStorage")
+    
+    return sdObj
   }
 
   async getTbState() {

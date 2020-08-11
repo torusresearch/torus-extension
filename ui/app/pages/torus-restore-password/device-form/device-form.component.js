@@ -15,13 +15,22 @@ export default class DeviceForm extends Component {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
     selectedDevice: "Device 1",
-    browser: ""
+    browser: "",
+    devices: []
   };
 
   componentDidMount() {
-    const { changeHeading } = this.props;
-    changeHeading("Verify device");
-    this.getChromeVersion();
+    const { changeHeading, getTotalDeviceShares } = this.props;
+    
+    changeHeading("Verify device"); // for tabs
+    
+    this.getChromeVersion(); // for adding this extension
+
+    getTotalDeviceShares().then(el => {
+      this.setState({
+        devices: el
+      })
+    }) // populate list of available devices
   }
 
   getChromeVersion() {
@@ -107,6 +116,7 @@ DeviceForm.propTypes = {
   history: PropTypes.object,
   mostRecentOverviewPage: PropTypes.string,
   changeHeading: PropTypes.func,
+  getTotalDeviceShares: PropTypes.func
 };
 
 DeviceForm.contextTypes = {

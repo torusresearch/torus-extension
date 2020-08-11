@@ -1322,6 +1322,13 @@ export function getTkeyState2(dispatch) {
   }
 }
 
+export function getTotalDeviceShares(dispatch) {
+  return async (dispatch) => {
+    let data = await promisifiedBackground.getTotalDeviceShares()
+    console.log(data)
+    return data
+  }
+}
 
 export function googleLogin(dispatch) {
   return async (dispatch) => {
