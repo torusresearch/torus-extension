@@ -538,6 +538,17 @@
     line-height: 21px;
     margin-top: 15px;
     padding: 0px 20px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+
+    color: #5C6C7F;
   }
 
   &__buttons {
@@ -545,6 +556,21 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+  }
+
+  &__cancel-button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background: transparent;
+    border: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #5495F7;
   }
 
   &__button {

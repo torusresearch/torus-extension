@@ -31,6 +31,7 @@ import AppHeader from '../../components/app/app-header'
 import UnlockPage from '../unlock-page'
 import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
+import RestorePassword from '../torus-restore-password'
 
 import {
   ADD_TOKEN_ROUTE,
@@ -50,6 +51,7 @@ import {
   SEND_ROUTE,
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
@@ -118,6 +120,7 @@ export default class Routes extends Component {
       <Switch>
         <Route path={LOCK_ROUTE} component={Lock} exact />
         <Route path={INITIALIZE_ROUTE} component={FirstTimeFlow} />
+        <Route path={TORUS_RESTORE_PASSWORD_ROUTE} component={RestorePassword} />
         <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
         <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
         <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />

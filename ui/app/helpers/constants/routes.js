@@ -27,6 +27,7 @@ const CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE = '/confirm-add-suggested-token'
 const NEW_ACCOUNT_ROUTE = '/new-account'
 const IMPORT_ACCOUNT_ROUTE = '/new-account/import'
 const CONNECT_HARDWARE_ROUTE = '/new-account/connect'
+const TORUS_RESTORE_PASSWORD_ROUTE = '/torus-restore-password'
 const SEND_ROUTE = '/send'
 const CONNECT_ROUTE = '/connect'
 const CONNECT_CONFIRM_PERMISSIONS_ROUTE = '/confirm-permissions'
@@ -114,4 +115,5 @@ export {
   CONNECT_CONFIRM_PERMISSIONS_ROUTE,
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE
 }

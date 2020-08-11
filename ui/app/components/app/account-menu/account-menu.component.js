@@ -18,6 +18,7 @@ import {
   IMPORT_ACCOUNT_ROUTE,
   CONNECT_HARDWARE_ROUTE,
   DEFAULT_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
 } from '../../../helpers/constants/routes'
 import TextField from '../../ui/text-field'
 import SearchIcon from '../../ui/search-icon'
@@ -363,6 +364,28 @@ export default class AccountMenu extends Component {
           )}
           text={t('importAccount')}
         />
+
+        <Item
+          onClick={() => {
+            // toggleAccountMenu()
+            // metricsEvent({
+            //   eventOpts: {
+            //     category: 'Navigation',
+            //     action: 'Main Menu',
+            //     name: 'Clicked Import Account',
+            //   },
+            // })
+            history.push(TORUS_RESTORE_PASSWORD_ROUTE)
+          }}
+          icon={(
+            <img
+              className="account-menu__item-icon"
+              src="images/import-account.svg"
+            />
+          )}
+          text={"TRP"}
+        />
+
         <Item
           onClick={() => {
             toggleAccountMenu()
