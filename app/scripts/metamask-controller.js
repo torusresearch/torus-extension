@@ -338,7 +338,7 @@ export default class MetamaskController extends EventEmitter {
       this.submitPassword(password)
     }
     // this.submitPassword('')
-    this.torusGoogleLogin()
+    // this.torusGoogleLogin()
   }
 
   /**
@@ -466,6 +466,7 @@ export default class MetamaskController extends EventEmitter {
       //torus key
       torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
+      torusInputPasswordShare: nodeify(this.torusInputPasswordShare, this),
       reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
       getTbState: nodeify(this.getTbState, this),
       getTbState2: nodeify(this.getTbState2, this),
@@ -2191,8 +2192,6 @@ export default class MetamaskController extends EventEmitter {
        * 2. Existing user (metadata exists), init with shareStore
        */
       let somedata = await this.tb.initialize()
-      debugger
-
 
       /**
        * Create new account. Useful for development purposes
@@ -2206,14 +2205,14 @@ export default class MetamaskController extends EventEmitter {
       let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
         return JSON.parse(el[0])
       })
-      let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { return el.module})
+      // let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { return el.module})
       
-      // Here comes the UI
+      // // Here comes the UI
 
-      // Try importing chrome extension shares
-      if (metadataSharesDescriptionsTypes.includes("chromeExtensionStorage")) {
+      // // Try importing chrome extension shares
+      // if (metadataSharesDescriptionsTypes.includes("chromeExtensionStorage")) {
         
-      }
+      // }
 
       let requiredShares = somedata.requiredShares
       let priorityOrder = ["chromeExtensionStorage", "securityQuestions"]
@@ -2230,8 +2229,8 @@ export default class MetamaskController extends EventEmitter {
         if (metadataSharesDescriptions.filter(el => el.module == currentPriority).length > 0) {
           if (currentPriority === "chromeExtensionStorage") {
             try {
-              await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-              requiredShares--
+              // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+              // requiredShares--
             }
             catch (err) {
               console.log(err)
@@ -2263,13 +2262,50 @@ export default class MetamaskController extends EventEmitter {
       }
   }
 
+  async reconstructTorusKeyrings() {
+    try {
+      // Reconstruct the private key again
+      // Exposed on metamask controller for development purposes. delete later.
+      let reconstructedKey = await this.tb.reconstructKey()
+      reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
+      this.tempPrivateKey = reconstructedKey // dev purposes
+
+      //add threshold back key with empty password
+      await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...this.postBox.userInfo[0], typeOfLogin: "tKey" });
+      
+      // import this.postbox key
+      await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.postBox.userInfo[0])
+
+    }
+    catch (err) {
+      console.error(err)
+      return Promise.reject(err)
+    }
+  }
+
+  async torusInputPasswordShare(password) {
+    debugger
+    // add new share
+    try {
+      await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");
+      // reconstruct and check if any issues
+      await this.reconstructTorusKeyrings()
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(err)
+    }
+  }
+
   async torusAddPasswordShare(password) {
     // add new share
     try {
       await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
+      // reconstruct and check if any issues
+      await this.reconstructTorusKeyrings()
+
     } catch (err) {
       console.error(err)
-      return err
+      return Promise.reject(err)
     }
   }
 

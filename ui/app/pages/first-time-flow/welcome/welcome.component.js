@@ -12,6 +12,7 @@ import {
   INITIALIZE_SELECT_ACTION_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
   INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
   DEFAULT_ROUTE
 } from "../../../helpers/constants/routes";
 import { getUserDetails } from "../../../store/actions";
@@ -76,96 +77,11 @@ export default class Welcome extends PureComponent {
       await googleLogin();
       history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
     } catch (err) {
+      if (err = "Password required") {
+        history.push(TORUS_RESTORE_PASSWORD_ROUTE)
+      }
       console.error(err);
     }
-
-    // try {
-    //   const TorusOptions = {
-    //     GOOGLE_CLIENT_ID:
-    //       "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-    //     baseUrl: "http://localhost:3000/serviceworker"
-    //     // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-    //   };
-
-    //   const tb = new ThresholdBak({
-    //     directParams: {
-    //       baseUrl: TorusOptions.baseUrl,
-    //       redirectToOpener: true,
-    //       network: "ropsten",
-    //       proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-    //     }
-    //   });
-
-    //   await tb.serviceProvider.directWeb.init({ skipSw: true });
-
-    //   // Login via torus service provider to get back 1 share
-    //   const postBox = await tb.serviceProvider.triggerAggregateLogin({
-    //     aggregateVerifierType: "single_id_verifier",
-    //     subVerifierDetailsArray: [
-    //       {
-    //         clientId: TorusOptions.GOOGLE_CLIENT_ID,
-    //         typeOfLogin: "google",
-    //         verifier: "google-shubs"
-    //       }
-    //     ],
-    //     verifierIdentifier: "multigoogle-torus"
-    //   });
-    //   console.log(postBox);
-
-    //   // get metadata from the metadata-store
-    //   // let keyDetails = await tb.initialize();
-    //   let keyDetails = await tb.initializeNewKey()
-    //   console.log(keyDetails);
-
-    //   await new Promise(function(resolve, reject) {
-    //     if (keyDetails.requiredShares > 0) {
-    //       chrome.storage.sync.get(["OnDeviceShare"], async result => {
-    //         tb.inputShare(JSON.parse(result.OnDeviceShare));
-    //         resolve();
-    //       });
-    //     } else {
-    //       chrome.storage.sync.set(
-    //         { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
-    //         function() {
-    //           resolve();
-    //         }
-    //       );
-    //     }
-    //   });
-
-    //   // add threshold back key with empty password
-    //   await createNewTorusVaultAndRestore(
-    //     "",
-    //     tb.reconstructKey().toString("hex"),
-    //     { ...postBox.userInfo[0], typeOfLogin: "Vault" }
-    //   );
-
-    //   // import postbox key
-    //   await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
-
-    //   // debugger
-    //   // add user details
-    //   setUserDetails(postBox.userInfo[0])
-
-    //   history.push(INITIALIZE_END_OF_FLOW_ROUTE);
-
-    //   // await onSubmit(password, this.parseSeedPhrase(seedPhrase))
-    //   // this.context.metricsEvent({
-    //   //   eventOpts: {
-    //   //     category: 'Onboarding',
-    //   //     action: 'Import Seed Phrase',
-    //   //     name: 'Import Complete',
-    //   //   },
-    //   // })
-
-    //   // setSeedPhraseBackedUp(true).then(() => {
-    //   //   initializeThreeBox()
-    //   //   history.push(INITIALIZE_END_OF_FLOW_ROUTE)
-    //   // })
-    // } catch (error) {
-    //   console.error(error);
-    //   this.setState({ seedPhraseError: error.message });
-    // }
   };
 
   render() {

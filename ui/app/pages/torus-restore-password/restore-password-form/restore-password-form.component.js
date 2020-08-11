@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
 import {
-  TRP_DEVICE_ROUTE
+  TRP_DEVICE_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE
 } from '../../../helpers/constants/routes'
 
 export default class RestorePasswordForm extends Component {
@@ -11,7 +11,8 @@ export default class RestorePasswordForm extends Component {
   }
 
   state = {
-    inputPassword: '',
+    accountPassword: '',
+    accountPasswordError: '',
     defaultAccountName: 'Enter your password here',
   }
 
@@ -19,44 +20,46 @@ export default class RestorePasswordForm extends Component {
     const { changeHeading } = this.props
     changeHeading("Verify device")
   }
-  verifyPassword = () => {
-    const { history } = this.props
-    history.push(TRP_DEVICE_ROUTE)
+
+  verifyPassword = async () => {
+    const { accountPassword, accountPasswordError } = this.state;
+    const { history, inputPasswordShare } = this.props;
+    console.log(accountPassword);
+
+    if (accountPasswordError == "") {
+      try {
+        await inputPasswordShare(accountPassword);
+        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      } catch (err) {
+        console.error(err)
+        this.setState({accountPasswordError: err.message})
+      }
+    } else {
+      // Show error
+
+    }
   }
 
-  onChangePassword = () => {
-    
+  handlePasswordChange = (el) => {
+    this.setState(state => {
+      const { accountPassword } = state;
+      let accountPasswordError = "";
+
+      // Add check for password if minimum 10 digits
+      if (el.length < 10) {
+        accountPasswordError = "Password should be minimum 10 digis";
+      }
+
+      return {
+        accountPassword: el,
+        accountPasswordError: accountPasswordError
+      };
+    });
   }
 
   render () {
-    const { inputPassword, defaultAccountName } = this.state
+    const { accountPassword, defaultAccountName, accountPasswordError } = this.state
     const { history, createAccount, mostRecentOverviewPage } = this.props
-    const createClick = (_) => {
-      // createAccount(inputPassword || defaultAccountName)
-      //   .then(() => {
-      //     this.context.metricsEvent({
-      //       eventOpts: {
-      //         category: 'Accounts',
-      //         action: 'Add New Account',
-      //         name: 'Added New Account',
-      //       },
-      //     })
-      //     history.push(mostRecentOverviewPage)
-      //   })
-      //   .catch((e) => {
-      //     this.context.metricsEvent({
-      //       eventOpts: {
-      //         category: 'Accounts',
-      //         action: 'Add New Account',
-      //         name: 'Error',
-      //       },
-      //       customVariables: {
-      //         errorMessage: e.message,
-      //       },
-      //     })
-        // })
-    }
-
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
@@ -65,10 +68,11 @@ export default class RestorePasswordForm extends Component {
         <div>
           <input
             className="new-account-create-form__input"
-            value={inputPassword}
+            value={accountPassword}
             placeholder={defaultAccountName}
-            onChange={(event) => this.setState({ inputPassword: event.target.value })}
+            onChange={(event) => this.handlePasswordChange(event.target.value)}
           />
+          <p className="new-account-create-form__error-message">{accountPasswordError}</p>
           <div className="new-account-create-form__buttons">
             <Button
               type="default"
@@ -99,6 +103,7 @@ RestorePasswordForm.propTypes = {
   newAccountNumber: PropTypes.number,
   history: PropTypes.object,
   mostRecentOverviewPage: PropTypes.string,
+  inputPasswordShare: PropTypes.func
 }
 
 RestorePasswordForm.contextTypes = {

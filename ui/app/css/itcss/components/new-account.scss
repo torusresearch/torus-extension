@@ -620,8 +620,23 @@
     }
   }
 
+  &__error-message{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 40px;
+    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    color: #EF4C56
+  }
+
   &__button {
     width: 150px;
     min-width: initial;
   }
+
+
 }

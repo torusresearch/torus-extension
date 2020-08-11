@@ -1284,8 +1284,35 @@ export function addPasswordShare(password) {
     }).then(() => { 
       dispatch(hideLoadingIndication())
     }).catch(err => {
-      reject(err)
+      return Promise.reject(err)
     })
+  }
+}
+
+export function inputPasswordShare(password) {
+  return async (dispatch) => {
+    log.debug(`background.torusGoogleLogin`)
+
+    try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
+      let el = await promisifiedBackground.torusInputPasswordShare(password)
+      dispatch(hideLoadingIndication())
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
+    }
+    // // dispatch(unlockInProgress())
+    // return new Promise((resolve, reject) => {
+    //   background.torusInputPasswordShare(password, (err) => {
+    //     if (err) return reject(err)
+    //     resolve()
+    //   })
+    // }).then(() => { 
+    //   dispatch(hideLoadingIndication())
+    // }).catch(err => {
+    //   debugger
+    //   return Promise.reject(err)
+    // })
   }
 }
 
