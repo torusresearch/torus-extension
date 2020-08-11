@@ -2190,15 +2190,17 @@ export default class MetamaskController extends EventEmitter {
        *    update shareDescriptions() and metadata.
        * 2. Existing user (metadata exists), init with shareStore
        */
-      //  let somedata = await this.tb.initialize()
-      
+      let somedata = await this.tb.initialize()
+      debugger
+
+
       /**
        * Create new account. Useful for development purposes
        */
-      await this.tb.initializeNewKey(undefined, true)
-      let somedata = this.tb.getKeyDetails()
-
-      let requiredShares = somedata.requiredShares
+      // await this.tb.initializeNewKey(undefined, true)
+      // let somedata = this.tb.getKeyDetails()
+      // await this.torusAddPasswordShare("torusAddPasswordShare");
+      
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
       let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
@@ -2208,15 +2210,42 @@ export default class MetamaskController extends EventEmitter {
       
       // Here comes the UI
 
+      // Try importing chrome extension shares
+      if (metadataSharesDescriptionsTypes.includes("chromeExtensionStorage")) {
+        
+      }
+
+      let requiredShares = somedata.requiredShares
+      let priorityOrder = ["chromeExtensionStorage", "securityQuestions"]
       while (requiredShares > 0) {
-        let one = metadataSharesDescriptions.pop()
-        await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-        requiredShares--
+        /**
+         * Priority while importing required Shares
+         * 1. chromeExtensionStorage
+         * 2. Password
+         * 3. Otherdevices
+         * 4. SQs
+         */
+        
+        let currentPriority = priorityOrder.shift()
+        if (metadataSharesDescriptions.filter(el => el.module == currentPriority).length > 0) {
+          if (currentPriority === "chromeExtensionStorage") {
+            try {
+              await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+              requiredShares--
+            }
+            catch (err) {
+              console.log(err)
+            }
+          }
+          else if (currentPriority === "securityQuestions") {
+            // default to password for now
+            throw "Password required"
+          }
+        }
       }
       
       // Reconstruct the private key again
       // Exposed on metamask controller for development purposes. delete later.
-
       let reconstructedKey = await this.tb.reconstructKey()
       reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
       this.tempPrivateKey = reconstructedKey // dev purposes
@@ -2227,7 +2256,6 @@ export default class MetamaskController extends EventEmitter {
       // import postbox key
       await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
 
-      this.getTkeyDataForSettingsPage()
       // debugger
       } catch (error) {
         console.error(error);
@@ -2239,7 +2267,6 @@ export default class MetamaskController extends EventEmitter {
     // add new share
     try {
       await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
-      debugger
     } catch (err) {
       console.error(err)
       return err
