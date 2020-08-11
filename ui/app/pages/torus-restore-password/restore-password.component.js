@@ -3,16 +3,28 @@ import { Switch, Route, matchPath } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import RestorePasswordForm from './restore-password-form/restore-password-form.container'
+import DeviceForm from './device-form/device-form.container'
 // import NewAccountCreateForm from './restore-password-form.container'
 // import NewAccountImportForm from './import-account'
 // import ConnectHardwareForm from './connect-hardware'
-// import {
-//   NEW_ACCOUNT_ROUTE,
-//   IMPORT_ACCOUNT_ROUTE,
-//   CONNECT_HARDWARE_ROUTE,
-// } from '../../helpers/constants/routes'
+import {
+  TORUS_RESTORE_PASSWORD_ROUTE,
+  TRP_PASSWORD_ROUTE,
+  TRP_DEVICE_ROUTE
+} from '../../helpers/constants/routes'
 
 export default class RestorePassword extends Component {
+  state = {
+    tabHeading: 'Verification required'
+  };
+
+  changeHeading = (el) => {
+    const { tabHeading } = this.state
+    this.setState({
+      tabHeading: el
+    })
+  }
+
   renderTabs () {
     const { history, location: { pathname } } = this.props
     const getClassNames = (path) => classnames('new-account__tabs__tab', {
@@ -22,10 +34,11 @@ export default class RestorePassword extends Component {
       }),
     })
 
+    const {tabHeading} = this.state
     return (
       <div className="new-account__tabs">
-        <div className="new-account__tabs__tab new-account__tabs__selected">
-          Verification Required
+        <div className="new-account__tabs__tab new-account__tabs__selected" >
+          {tabHeading}
         </div>
       </div>
     )
@@ -40,24 +53,29 @@ export default class RestorePassword extends Component {
           </div>
         </div>
         <div className="new-account__form">
-          <RestorePasswordForm />
-          {/* <Switch>
+          {/* <RestorePasswordForm /> */}
+          <Switch>
             <Route
               exact
-              path={NEW_ACCOUNT_ROUTE}
-              component={NewAccountCreateForm}
+              path={TORUS_RESTORE_PASSWORD_ROUTE}
+              render={(routeProps) => (
+                <RestorePasswordForm
+                  {...routeProps}
+                  changeHeading={this.changeHeading}
+                />
+              )}
             />
             <Route
               exact
-              path={IMPORT_ACCOUNT_ROUTE}
-              component={NewAccountImportForm}
+              path={TRP_DEVICE_ROUTE}
+              render={(routeProps) => (
+                <DeviceForm
+                  {...routeProps}
+                  changeHeading={this.changeHeading}
+                />
+              )}
             />
-            <Route
-              exact
-              path={CONNECT_HARDWARE_ROUTE}
-              component={ConnectHardwareForm}
-            />
-          </Switch> */}
+          </Switch>
         </div>
       </div>
     )

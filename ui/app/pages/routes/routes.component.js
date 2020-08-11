@@ -51,7 +51,7 @@ import {
   SEND_ROUTE,
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
-  TORUS_RESTORE_PASSWORD_ROUTE
+  TORUS_RESTORE_PASSWORD_ROUTE,
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'

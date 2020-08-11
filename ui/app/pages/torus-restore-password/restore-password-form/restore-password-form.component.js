@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
+import {
+  TRP_DEVICE_ROUTE
+} from '../../../helpers/constants/routes'
 
 export default class RestorePasswordForm extends Component {
   static defaultProps = {
@@ -10,6 +13,19 @@ export default class RestorePasswordForm extends Component {
   state = {
     inputPassword: '',
     defaultAccountName: 'Enter your password here',
+  }
+
+  componentDidMount(){
+    const { changeHeading } = this.props
+    changeHeading("Verify device")
+  }
+  verifyPassword = () => {
+    const { history } = this.props
+    history.push(TRP_DEVICE_ROUTE)
+  }
+
+  onChangePassword = () => {
+    
   }
 
   render () {
@@ -65,8 +81,9 @@ export default class RestorePasswordForm extends Component {
             <Button
               type="secondary"
               large
-              className="new-account-create-form__button"
-              onClick={createClick}
+              className="new-account-create-form__button new-account-create-form__confirm-button"
+              // onClick={createClick}
+              onClick={this.verifyPassword}
             >
               Confirm
             </Button>

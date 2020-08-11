@@ -106,12 +106,29 @@
       height: 100%;
       border: none;
       box-shadow: none;
+      padding-left: 16px;
 
       .Select-value {
         display: flex;
         align-items: center;
       }
+
+      .Select-input input{
+        line-height: 32px;
+      }
     }
+  }
+
+  &__device-select{
+    @extend .new-account-import-form__select;
+    width: 100%;
+  }
+
+  &__device-info{
+    background: #FFFFFF;
+    border: 1px solid #E7E9F4;
+    box-sizing: border-box;
+    border-radius: 6px;
   }
 
   &__private-key-password-container {
@@ -571,6 +588,36 @@
     line-height: 14px;
     text-align: center;
     color: #5495F7;
+  }
+
+  &__confirm-button{
+    background: #0364FF;
+    box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
+    border-radius: 3px;
+    color: white;
+    border: none;
+  }
+
+  &__device-info{
+    background: #FFFFFF;
+    border: 1px solid #E7E9F4;
+    box-sizing: border-box;
+    border-radius: 6px;
+    height:54px;
+    padding: 0 16px;
+    margin-top: 16px;
+
+    p{
+      line-height: 54px;
+    }
+
+    p:nth-of-type(2){
+      float: right;
+    }
+
+    p:nth-of-type(1){
+      float: left
+    }
   }
 
   &__button {
