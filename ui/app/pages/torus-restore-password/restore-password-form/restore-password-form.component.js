@@ -29,7 +29,7 @@ export default class RestorePasswordForm extends Component {
     if (accountPasswordError == "") {
       try {
         await inputPasswordShare(accountPassword);
-        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+        history.push(TRP_DEVICE_ROUTE)
       } catch (err) {
         console.error(err)
         this.setState({accountPasswordError: err.message})

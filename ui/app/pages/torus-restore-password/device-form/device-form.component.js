@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import Button from "../../../components/ui/button";
 import Select from "react-select";
 import {
-  INITIALIZE_END_OF_FLOW_ROUTE
+  INITIALIZE_END_OF_FLOW_ROUTE,
+  DEFAULT_ROUTE
 } from '../../../helpers/constants/routes'
 
 export default class DeviceForm extends Component {
@@ -45,7 +46,7 @@ export default class DeviceForm extends Component {
 
   continueWithoutAddingDevice = () => {
     const { history } = this.props
-    history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+    history.push(DEFAULT_ROUTE)
   }
 
   render() {

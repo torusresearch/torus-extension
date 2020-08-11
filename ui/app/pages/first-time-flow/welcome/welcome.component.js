@@ -77,7 +77,7 @@ export default class Welcome extends PureComponent {
       await googleLogin();
       history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
     } catch (err) {
-      if (err = "Password required") {
+      if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE)
       }
       console.error(err);

@@ -69,9 +69,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     }
     catch (err) {
       console.log(err)
+      return Promise.reject(err)
     }
     //await forceUpdateMetamaskState()
-    history.push(DEFAULT_ROUTE)
+    // history.push(DEFAULT_ROUTE)
     //await forceUpdateMetamaskState()
   }
 

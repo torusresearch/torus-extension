@@ -73,14 +73,14 @@ export default class tkeyTab extends PureComponent {
           <div className="tkey-tab__share">
             <p className="tkey-tab__subheading">Account Password</p>
             <div className="tkey-tab__subshare">
-                <input
-                  type="text"
-                  value={this.state.password}
-                  onChange={event =>
-                    this.handlePasswordChange(event.target.value)
-                  }
-                  id="password"
-                />
+              <input
+                type="text"
+                value={this.state.password}
+                onChange={event =>
+                  this.handlePasswordChange(event.target.value)
+                }
+                id="password"
+              />
             </div>
             <Button
               type="secondary"
@@ -121,20 +121,36 @@ export default class tkeyTab extends PureComponent {
         )
       });
 
-      this.setState({
-        deviceSharePanel: (
-          <div className="tkey-tab__share">
-            <p className="tkey-tab__subheading">Device - Chrome extension</p>
-            <div className="tkey-tab__subshare">
-              <p>{deviceShare.userAgent.substr(0, 50)}</p>
-              <DeleteOutlinedIcon />
+      if (deviceShare.available) {
+        this.setState({
+          deviceSharePanel: (
+            <div className="tkey-tab__share">
+              <p className="tkey-tab__subheading">Device - Chrome extension</p>
+              <div className="tkey-tab__subshare">
+                <p>{deviceShare.userAgent.substr(0, 50)}</p>
+                <DeleteOutlinedIcon />
+              </div>
+              <Button type="secondary" className="tkey-tab__addshareButton">
+                Add new browser
+              </Button>
             </div>
-            <Button type="secondary" className="tkey-tab__addshareButton">
-              Add new browser
-            </Button>
-          </div>
-        )
-      });
+          )
+        });
+      } else {
+        this.setState({
+          deviceSharePanel: (
+            <div className="tkey-tab__share">
+              <p className="tkey-tab__subheading">Device - Chrome extension</p>
+              <div className="tkey-tab__subshare">
+                <p>No available share</p>
+              </div>
+              <Button type="secondary" className="tkey-tab__addshareButton">
+                Add device share
+              </Button>
+            </div>
+          )
+        });
+      }
     });
   }
 
@@ -164,16 +180,14 @@ export default class tkeyTab extends PureComponent {
 
     if (accountPasswordError == "") {
       await addPasswordShare(password);
-      this.renderThresholdPanels() // reload panel
+      this.renderThresholdPanels(); // reload panel
     } else {
       // Show error
     }
   }
 
   // Maybe create a new page for password to separate concerns
-  handlePasswordChange() {
-    
-  }
+  handlePasswordChange() {}
 
   render() {
     const { warning } = this.props;
