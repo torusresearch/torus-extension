@@ -2224,8 +2224,8 @@ export default class MetamaskController extends EventEmitter {
         let currentPriority = metadataSharesDescriptions.shift()
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-            // requiredShares--
+            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+            requiredShares--
           }
           catch (err) {
             console.log("Couldn't find on device share")
@@ -2299,7 +2299,6 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async torusInputPasswordShare(password) {
-    debugger
     // add new share
     try {
       await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");

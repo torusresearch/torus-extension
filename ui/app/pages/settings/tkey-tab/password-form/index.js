@@ -1,1 +1,1 @@
-export { default } from './password-form.component'
+export { default } from './password-form.container'

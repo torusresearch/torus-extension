@@ -90,17 +90,51 @@ export function tryUnlockMetamask (password) {
   }
 }
 
-export function tryUnlockMetamask2 () {
-  return async (dispatch) => {
+// export function tryUnlockMetamask2 () {
+//   return async (dispatch) => {
+//     dispatch(showLoadingIndication())
+//     dispatch(unlockInProgress())
+//     await dispatch(googleLogin(dispatch))
+//     console.log(`google login completed`)
+
+//     dispatch(unlockSucceeded())
+//     console.log('unlock succeded')
+
+//     dispatch(setCompletedOnboarding())
+
+//     dispatch(hideLoadingIndication())
+//     await forceUpdateMetamaskState(dispatch)
+//     console.log(`background.submitPassword`)
+//   }
+// }
+
+export function tryUnlockMetamask2() {
+  return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
-    await dispatch(googleLogin(dispatch))
-    dispatch(unlockSucceeded())
-    dispatch(setCompletedOnboarding())
-
-    dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
-    log.debug(`background.submitPassword`)
+    log.debug(`background.googleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusGoogleLogin((error) => {
+        if (error) {
+          return reject(error)
+        }
+        resolve()
+      })
+    })
+      .then(() => {
+        dispatch(unlockSucceeded())
+        dispatch(setCompletedOnboarding())
+        return forceUpdateMetamaskState(dispatch)
+      })
+      .then(() => {
+        dispatch(hideLoadingIndication())
+      })
+      .catch((err) => {
+        debugger;
+        dispatch(unlockFailed(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
   }
 }
 
@@ -1371,7 +1405,7 @@ export function googleLogin(dispatch) {
       })
     })
       .then(() => {
-        
+        log.debug('actions.login completed')
         dispatch(unMarkPasswordForgotten())
         return promisifiedBackground.getState()
       })
