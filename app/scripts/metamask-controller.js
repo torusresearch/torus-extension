@@ -2202,20 +2202,16 @@ export default class MetamaskController extends EventEmitter {
       
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
+      // Sort the share descriptions with priority order
+      let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
       let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
         return JSON.parse(el[0])
-      })
-      // let metadataSharesDescriptionsTypes = metadataSharesDescriptions.map(el => { return el.module})
+      }).sort((a,b) => {return priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)})
+
       
-      // // Here comes the UI
-
-      // // Try importing chrome extension shares
-      // if (metadataSharesDescriptionsTypes.includes("chromeExtensionStorage")) {
-        
-      // }
-
       let requiredShares = somedata.requiredShares
-      let priorityOrder = ["chromeExtensionStorage", "securityQuestions"]
+      let totalDescriptions = metadataSharesDescriptions.length
+      // let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
       while (requiredShares > 0) {
         /**
          * Priority while importing required Shares
@@ -2225,22 +2221,41 @@ export default class MetamaskController extends EventEmitter {
          * 4. SQs
          */
         
-        let currentPriority = priorityOrder.shift()
-        if (metadataSharesDescriptions.filter(el => el.module == currentPriority).length > 0) {
-          if (currentPriority === "chromeExtensionStorage") {
-            try {
-              // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-              // requiredShares--
-            }
-            catch (err) {
-              console.log(err)
-            }
+        let currentPriority = metadataSharesDescriptions.shift()
+        if (currentPriority.module === "chromeExtensionStorage") {
+          try {
+            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+            // requiredShares--
           }
-          else if (currentPriority === "securityQuestions") {
-            // default to password for now
-            throw "Password required"
+          catch (err) {
+            console.log("Couldn't find on device share")
           }
         }
+        else if (currentPriority.module === "securityQuestions") {
+          // default to password for now
+          throw "Password required"
+        }
+
+        if (metadataSharesDescriptions.length === 0 && requiredShares > 0) {
+          throw "new key assign required"
+        }
+
+        // if (metadataSharesDescriptions.filter(el => el.module == currentPriority).length > 0) {
+        //   if (currentPriority === "chromeExtensionStorage") {
+        //     try {
+        //       // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+        //       // requiredShares--
+        //     }
+        //     catch (err) {
+        //       console.log("Couldn't find on device share")
+        //     }
+        //   }
+        //   else if (currentPriority === "securityQuestions") {
+        //     // default to password for now
+        //     throw "Password required"
+        //   }
+        // }
+        
       }
       
       // Reconstruct the private key again
@@ -2361,8 +2376,8 @@ export default class MetamaskController extends EventEmitter {
     }
 
     // ForpasswordShare
-    let el = sdObj.filter(el => el.module == "securityQuestions")
-    passwordShare.available = el.length > 0 ? true : false
+    let passwordModules = sdObj.filter(el => el.module == "securityQuestions")
+    passwordShare.available = passwordModules.length > 0 ? true : false
 
     return {
       serviceProvider: {

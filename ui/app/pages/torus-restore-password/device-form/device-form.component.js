@@ -46,7 +46,7 @@ export default class DeviceForm extends Component {
 
   continueWithoutAddingDevice = () => {
     const { history } = this.props
-    history.push(DEFAULT_ROUTE)
+    history.push(INITIALIZE_END_OF_FLOW_ROUTE)
   }
 
   render() {

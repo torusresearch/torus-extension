@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => {
     getTkeyState: () => dispatch(getTkeyState()),
     getTkeyState2: () => dispatch(getTkeyState2()),
     getTkeyDataForSettingsPage: () => dispatch(getTkeyDataForSettingsPage()),
-    addPasswordShare: (el) => dispatch(addPasswordShare())
+    addPasswordShare: (el) => dispatch(addPasswordShare(el))
   }
 }
 

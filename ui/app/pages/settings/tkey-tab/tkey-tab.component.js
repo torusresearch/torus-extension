@@ -172,22 +172,17 @@ export default class tkeyTab extends PureComponent {
   }
 
   async addAccountPassword() {
-    debugger;
-
     const { accountPassword, accountPasswordError } = this.state;
     const { history, addPasswordShare } = this.props;
     console.log(accountPassword);
 
     if (accountPasswordError == "") {
-      await addPasswordShare(password);
+      await addPasswordShare(accountPassword);
       this.renderThresholdPanels(); // reload panel
     } else {
       // Show error
     }
   }
-
-  // Maybe create a new page for password to separate concerns
-  handlePasswordChange() {}
 
   render() {
     const { warning } = this.props;

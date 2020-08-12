@@ -217,7 +217,7 @@ export default class UnlockPage extends Component {
 
           
           { this.renderGoogleButton() }
-
+{/* 
 
           <form
             className="unlock-page__form"
@@ -250,7 +250,7 @@ export default class UnlockPage extends Component {
             >
               { t('importUsingSeed') }
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )
