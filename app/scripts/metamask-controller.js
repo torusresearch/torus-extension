@@ -68,6 +68,7 @@ import {
 } from '@metamask/controllers'
 
 import backEndMetaMetricsEvent from './lib/backend-metametrics'
+import { node } from 'prop-types'
 // import { CONSOLE_APPENDER } from 'karma/lib/constants'
 
 export default class MetamaskController extends EventEmitter {
@@ -466,6 +467,7 @@ export default class MetamaskController extends EventEmitter {
       //torus key
       torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
+      torusChangePasswordShare: nodeify(this.torusChangePasswordShare, this),
       torusInputPasswordShare: nodeify(this.torusInputPasswordShare, this),
       reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
       getTbState: nodeify(this.getTbState, this),
@@ -2302,6 +2304,17 @@ export default class MetamaskController extends EventEmitter {
     // add new share
     try {
       await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");
+      // reconstruct and check if any issues
+      await this.reconstructTorusKeyrings()
+    } catch (err) {
+      console.error(err)
+      return Promise.reject(err)
+    }
+  }
+
+  async torusChangePasswordShare(password) {
+    try {
+      await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what's is your password?");
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings()
     } catch (err) {

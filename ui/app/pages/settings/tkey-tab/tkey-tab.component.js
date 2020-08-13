@@ -7,6 +7,8 @@ import TextField from "../../../components/ui/text-field";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import clone from 'clone'
+
 import {
   // INITIALIZE_SELECT_ACTION_ROUTE,
   TKEY_ROUTE
@@ -39,11 +41,12 @@ export default class tkeyTab extends PureComponent {
       passwordPanel: null,
       accountPassword: "",
       accountPasswordError: "",
-      passwordShare: null
+      passwordShare: null,
+      random: Math.random()
     };
   }
 
-  renderThresholdPanels() {
+  renderThresholdPanels = () => {
     const { getTkeyDataForSettingsPage } = this.props;
 
     getTkeyDataForSettingsPage().then(el => {
@@ -52,7 +55,8 @@ export default class tkeyTab extends PureComponent {
       let deviceShare = el.deviceShare;
       // let passwordShare = el.passwordShare;
       this.setState({
-        passwordShare: el.passwordShare
+        passwordShare: clone(el.passwordShare),
+        random: Math.random()
       })
       // this.renderPasswordPanel(el.passwordShare);
 
@@ -106,7 +110,7 @@ export default class tkeyTab extends PureComponent {
 
   handlePasswordChange(el) {
     this.setState(state => {
-      const { accountPassword } = state;
+      const { accountPassword, } = state;
       let accountPasswordError = "";
 
       // Add check for password if minimum 10 digits
@@ -135,7 +139,7 @@ export default class tkeyTab extends PureComponent {
   }
 
   render() {
-    const { warning } = this.props;
+    const { warning, random } = this.props;
     const { passwordShare } = this.state
     console.log(passwordShare)
 
@@ -154,7 +158,7 @@ export default class tkeyTab extends PureComponent {
           <div>{this.state.deviceSharePanel}</div>
         )}
         
-        { passwordShare !== null ? <PasswordForm passwordShare={passwordShare} /> : void (0)}
+        {passwordShare !== null ? <PasswordForm random={random} passwordShare={passwordShare} renderThresholdPanels={this.renderThresholdPanels}/> : void (0)}
 
         {/* { this.renderSeedWords() }
         { this.renderIncomingTransactionsOptIn() }

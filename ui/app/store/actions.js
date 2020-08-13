@@ -1305,6 +1305,24 @@ export function setUserDetails(el) {
   }
 }
 
+export function changePasswordShare(password) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    // dispatch(unlockInProgress())
+    log.debug(`background.torusGoogleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusChangePasswordShare(password, (err) => {
+        if (err) return reject(err)
+        resolve()
+      })
+    }).then(() => { 
+      dispatch(hideLoadingIndication())
+    }).catch(err => {
+      return Promise.reject(err)
+    })
+  }
+}
+
 export function addPasswordShare(password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
@@ -1318,6 +1336,7 @@ export function addPasswordShare(password) {
     }).then(() => { 
       dispatch(hideLoadingIndication())
     }).catch(err => {
+      dispatch(hideLoadingIndication())
       return Promise.reject(err)
     })
   }
