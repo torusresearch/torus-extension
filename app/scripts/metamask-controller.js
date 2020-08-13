@@ -474,6 +474,8 @@ export default class MetamaskController extends EventEmitter {
       getTbState2: nodeify(this.getTbState2, this),
       getTkeyDataForSettingsPage: nodeify(this.getTkeyDataForSettingsPage, this),
       getTotalDeviceShares: nodeify(this.getTotalDeviceShares, this),
+      copyShareUsingIndexAndStoreLocally: nodeify(this.copyShareUsingIndexAndStoreLocally, this),
+      generateAndStoreNewDeviceShare: nodeify(this.generateAndStoreNewDeviceShare, this),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2226,8 +2228,8 @@ export default class MetamaskController extends EventEmitter {
         let currentPriority = metadataSharesDescriptions.shift()
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-            requiredShares--
+            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+            // requiredShares--
           }
           catch (err) {
             console.log("Couldn't find on device share")
@@ -2403,13 +2405,34 @@ export default class MetamaskController extends EventEmitter {
   }
 
   async getTotalDeviceShares() {
-    let tkey = this.tb
+    // Avoid modifying this.tb
+    let shareDesc = JSON.parse(JSON.stringify(this.tb.metadata.shareDescriptions))
 
-    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
-      return JSON.parse(el[0])
-    }).filter(el => el.module == "chromeExtensionStorage")
-    
-    return sdObj
+    // Parse into accessible objects
+    Object.keys(shareDesc).map(el => {
+      shareDesc[el] = shareDesc[el].map(jl => {
+        return JSON.parse(jl)
+      }).filter(el => el.module == "chromeExtensionStorage")
+    })
+    return shareDesc
+  }
+
+  async copyShareUsingIndexAndStoreLocally(index) {
+    let outputshare = this.tb.outputShare(index)
+    this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare)
+    // store locally
+    console.log(outputshare)
+  }
+
+  async generateAndStoreNewDeviceShare() {
+    debugger
+    try {
+      let newShare = await this.tb.generateNewShare()
+      this.tb.modules.chromeExtensionStorage.storeDeviceShare(newShare.newShareStores[newShare.newShareIndex.toString("hex")])
+    } catch (err) {
+      console.log(err)
+      return Promise.reject(err)
+    }
   }
 
   async getTbState() {

@@ -130,7 +130,6 @@ export function tryUnlockMetamask2() {
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
-        debugger;
         dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)
@@ -1409,6 +1408,32 @@ export function getTotalDeviceShares(dispatch) {
     return data
   }
 }
+
+export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
+  return async (dispatch) => {
+    try {
+      let data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
+      console.log(data)
+      return data
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
+
+
+export function generateAndStoreNewDeviceShare(dispatch) {
+  return async (dispatch) => {
+    try {
+      let data = await promisifiedBackground.generateAndStoreNewDeviceShare()
+      console.log(data)
+      return data
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
+
 
 export function googleLogin(dispatch) {
   return async (dispatch) => {

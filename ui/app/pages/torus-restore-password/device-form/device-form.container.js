@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import {getTotalDeviceShares} from '../../../store/actions'
+import {getTotalDeviceShares, copyShareUsingIndexAndStoreLocally, generateAndStoreNewDeviceShare} from '../../../store/actions'
 import DeviceForm from './device-form.component'
 // import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
@@ -19,6 +19,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getTotalDeviceShares: () => dispatch(getTotalDeviceShares()),
+    copyShareUsingIndexAndStoreLocally: (el) => dispatch(copyShareUsingIndexAndStoreLocally(el)),
+    generateAndStoreNewDeviceShare: (el) => dispatch(generateAndStoreNewDeviceShare(el))
   }
 }
 

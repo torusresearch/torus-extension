@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Button from "../../../components/ui/button";
 import Select from "react-select";
+import Bowser from "bowser"; 
 import {
   INITIALIZE_END_OF_FLOW_ROUTE,
   DEFAULT_ROUTE
@@ -15,7 +16,7 @@ export default class DeviceForm extends Component {
   state = {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
-    selectedDevice: "Device 1",
+    selectedDevice: "new-device",
     browser: "",
     devices: []
   };
@@ -25,23 +26,59 @@ export default class DeviceForm extends Component {
     
     changeHeading("Verify device"); // for tabs
     
-    this.getChromeVersion(); // for adding this extension
+    this.setDeviceDetails(); // for adding this extension
 
-    getTotalDeviceShares().then(el => {
-      this.setState({
-        devices: el
+    // Show options with labels
+    getTotalDeviceShares().then(devices => {
+      let totalDevices = [{ label: "New device", value: "new-device" }]
+      Object.keys(devices).map(index => {
+        return devices[index].map(device => {
+          totalDevices.push({label: this.getBowserLabel(device.userAgent) + " " + device.dateAdded, value: index})
+        })
+        // return {label: getBrowserLabel(devices)}
       })
+      this.setState({
+        devices: totalDevices
+      })
+      console.log(totalDevices)
     }) // populate list of available devices
   }
 
-  getChromeVersion() {
+  getBowserLabel(agent) {
+    const browser = Bowser.getParser(agent);
+    return browser.getBrowserName() + " " + browser.getOSName()
+  }
+
+  setDeviceDetails() {
+    const browser = Bowser.getParser(navigator.userAgent);
+    // console.log(browser)
     this.setState({
-      browser: navigator.userAgent.match(/Chrome\/([0-9.]+)/)[0]
+      browser: browser.getBrowserName() + " " + browser.getOSName()
     });
   }
 
-  addDevice = () => {
-    
+  addDevice = async () => {
+    debugger
+    const { selectedDevice } = this.state
+    const {copyShareUsingIndexAndStoreLocally, generateAndStoreNewDeviceShare, history} = this.props
+    if (selectedDevice === 'new-device') {
+      try {
+        await generateAndStoreNewDeviceShare()
+        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      } catch (err) {
+        console.error(err)
+        debugger
+      }
+    }
+    else {
+      try {
+        await copyShareUsingIndexAndStoreLocally(selectedDevice)
+        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+      } catch (err) {
+        console.error(err)
+        debugger
+      }
+    }
   }
 
   continueWithoutAddingDevice = () => {
@@ -54,9 +91,10 @@ export default class DeviceForm extends Component {
       inputPassword,
       defaultAccountName,
       selectedDevice,
-      browser
+      browser,
+      devices
     } = this.state;
-
+  
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
@@ -77,11 +115,9 @@ export default class DeviceForm extends Component {
               name="import-type-select"
               clearable={false}
               value={selectedDevice}
-              options={[
-                { value: "Device 1", label: "Device 1" },
-                { value: "Device 2", label: "Device 2" }
-              ]}
+              options={devices}
               onChange={opt => {
+                console.log(opt)
                 this.setState({ selectedDevice: opt.value });
               }}
             />
@@ -117,7 +153,9 @@ DeviceForm.propTypes = {
   history: PropTypes.object,
   mostRecentOverviewPage: PropTypes.string,
   changeHeading: PropTypes.func,
-  getTotalDeviceShares: PropTypes.func
+  getTotalDeviceShares: PropTypes.func,
+  copyShareUsingIndexAndStoreLocally: PropTypes.func,
+  generateAndStoreNewDeviceShare: PropTypes.func
 };
 
 DeviceForm.contextTypes = {
