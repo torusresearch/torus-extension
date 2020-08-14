@@ -2204,6 +2204,7 @@ export default class MetamaskController extends EventEmitter {
       // let somedata = this.tb.getKeyDetails()
       // await this.torusAddPasswordShare("torusAddPasswordShare");
       
+      this.tb.somedata = somedata
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
       // Sort the share descriptions with priority order
@@ -2228,8 +2229,8 @@ export default class MetamaskController extends EventEmitter {
         let currentPriority = metadataSharesDescriptions.shift()
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-            // requiredShares--
+            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+            requiredShares--
           }
           catch (err) {
             console.log("Couldn't find on device share")
@@ -2319,6 +2320,8 @@ export default class MetamaskController extends EventEmitter {
       await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what's is your password?");
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings()
+      this.tb.somedata = await this.tb.getKeyDetails()
+
     } catch (err) {
       console.error(err)
       return Promise.reject(err)
@@ -2331,40 +2334,11 @@ export default class MetamaskController extends EventEmitter {
       await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings()
+      this.tb.somedata = await this.tb.getKeyDetails()
 
     } catch (err) {
       console.error(err)
       return Promise.reject(err)
-    }
-  }
-
-  async reconstructTorusKeyWithPassword(password) {
-    try {
-
-      // "{"share":{"share":"bf2c4158dcc0f6693824fd6b4d09ad6e2e61be077a749ad5a1ececa7c7c87336","shareIndex":"01"},"polynomialID":"1b4f3cc67ce3930d3f3cdebfbf93de165eb94c51914c0c9793222ab90e93a6c9|cb6f160bc680a6ed6a5ea16142461dbc39e34351d669bdaf2ed752c756c853de"}"
-
-      // //add threshold back key with empty password
-      // await this.createNewTorusVaultAndRestore( "", this.tempPrivateKey, { ...this.userInfo, typeOfLogin: "tKey" });
-      
-      // // import postbox key
-      // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
-
-      // //add threshold back key with empty password
-      
-      await this.createNewTorusVaultAndRestore( "", "ec430670674fd370950179f922d8a2465b2adf09a5d25a0437c58239bd87ce2f", {typeOfLogin: "google"});
-      await this.importAccountWithStrategy('Private Key', "0x65cbb9462072230dec982990c04aa8ac1ab17be1200218204b1ee964e688b459", {typeOfLogin: "google"})
-
-      // // import postbox key
-      // await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.userInfo)
-
-
-      debugger
-
-    } catch (err) {
-      debugger
-      console.error(err)
-      return err
-      // return Promise.error(err)
     }
   }
 
@@ -2375,6 +2349,9 @@ export default class MetamaskController extends EventEmitter {
     let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
       return JSON.parse(el[0])
     })
+
+    // Total device shares
+    let allDeviceShares = await this.getTotalDeviceShares()
 
     // For ondevice share
     try {
@@ -2393,14 +2370,19 @@ export default class MetamaskController extends EventEmitter {
     let passwordModules = sdObj.filter(el => el.module == "securityQuestions")
     passwordShare.available = passwordModules.length > 0 ? true : false
 
+    // Current threshold
+    let threshold = tkey.somedata.threshold + "/" + tkey.somedata.totalShares
+
     return {
       serviceProvider: {
         available: tkey.serviceProvider.postboxKey !== "0",
         verifierId: this.postBox.userInfo[0].email
       },
       deviceShare: onDeviceShare,
+      allDeviceShares: allDeviceShares,
       passwordShare: passwordShare,
-      tkey: tkey
+      tkey: tkey,
+      threshold: threshold
     }
   }
 
@@ -2412,7 +2394,7 @@ export default class MetamaskController extends EventEmitter {
     Object.keys(shareDesc).map(el => {
       shareDesc[el] = shareDesc[el].map(jl => {
         return JSON.parse(jl)
-      }).filter(el => el.module == "chromeExtensionStorage")
+      }).filter(el => el.module === "chromeExtensionStorage" || el.module ==="webStorage")
     })
     return shareDesc
   }

@@ -1,19 +1,10 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import ToggleButton from "../../../components/ui/toggle-button";
-import { REVEAL_SEED_ROUTE } from "../../../helpers/constants/routes";
 import Button from "../../../components/ui/button";
-import TextField from "../../../components/ui/text-field";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import clone from 'clone'
-
-import {
-  // INITIALIZE_SELECT_ACTION_ROUTE,
-  TKEY_ROUTE
-} from "../../../helpers/constants/routes";
-import PasswordForm from './password-form'
+import Bowser from "bowser";
+import PasswordForm from "./password-form";
+import DeviceList from "./device-list";
 
 export default class tkeyTab extends PureComponent {
   static contextTypes = {
@@ -42,8 +33,16 @@ export default class tkeyTab extends PureComponent {
       accountPassword: "",
       accountPasswordError: "",
       passwordShare: null,
-      random: Math.random()
+      random: Math.random(),
+      currentThreshold: "",
+      allDeviceShares: null,
+      currentDeviceShare: null
     };
+  }
+
+  getBowserLabel(agent) {
+    const browser = Bowser.getParser(agent);
+    return browser.getBrowserName() + " " + browser.getOSName();
   }
 
   renderThresholdPanels = () => {
@@ -52,21 +51,28 @@ export default class tkeyTab extends PureComponent {
     getTkeyDataForSettingsPage().then(el => {
       console.log(el);
       let serviceProvider = el.serviceProvider;
-      let deviceShare = el.deviceShare;
+      let currentDeviceShare = el.deviceShare;
+      let allDeviceShares = el.allDeviceShares;
+
       // let passwordShare = el.passwordShare;
       this.setState({
-        passwordShare: clone(el.passwordShare),
-        random: Math.random()
-      })
+        passwordShare: el.passwordShare,
+        random: Math.random(),
+        currentThreshold: el.threshold,
+        allDeviceShares: allDeviceShares,
+        currentDeviceShare: currentDeviceShare
+      });
       // this.renderPasswordPanel(el.passwordShare);
 
       this.setState({
         torusPanel: (
           <div className="tkey-tab__share">
             <p className="tkey-tab__subheading">Torus Network</p>
-            <div className="tkey-tab__subshare">
-              <p>{serviceProvider.verifierId}</p>
-              <DeleteOutlinedIcon />
+            <div className="tkey-tab__borderWrapper">
+              <div className="tkey-tab__subshare">
+                <p>{serviceProvider.verifierId}</p>
+                <DeleteOutlinedIcon />
+              </div>
             </div>
             <Button type="secondary" className="tkey-tab__addshareButton">
               Add share
@@ -74,43 +80,12 @@ export default class tkeyTab extends PureComponent {
           </div>
         )
       });
-
-      if (deviceShare.available) {
-        this.setState({
-          deviceSharePanel: (
-            <div className="tkey-tab__share">
-              <p className="tkey-tab__subheading">Device - Chrome extension</p>
-              <div className="tkey-tab__subshare">
-                <p>{deviceShare.userAgent.substr(0, 50)}</p>
-                <DeleteOutlinedIcon />
-              </div>
-              <Button type="secondary" className="tkey-tab__addshareButton">
-                Add new browser
-              </Button>
-            </div>
-          )
-        });
-      } else {
-        this.setState({
-          deviceSharePanel: (
-            <div className="tkey-tab__share">
-              <p className="tkey-tab__subheading">Device - Chrome extension</p>
-              <div className="tkey-tab__subshare">
-                <p>No available share</p>
-              </div>
-              <Button type="secondary" className="tkey-tab__addshareButton">
-                Add device share
-              </Button>
-            </div>
-          )
-        });
-      }
     });
-  }
+  };
 
   handlePasswordChange(el) {
     this.setState(state => {
-      const { accountPassword, } = state;
+      const { accountPassword } = state;
       let accountPasswordError = "";
 
       // Add check for password if minimum 10 digits
@@ -138,27 +113,58 @@ export default class tkeyTab extends PureComponent {
     }
   }
 
+  renderDeviceForm() {
+    const { allDeviceShares, currentDeviceShare } = this.state;
+    let el = Object.keys(allDeviceShares).map(index => {
+      if (allDeviceShares[index].length === 0) return;
+      return (
+        <DeviceList
+          shareDesc={allDeviceShares[index]}
+          shareIndex={index}
+          currentDeviceShare={currentDeviceShare}
+          renderThresholdPanels={this.renderThresholdPanels}
+        />
+      );
+    });
+
+    return el;
+  }
+
   render() {
     const { warning, random } = this.props;
-    const { passwordShare } = this.state
-    console.log(passwordShare)
+    const {
+      passwordShare,
+      currentThreshold,
+      allDeviceShares,
+      currentDeviceShare
+    } = this.state;
+    console.log(currentThreshold);
 
     return (
       <div className="settings-page__body">
+        <div className="tkey-tab__share">
+          <p className="tkey-tab__subheading">
+            Authentication threshold - {currentThreshold}
+          </p>
+        </div>
 
         {this.state.torusPanel === null ? (
           <div>Loading</div>
         ) : (
           <div>{this.state.torusPanel}</div>
-          )}
-        
-        {this.state.deviceSharePanel === null ? (
-          <div>Loading</div>
-        ) : (
-          <div>{this.state.deviceSharePanel}</div>
         )}
-        
-        {passwordShare !== null ? <PasswordForm random={random} passwordShare={passwordShare} renderThresholdPanels={this.renderThresholdPanels}/> : void (0)}
+
+        {allDeviceShares !== null ? this.renderDeviceForm() : void 0}
+
+        {passwordShare !== null ? (
+          <PasswordForm
+            random={random}
+            passwordShare={passwordShare}
+            renderThresholdPanels={this.renderThresholdPanels}
+          />
+        ) : (
+          void 0
+        )}
 
         {/* { this.renderSeedWords() }
         { this.renderIncomingTransactionsOptIn() }

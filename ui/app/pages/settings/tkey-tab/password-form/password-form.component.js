@@ -21,8 +21,8 @@ export default class PasswordForm extends PureComponent {
   constructor(props) {
     super(props);
     // console.log(props)
-    let { passwordShare } = props
-    console.log(passwordShare.available)
+    let { passwordShare } = props;
+    console.log(passwordShare.available);
 
     this.state = {
       passwordPanel: null,
@@ -52,21 +52,27 @@ export default class PasswordForm extends PureComponent {
 
   async addAccountPassword() {
     const { accountPassword, accountPasswordError, buttonText } = this.state;
-    const { history, addPasswordShare, changePasswordShare, renderThresholdPanels } = this.props;
+    const {
+      history,
+      addPasswordShare,
+      changePasswordShare,
+      renderThresholdPanels
+    } = this.props;
     console.log(accountPassword);
 
     if (accountPasswordError === "") {
-      console.log(buttonText)
+      console.log(buttonText);
       try {
-        buttonText === "Add new password" ? await changePasswordShare(accountPassword) : await addPasswordShare(accountPassword);
+        buttonText === "Add new password"
+          ? await changePasswordShare(accountPassword)
+          : await addPasswordShare(accountPassword);
         // this.forceUpdate()
         this.setState({
-            passwordBlockType: "hidden",
-            buttonText: "Change password" 
-        })
-
+          passwordBlockType: "hidden",
+          buttonText: "Change password"
+        });
       } catch (err) {
-        debugger
+        debugger;
       }
       // this.renderThresholdPanels(); // reload panel
     } else {
@@ -78,13 +84,13 @@ export default class PasswordForm extends PureComponent {
     this.setState({
       passwordBlockType: "input",
       buttonText: "Add new password"
-    })
+    });
     // this.renderPasswordBlock()
   }
 
   renderButton() {
-    let { passwordBlockType, buttonText } = this.state
-    console.log("renderButton", passwordBlockType)
+    let { passwordBlockType, buttonText } = this.state;
+    console.log("renderButton", passwordBlockType);
     if (passwordBlockType === "hidden") {
       return (
         <Button
@@ -108,31 +114,35 @@ export default class PasswordForm extends PureComponent {
     }
   }
 
-  // drop down -> 3 options 
+  // drop down -> 3 options
   // device1 , device2, new device
   // 1 and 2 copy
   // 3 -> generate New share
 
   renderPasswordBlock() {
-    let { passwordBlockType } = this.state
-    console.log("renderPasswordBlock", passwordBlockType)
+    let { passwordBlockType } = this.state;
+    console.log("renderPasswordBlock", passwordBlockType);
     if (passwordBlockType === "hidden") {
       return (
-        <div className="tkey-tab__subshare">
-          <p>*******</p>
-          <DeleteOutlinedIcon />
+        <div className="tkey-tab__borderWrapper">
+          <div className="tkey-tab__subshare">
+            <p>*******</p>
+            <DeleteOutlinedIcon />
+          </div>
         </div>
       );
     } else {
       return (
-        <div className="tkey-tab__subshare">
-          <input
-            type="text"
-            value={this.state.password}
-            placeholder='Enter your password'
-            onChange={event => this.onPasswordChange(event.target.value)}
-            id="password"
-          />
+        <div className="tkey-tab__borderWrapper">
+          <div className="tkey-tab__subshare">
+            <input
+              type="text"
+              value={this.state.password}
+              placeholder="Enter your password"
+              onChange={event => this.onPasswordChange(event.target.value)}
+              id="password"
+            />
+          </div>
         </div>
       );
     }
