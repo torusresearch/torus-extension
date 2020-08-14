@@ -476,7 +476,8 @@ export default class MetamaskController extends EventEmitter {
       getTotalDeviceShares: nodeify(this.getTotalDeviceShares, this),
       copyShareUsingIndexAndStoreLocally: nodeify(this.copyShareUsingIndexAndStoreLocally, this),
       generateAndStoreNewDeviceShare: nodeify(this.generateAndStoreNewDeviceShare, this),
-
+      deleteShareDescription: nodeify(this.deleteShareDescription, this),
+      
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
@@ -2204,7 +2205,7 @@ export default class MetamaskController extends EventEmitter {
       // let somedata = this.tb.getKeyDetails()
       // await this.torusAddPasswordShare("torusAddPasswordShare");
       
-      this.tb.somedata = somedata
+      this.tb.somedata = somedata // For extra information
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
       // Sort the share descriptions with priority order
@@ -2413,6 +2414,14 @@ export default class MetamaskController extends EventEmitter {
       this.tb.modules.chromeExtensionStorage.storeDeviceShare(newShare.newShareStores[newShare.newShareIndex.toString("hex")])
     } catch (err) {
       console.log(err)
+      return Promise.reject(err)
+    }
+  }
+
+  async deleteShareDescription(shareIndex, desc) {
+    try {
+      await this.tb.deleteShareDescription(shareIndex, desc, true)
+    } catch (err) {
       return Promise.reject(err)
     }
   }

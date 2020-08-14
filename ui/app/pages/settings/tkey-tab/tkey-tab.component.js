@@ -49,7 +49,7 @@ export default class tkeyTab extends PureComponent {
     const { getTkeyDataForSettingsPage } = this.props;
 
     getTkeyDataForSettingsPage().then(el => {
-      console.log(el);
+      // console.log(el);
       let serviceProvider = el.serviceProvider;
       let currentDeviceShare = el.deviceShare;
       let allDeviceShares = el.allDeviceShares;
@@ -103,7 +103,7 @@ export default class tkeyTab extends PureComponent {
   async addAccountPassword() {
     const { accountPassword, accountPasswordError } = this.state;
     const { history, addPasswordShare } = this.props;
-    console.log(accountPassword);
+    // console.log(accountPassword);
 
     if (accountPasswordError == "") {
       await addPasswordShare(accountPassword);
@@ -119,6 +119,7 @@ export default class tkeyTab extends PureComponent {
       if (allDeviceShares[index].length === 0) return;
       return (
         <DeviceList
+          key={index}
           shareDesc={allDeviceShares[index]}
           shareIndex={index}
           currentDeviceShare={currentDeviceShare}
@@ -138,7 +139,7 @@ export default class tkeyTab extends PureComponent {
       allDeviceShares,
       currentDeviceShare
     } = this.state;
-    console.log(currentThreshold);
+    // console.log(currentThreshold);
 
     return (
       <div className="settings-page__body">
@@ -149,7 +150,7 @@ export default class tkeyTab extends PureComponent {
         </div>
 
         {this.state.torusPanel === null ? (
-          <div>Loading</div>
+          <div>""</div>
         ) : (
           <div>{this.state.torusPanel}</div>
         )}

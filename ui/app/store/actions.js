@@ -1341,6 +1341,7 @@ export function addPasswordShare(password) {
   }
 }
 
+
 export function inputPasswordShare(password) {
   return async (dispatch) => {
     log.debug(`background.torusGoogleLogin`)
@@ -1390,7 +1391,7 @@ export function getTkeyState(dispatch) {
 export function getTkeyDataForSettingsPage(dispatch) {
   return async (dispatch) => {
     let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
-    console.log(tb)
+    // console.log(tb)
     return tb
   }
 }
@@ -1421,6 +1422,15 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
   }  
 }
 
+export function deleteShareDescription(shareIndex, desc) {
+  return async (dispatch) => {
+    try {
+      await promisifiedBackground.deleteShareDescription(shareIndex, desc)
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
 
 export function generateAndStoreNewDeviceShare(dispatch) {
   return async (dispatch) => {

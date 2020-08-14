@@ -14,7 +14,8 @@ export default class DeviceList extends PureComponent {
     passwordShare: PropTypes.object,
     addPasswordShare: PropTypes.func,
     changePasswordShare: PropTypes.func,
-    renderThresholdPanels: PropTypes.func
+    renderThresholdPanels: PropTypes.func,
+    deleteShareDescription: PropTypes.func
   };
 
   constructor(props) {
@@ -30,6 +31,7 @@ export default class DeviceList extends PureComponent {
   }
 
   getBowserLabel(agent) {
+    debugger
     const browser = Bowser.getParser(agent);
     return browser.getBrowserName() + " " + browser.getOSName();
   }
@@ -38,19 +40,38 @@ export default class DeviceList extends PureComponent {
     const { shareDesc } = this.state;
     let el = (
       <p className="tkey-tab__subheading">
-        Device - {this.getBowserLabel(shareDesc[0].userAgent)}
+        Device - {Bowser.getParser(shareDesc[0].userAgent).getOSName()}
       </p>
     );
     return el;
   }
 
+  deleteDevice = async (desc, date) => {
+    const { deleteShareDescription, renderThresholdPanels } = this.props
+    const { shareIndex } = this.state
+    let data = {
+      module: "chromeExtensionStorage",
+      userAgent: desc,
+      dateAdded: date
+    }
+    try {
+      await deleteShareDescription(shareIndex, JSON.stringify(data))
+      renderThresholdPanels()
+    } catch (err) {
+      // handle error
+    }
+  }
+
   renderDevices() {
     const { shareDesc } = this.state;
     return shareDesc.map(device => {
+      let date = new Date(device.dateAdded)
       return (
         <div className="tkey-tab__subshare">
-          <p>{Bowser.getParser(device.userAgent).getBrowserName()}</p>
-          <DeleteOutlinedIcon />
+          <p>{Bowser.getParser(device.userAgent).getBrowserName() + " - " + date.toISOString()}</p>
+          <div onClick={() => this.deleteDevice(device.userAgent, device.dateAdded)}>
+            <DeleteOutlinedIcon />
+          </div>
         </div>
       );
     });
@@ -58,7 +79,6 @@ export default class DeviceList extends PureComponent {
 
   render() {
     let { currentDeviceShare } = this.state;
-    console.log(currentDeviceShare);
 
     return (
       <div className="tkey-tab__share">

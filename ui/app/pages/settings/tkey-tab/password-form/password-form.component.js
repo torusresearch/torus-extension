@@ -22,7 +22,7 @@ export default class PasswordForm extends PureComponent {
     super(props);
     // console.log(props)
     let { passwordShare } = props;
-    console.log(passwordShare.available);
+    // console.log(passwordShare.available);
 
     this.state = {
       passwordPanel: null,
@@ -58,10 +58,10 @@ export default class PasswordForm extends PureComponent {
       changePasswordShare,
       renderThresholdPanels
     } = this.props;
-    console.log(accountPassword);
+    // console.log(accountPassword);
 
     if (accountPasswordError === "") {
-      console.log(buttonText);
+      // console.log(buttonText);
       try {
         buttonText === "Add new password"
           ? await changePasswordShare(accountPassword)
@@ -90,7 +90,7 @@ export default class PasswordForm extends PureComponent {
 
   renderButton() {
     let { passwordBlockType, buttonText } = this.state;
-    console.log("renderButton", passwordBlockType);
+    // console.log("renderButton", passwordBlockType);
     if (passwordBlockType === "hidden") {
       return (
         <Button
@@ -121,7 +121,7 @@ export default class PasswordForm extends PureComponent {
 
   renderPasswordBlock() {
     let { passwordBlockType } = this.state;
-    console.log("renderPasswordBlock", passwordBlockType);
+    // console.log("renderPasswordBlock", passwordBlockType);
     if (passwordBlockType === "hidden") {
       return (
         <div className="tkey-tab__borderWrapper">

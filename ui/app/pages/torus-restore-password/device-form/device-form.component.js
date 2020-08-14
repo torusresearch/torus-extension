@@ -16,7 +16,7 @@ export default class DeviceForm extends Component {
   state = {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
-    selectedDevice: "new-device",
+    selectedDevice: "New-device",
     browser: "",
     devices: []
   };
@@ -30,7 +30,7 @@ export default class DeviceForm extends Component {
 
     // Show options with labels
     getTotalDeviceShares().then(devices => {
-      let totalDevices = [{ label: "New device", value: "new-device" }]
+      let totalDevices = [{ label: "New device", value: "New-device" }]
       Object.keys(devices).map(index => {
         return devices[index].map(device => {
           totalDevices.push({label: this.getBowserLabel(device.userAgent) + " " + device.dateAdded, value: index})
@@ -58,10 +58,9 @@ export default class DeviceForm extends Component {
   }
 
   addDevice = async () => {
-    debugger
     const { selectedDevice } = this.state
     const {copyShareUsingIndexAndStoreLocally, generateAndStoreNewDeviceShare, history} = this.props
-    if (selectedDevice === 'new-device') {
+    if (selectedDevice === 'New-device') {
       try {
         await generateAndStoreNewDeviceShare()
         history.push(INITIALIZE_END_OF_FLOW_ROUTE)
@@ -155,7 +154,8 @@ DeviceForm.propTypes = {
   changeHeading: PropTypes.func,
   getTotalDeviceShares: PropTypes.func,
   copyShareUsingIndexAndStoreLocally: PropTypes.func,
-  generateAndStoreNewDeviceShare: PropTypes.func
+  generateAndStoreNewDeviceShare: PropTypes.func,
+  deleteShareDescription: PropTypes
 };
 
 DeviceForm.contextTypes = {

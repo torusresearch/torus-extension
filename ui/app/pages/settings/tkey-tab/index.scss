@@ -78,7 +78,6 @@
   }
 
   &__subheading {
-    margin-bottom: 16px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
@@ -140,5 +139,6 @@
     border: 1px solid #d3d5e2;
     border-radius: 6px;
     overflow: hidden;
+    margin-top: 16px;
   }
 }
