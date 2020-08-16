@@ -1369,36 +1369,11 @@ export function inputPasswordShare(password) {
   }
 }
 
-export function getTkeyState(dispatch) {
-  return async (dispatch) => {
-    let tb = await promisifiedBackground.getTbState()
-    console.log(tb)
-    return tb
-    // promisifiedBackground.getTbState((error) => { 
-    //   if (error) {
-    //     return err
-    //   }
-    //   return
-    // }).then(el => {
-    //   console.log(el)
-    //   return el
-    // }).catch(err => {
-    //   console.error(err)
-    // })
-  }
-}
-
 export function getTkeyDataForSettingsPage(dispatch) {
   return async (dispatch) => {
     let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
     // console.log(tb)
     return tb
-  }
-}
-
-export function getTkeyState2(dispatch) {
-  return (dispatch) => {
-    return background.getTbState2()
   }
 }
 

@@ -150,7 +150,7 @@ export default class tkeyTab extends PureComponent {
         </div>
 
         {this.state.torusPanel === null ? (
-          <div>""</div>
+          void (0)
         ) : (
           <div>{this.state.torusPanel}</div>
         )}

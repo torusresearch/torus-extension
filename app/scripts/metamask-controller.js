@@ -469,9 +469,6 @@ export default class MetamaskController extends EventEmitter {
       torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
       torusChangePasswordShare: nodeify(this.torusChangePasswordShare, this),
       torusInputPasswordShare: nodeify(this.torusInputPasswordShare, this),
-      reconstructTorusKeyWithPassword: nodeify(this.reconstructTorusKeyWithPassword, this),
-      getTbState: nodeify(this.getTbState, this),
-      getTbState2: nodeify(this.getTbState2, this),
       getTkeyDataForSettingsPage: nodeify(this.getTkeyDataForSettingsPage, this),
       getTotalDeviceShares: nodeify(this.getTotalDeviceShares, this),
       copyShareUsingIndexAndStoreLocally: nodeify(this.copyShareUsingIndexAndStoreLocally, this),
@@ -2143,38 +2140,53 @@ export default class MetamaskController extends EventEmitter {
       const TorusOptions = {
         GOOGLE_CLIENT_ID:
           "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-        baseUrl: "http://localhost:3000/serviceworker"
+        baseUrl: "http://scripts.toruswallet.io/",
+        redirectPathName: "redirectChromeExtension.html"
         // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
 
+      // this.tb = new ThresholdBak({
+      //   modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
+      //   serviceProvider: new TorusServiceProvider({ directParams: {
+      //     baseUrl: TorusOptions.baseUrl,
+      //     redirectToOpener: true,
+      //     network: "ropsten",
+      //     proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+      //   }, postboxKey: "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852" })
+      // });
+
       this.tb = new ThresholdBak({
         modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
-        serviceProvider: new TorusServiceProvider({ directParams: {
-          baseUrl: TorusOptions.baseUrl,
+        directParams: {
+          GOOGLE_CLIENT_ID:
+          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+          baseUrl: "http://scripts.toruswallet.io/",
+          redirectPathName: "redirectChromeExtension.html",
           redirectToOpener: true,
           network: "ropsten",
           proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        }, postboxKey: "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852" })
+        }
       });
-      console.log(this.tb.modules)
+      // console.log(this.tb.modules)
 
       await this.tb.serviceProvider.directWeb.init({ skipSw: true });
-      
-      // Login via torus service provider to get back 1 share
-      // const postBox = await this.tb.serviceProvider.triggerAggregateLogin({
-      //   aggregateVerifierType: "single_id_verifier",
-      //   subVerifierDetailsArray: [
-      //     {
-      //       clientId: TorusOptions.GOOGLE_CLIENT_ID,
-      //       typeOfLogin: "google",
-      //       verifier: "google-shubs"
-      //     }
-      //   ],
-      //   verifierIdentifier: "multigoogle-torus"
-      // });
 
+      // Login via torus service provider to get back 1 share 
+      // following returns a postbox key
+      await this.tb.serviceProvider.triggerAggregateLogin({
+        aggregateVerifierType: "single_id_verifier",
+        subVerifierDetailsArray: [
+          {
+            clientId: TorusOptions.GOOGLE_CLIENT_ID,
+            typeOfLogin: "google",
+            verifier: "google-shubs"
+          }
+        ],
+        verifierIdentifier: "multigoogle-torus"
+      });
+
+      // Delete postbox later. Strictly for development purposes.
       this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
-      
       let postBox = this.postBox
       let verifierId = postBox.userInfo[0].email
       this.userInfo = postBox.userInfo[0]
@@ -2216,7 +2228,7 @@ export default class MetamaskController extends EventEmitter {
 
       
       let requiredShares = somedata.requiredShares
-      let totalDescriptions = metadataSharesDescriptions.length
+      // let totalDescriptions = metadataSharesDescriptions.length
       // let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
       while (requiredShares > 0) {
         /**
@@ -2245,23 +2257,6 @@ export default class MetamaskController extends EventEmitter {
         if (metadataSharesDescriptions.length === 0 && requiredShares > 0) {
           throw "new key assign required"
         }
-
-        // if (metadataSharesDescriptions.filter(el => el.module == currentPriority).length > 0) {
-        //   if (currentPriority === "chromeExtensionStorage") {
-        //     try {
-        //       // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-        //       // requiredShares--
-        //     }
-        //     catch (err) {
-        //       console.log("Couldn't find on device share")
-        //     }
-        //   }
-        //   else if (currentPriority === "securityQuestions") {
-        //     // default to password for now
-        //     throw "Password required"
-        //   }
-        // }
-        
       }
       
       // Reconstruct the private key again
@@ -2424,14 +2419,5 @@ export default class MetamaskController extends EventEmitter {
     } catch (err) {
       return Promise.reject(err)
     }
-  }
-
-  async getTbState() {
-    return this.tb
-  }
-
-  getTbState2() {
-    debugger
-    return this.tb
   }
 }
