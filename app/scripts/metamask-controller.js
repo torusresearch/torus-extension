@@ -69,6 +69,7 @@ import {
 
 import backEndMetaMetricsEvent from './lib/backend-metametrics'
 import { node } from 'prop-types'
+import TkeyController from './controllers/tkey'
 // import { CONSOLE_APPENDER } from 'karma/lib/constants'
 
 export default class MetamaskController extends EventEmitter {
@@ -274,6 +275,12 @@ export default class MetamaskController extends EventEmitter {
       }
     })
 
+    this.tkeyController = new TkeyController({
+      createNewTorusVaultAndRestore: this.createNewTorusVaultAndRestore.bind(this),
+      initState: initState.TkeyController,
+      importAccountWithStrategy: this.importAccountWithStrategy.bind(this)
+    })
+
     this.networkController.on('networkDidChange', () => {
       this.setCurrentCurrency(this.currencyRateController.state.currentCurrency, function () {})
     })
@@ -444,6 +451,7 @@ export default class MetamaskController extends EventEmitter {
     const preferencesController = this.preferencesController
     const threeBoxController = this.threeBoxController
     const txController = this.txController
+    const tkeyController = this.tkeyController
 
     return {
       // etc
@@ -465,15 +473,15 @@ export default class MetamaskController extends EventEmitter {
       getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
 
       //torus key
-      torusGoogleLogin: nodeify(this.torusGoogleLogin, this),
-      torusAddPasswordShare: nodeify(this.torusAddPasswordShare, this),
-      torusChangePasswordShare: nodeify(this.torusChangePasswordShare, this),
-      torusInputPasswordShare: nodeify(this.torusInputPasswordShare, this),
-      getTkeyDataForSettingsPage: nodeify(this.getTkeyDataForSettingsPage, this),
-      getTotalDeviceShares: nodeify(this.getTotalDeviceShares, this),
-      copyShareUsingIndexAndStoreLocally: nodeify(this.copyShareUsingIndexAndStoreLocally, this),
-      generateAndStoreNewDeviceShare: nodeify(this.generateAndStoreNewDeviceShare, this),
-      deleteShareDescription: nodeify(this.deleteShareDescription, this),
+      torusGoogleLogin: nodeify(tkeyController.torusGoogleLogin, tkeyController),
+      torusAddPasswordShare: nodeify(tkeyController.torusAddPasswordShare, tkeyController),
+      torusChangePasswordShare: nodeify(tkeyController.torusChangePasswordShare, tkeyController),
+      torusInputPasswordShare: nodeify(tkeyController.torusInputPasswordShare, tkeyController),
+      getTkeyDataForSettingsPage: nodeify(tkeyController.getTkeyDataForSettingsPage, tkeyController),
+      getTotalDeviceShares: nodeify(tkeyController.getTotalDeviceShares, tkeyController),
+      copyShareUsingIndexAndStoreLocally: nodeify(tkeyController.copyShareUsingIndexAndStoreLocally, tkeyController),
+      generateAndStoreNewDeviceShare: nodeify(tkeyController.generateAndStoreNewDeviceShare, tkeyController),
+      deleteShareDescription: nodeify(tkeyController.deleteShareDescription, tkeyController),
       
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -2131,298 +2139,298 @@ export default class MetamaskController extends EventEmitter {
   }
 
 
-  /**
-   * Torus google login
-   */
-  async torusGoogleLogin(newKeyAssign) {
-    try {
-      // debugger  
-      const TorusOptions = {
-        GOOGLE_CLIENT_ID:
-          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-        baseUrl: "http://scripts.toruswallet.io/",
-        redirectPathName: "redirectChromeExtension.html"
-        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-      };
+  // /**
+  //  * Torus google login
+  //  */
+  // async torusGoogleLogin(newKeyAssign) {
+  //   try {
+  //     // debugger  
+  //     const TorusOptions = {
+  //       GOOGLE_CLIENT_ID:
+  //         "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+  //       baseUrl: "http://scripts.toruswallet.io/",
+  //       redirectPathName: "redirectChromeExtension.html"
+  //       // baseUrl: 'https://toruscallback.ont.io/serviceworker',
+  //     };
 
-      // this.tb = new ThresholdBak({
-      //   modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
-      //   serviceProvider: new TorusServiceProvider({ directParams: {
-      //     baseUrl: TorusOptions.baseUrl,
-      //     redirectToOpener: true,
-      //     network: "ropsten",
-      //     proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-      //   }, postboxKey: "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852" })
-      // });
+  //     // this.tb = new ThresholdBak({
+  //     //   modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
+  //     //   serviceProvider: new TorusServiceProvider({ directParams: {
+  //     //     baseUrl: TorusOptions.baseUrl,
+  //     //     redirectToOpener: true,
+  //     //     network: "ropsten",
+  //     //     proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+  //     //   }, postboxKey: "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852" })
+  //     // });
 
-      this.tb = new ThresholdBak({
-        modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
-        directParams: {
-          GOOGLE_CLIENT_ID:
-          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-          baseUrl: "http://scripts.toruswallet.io/",
-          redirectPathName: "redirectChromeExtension.html",
-          redirectToOpener: true,
-          network: "ropsten",
-          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-        }
-      });
-      // console.log(this.tb.modules)
+  //     this.tb = new ThresholdBak({
+  //       modules: { securityQuestions: new SecurityQuestionsModule(), chromeExtensionStorage: new ChromeExtensionStorageModule() },
+  //       directParams: {
+  //         GOOGLE_CLIENT_ID:
+  //         "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+  //         baseUrl: "http://scripts.toruswallet.io/",
+  //         redirectPathName: "redirectChromeExtension.html",
+  //         redirectToOpener: true,
+  //         network: "ropsten",
+  //         proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
+  //       }
+  //     });
+  //     // console.log(this.tb.modules)
 
-      await this.tb.serviceProvider.directWeb.init({ skipSw: true });
+  //     await this.tb.serviceProvider.directWeb.init({ skipSw: true });
 
-      // Login via torus service provider to get back 1 share 
-      // following returns a postbox key
-      this.postBox = await this.tb.serviceProvider.triggerAggregateLogin({
-        aggregateVerifierType: "single_id_verifier",
-        subVerifierDetailsArray: [
-          {
-            clientId: TorusOptions.GOOGLE_CLIENT_ID,
-            typeOfLogin: "google",
-            verifier: "google-shubs"
-          }
-        ],
-        verifierIdentifier: "multigoogle-torus"
-      });
+  //     // Login via torus service provider to get back 1 share 
+  //     // following returns a postbox key
+  //     this.postBox = await this.tb.serviceProvider.triggerAggregateLogin({
+  //       aggregateVerifierType: "single_id_verifier",
+  //       subVerifierDetailsArray: [
+  //         {
+  //           clientId: TorusOptions.GOOGLE_CLIENT_ID,
+  //           typeOfLogin: "google",
+  //           verifier: "google-shubs"
+  //         }
+  //       ],
+  //       verifierIdentifier: "multigoogle-torus"
+  //     });
 
-      // Delete postbox later. Strictly for development purposes.
-      // this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
-      let postBox = this.postBox
-      let verifierId = postBox.userInfo[0].email
-      this.userInfo = postBox.userInfo[0]
+  //     // Delete postbox later. Strictly for development purposes.
+  //     // this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
+  //     let postBox = this.postBox
+  //     let verifierId = postBox.userInfo[0].email
+  //     this.userInfo = postBox.userInfo[0]
 
-      // get metadata from the metadata-store
-      // let keyDetails = await tb.initialize();
-      // chrome.storage.sync.clear()
-      await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, function (items) {
-          var allKeys = Object.keys(items);
-          console.log(allKeys);
-          resolve()
-        });
-      })
+  //     // get metadata from the metadata-store
+  //     // let keyDetails = await tb.initialize();
+  //     // chrome.storage.sync.clear()
+  //     await new Promise((resolve, reject) => {
+  //       chrome.storage.sync.get(null, function (items) {
+  //         var allKeys = Object.keys(items);
+  //         console.log(allKeys);
+  //         resolve()
+  //       });
+  //     })
 
-      let somedata
-      if (newKeyAssign) {
-        await this.tb.initializeNewKey(undefined, true)
-        somedata = this.tb.getKeyDetails()
-        // await this.torusAddPasswordShare("torusAddPasswordShare");
-      } else {
-        somedata = await this.tb.initialize()
-      }
-      /**
-       * Initialise tb. 
-       * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
-       *    update shareDescriptions() and metadata.
-       * 2. Existing user (metadata exists), init with shareStore
-       */
-      // let somedata = await this.tb.initialize()
+  //     let somedata
+  //     if (newKeyAssign) {
+  //       await this.tb.initializeNewKey(undefined, true)
+  //       somedata = this.tb.getKeyDetails()
+  //       // await this.torusAddPasswordShare("torusAddPasswordShare");
+  //     } else {
+  //       somedata = await this.tb.initialize()
+  //     }
+  //     /**
+  //      * Initialise tb. 
+  //      * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
+  //      *    update shareDescriptions() and metadata.
+  //      * 2. Existing user (metadata exists), init with shareStore
+  //      */
+  //     // let somedata = await this.tb.initialize()
 
-      /**
-       * Create new account. Useful for development purposes
-       */
-      // await this.tb.initializeNewKey(undefined, true)
-      // let somedata = this.tb.getKeyDetails()
-      // await this.torusAddPasswordShare("torusAddPasswordShare");
+  //     /**
+  //      * Create new account. Useful for development purposes
+  //      */
+  //     // await this.tb.initializeNewKey(undefined, true)
+  //     // let somedata = this.tb.getKeyDetails()
+  //     // await this.torusAddPasswordShare("torusAddPasswordShare");
       
-      this.tb.somedata = somedata // For extra information
+  //     this.tb.somedata = somedata // For extra information
 
-      // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
-      // Sort the share descriptions with priority order
-      let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
-      let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
-        return el.length !== 0 ? JSON.parse(el[0]) : void(0)
-      }).sort((a,b) => {return priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)})
+  //     // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
+  //     // Sort the share descriptions with priority order
+  //     let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
+  //     let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
+  //       return el.length !== 0 ? JSON.parse(el[0]) : void(0)
+  //     }).sort((a,b) => {return priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)})
 
       
-      let requiredShares = somedata.requiredShares
-      // let totalDescriptions = metadataSharesDescriptions.length
-      // let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
-      while (requiredShares > 0) {
-        /**
-         * Priority while importing required Shares
-         * 1. chromeExtensionStorage
-         * 2. Password
-         * 3. Otherdevices
-         * 4. SQs
-         */
+  //     let requiredShares = somedata.requiredShares
+  //     // let totalDescriptions = metadataSharesDescriptions.length
+  //     // let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
+  //     while (requiredShares > 0) {
+  //       /**
+  //        * Priority while importing required Shares
+  //        * 1. chromeExtensionStorage
+  //        * 2. Password
+  //        * 3. Otherdevices
+  //        * 4. SQs
+  //        */
         
-        let currentPriority = metadataSharesDescriptions.shift()
-        if (currentPriority.module === "chromeExtensionStorage") {
-          try {
-            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
-            requiredShares--
-          }
-          catch (err) {
-            console.log("Couldn't find on device share")
-          }
-        }
-        else if (currentPriority.module === "securityQuestions") {
-          // default to password for now
-          throw "Password required"
-        }
+  //       let currentPriority = metadataSharesDescriptions.shift()
+  //       if (currentPriority.module === "chromeExtensionStorage") {
+  //         try {
+  //           await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage()
+  //           requiredShares--
+  //         }
+  //         catch (err) {
+  //           console.log("Couldn't find on device share")
+  //         }
+  //       }
+  //       else if (currentPriority.module === "securityQuestions") {
+  //         // default to password for now
+  //         throw "Password required"
+  //       }
 
-        if (metadataSharesDescriptions.length === 0 && requiredShares > 0) {
-          throw "new key assign required"
-        }
-      }
+  //       if (metadataSharesDescriptions.length === 0 && requiredShares > 0) {
+  //         throw "new key assign required"
+  //       }
+  //     }
       
-      // Reconstruct the private key again
-      // Exposed on metamask controller for development purposes. delete later.
-      let reconstructedKey = await this.tb.reconstructKey()
-      reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
-      this.tempPrivateKey = reconstructedKey // dev purposes
+  //     // Reconstruct the private key again
+  //     // Exposed on metamask controller for development purposes. delete later.
+  //     let reconstructedKey = await this.tb.reconstructKey()
+  //     reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
+  //     this.tempPrivateKey = reconstructedKey // dev purposes
 
-      //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...postBox.userInfo[0], typeOfLogin: "tKey" });
+  //     //add threshold back key with empty password
+  //     await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...postBox.userInfo[0], typeOfLogin: "tKey" });
       
-      // import postbox key
-      await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
+  //     // import postbox key
+  //     await this.importAccountWithStrategy('Private Key', [postBox.privateKey], postBox.userInfo[0])
 
-      // debugger
-      } catch (error) {
-        console.error(error);
-        return Promise.reject(error)
-      }
-  }
+  //     // debugger
+  //     } catch (error) {
+  //       console.error(error);
+  //       return Promise.reject(error)
+  //     }
+  // }
 
-  async reconstructTorusKeyrings() {
-    try {
-      // Reconstruct the private key again
-      // Exposed on metamask controller for development purposes. delete later.
-      let reconstructedKey = await this.tb.reconstructKey()
-      reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
-      this.tempPrivateKey = reconstructedKey // dev purposes
+  // async reconstructTorusKeyrings() {
+  //   try {
+  //     // Reconstruct the private key again
+  //     // Exposed on metamask controller for development purposes. delete later.
+  //     let reconstructedKey = await this.tb.reconstructKey()
+  //     reconstructedKey = reconstructedKey.toString('hex').padStart(64, '0')
+  //     this.tempPrivateKey = reconstructedKey // dev purposes
 
-      //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...this.postBox.userInfo[0], typeOfLogin: "tKey" });
+  //     //add threshold back key with empty password
+  //     await this.createNewTorusVaultAndRestore( "", reconstructedKey, { ...this.postBox.userInfo[0], typeOfLogin: "tKey" });
       
-      // import this.postbox key
-      await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.postBox.userInfo[0])
+  //     // import this.postbox key
+  //     await this.importAccountWithStrategy('Private Key', [this.postBox.privateKey], this.postBox.userInfo[0])
 
-    }
-    catch (err) {
-      console.error(err)
-      return Promise.reject(err)
-    }
-  }
+  //   }
+  //   catch (err) {
+  //     console.error(err)
+  //     return Promise.reject(err)
+  //   }
+  // }
 
-  async torusInputPasswordShare(password) {
-    // add new share
-    try {
-      await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");
-      // reconstruct and check if any issues
-      await this.reconstructTorusKeyrings()
-    } catch (err) {
-      console.error(err)
-      return Promise.reject(err)
-    }
-  }
+  // async torusInputPasswordShare(password) {
+  //   // add new share
+  //   try {
+  //     await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");
+  //     // reconstruct and check if any issues
+  //     await this.reconstructTorusKeyrings()
+  //   } catch (err) {
+  //     console.error(err)
+  //     return Promise.reject(err)
+  //   }
+  // }
 
-  async torusChangePasswordShare(password) {
-    try {
-      await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what's is your password?");
-      // reconstruct and check if any issues
-      await this.reconstructTorusKeyrings()
-      this.tb.somedata = await this.tb.getKeyDetails()
+  // async torusChangePasswordShare(password) {
+  //   try {
+  //     await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what's is your password?");
+  //     // reconstruct and check if any issues
+  //     await this.reconstructTorusKeyrings()
+  //     this.tb.somedata = await this.tb.getKeyDetails()
 
-    } catch (err) {
-      console.error(err)
-      return Promise.reject(err)
-    }
-  }
+  //   } catch (err) {
+  //     console.error(err)
+  //     return Promise.reject(err)
+  //   }
+  // }
 
-  async torusAddPasswordShare(password) {
-    // add new share
-    try {
-      await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
-      // reconstruct and check if any issues
-      await this.reconstructTorusKeyrings()
-      this.tb.somedata = await this.tb.getKeyDetails()
+  // async torusAddPasswordShare(password) {
+  //   // add new share
+  //   try {
+  //     await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
+  //     // reconstruct and check if any issues
+  //     await this.reconstructTorusKeyrings()
+  //     this.tb.somedata = await this.tb.getKeyDetails()
 
-    } catch (err) {
-      console.error(err)
-      return Promise.reject(err)
-    }
-  }
+  //   } catch (err) {
+  //     console.error(err)
+  //     return Promise.reject(err)
+  //   }
+  // }
 
-  async getTkeyDataForSettingsPage() {
-    let tkey = this.tb
-    let onDeviceShare = {}, passwordShare = {}
+  // async getTkeyDataForSettingsPage() {
+  //   let tkey = this.tb
+  //   let onDeviceShare = {}, passwordShare = {}
 
-    // Total device shares
-    let allDeviceShares = await this.getTotalDeviceShares()
+  //   // Total device shares
+  //   let allDeviceShares = await this.getTotalDeviceShares()
 
-    // For ondevice share
-    try {
-      let el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
-      if (el) {
-        onDeviceShare.available = true
-        onDeviceShare.share = el
-      }
-    } catch{
-      onDeviceShare.available = false
-    }
+  //   // For ondevice share
+  //   try {
+  //     let el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+  //     if (el) {
+  //       onDeviceShare.available = true
+  //       onDeviceShare.share = el
+  //     }
+  //   } catch{
+  //     onDeviceShare.available = false
+  //   }
 
-    // ForpasswordShare
-    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
-      return el.length !== 0 ? JSON.parse(el[0]) : void(0)
-    })
-    let passwordModules = sdObj.filter(el => el.module == "securityQuestions")
-    passwordShare.available = passwordModules.length > 0 ? true : false
+  //   // ForpasswordShare
+  //   let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
+  //     return el.length !== 0 ? JSON.parse(el[0]) : void(0)
+  //   })
+  //   let passwordModules = sdObj.filter(el => el.module == "securityQuestions")
+  //   passwordShare.available = passwordModules.length > 0 ? true : false
 
-    // Current threshold
-    let threshold = tkey.somedata.threshold + "/" + tkey.somedata.totalShares
+  //   // Current threshold
+  //   let threshold = tkey.somedata.threshold + "/" + tkey.somedata.totalShares
 
-    return {
-      serviceProvider: {
-        available: tkey.serviceProvider.postboxKey !== "0",
-        verifierId: this.postBox.userInfo[0].email
-      },
-      deviceShare: onDeviceShare,
-      allDeviceShares: allDeviceShares,
-      passwordShare: passwordShare,
-      tkey: tkey,
-      threshold: threshold
-    }
-  }
+  //   return {
+  //     serviceProvider: {
+  //       available: tkey.serviceProvider.postboxKey !== "0",
+  //       verifierId: this.postBox.userInfo[0].email
+  //     },
+  //     deviceShare: onDeviceShare,
+  //     allDeviceShares: allDeviceShares,
+  //     passwordShare: passwordShare,
+  //     tkey: tkey,
+  //     threshold: threshold
+  //   }
+  // }
 
-  async getTotalDeviceShares() {
-    // Avoid modifying this.tb
-    let shareDesc = JSON.parse(JSON.stringify(this.tb.metadata.shareDescriptions))
+  // async getTotalDeviceShares() {
+  //   // Avoid modifying this.tb
+  //   let shareDesc = JSON.parse(JSON.stringify(this.tb.metadata.shareDescriptions))
 
-    // Parse into accessible objects
-    Object.keys(shareDesc).map(el => {
-      shareDesc[el] = shareDesc[el].map(jl => {
-        return JSON.parse(jl)
-      }).filter(el => el.module === "chromeExtensionStorage" || el.module ==="webStorage")
-    })
-    return shareDesc
-  }
+  //   // Parse into accessible objects
+  //   Object.keys(shareDesc).map(el => {
+  //     shareDesc[el] = shareDesc[el].map(jl => {
+  //       return JSON.parse(jl)
+  //     }).filter(el => el.module === "chromeExtensionStorage" || el.module ==="webStorage")
+  //   })
+  //   return shareDesc
+  // }
 
-  async copyShareUsingIndexAndStoreLocally(index) {
-    let outputshare = this.tb.outputShare(index)
-    this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare)
-    // store locally
-    console.log(outputshare)
-  }
+  // async copyShareUsingIndexAndStoreLocally(index) {
+  //   let outputshare = this.tb.outputShare(index)
+  //   this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare)
+  //   // store locally
+  //   console.log(outputshare)
+  // }
 
-  async generateAndStoreNewDeviceShare() {
-    debugger
-    try {
-      let newShare = await this.tb.generateNewShare()
-      this.tb.modules.chromeExtensionStorage.storeDeviceShare(newShare.newShareStores[newShare.newShareIndex.toString("hex")])
-    } catch (err) {
-      console.log(err)
-      return Promise.reject(err)
-    }
-  }
+  // async generateAndStoreNewDeviceShare() {
+  //   debugger
+  //   try {
+  //     let newShare = await this.tb.generateNewShare()
+  //     this.tb.modules.chromeExtensionStorage.storeDeviceShare(newShare.newShareStores[newShare.newShareIndex.toString("hex")])
+  //   } catch (err) {
+  //     console.log(err)
+  //     return Promise.reject(err)
+  //   }
+  // }
 
-  async deleteShareDescription(shareIndex, desc) {
-    try {
-      await this.tb.deleteShareDescription(shareIndex, desc, true)
-    } catch (err) {
-      return Promise.reject(err)
-    }
-  }
+  // async deleteShareDescription(shareIndex, desc) {
+  //   try {
+  //     await this.tb.deleteShareDescription(shareIndex, desc, true)
+  //   } catch (err) {
+  //     return Promise.reject(err)
+  //   }
+  // }
 }
