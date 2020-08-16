@@ -26,7 +26,8 @@ export default class DeviceList extends PureComponent {
     this.state = {
       shareDesc: shareDesc,
       shareIndex: shareIndex,
-      currentDeviceShare: currentDeviceShare
+      currentDeviceShare: currentDeviceShare,
+      errorMessage: ''
     };
   }
 
@@ -46,15 +47,20 @@ export default class DeviceList extends PureComponent {
     return el;
   }
 
-  deleteDevice = async (desc, date) => {
+  deleteDevice = async (deviceUserAgent, date) => {
     const { deleteShareDescription, renderThresholdPanels } = this.props
-    const { shareIndex } = this.state
+    const { shareIndex, errorMessage } = this.state
     let data = {
       module: "chromeExtensionStorage",
-      userAgent: desc,
+      userAgent: deviceUserAgent,
       dateAdded: date
     }
     try {
+      if (deviceUserAgent !== window.navigator.userAgent) {
+        this.setState({
+          errorMessage: "Can't delete this device"
+        })
+      }
       await deleteShareDescription(shareIndex, JSON.stringify(data))
       renderThresholdPanels()
     } catch (err) {
@@ -69,21 +75,22 @@ export default class DeviceList extends PureComponent {
       return (
         <div className="tkey-tab__subshare">
           <p>{Bowser.getParser(device.userAgent).getBrowserName() + " - " + date.toISOString()}</p>
-          <div onClick={() => this.deleteDevice(device.userAgent, device.dateAdded)}>
+          {/* <div onClick={() => this.deleteDevice(device.userAgent, device.dateAdded)}>
             <DeleteOutlinedIcon />
-          </div>
+          </div> */}
         </div>
       );
     });
   }
 
   render() {
-    let { currentDeviceShare } = this.state;
+    let { currentDeviceShare, errorMessage } = this.state;
 
     return (
       <div className="tkey-tab__share">
         {this.renderHeading()}
         <div className="tkey-tab__borderWrapper">{this.renderDevices()}</div>
+        <p>{errorMessage}</p>
         <Button type="secondary" className="tkey-tab__addshareButton">
           Add new browser
         </Button>

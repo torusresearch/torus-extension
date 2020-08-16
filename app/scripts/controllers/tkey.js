@@ -20,7 +20,7 @@ export default class TkeyController {
           rawShareDescription: null,
           shareDescriptions: null,
           postBox: {},
-          somedata: {},
+          keyDetails: {},
           tb: null,
           parsedShareDesc: {},
           settingsPageData: {}
@@ -138,33 +138,15 @@ export default class TkeyController {
       // });
 
       // Allowing option keyassign for development purposes
-      let somedata;
+      let keyDetails;
       if (newKeyAssign) {
         await this.tb.initializeNewKey(undefined, true);
-        somedata = this.tb.getKeyDetails();
+        keyDetails = this.tb.getKeyDetails();
         // await this.torusAddPasswordShare("torusAddPasswordShare");
       } else {
-        somedata = await this.tb.initialize();
+        keyDetails = await this.tb.initialize();
       }
-      /**
-       * Initialise tb.
-       * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage),
-       *    update shareDescriptions() and metadata.
-       * 2. Existing user (metadata exists), init with shareStore
-       */
-      // let somedata = await this.tb.initialize()
-
-      /**
-       * Create new account. Useful for development purposes
-       */
-      // await this.tb.initializeNewKey(undefined, true)
-      // let somedata = this.tb.getKeyDetails()
-      // await this.torusAddPasswordShare("torusAddPasswordShare");
-
-      // this.somedata = somedata; // For extra information
-      
-      // Update settings page regularly. 
-      this.store.updateState({ somedata })
+      this.store.updateState({ keyDetails })
       await this.setSettingsPageData()
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
@@ -176,7 +158,6 @@ export default class TkeyController {
       ];
 
       let shareDesc = this.store.getState().parsedShareDesc
-
       let tempSD = Object.values(shareDesc)
         .flatMap(x => x)
         .sort((a, b) => {
@@ -184,17 +165,7 @@ export default class TkeyController {
             priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)
           );
         });
-      // let metadataSharesDescriptions = Object.values(somedata.shareDescriptions)
-      //   .map(el => {
-      //     return el.length !== 0 ? JSON.parse(el[0]) : void 0;
-      //   })
-      //   .sort((a, b) => {
-      //     return (
-      //       priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)
-      //     );
-      //   });
-
-      let requiredShares = somedata.requiredShares;
+      let requiredShares = keyDetails.requiredShares;
       while (requiredShares > 0) {
         /**
          * Priority while importing required Shares
@@ -231,7 +202,6 @@ export default class TkeyController {
   }
 
   async reconstructTorusKeyrings() {
-    debugger;
     try {
       // Reconstruct the private key again
       // Exposed on metamask controller for development purposes. delete later.
@@ -253,7 +223,7 @@ export default class TkeyController {
       );
 
       await this.setSettingsPageData()
-
+        
     } catch (err) {
       console.error(err);
       return Promise.reject(err);
@@ -283,7 +253,6 @@ export default class TkeyController {
       );
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings();
-      this.store.updateState({ somedata: await this.tb.getKeyDetails() })
     } catch (err) {
       console.error(err);
       return Promise.reject(err);
@@ -299,7 +268,6 @@ export default class TkeyController {
       );
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings();
-      this.store.updateState({ somedata: await this.tb.getKeyDetails() })
     } catch (err) {
       console.error(err);
       return Promise.reject(err);
@@ -311,16 +279,16 @@ export default class TkeyController {
     let onDeviceShare = {},
       passwordShare = {};
     
-    let shareDesc = Object.assign({}, this.tb.metadata.shareDescriptions)
+    let keyDetails = this.tb.getKeyDetails()    
+    let shareDesc = Object.assign({}, keyDetails.shareDescriptions)
     Object.keys(shareDesc).map(el => {
       shareDesc[el] = shareDesc[el]
         .map(jl => {
           return JSON.parse(jl);
         })
     });
-    this.store.updateState({ parsedShareDesc: shareDesc });
+    this.store.updateState({ parsedShareDesc: shareDesc, keyDetails: keyDetails });
     let parsedShareDesc = shareDesc
-    let { postBox, somedata } = this.store.getState()
     
     // Total device shares
     let allDeviceShares = this.getTotalDeviceShares();
@@ -336,15 +304,16 @@ export default class TkeyController {
       onDeviceShare.available = false;
     }
 
-    // ForpasswordShare
+    // password share
     let passwordModules = Object.values(parsedShareDesc)
       .flatMap(x => x)
       .filter(el => el.module == "securityQuestions");
     passwordShare.available = passwordModules.length > 0 ? true : false;
 
     // Current threshold
-    let threshold = somedata.threshold + "/" + somedata.totalShares;
+    let threshold = keyDetails.threshold + "/" + keyDetails.totalShares;
 
+    let { postBox } = this.store.getState()
     this.store.updateState({
       settingsPageData: {
         serviceProvider: {
@@ -367,7 +336,8 @@ export default class TkeyController {
 
   getTotalDeviceShares() {
     // Avoid modifying this.tb
-    let shareDesc = this.store.getState().parsedShareDesc;
+    const { parsedShareDesc } = this.store.getState();
+    let shareDesc = Object.assign({}, parsedShareDesc)
     Object.keys(shareDesc).map(el => {
       shareDesc[el] = shareDesc[el].filter(
         el =>
@@ -380,6 +350,7 @@ export default class TkeyController {
   async copyShareUsingIndexAndStoreLocally(index) {
     let outputshare = this.tb.outputShare(index);
     this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare);
+    this.store.updateState({keyDetails: this.tb.getKeyDetails()})
     await this.setSettingsPageData()
     // store locally
     console.log(outputshare);
@@ -392,6 +363,7 @@ export default class TkeyController {
       this.tb.modules.chromeExtensionStorage.storeDeviceShare(
         newShare.newShareStores[newShare.newShareIndex.toString("hex")]
       );
+      this.store.updateState({keyDetails: this.tb.getKeyDetails()})
       await this.setSettingsPageData()
 
     } catch (err) {
@@ -403,6 +375,8 @@ export default class TkeyController {
   async deleteShareDescription(shareIndex, desc) {
     try {
       await this.tb.deleteShareDescription(shareIndex, desc, true);
+      this.store.updateState({keyDetails: this.tb.getKeyDetails()})
+      await this.setSettingsPageData()
     } catch (err) {
       return Promise.reject(err);
     }

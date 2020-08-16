@@ -71,6 +71,7 @@ export default class PasswordForm extends PureComponent {
           passwordBlockType: "hidden",
           buttonText: "Change password"
         });
+        renderThresholdPanels()
       } catch (err) {
         debugger;
       }
@@ -127,7 +128,7 @@ export default class PasswordForm extends PureComponent {
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
             <p>*******</p>
-            <DeleteOutlinedIcon />
+            {/* <DeleteOutlinedIcon /> */}
           </div>
         </div>
       );

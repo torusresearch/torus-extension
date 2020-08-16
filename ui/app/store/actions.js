@@ -1400,7 +1400,9 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
 export function deleteShareDescription(shareIndex, desc) {
   return async (dispatch) => {
     try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
       await promisifiedBackground.deleteShareDescription(shareIndex, desc)
+      dispatch(hideLoadingIndication())
     } catch (err) {
       return Promise.reject(err)
     }
