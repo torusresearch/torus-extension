@@ -113,7 +113,7 @@ export default class tkeyTab extends PureComponent {
     }
   }
 
-  renderDeviceForm() {
+  renderDeviceList() {
     const { allDeviceShares, currentDeviceShare } = this.state;
     let el = Object.keys(allDeviceShares).map(index => {
       if (allDeviceShares[index].length === 0) return;
@@ -155,7 +155,7 @@ export default class tkeyTab extends PureComponent {
           <div>{this.state.torusPanel}</div>
         )}
 
-        {allDeviceShares !== null ? this.renderDeviceForm() : void 0}
+        {allDeviceShares !== null ? this.renderDeviceList() : void 0}
 
         {passwordShare !== null ? (
           <PasswordForm

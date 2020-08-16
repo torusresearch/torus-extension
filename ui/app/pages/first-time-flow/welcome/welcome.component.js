@@ -64,7 +64,7 @@ export default class Welcome extends PureComponent {
     }
   }
 
-  handleContinue = async () => {
+  handleContinue = async (newKeyAssign) => {
     const {
       history,
       createNewTorusVaultAndRestore,
@@ -74,7 +74,7 @@ export default class Welcome extends PureComponent {
     } = this.props;
 
     try {
-      await googleLogin();
+      await googleLogin(newKeyAssign);
       history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
     } catch (err) {
       if (err === "Password required") {
@@ -117,9 +117,17 @@ export default class Welcome extends PureComponent {
           <Button
             type="primary"
             className="first-time-flow__button"
-            onClick={this.handleContinue}
+            onClick={() => this.handleContinue(false)}
           >
             Continue with google
+          </Button>
+
+          <Button
+            type="primary"
+            className="first-time-flow__button"
+            onClick={() => this.handleContinue(true)}
+          >
+            Continue with google (new key assign)
           </Button>
         </div>
       </div>

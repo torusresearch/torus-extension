@@ -1102,7 +1102,7 @@ export default class MetamaskController extends EventEmitter {
     const allAccounts = await this.keyringController.getAccounts()
     this.preferencesController.setAddresses(allAccounts, userDetails)
     // set new account as selected
-    await this.preferencesController.setSelectedAddress(accounts[0])
+    // await this.preferencesController.setSelectedAddress(accounts[0])
   }
 
   // ---------------------------------------------------------------------------
@@ -2134,7 +2134,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * Torus google login
    */
-  async torusGoogleLogin() {
+  async torusGoogleLogin(newKeyAssign) {
     try {
       // debugger  
       const TorusOptions = {
@@ -2173,7 +2173,7 @@ export default class MetamaskController extends EventEmitter {
 
       // Login via torus service provider to get back 1 share 
       // following returns a postbox key
-      await this.tb.serviceProvider.triggerAggregateLogin({
+      this.postBox = await this.tb.serviceProvider.triggerAggregateLogin({
         aggregateVerifierType: "single_id_verifier",
         subVerifierDetailsArray: [
           {
@@ -2186,7 +2186,7 @@ export default class MetamaskController extends EventEmitter {
       });
 
       // Delete postbox later. Strictly for development purposes.
-      this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
+      // this.postBox = { "publicAddress": "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE", "privateKey": "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852", "userInfo": [{ "email": "shubham@tor.us", "name": "Shubham Rathi", "profileImage": "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg", "verifier": "google-shubs", "verifierId": "shubham@tor.us", "typeOfLogin": "google", "accessToken": "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA", "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ" }] }
       let postBox = this.postBox
       let verifierId = postBox.userInfo[0].email
       this.userInfo = postBox.userInfo[0]
@@ -2202,13 +2202,21 @@ export default class MetamaskController extends EventEmitter {
         });
       })
 
+      let somedata
+      if (newKeyAssign) {
+        await this.tb.initializeNewKey(undefined, true)
+        somedata = this.tb.getKeyDetails()
+        // await this.torusAddPasswordShare("torusAddPasswordShare");
+      } else {
+        somedata = await this.tb.initialize()
+      }
       /**
        * Initialise tb. 
        * 1. 1st time use, this will call tb.initializeNewKey(), create 2 shares (torus key and chrome extension storage), 
        *    update shareDescriptions() and metadata.
        * 2. Existing user (metadata exists), init with shareStore
        */
-      let somedata = await this.tb.initialize()
+      // let somedata = await this.tb.initialize()
 
       /**
        * Create new account. Useful for development purposes
@@ -2223,7 +2231,7 @@ export default class MetamaskController extends EventEmitter {
       // Sort the share descriptions with priority order
       let priorityOrder = ["chromeExtensionStorage", "securityQuestions", "webStorage"]
       let metadataSharesDescriptions = Object.values(somedata.shareDescriptions).map(el => {
-        return JSON.parse(el[0])
+        return el.length !== 0 ? JSON.parse(el[0]) : void(0)
       }).sort((a,b) => {return priorityOrder.indexOf(a.module) - priorityOrder.indexOf(b.module)})
 
       
@@ -2341,10 +2349,6 @@ export default class MetamaskController extends EventEmitter {
   async getTkeyDataForSettingsPage() {
     let tkey = this.tb
     let onDeviceShare = {}, passwordShare = {}
-    
-    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
-      return JSON.parse(el[0])
-    })
 
     // Total device shares
     let allDeviceShares = await this.getTotalDeviceShares()
@@ -2354,15 +2358,16 @@ export default class MetamaskController extends EventEmitter {
       let el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
       if (el) {
         onDeviceShare.available = true
-        onDeviceShare.userAgent = sdObj.filter(el => el.module == "chromeExtensionStorage")[0].userAgent
+        onDeviceShare.share = el
       }
     } catch{
-      onDeviceShare = {
-        available: false
-      }
+      onDeviceShare.available = false
     }
 
     // ForpasswordShare
+    let sdObj = Object.values(tkey.metadata.shareDescriptions).map(el => {
+      return el.length !== 0 ? JSON.parse(el[0]) : void(0)
+    })
     let passwordModules = sdObj.filter(el => el.module == "securityQuestions")
     passwordShare.available = passwordModules.length > 0 ? true : false
 

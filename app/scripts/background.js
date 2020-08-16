@@ -166,7 +166,7 @@ async function loadStateFromPersistence () {
 
   // read from disk
   // first from preferred, async API:
-  console.log(await localStore.get(), 'this is the local store')
+  // console.log(await localStore.get(), 'this is the local store')
   versionedData = (await localStore.get()) ||
                   migrator.generateInitialState(firstTimeState)
 

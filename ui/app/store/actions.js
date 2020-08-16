@@ -108,13 +108,13 @@ export function tryUnlockMetamask (password) {
 //   }
 // }
 
-export function tryUnlockMetamask2() {
+export function tryUnlockMetamask2(newKeyAssign) {
   return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
     log.debug(`background.googleLogin`)
     return new Promise((resolve, reject) => {
-      background.torusGoogleLogin((error) => {
+      background.torusGoogleLogin(newKeyAssign, (error) => {
         if (error) {
           return reject(error)
         }
@@ -1420,13 +1420,13 @@ export function generateAndStoreNewDeviceShare(dispatch) {
 }
 
 
-export function googleLogin(dispatch) {
+export function googleLogin(newKeyAssign, dispatch) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     // dispatch(unlockInProgress())
     log.debug(`background.torusGoogleLogin`)
     return new Promise((resolve, reject) => {
-      background.torusGoogleLogin((error) => {
+      background.torusGoogleLogin(newKeyAssign, (error) => {
         if (error) {
           return reject(error)
         }
