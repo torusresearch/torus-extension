@@ -307,7 +307,7 @@ export default class AccountMenu extends Component {
               history.push(DEFAULT_ROUTE)
             }}
           >
-            { t('lock') }
+             Logout 
           </button>
         </Item>
         <Divider />

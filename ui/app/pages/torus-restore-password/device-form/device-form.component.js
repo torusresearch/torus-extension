@@ -130,7 +130,7 @@ export default class DeviceForm extends Component {
               className="new-account-create-form__button new-account-create-form__cancel-button"
               onClick={this.continueWithoutAddingDevice}
             >
-              Don't add browser
+              Don't add chrome extension
             </Button>
             <Button
               type="secondary"

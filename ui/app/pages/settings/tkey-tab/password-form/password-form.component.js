@@ -27,7 +27,7 @@ export default class PasswordForm extends PureComponent {
     this.state = {
       passwordPanel: null,
       accountPassword: "",
-      accountPasswordError: "error",
+      accountPasswordError: "",
       passwordBlockType: passwordShare.available ? "hidden" : "input",
       buttonText: passwordShare.available ? "Change password" : "Add password"
     };
@@ -40,7 +40,7 @@ export default class PasswordForm extends PureComponent {
 
       // Add check for password if minimum 10 digits
       if (el.length < 10) {
-        accountPasswordError = "Password should be minimum 10 digis";
+        accountPasswordError = "Password should be minimum 10 digits";
       }
 
       return {
@@ -115,11 +115,6 @@ export default class PasswordForm extends PureComponent {
     }
   }
 
-  // drop down -> 3 options
-  // device1 , device2, new device
-  // 1 and 2 copy
-  // 3 -> generate New share
-
   renderPasswordBlock() {
     let { passwordBlockType } = this.state;
     // console.log("renderPasswordBlock", passwordBlockType);
@@ -151,12 +146,13 @@ export default class PasswordForm extends PureComponent {
 
   render() {
     let { passwordShare } = this.props;
-
+    let { accountPasswordError } = this.state;
     return (
       <div>
         <div className="tkey-tab__share">
           <p className="tkey-tab__subheading">Account Password</p>
           {this.renderPasswordBlock()}
+          <p className="tkey-tab__error-message">{accountPasswordError}</p>
           {this.renderButton()}
         </div>
       </div>

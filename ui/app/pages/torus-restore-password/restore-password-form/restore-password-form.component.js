@@ -47,7 +47,7 @@ export default class RestorePasswordForm extends Component {
 
       // Add check for password if minimum 10 digits
       if (el.length < 10) {
-        accountPasswordError = "Password should be minimum 10 digis";
+        accountPasswordError = "Password should be minimum 10 digits";
       }
 
       return {
@@ -74,14 +74,14 @@ export default class RestorePasswordForm extends Component {
           />
           <p className="new-account-create-form__error-message">{accountPasswordError}</p>
           <div className="new-account-create-form__buttons">
-            <Button
+            {/* <Button
               type="default"
               large
               className="new-account-create-form__button new-account-create-form__cancel-button"
               onClick={() => history.push(mostRecentOverviewPage)}
             >
               Verify using another method
-            </Button>
+            </Button> */}
             <Button
               type="secondary"
               large
