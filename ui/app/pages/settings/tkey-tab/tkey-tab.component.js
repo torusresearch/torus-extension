@@ -71,12 +71,12 @@ export default class tkeyTab extends PureComponent {
             <div className="tkey-tab__borderWrapper">
               <div className="tkey-tab__subshare">
                 <p>{serviceProvider.verifierId}</p>
-                <DeleteOutlinedIcon />
+                {/* <DeleteOutlinedIcon /> */}
               </div>
             </div>
-            <Button type="secondary" className="tkey-tab__addshareButton">
+            {/* <Button type="secondary" className="tkey-tab__addshareButton">
               Add share
-            </Button>
+            </Button> */}
           </div>
         )
       });

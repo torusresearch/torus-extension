@@ -1397,6 +1397,19 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
   }  
 }
 
+export function getPostboxKey() {
+  return async (dispatch) => {
+    try {
+      let state = await promisifiedBackground.getState()
+      let postbox = state.postbox
+      console.log(postbox)
+      return postbox
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
 export function deleteShareDescription(shareIndex, desc) {
   return async (dispatch) => {
     try {

@@ -91,9 +91,9 @@ export default class DeviceList extends PureComponent {
         {this.renderHeading()}
         <div className="tkey-tab__borderWrapper">{this.renderDevices()}</div>
         <p>{errorMessage}</p>
-        <Button type="secondary" className="tkey-tab__addshareButton">
+        {/* <Button type="secondary" className="tkey-tab__addshareButton">
           Add new browser
-        </Button>
+        </Button> */}
       </div>
     );
   }

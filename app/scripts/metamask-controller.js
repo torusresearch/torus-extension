@@ -308,6 +308,7 @@ export default class MetamaskController extends EventEmitter {
       PermissionsController: this.permissionsController.permissions,
       PermissionsMetadata: this.permissionsController.store,
       ThreeBoxController: this.threeBoxController.store,
+      TkeyController: this.tkeyController.store
     })
 
     this.memStore = new ComposableObservableStore(null, {
@@ -334,6 +335,7 @@ export default class MetamaskController extends EventEmitter {
       ThreeBoxController: this.threeBoxController.store,
       // ENS Controller
       EnsController: this.ensController.store,
+      TkeyController: this.tkeyController.store
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
 

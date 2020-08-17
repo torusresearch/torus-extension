@@ -124,10 +124,11 @@ export default class AccountMenu extends Component {
       addressConnectedDomainMap,
       originOfCurrentTab,
       userInfo,
-      getUserDetails
+      getUserDetails,
+      getPostboxKey
     } = this.props
     const { searchQuery } = this.state
-    
+      
     let filteredIdentities = accounts
     if (searchQuery) {
       this.addressFuse.setCollection(accounts)
@@ -219,7 +220,7 @@ export default class AccountMenu extends Component {
         label = t('hardware')
         break
       case 'Simple Key Pair':
-        label = t('imported')
+        label = ""
         break
       default:
         return null
