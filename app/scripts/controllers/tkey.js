@@ -334,6 +334,7 @@ export default class TkeyController {
   }
 
   async getTkeyDataForSettingsPage() {
+    await this.setSettingsPageData()
     let el = this.store.getState().settingsPageData;
     return el;
   }

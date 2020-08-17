@@ -32,8 +32,9 @@ export default class DeviceForm extends Component {
     getTotalDeviceShares().then(devices => {
       let totalDevices = [{ label: "New device", value: "New-device" }]
       Object.keys(devices).map(index => {
+        devices[index] = devices[index].slice(0,1)
         return devices[index].map(device => {
-          totalDevices.push({label: this.getBowserLabel(device.userAgent) + " " + device.dateAdded, value: index})
+          totalDevices.push({label: this.getBowserLabel(device.userAgent), value: index})
         })
         // return {label: getBrowserLabel(devices)}
       })
