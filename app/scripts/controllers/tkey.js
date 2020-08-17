@@ -3,7 +3,8 @@ import {
   ThresholdBak,
   SecurityQuestionsModule,
   ChromeExtensionStorageModule,
-  TorusServiceProvider
+  TorusServiceProvider,
+  TorusStorageLayer
 } from "threshold-bak";
 
 export default class TkeyController {
@@ -47,24 +48,27 @@ export default class TkeyController {
         // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
 
+      const serviceProvider = new TorusServiceProvider({
+        directParams: {
+          GOOGLE_CLIENT_ID:
+            "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
+          baseUrl: "http://scripts.toruswallet.io/",
+          redirectPathName: "redirectChromeExtension.html",
+          redirectToOpener: true,
+          network: "ropsten",
+          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"
+        },
+        postboxKey:
+          "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852"
+      })
+      const storageLayer = new TorusStorageLayer({ hostUrl: 'https://metadata.tor.us', serviceProvider })
       this.tb = new ThresholdBak({
         modules: {
           securityQuestions: new SecurityQuestionsModule(),
           chromeExtensionStorage: new ChromeExtensionStorageModule()
         },
-        serviceProvider: new TorusServiceProvider({
-          directParams: {
-            GOOGLE_CLIENT_ID:
-              "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-            baseUrl: "http://scripts.toruswallet.io/",
-            redirectPathName: "redirectChromeExtension.html",
-            redirectToOpener: true,
-            network: "ropsten",
-            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"
-          },
-          postboxKey:
-            "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852"
-        })
+        serviceProvider,
+        storageLayer
       });
 
       // this.tb = new ThresholdBak({
@@ -140,7 +144,7 @@ export default class TkeyController {
       // Allowing option keyassign for development purposes
       let keyDetails;
       if (newKeyAssign) {
-        await this.tb.initializeNewKey(undefined, true);
+        await this.tb.initializeNewKey({ initializeModules: true });
         keyDetails = this.tb.getKeyDetails();
         // await this.torusAddPasswordShare("torusAddPasswordShare");
       } else {

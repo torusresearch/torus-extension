@@ -67,15 +67,12 @@ export default class Welcome extends PureComponent {
   handleContinue = async (newKeyAssign) => {
     const {
       history,
-      createNewTorusVaultAndRestore,
-      importNewAccount,
-      setUserDetails,
       googleLogin
     } = this.props;
 
     try {
       await googleLogin(newKeyAssign);
-      history.push(INITIALIZE_IMPORT_WITH_TORUS_ROUTE);
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE);
     } catch (err) {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE)
