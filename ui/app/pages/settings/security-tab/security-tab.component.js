@@ -14,7 +14,7 @@ export default class SecurityTab extends PureComponent {
     warning: PropTypes.string,
     history: PropTypes.object,
     participateInMetaMetrics: PropTypes.bool.isRequired,
-    setParticipateInMetaMetrics: PropTypes.func.isRequired,
+    setParticipateInMetaMetrics: PropTypes.func,
     showIncomingTransactions: PropTypes.bool.isRequired,
     setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
@@ -140,7 +140,7 @@ export default class SecurityTab extends PureComponent {
     return (
       <div className="settings-page__body">
         { warning && <div className="settings-tab__error">{ warning }</div> }
-        { this.renderSeedWords() }
+        {/* { this.renderSeedWords() } */}
         { this.renderIncomingTransactionsOptIn() }
         { this.renderPhishingDetectionToggle() }
         { this.renderMetaMetricsOptIn() }
