@@ -189,7 +189,7 @@ export default class AccountMenu extends Component {
               type={PRIMARY}
             />
           </div>
-          { this.renderKeyringType(keyring) }
+          {/* { this.renderKeyringType(keyring) } */}
           { iconAndNameForOpenDomain
             ? (
               <div className="account-menu__icon-list">

@@ -4,6 +4,10 @@ import validUrl from "valid-url";
 import TextField from "../../../../components/ui/text-field";
 import Button from "../../../../components/ui/button";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 export default class PasswordForm extends PureComponent {
   static contextTypes = {
@@ -27,7 +31,10 @@ export default class PasswordForm extends PureComponent {
     this.state = {
       passwordPanel: null,
       accountPassword: "",
+      accountPassword2: "",
       accountPasswordError: "",
+      showPassword1: false,
+      showPassword2: false,
       passwordBlockType: passwordShare.available ? "hidden" : "input",
       buttonText: passwordShare.available ? "Change password" : "Add password"
     };
@@ -50,6 +57,34 @@ export default class PasswordForm extends PureComponent {
     });
   }
 
+  onPasswordChange2(field, value) {
+    this.setState(state => {
+      let { accountPassword, accountPassword2 } = state;
+      let accountPasswordError = "";
+
+      field === 1 ? accountPassword = value : field === 2 ? accountPassword2 = value : void 0
+
+      // Add check for password if minimum 10 digits
+      if (value.length < 10) {
+        accountPasswordError = "Password should be minimum 10 digits";
+      } else if (accountPassword !== accountPassword2) {
+        accountPasswordError = "Both passwords should be same";
+      }
+      
+      if (field === 1) {
+        return {
+          accountPassword: accountPassword,
+          accountPasswordError: accountPasswordError
+        };
+      } else if(field === 2) {
+        return {
+          accountPassword2: accountPassword2,
+          accountPasswordError: accountPasswordError
+        };
+      }
+    });
+  }
+
   async addAccountPassword() {
     const { accountPassword, accountPasswordError, buttonText } = this.state;
     const {
@@ -69,9 +104,13 @@ export default class PasswordForm extends PureComponent {
         // this.forceUpdate()
         this.setState({
           passwordBlockType: "hidden",
-          buttonText: "Change password"
+          buttonText: "Change password",
+          accountPassword: "",
+          accountPassword2: "",
+          showPassword1: false,
+          showPassword2 : false
         });
-        renderThresholdPanels()
+        renderThresholdPanels();
       } catch (err) {
         debugger;
       }
@@ -83,11 +122,20 @@ export default class PasswordForm extends PureComponent {
 
   changePassword() {
     this.setState({
-      passwordBlockType: "input",
+      passwordBlockType: "change",
       buttonText: "Add new password"
     });
     // this.renderPasswordBlock()
   }
+
+
+  handleClickShowPassword = (field, el) => {
+    if (field === 1) {
+      this.setState({ showPassword1: el });
+    } else if (field === 2) {
+      this.setState({ showPassword2: el });
+    }
+  };
 
   renderButton() {
     let { passwordBlockType, buttonText } = this.state;
@@ -116,7 +164,7 @@ export default class PasswordForm extends PureComponent {
   }
 
   renderPasswordBlock() {
-    let { passwordBlockType } = this.state;
+    let { passwordBlockType, accountPassword, accountPassword2 } = this.state;
     // console.log("renderPasswordBlock", passwordBlockType);
     if (passwordBlockType === "hidden") {
       return (
@@ -127,15 +175,58 @@ export default class PasswordForm extends PureComponent {
           </div>
         </div>
       );
+    } else if (passwordBlockType === "change") {
+      return (
+        <div className="tkey-tab__borderWrapper">
+          <div className="tkey-tab__subshare">
+            <input
+              value={this.state.accountPassword}
+              type={this.state.showPassword1 ? "text" : "password"}
+              placeholder="Enter your password"
+              onChange={event => this.onPasswordChange2(1, event.target.value)}
+              id="password1"
+            />
+            {!this.state.showPassword1 ? (
+              <Visibility
+                onClick={() => this.handleClickShowPassword(1, true)}
+              />
+            ) : (
+              <VisibilityOff
+                onClick={() => this.handleClickShowPassword(1, false)}
+              />
+            )}
+          </div>
+          <div className="tkey-tab__subshare">
+            <input
+              value={this.state.accountPassword2}
+              type={this.state.showPassword2 ? "text" : "password"}
+              placeholder="Confirm password"
+              onChange={event => this.onPasswordChange2(2, event.target.value)}
+              // onKeyDown={() => this.addAccountPassword()}
+              id="password2"
+            />
+            {!this.state.showPassword2 ? (
+              <Visibility
+                onClick={() => this.handleClickShowPassword(2, true)}
+              />
+            ) : (
+              <VisibilityOff
+                onClick={() => this.handleClickShowPassword(2, false)}
+              />
+            )}
+          </div>
+        </div>
+      );
     } else {
       return (
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
             <input
-              type="text"
-              value={this.state.password}
+              type="password"
+              value={this.state.accountPassword}
               placeholder="Enter your password"
               onChange={event => this.onPasswordChange(event.target.value)}
+              // onKeyDown={() => this.addAccountPassword()}
               id="password"
             />
           </div>

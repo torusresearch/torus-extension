@@ -2137,7 +2137,7 @@ export default class MetamaskController extends EventEmitter {
    * Locks MetaMask
    */
   setLocked () {
-    // return this.keyringController.setLocked()
+    return this.keyringController.setLocked()
   }
 
 
