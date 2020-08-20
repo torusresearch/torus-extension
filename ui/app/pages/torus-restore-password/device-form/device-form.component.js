@@ -144,7 +144,7 @@ export default class DeviceForm extends Component {
     const { Option, ValueContainer } = components;
 
     const IconOption = props => {
-      // console.log(props)
+      console.log(props)
       return (
         <Option {...props}>
           <div className="new-account-create-form__device-info new-account-create-form__device-option">
@@ -165,7 +165,7 @@ export default class DeviceForm extends Component {
         </Option>
       );
     };
-    const ValueOption = (props) => {
+    const SingleOption = (props) => {
       // debugger
       console.log(props.data)
       return (
@@ -177,11 +177,11 @@ export default class DeviceForm extends Component {
               </Grid>
               <Grid item xs={10}>
                 <h4>
-                  {props.data.os}
-                  <span> {" (" + props.data.index.substring(0, 4)+")"}</span>
+                  {props.data.browser.os}
+                  <span> {" (" + props.data.browser.index.substring(0, 4)+")"}</span>
                 </h4>
-                <p>{props.data.platform + ", " + props.data.name}</p>
-                <p>{props.data.date}</p>
+                <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
+                <p>{props.data.browser.date}</p>
               </Grid>
             </Grid>
           </div>
@@ -189,21 +189,55 @@ export default class DeviceForm extends Component {
       );
     };
 
+    const ValueOption = (props) => {
+      // debugger
+      // console.log(props)
+      return (
+        <ValueContainer {...props}>
+          {props.children}
+          {/* <div className="new-account-create-form__device-info new-account-create-form__device-option">
+            <Grid container>
+              <Grid item xs={2}>
+                <ComputerIcon />
+              </Grid>
+              <Grid item xs={10}>
+                <h4>
+                  {props.data.browser.os}
+                  <span> {" (" + props.data.browser.index.substring(0, 4)+")"}</span>
+                </h4>
+                <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
+                <p>{props.data.browser.date}</p>
+              </Grid>
+            </Grid>
+          </div> */}
+        </ValueContainer>
+      );
+    };
+
+
     return (
       <Select
         className="new-account-create-form__device-select"
         name="import-type-select"
-        clearable={false}
-        value={selectedDevice}
+        isClearable={false}
+        // value={selectedDevice}
         options={devices}
-        defaultValue={devices[0].browser}
+        defaultValue={devices[0]}
         closeMenuOnScroll={false}
         isSearchable={false}
+        styles={{
+          valueContainer: (base) => ({
+            ...base,
+            background: "red",
+            color: "green",
+            width: "100%"
+          })
+        }}
         onChange={opt => {
           console.log(opt);
-          this.setState({ selectedDevice: opt.browser });
+          this.setState({ selectedDevice: opt });
         }}
-        components={{ Option: IconOption, SingleValue: ValueOption }}
+        components={{ Option: IconOption, SingleValue: SingleOption, ValueContainer: ValueOption }}
       />
     );
   }
