@@ -100,7 +100,7 @@ export default class DeviceForm extends Component {
       }
     } else {
       try {
-        await copyShareUsingIndexAndStoreLocally(selectedDevice.index);
+        await copyShareUsingIndexAndStoreLocally(selectedDevice.browser.index);
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       } catch (err) {
         console.error(err);
@@ -141,7 +141,15 @@ export default class DeviceForm extends Component {
     const { devices, selectedDevice } = this.state;
     // console.log(components)
     // debugger
-    const { Option, ValueContainer } = components;
+    const { Option, ValueContainer, IndicatorSeparator } = components;
+
+    const indicatorSeparatorStyle = {
+      width: 0
+    };
+    
+    const IndicatorSeparator2 = ({ innerProps }) => {
+      return <span style={indicatorSeparatorStyle} {...innerProps} />;
+    };
 
     const IconOption = props => {
       console.log(props)
@@ -228,16 +236,18 @@ export default class DeviceForm extends Component {
         styles={{
           valueContainer: (base) => ({
             ...base,
-            background: "red",
-            color: "green",
             width: "100%"
-          })
+          }),
+          option: (base, { data, isDisabled, isFocused, isSelected }) => ({
+            ...base,
+            color:"black"
+          }),
         }}
         onChange={opt => {
           console.log(opt);
           this.setState({ selectedDevice: opt });
         }}
-        components={{ Option: IconOption, SingleValue: SingleOption, ValueContainer: ValueOption }}
+        components={{ Option: IconOption, SingleValue: SingleOption, ValueContainer: ValueOption, IndicatorSeparator: IndicatorSeparator2 }}
       />
     );
   }

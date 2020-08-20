@@ -540,18 +540,10 @@
 
   &__device-select{
     width: 100%;
-    height: 60px;
-
+    height: 80px;
 
     > div {
       border: 1px solid #E7E9F4;
-
-      > div:nth-of-type(2){
-
-        span{
-          width: 0;
-        }
-      }
     }
   }
 
