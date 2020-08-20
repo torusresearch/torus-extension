@@ -130,7 +130,7 @@ export function tryUnlockMetamask2(newKeyAssign) {
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
-        dispatch(unlockFailed(err.message))
+        // dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)
       })

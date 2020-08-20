@@ -21,6 +21,7 @@ export default class DeviceForm extends Component {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
     selectedDevice: "New-device",
+    currentDevice: {},
     browser: {},
     devices: [],
     tabValue: 1
@@ -83,13 +84,13 @@ export default class DeviceForm extends Component {
   }
 
   addDevice = async () => {
-    const { selectedDevice } = this.state;
+    const { selectedDevice, tabValue } = this.state;
     const {
       copyShareUsingIndexAndStoreLocally,
       generateAndStoreNewDeviceShare,
       history
     } = this.props;
-    if (selectedDevice === "New-device") {
+    if (tabValue === 1) {
       try {
         await generateAndStoreNewDeviceShare();
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
@@ -143,7 +144,7 @@ export default class DeviceForm extends Component {
     const { Option, ValueContainer } = components;
 
     const IconOption = props => {
-      console.log(props)
+      // console.log(props)
       return (
         <Option {...props}>
           <div className="new-account-create-form__device-info new-account-create-form__device-option">
@@ -154,6 +155,7 @@ export default class DeviceForm extends Component {
               <Grid item xs={10}>
                 <h4>
                   {props.data.browser.os}
+                  <span> {" (" + props.data.browser.index.substring(0, 4) + ")"}</span>
                 </h4>
                 <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
                 <p>{props.data.browser.date}</p>
@@ -163,7 +165,7 @@ export default class DeviceForm extends Component {
         </Option>
       );
     };
-    const ValueOption =  (props) => {
+    const ValueOption = (props) => {
       // debugger
       console.log(props.data)
       return (
@@ -176,6 +178,7 @@ export default class DeviceForm extends Component {
               <Grid item xs={10}>
                 <h4>
                   {props.data.os}
+                  <span> {" (" + props.data.index.substring(0, 4)+")"}</span>
                 </h4>
                 <p>{props.data.platform + ", " + props.data.name}</p>
                 <p>{props.data.date}</p>
@@ -194,7 +197,7 @@ export default class DeviceForm extends Component {
         value={selectedDevice}
         options={devices}
         defaultValue={devices[0].browser}
-        // closeMenuOnSelect={false}
+        closeMenuOnScroll={false}
         isSearchable={false}
         onChange={opt => {
           console.log(opt);
