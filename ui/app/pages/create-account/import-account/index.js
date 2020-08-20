@@ -25,8 +25,8 @@ export default class AccountImportSubview extends Component {
     const { type } = this.state
     const menuItems = this.getMenuItemTexts()
     const current = type || menuItems[0]
-
-    switch (current) {
+    // console.log(current)
+    switch (current.label) {
       case this.context.t('privateKey'):
         return <PrivateKeyImportView />
       case this.context.t('jsonFile'):
@@ -62,11 +62,13 @@ export default class AccountImportSubview extends Component {
           <div className="new-account-import-form__select-label">
             {this.context.t('selectType')}
           </div>
+
           <Select
             className="new-account-import-form__select"
             name="import-type-select"
             clearable={false}
-            value={type || menuItems[0]}
+            defaultValue={{ label: type.value || menuItems[0], value: type.value || menuItems[0] }}
+            value={type}
             options={menuItems.map((type) => {
               return {
                 value: type,
@@ -74,7 +76,7 @@ export default class AccountImportSubview extends Component {
               }
             })}
             onChange={(opt) => {
-              this.setState({ type: opt.value })
+              this.setState({ type: opt })
             }}
           />
         </div>

@@ -183,8 +183,8 @@ export default class TkeyController {
         let currentPriority = tempSD.shift();
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
-            requiredShares--;
+            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
+            // requiredShares--;
           } catch (err) {
             console.log("Couldn't find on device share");
           }
