@@ -2320,7 +2320,7 @@ export default class MetamaskController extends EventEmitter {
   // async torusInputPasswordShare(password) {
   //   // add new share
   //   try {
-  //     await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what's is your password?");
+  //     await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(password, "what is your password?");
   //     // reconstruct and check if any issues
   //     await this.reconstructTorusKeyrings()
   //   } catch (err) {
@@ -2331,7 +2331,7 @@ export default class MetamaskController extends EventEmitter {
 
   // async torusChangePasswordShare(password) {
   //   try {
-  //     await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what's is your password?");
+  //     await this.tb.modules.securityQuestions.changeSecurityQuestionAndAnswer(password, "what is your password?");
   //     // reconstruct and check if any issues
   //     await this.reconstructTorusKeyrings()
   //     this.tb.somedata = await this.tb.getKeyDetails()
@@ -2345,7 +2345,7 @@ export default class MetamaskController extends EventEmitter {
   // async torusAddPasswordShare(password) {
   //   // add new share
   //   try {
-  //     await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what's is your password?");
+  //     await this.tb.modules.securityQuestions.generateNewShareWithSecurityQuestions(password, "what is your password?");
   //     // reconstruct and check if any issues
   //     await this.reconstructTorusKeyrings()
   //     this.tb.somedata = await this.tb.getKeyDetails()
