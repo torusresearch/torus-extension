@@ -240,7 +240,7 @@ export default class TkeyController {
     try {
       await this.tb.modules.securityQuestions.inputShareFromSecurityQuestions(
         password,
-        "what's is your password?"
+        "what is your password?"
       );
       // reconstruct and check if any issues
       await this.reconstructTorusKeyrings();
