@@ -77,7 +77,8 @@ export default class ContactListTab extends Component {
         <div className="address-book__my-accounts-button__header">{t('myWalletAccounts')}</div>
         <div className="address-book__my-accounts-button__content">
           <div className="address-book__my-accounts-button__text">
-            { t('myWalletAccountsDescription') }
+            {/* {t('myWalletAccountsDescription')} */}
+            All of your accounts created on Torus will automatically be added to this section
           </div>
           <div className="address-book__my-accounts-button__caret" />
         </div>

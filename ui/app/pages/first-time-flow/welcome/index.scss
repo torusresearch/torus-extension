@@ -23,8 +23,9 @@
   &__header {
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 28px;
-    margin-bottom: 22px;
-    margin-top: 50px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin-top: 16px;
     text-align: center;
     color: #5C6C7F;
   }
@@ -34,7 +35,7 @@
     color: #5C6C7F;
 
     div {
-      font-size: 12px;
+      font-size: 16px;
     }
 
     @media screen and (max-width: 575px) {
@@ -45,6 +46,6 @@
   .first-time-flow__button {
     width: 184px;
     font-weight: 500;
-    margin-top: 44px;
+    margin-top: 40px;
   }
 }

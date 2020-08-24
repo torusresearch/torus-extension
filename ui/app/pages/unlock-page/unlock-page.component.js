@@ -140,11 +140,12 @@ export default class UnlockPage extends Component {
     const style = {
       backgroundColor: "#0364FF",
       color: "white",
-      marginTop: "60px",
+      marginTop: "40px",
       height: "60px",
-      fontWeight: "400",
+      fontWeight: "500",
       boxShadow: "none",
-      borderRadius: "4px"
+      borderRadius: "4px",
+      textTransform: "unset"
     };
 
     return (
@@ -160,7 +161,7 @@ export default class UnlockPage extends Component {
           onClick={() => this.handleLogin(false)}
           disableRipple
           >
-          Google Login
+          Continue with Google login
         </Button>
 
         <Button
@@ -185,7 +186,7 @@ export default class UnlockPage extends Component {
       color: "white",
       marginTop: "20px",
       height: "60px",
-      fontWeight: "400",
+      fontWeight: "500",
       boxShadow: "none",
       borderRadius: "4px"
     };
@@ -222,8 +223,8 @@ export default class UnlockPage extends Component {
               margin="10px"
             />
           </div>
-          <h1 className="unlock-page__title">{t("welcomeBack")}</h1>
-          <div>{t("unlockMessage")}</div>
+          <h1 className="unlock-page__title">Welcome back</h1>
+          <div className="welcome-page__description">Your digital wallet in one-click</div>
 
           {/* <Button
             type="primary"

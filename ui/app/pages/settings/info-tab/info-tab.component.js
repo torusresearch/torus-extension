@@ -54,7 +54,7 @@ export default class InfoTab extends PureComponent {
           >
             <span className="info-tab__link-text">
               {/* { t('supportCenter') } */}
-              telegram support
+              Telegram support
             </span>
           </a>
         </div>

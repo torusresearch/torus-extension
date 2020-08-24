@@ -100,12 +100,12 @@ export default class Welcome extends PureComponent {
 
           <img
             src="images/torus-icon-blue.png"
-            width="100"
-            height="100"
+            width="80"
+            height="80"
             margin="10px"
           />
 
-          <div className="welcome-page__header">Welcome to Torus-mask</div>
+          <div className="welcome-page__header">Welcome to Torus</div>
           <div className="welcome-page__description">
             <div>Your digital wallet in one-click</div>
             {/* <div>{t("happyToSeeYou")}</div> */}
