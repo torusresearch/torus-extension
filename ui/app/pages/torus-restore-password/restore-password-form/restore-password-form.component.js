@@ -63,7 +63,7 @@ export default class RestorePasswordForm extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          You are accessing your 2FA Wallet from a new platform. Verify your identity with your password:
+          It seems like you trying to login from a new device/browser. Please enter the password associated with this account to continue.
         </div>
         <div>
           <input

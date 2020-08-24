@@ -108,8 +108,8 @@ export default class Welcome extends PureComponent {
 
           <div className="welcome-page__header">Welcome to Torus-mask</div>
           <div className="welcome-page__description">
-            <div>{t("metamaskDescription")}</div>
-            <div>{t("happyToSeeYou")}</div>
+            <div>Your digital wallet in one-click</div>
+            {/* <div>{t("happyToSeeYou")}</div> */}
           </div>
           <Button
             type="primary"

@@ -28,7 +28,7 @@ export default class SecurityTab extends PureComponent {
 
     return (
       <div className="settings-page__content-row">
-        <div className="settings-page__content-item">
+        {/* <div className="settings-page__content-item">
           <span>{ t('revealSeedWords') }</span>
         </div>
         <div className="settings-page__content-item">
@@ -51,7 +51,7 @@ export default class SecurityTab extends PureComponent {
               { t('revealSeedWords') }
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }

@@ -120,7 +120,7 @@ export default class Routes extends Component {
       <Switch>
         <Route path={LOCK_ROUTE} component={Lock} exact />
         <Route path={INITIALIZE_ROUTE} component={FirstTimeFlow} />
-        <Route path={TORUS_RESTORE_PASSWORD_ROUTE} component={RestorePassword} />
+        <Initialized path={TORUS_RESTORE_PASSWORD_ROUTE} component={RestorePassword} />
         <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
         <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
         <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />
