@@ -65,7 +65,7 @@ export default class EndOfFlowScreen extends PureComponent {
           mangagement with the features of:
         </div>
         <div className="first-time-flow__onboarding">
-          <a href="docs.tor.us" target="_blank">
+          <a href="https://docs.tor.us" target="_blank">
             <img className="" src="images/torus-onboarding.png" />
           </a>
         </div>

@@ -116,7 +116,7 @@ export default class Welcome extends PureComponent {
             className="first-time-flow__button"
             onClick={() => this.handleContinue(false)}
           >
-            Continue with google
+            Continue with Google
           </Button>
 
           <Button
@@ -124,7 +124,7 @@ export default class Welcome extends PureComponent {
             className="first-time-flow__button"
             onClick={() => this.handleContinue(true)}
           >
-            Continue with google (new key assign)
+            Continue with Google (new key assign)
           </Button>
         </div>
       </div>

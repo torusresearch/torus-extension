@@ -104,7 +104,7 @@ export default class TkeyController {
         verifierIdentifier: "multigoogle-torus"
       });
 
-      // Delete postbox later. Strictly for development purposes.
+      // // Delete postbox later. Strictly for development purposes.
       // this.postBox = {
       //   publicAddress: "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE",
       //   privateKey:

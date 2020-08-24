@@ -67,10 +67,14 @@ export default class RestorePasswordForm extends Component {
         </div>
         <div>
           <input
+            type="password"
             className="new-account-create-form__input"
             value={accountPassword}
             placeholder={defaultAccountName}
             onChange={(event) => this.handlePasswordChange(event.target.value)}
+            onKeyDown={(e) => {
+              if (e.keyCode == 13) this.verifyPassword()
+            }}
           />
           <p className="new-account-create-form__error-message">{accountPasswordError}</p>
           <div className="new-account-create-form__buttons">

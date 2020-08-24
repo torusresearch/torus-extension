@@ -1,46 +1,40 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 
 export default class InfoTab extends PureComponent {
   state = {
-    version: global.platform.getVersion(),
-  }
+    version: global.platform.getVersion()
+  };
 
   static contextTypes = {
-    t: PropTypes.func,
-  }
+    t: PropTypes.func
+  };
 
-  renderInfoLinks () {
-    const { t } = this.context
+  renderInfoLinks() {
+    const { t } = this.context;
 
     return (
       <div className="settings-page__content-item settings-page__content-item--without-height">
-        <div className="info-tab__link-header">
-          { t('links') }
-        </div>
+        <div className="info-tab__link-header">{t("links")}</div>
         <div className="info-tab__link-item">
           <a
-            href="https://metamask.io/privacy.html"
+            href="https://docs.tor.us/legal/privacy-policy"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="info-tab__link-text">
-              { t('privacyMsg') }
-            </span>
+            <span className="info-tab__link-text">{t("privacyMsg")}</span>
           </a>
         </div>
         <div className="info-tab__link-item">
           <a
-            href="https://metamask.io/terms.html"
+            href="https://docs.tor.us/legal/terms-and-conditions"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="info-tab__link-text">
-              { t('terms') }
-            </span>
+            <span className="info-tab__link-text">{t("terms")}</span>
           </a>
         </div>
-        <div className="info-tab__link-item">
+        {/* <div className="info-tab__link-item">
           <a
             href="https://metamask.io/attributions.html"
             target="_blank"
@@ -50,47 +44,40 @@ export default class InfoTab extends PureComponent {
               { t('attributions') }
             </span>
           </a>
-        </div>
+        </div> */}
         <hr className="info-tab__separator" />
         <div className="info-tab__link-item">
           <a
-            href="https://support.metamask.io"
+            href="https://t.me/TorusLabs"
             target="_blank"
             rel="noopener noreferrer"
           >
             <span className="info-tab__link-text">
-              { t('supportCenter') }
+              {/* { t('supportCenter') } */}
+              telegram support
             </span>
           </a>
         </div>
         <div className="info-tab__link-item">
-          <a
-            href="https://metamask.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="info-tab__link-text">
-              { t('visitWebSite') }
-            </span>
+          <a href="https://tor.us" target="_blank" rel="noopener noreferrer">
+            <span className="info-tab__link-text">{t("visitWebSite")}</span>
           </a>
         </div>
         <div className="info-tab__link-item">
           <a
-            href="mailto:help@metamask.io?subject=Feedback"
+            href="mailto:hello@tor.us?subject=Feedback"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="info-tab__link-text">
-              { t('emailUs') }
-            </span>
+            <span className="info-tab__link-text">{t("emailUs")}</span>
           </a>
         </div>
       </div>
-    )
+    );
   }
 
-  render () {
-    const { t } = this.context
+  render() {
+    const { t } = this.context;
 
     return (
       <div className="settings-page__body">
@@ -98,27 +85,32 @@ export default class InfoTab extends PureComponent {
           <div className="settings-page__content-item settings-page__content-item--without-height">
             <div className="info-tab__logo-wrapper">
               <img
-                src="images/info-logo.png"
-                className="info-tab__logo"
+                src="images/torus-icon-blue.png"
+                width="100"
+                height="100"
+                margin="10px"
               />
             </div>
             <div className="info-tab__item">
               <div className="info-tab__version-header">
-                { t('metamaskVersion') }
+                {/* {t("metamaskVersion")} */}
+                Torus version
               </div>
               <div className="info-tab__version-number">
-                { this.state.version }
+                {this.state.version}
               </div>
             </div>
             <div className="info-tab__item">
               <div className="info-tab__about">
-                { t('builtInCalifornia') }
+                {/* { t('builtInCalifornia') } */}
+                Torus extension is a OAuth 2.0 distributed private key
+                management solution with 2FA support
               </div>
             </div>
           </div>
-          { this.renderInfoLinks() }
+          {this.renderInfoLinks()}
         </div>
       </div>
-    )
+    );
   }
 }
