@@ -82,7 +82,6 @@ export function tryUnlockMetamask (password) {
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
-        debugger;
         dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)
@@ -142,7 +141,6 @@ export function tryUnlockMetamask3(password) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       background.reconstructTorusKeyWithPassword(password, (err) => {
-        debugger
         if (err) reject(err)
         resolve()
       })

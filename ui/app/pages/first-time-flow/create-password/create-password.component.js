@@ -21,7 +21,6 @@ export default class CreatePassword extends PureComponent {
   }
 
   componentDidMount() {
-    debugger;
     const { isInitialized, history } = this.props
 
     // if (isInitialized) {

@@ -112,7 +112,7 @@ export default class PasswordForm extends PureComponent {
         });
         renderThresholdPanels();
       } catch (err) {
-        debugger;
+        console.error(err)
       }
       // this.renderThresholdPanels(); // reload panel
     } else {

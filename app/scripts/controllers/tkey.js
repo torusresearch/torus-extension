@@ -362,7 +362,6 @@ export default class TkeyController {
   }
 
   async generateAndStoreNewDeviceShare() {
-    debugger;
     try {
       let newShare = await this.tb.generateNewShare();
       this.tb.modules.chromeExtensionStorage.storeDeviceShare(

@@ -13,7 +13,6 @@ export default class Lock extends PureComponent {
   componentDidMount () {
     const { lockMetamask, isUnlocked, history } = this.props
 
-    debugger
     if (isUnlocked) {
       lockMetamask().then(() => history.push(DEFAULT_ROUTE))
     } else {

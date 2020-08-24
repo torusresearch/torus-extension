@@ -95,7 +95,7 @@ export default class DeviceForm extends Component {
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       } catch (err) {
         console.error(err);
-        debugger;
+        
       }
     } else {
       try {
@@ -103,7 +103,6 @@ export default class DeviceForm extends Component {
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       } catch (err) {
         console.error(err);
-        debugger;
       }
     }
   };

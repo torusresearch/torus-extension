@@ -4,7 +4,6 @@ Passing messages from background script to popup
 
 let port = chrome.runtime.connect({ name: 'trezor-connect' });
 port.onMessage.addListener(message => {
-    debugger
     window.postMessage(message, window.location.origin);
 });
 port.onDisconnect.addListener(d => {
@@ -16,7 +15,6 @@ Passing messages from popup to background script
 */
 
 window.addEventListener('message', event => {
-    debugger
     if (port && event.source === window && event.data) {
         port.postMessage(event.data);
     }

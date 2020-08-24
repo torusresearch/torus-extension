@@ -32,7 +32,6 @@ export default class DeviceList extends PureComponent {
   }
 
   getBowserLabel(agent) {
-    debugger
     const browser = Bowser.getParser(agent);
     return browser.getBrowserName() + " " + browser.getOSName();
   }
