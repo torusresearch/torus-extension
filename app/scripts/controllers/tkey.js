@@ -42,8 +42,8 @@ export default class TkeyController {
     try {
       const TorusOptions = {
         GOOGLE_CLIENT_ID:
-          "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-        baseUrl: "http://scripts.toruswallet.io/",
+          "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
+        baseUrl: "https://scripts.toruswallet.io/",
         redirectPathName: "redirectChromeExtension.html"
         // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
@@ -51,17 +51,19 @@ export default class TkeyController {
       const serviceProvider = new TorusServiceProvider({
         directParams: {
           GOOGLE_CLIENT_ID:
-            "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-          baseUrl: "http://scripts.toruswallet.io/",
+            "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
+          baseUrl: "https://scripts.toruswallet.io/",
           redirectPathName: "redirectChromeExtension.html",
           redirectToOpener: true,
-          network: "ropsten",
-          proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183"
-        },
+          network: "mainnet",
+        }
         // postboxKey:
         //   "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852"
-      })
-      const storageLayer = new TorusStorageLayer({ hostUrl: 'https://metadata.tor.us', serviceProvider })
+      });
+      const storageLayer = new TorusStorageLayer({
+        hostUrl: "https://metadata.tor.us",
+        serviceProvider
+      });
       this.tb = new ThresholdBak({
         modules: {
           securityQuestions: new SecurityQuestionsModule(),
@@ -92,16 +94,10 @@ export default class TkeyController {
 
       // Login via torus service provider to get back 1 share
       // following returns a postbox key
-      this.postBox = await this.tb.serviceProvider.triggerAggregateLogin({
-        aggregateVerifierType: "single_id_verifier",
-        subVerifierDetailsArray: [
-          {
-            clientId: TorusOptions.GOOGLE_CLIENT_ID,
-            typeOfLogin: "google",
-            verifier: "google-shubs"
-          }
-        ],
-        verifierIdentifier: "multigoogle-torus"
+      this.postBox = await this.tb.serviceProvider.triggerLogin({
+        clientId: TorusOptions.GOOGLE_CLIENT_ID,
+        typeOfLogin: "google",
+        verifier: "google"
       });
 
       // // Delete postbox later. Strictly for development purposes.
@@ -125,10 +121,10 @@ export default class TkeyController {
       //     }
       //   ]
       // };
-      
+
       let postBox = this.postBox;
-      let verifierId = postBox.userInfo[0].email;
-      this.userInfo = postBox.userInfo[0];
+      let verifierId = postBox.userInfo.email;
+      this.userInfo = postBox.userInfo;
       this.store.updateState({ postBox: postBox });
 
       // get metadata from the metadata-store
@@ -151,8 +147,8 @@ export default class TkeyController {
       } else {
         keyDetails = await this.tb.initialize();
       }
-      this.store.updateState({ keyDetails })
-      await this.setSettingsPageData()
+      this.store.updateState({ keyDetails });
+      await this.setSettingsPageData();
 
       // Check different types of shares from metadata. This helps in making UI decisions (About what kind of shares to ask from users)
       // Sort the share descriptions with priority order
@@ -162,7 +158,7 @@ export default class TkeyController {
         "webStorage"
       ];
 
-      let shareDesc = this.store.getState().parsedShareDesc
+      let shareDesc = this.store.getState().parsedShareDesc;
       let tempSD = Object.values(shareDesc)
         .flatMap(x => x)
         .sort((a, b) => {
@@ -216,7 +212,7 @@ export default class TkeyController {
 
       //add threshold back key with empty password
       await this.createNewTorusVaultAndRestore("", reconstructedKey, {
-        ...this.postBox.userInfo[0],
+        ...this.postBox.userInfo,
         typeOfLogin: "2FA Wallet"
       });
 
@@ -224,11 +220,10 @@ export default class TkeyController {
       await this.importAccountWithStrategy(
         "Private Key",
         [this.postBox.privateKey],
-        this.postBox.userInfo[0]
+        this.postBox.userInfo
       );
 
-      await this.setSettingsPageData()
-        
+      await this.setSettingsPageData();
     } catch (err) {
       console.error(err);
       return Promise.reject(err);
@@ -283,18 +278,20 @@ export default class TkeyController {
     let tkey = this.tb;
     let onDeviceShare = {},
       passwordShare = {};
-    
-    let keyDetails = this.tb.getKeyDetails()    
-    let shareDesc = Object.assign({}, keyDetails.shareDescriptions)
+
+    let keyDetails = this.tb.getKeyDetails();
+    let shareDesc = Object.assign({}, keyDetails.shareDescriptions);
     Object.keys(shareDesc).map(el => {
-      shareDesc[el] = shareDesc[el]
-        .map(jl => {
-          return JSON.parse(jl);
-        })
+      shareDesc[el] = shareDesc[el].map(jl => {
+        return JSON.parse(jl);
+      });
     });
-    this.store.updateState({ parsedShareDesc: shareDesc, keyDetails: keyDetails });
-    let parsedShareDesc = shareDesc
-    
+    this.store.updateState({
+      parsedShareDesc: shareDesc,
+      keyDetails: keyDetails
+    });
+    let parsedShareDesc = shareDesc;
+
     // Total device shares
     let allDeviceShares = this.getTotalDeviceShares();
 
@@ -318,12 +315,12 @@ export default class TkeyController {
     // Current threshold
     let threshold = keyDetails.threshold + "/" + keyDetails.totalShares;
 
-    let { postBox } = this.store.getState()
+    let { postBox } = this.store.getState();
     this.store.updateState({
       settingsPageData: {
         serviceProvider: {
           available: tkey.serviceProvider.postboxKey !== "0",
-          verifierId: postBox.userInfo[0].email
+          verifierId: postBox.userInfo.email
         },
         deviceShare: onDeviceShare,
         allDeviceShares: allDeviceShares,
@@ -335,7 +332,7 @@ export default class TkeyController {
   }
 
   async getTkeyDataForSettingsPage() {
-    await this.setSettingsPageData()
+    await this.setSettingsPageData();
     let el = this.store.getState().settingsPageData;
     return el;
   }
@@ -343,21 +340,21 @@ export default class TkeyController {
   getTotalDeviceShares() {
     // Avoid modifying this.tb
     const { parsedShareDesc } = this.store.getState();
-    let shareDesc = Object.assign({}, parsedShareDesc)
+    let shareDesc = Object.assign({}, parsedShareDesc);
     Object.keys(shareDesc).map(el => {
       shareDesc[el] = shareDesc[el].filter(
         el =>
           el.module === "chromeExtensionStorage" || el.module === "webStorage"
       );
-    })
-    return shareDesc
+    });
+    return shareDesc;
   }
 
   async copyShareUsingIndexAndStoreLocally(index) {
     let outputshare = this.tb.outputShare(index);
     this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare);
-    this.store.updateState({keyDetails: this.tb.getKeyDetails()})
-    await this.setSettingsPageData()
+    this.store.updateState({ keyDetails: this.tb.getKeyDetails() });
+    await this.setSettingsPageData();
     // store locally
   }
 
@@ -367,9 +364,8 @@ export default class TkeyController {
       this.tb.modules.chromeExtensionStorage.storeDeviceShare(
         newShare.newShareStores[newShare.newShareIndex.toString("hex")]
       );
-      this.store.updateState({keyDetails: this.tb.getKeyDetails()})
-      await this.setSettingsPageData()
-
+      this.store.updateState({ keyDetails: this.tb.getKeyDetails() });
+      await this.setSettingsPageData();
     } catch (err) {
       console.log(err);
       return Promise.reject(err);
@@ -379,8 +375,8 @@ export default class TkeyController {
   async deleteShareDescription(shareIndex, desc) {
     try {
       await this.tb.deleteShareDescription(shareIndex, desc, true);
-      this.store.updateState({keyDetails: this.tb.getKeyDetails()})
-      await this.setSettingsPageData()
+      this.store.updateState({ keyDetails: this.tb.getKeyDetails() });
+      await this.setSettingsPageData();
     } catch (err) {
       return Promise.reject(err);
     }
