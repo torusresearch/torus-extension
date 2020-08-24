@@ -359,7 +359,6 @@ export default class TkeyController {
     this.store.updateState({keyDetails: this.tb.getKeyDetails()})
     await this.setSettingsPageData()
     // store locally
-    console.log(outputshare);
   }
 
   async generateAndStoreNewDeviceShare() {

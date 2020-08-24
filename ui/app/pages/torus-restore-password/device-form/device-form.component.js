@@ -60,7 +60,6 @@ export default class DeviceForm extends Component {
       this.setState({
         devices: totalDevices
       });
-      console.log(totalDevices);
     }); // populate list of available devices
   }
 
@@ -71,7 +70,6 @@ export default class DeviceForm extends Component {
 
   setDeviceDetails() {
     const browser = Bowser.getParser(navigator.userAgent);
-    // console.log(browser)
     let date = new Date()
 
     this.setState({
@@ -153,7 +151,7 @@ export default class DeviceForm extends Component {
     };
 
     const IconOption = props => {
-      console.log(props)
+      // console.log(props)
       return (
         <Option {...props}>
           <div className="new-account-create-form__device-info new-account-create-form__device-option">
@@ -176,7 +174,7 @@ export default class DeviceForm extends Component {
     };
     const SingleOption = (props) => {
       // debugger
-      console.log(props.data)
+      // console.log(props.data)
       return (
         <ValueContainer {...props}>
           <div className="new-account-create-form__device-info new-account-create-form__device-option">
@@ -245,7 +243,6 @@ export default class DeviceForm extends Component {
           }),
         }}
         onChange={opt => {
-          console.log(opt);
           this.setState({ selectedDevice: opt });
         }}
         components={{ Option: IconOption, SingleValue: SingleOption, ValueContainer: ValueOption, IndicatorSeparator: IndicatorSeparator2 }}

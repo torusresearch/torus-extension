@@ -95,16 +95,16 @@ export function tryUnlockMetamask (password) {
 //     dispatch(showLoadingIndication())
 //     dispatch(unlockInProgress())
 //     await dispatch(googleLogin(dispatch))
-//     console.log(`google login completed`)
+//     log.info(`google login completed`)
 
 //     dispatch(unlockSucceeded())
-//     console.log('unlock succeded')
+//     log.info('unlock succeded')
 
 //     dispatch(setCompletedOnboarding())
 
 //     dispatch(hideLoadingIndication())
 //     await forceUpdateMetamaskState(dispatch)
-//     console.log(`background.submitPassword`)
+//     log.info(`background.submitPassword`)
 //   }
 // }
 
@@ -207,11 +207,11 @@ export function createNewTorusVaultAndRestore (password, privateKey, userDetails
     log.debug(`background.createNewTorusVaultAndRestore`)
     let vault
     return new Promise((resolve, reject) => {
-      console.log('actions.js createnewtoruvaultcalled')
+      log.info('actions.js createnewtoruvaultcalled')
       background.createNewTorusVaultAndRestore(password, privateKey, userDetails, (err, _vault) => {
-        console.log('callback from vault')
+        log.info('callback from vault')
         if (err) {
-          console.error(err)
+          log.debug(err)
           return reject(err)
         }
         vault = _vault
@@ -1372,7 +1372,7 @@ export function inputPasswordShare(password) {
 export function getTkeyDataForSettingsPage(dispatch) {
   return async (dispatch) => {
     let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
-    // console.log(tb)
+    // log.info(tb)
     return tb
   }
 }
@@ -1380,7 +1380,7 @@ export function getTkeyDataForSettingsPage(dispatch) {
 export function getTotalDeviceShares(dispatch) {
   return async (dispatch) => {
     let data = await promisifiedBackground.getTotalDeviceShares()
-    console.log(data)
+    log.info(data)
     return data
   }
 }
@@ -1389,7 +1389,7 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
   return async (dispatch) => {
     try {
       let data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
-      console.log(data)
+      log.info(data)
       return data
     } catch (err) {
       return Promise.reject(err)
@@ -1402,10 +1402,10 @@ export function getPostboxKey() {
     try {
       let state = await promisifiedBackground.getState()
       let postbox = state.postbox
-      console.log(postbox)
+      log.info(postbox)
       return postbox
     } catch (err) {
-      console.log(err)
+      log.info(err)
     }
   }
 }
@@ -1426,7 +1426,7 @@ export function generateAndStoreNewDeviceShare(dispatch) {
   return async (dispatch) => {
     try {
       let data = await promisifiedBackground.generateAndStoreNewDeviceShare()
-      console.log(data)
+      log.info(data)
       return data
     } catch (err) {
       return Promise.reject(err)

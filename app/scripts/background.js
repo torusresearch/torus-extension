@@ -247,7 +247,6 @@ function setupController (initState, initLangCode) {
   })
 
   window.controller = controller
-  // setInterval(async function () { console.log("controller", controller)}, 1000)
 
 
   setupEnsIpfsResolver({
@@ -462,23 +461,9 @@ async function openPopup () {
   )
 }
 
-// setInterval(async function () { console.log(await localStore.get())}, 1000)
-
 // On first install, open a new tab with MetaMask
 extension.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install' && !(process.env.METAMASK_DEBUG || process.env.IN_TEST)) {
     platform.openExtensionInBrowser()
   }
 })
-
-// For communication from external website
-// extension.runtime.onMessageExternal.addListener(
-//   function (request, sender, sendResponse) {
-//     debugger
-//     console.log(sender.url)
-//     global.TorusURLToSend = sender.url
-//     // extension.runtime.sendMessage({message: sender.url}, (response) => {
-//     //   console.log(response);
-//     // });
-    
-//   });

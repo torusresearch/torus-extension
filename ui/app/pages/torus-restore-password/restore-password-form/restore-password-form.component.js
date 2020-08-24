@@ -24,7 +24,6 @@ export default class RestorePasswordForm extends Component {
   verifyPassword = async () => {
     const { accountPassword, accountPasswordError } = this.state;
     const { history, inputPasswordShare } = this.props;
-    console.log(accountPassword);
 
     if (accountPasswordError == "") {
       try {
