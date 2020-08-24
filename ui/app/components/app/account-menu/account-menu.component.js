@@ -366,7 +366,7 @@ export default class AccountMenu extends Component {
           text={t('importAccount')}
         />
 
-        <Item
+        {/* <Item
           onClick={() => {
             // toggleAccountMenu()
             // metricsEvent({
@@ -385,7 +385,7 @@ export default class AccountMenu extends Component {
             />
           )}
           text={"TRP"}
-        />
+        /> */}
 
         <Item
           onClick={() => {

@@ -2,9 +2,6 @@
 // import { validateMnemonic } from 'bip39'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-// import DirectWebSDK from '@toruslabs/torus-direct-web-sdk'
-import ThresholdBak from 'threshold-bak'
-// import ThresholdBak from '/Users/shubham/Documents/github/torus/threshold-bak/dist/threshold-bak.cjs.js'
 import TextField from '../../../../components/ui/text-field'
 import Button from '../../../../components/ui/button'
 import {

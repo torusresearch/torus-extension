@@ -1,11 +1,11 @@
 import ObservableStore from "obs-store";
+import ThresholdKey from "tkey"
 import {
-  ThresholdBak,
   SecurityQuestionsModule,
   ChromeExtensionStorageModule,
   TorusServiceProvider,
   TorusStorageLayer
-} from "threshold-bak";
+} from "tkey";
 
 export default class TkeyController {
   constructor(opts = {}) {
@@ -64,7 +64,7 @@ export default class TkeyController {
         hostUrl: "https://metadata.tor.us",
         serviceProvider
       });
-      this.tb = new ThresholdBak({
+      this.tb = new ThresholdKey({
         modules: {
           securityQuestions: new SecurityQuestionsModule(),
           chromeExtensionStorage: new ChromeExtensionStorageModule()

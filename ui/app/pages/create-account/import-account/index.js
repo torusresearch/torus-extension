@@ -39,7 +39,7 @@ export default class AccountImportSubview extends Component {
   render () {
     const menuItems = this.getMenuItemTexts()
     const { type } = this.state
-
+    
     return (
       <div className="new-account-import-form">
         <div className="new-account-import-disclaimer">
@@ -67,7 +67,7 @@ export default class AccountImportSubview extends Component {
             className="new-account-import-form__select"
             name="import-type-select"
             clearable={false}
-            defaultValue={{ label: type.value || menuItems[0], value: type.value || menuItems[0] }}
+            defaultValue={{ label: menuItems[0], value: menuItems[0] }}
             value={type}
             options={menuItems.map((type) => {
               return {

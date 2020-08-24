@@ -59,7 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
-import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule, TorusServiceProvider} from "threshold-bak";
+// import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule, TorusServiceProvider} from "threshold-bak";
 
 import {
   AddressBookController,

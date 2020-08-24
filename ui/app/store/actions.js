@@ -21,7 +21,6 @@ import {
 } from '../selectors'
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
-import ThresholdBak from "threshold-bak";
 import { dispatch } from 'd3'
 
 let background = null

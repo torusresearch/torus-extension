@@ -5,7 +5,6 @@ import Mascot from "../../../components/ui/mascot";
 import Button from "../../../components/ui/button";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import ThresholdBak from "threshold-bak";
 
 import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
