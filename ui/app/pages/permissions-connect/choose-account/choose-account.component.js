@@ -192,8 +192,8 @@ export default class ChooseAccount extends Component {
         <PermissionsConnectHeader
           icon={targetDomainMetadata.icon}
           iconName={targetDomainMetadata.name}
-          // headerTitle={t('connectWithMetaMask')}
-          headerTitle="Connect with Torus-mask"
+          // headerTitle={t('connectWithTorus')}
+          headerTitle="Connect with Torus"
           headerText={accounts.length > 0
             ? t('selectAccounts')
             : t('connectAccountOrCreate')

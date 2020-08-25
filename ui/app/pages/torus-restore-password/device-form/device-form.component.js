@@ -262,7 +262,7 @@ export default class DeviceForm extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          {tabValue === 1 ? "Confirm your browser and device details. Store it for future access into your 2FA Wallet." : "Save new browser as a separate authentication factor or add it as an existing device."}
+          {tabValue === 1 ? "Confirm your browser and device details. Store it for future access into your 2FA Wallet." : "Save new extension as a separate authentication factor or add it as an existing device."}
           
         </div>
 
@@ -294,7 +294,7 @@ export default class DeviceForm extends Component {
             className="new-account-create-form__button new-account-create-form__cancel-button"
             onClick={this.continueWithoutAddingDevice}
           >
-            Do not save browser
+            Do not save extension
           </Button>
           <Button
             type="secondary"

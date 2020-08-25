@@ -26,7 +26,7 @@
     "description": "$1 is the number of accounts"
   },
   "connectedAccountsEmptyDescription": {
-    "message": "MetaMask is not connected this site. To connect to a web3 site, find the connect button on their site."
+    "message": "Torus is not connected this site. To connect to a web3 site, find the connect button on their site."
   },
   "currentAccountNotConnected": {
     "message": "Your current account is not connected"
@@ -76,12 +76,12 @@
   "connecting": {
     "message": "Connecting..."
   },
-  "connectWithMetaMask": {
-    "message": "Connect With MetaMask"
+  "connectWithTorus": {
+    "message": "Connect With Torus"
   },
   "connectTo": {
     "message": "Connect to $1",
-    "description": "$1 is the name/origin of a web3 site/application that the user can connect to metamask"
+    "description": "$1 is the name/origin of a web3 site/application that the user can connect to torus"
   },
   "connectToAll": {
     "message": "Connect to all your $1",
@@ -179,7 +179,7 @@
     "message": "Add Suggested Tokens"
   },
   "addAcquiredTokens": {
-    "message": "Add the tokens you've acquired using MetaMask"
+    "message": "Add the tokens you've acquired using Torus"
   },
   "alerts": {
     "message": "Alerts"
@@ -218,7 +218,7 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "Torus",
     "description": "The name of the application"
   },
   "approve": {
@@ -249,7 +249,7 @@
     "message": "Auto-Lock Timer (minutes)"
   },
   "autoLockTimeLimitDescription": {
-    "message": "Set the idle time in minutes before MetaMask will become locked."
+    "message": "Set the idle time in minutes before torus will become locked."
   },
   "average": {
     "message": "Average"
@@ -264,7 +264,7 @@
     "message": "Backup your Secret Recovery code to keep your wallet and funds secure."
   },
   "backupApprovalInfo": {
-    "message": "This secret code is required to recover your wallet in case you lose your device, forget your password, have to re-install MetaMask, or want to access your wallet on another device."
+    "message": "This secret code is required to recover your wallet in case you lose your device, forget your password, have to re-install torus, or want to access your wallet on another device."
   },
   "backupNow": {
     "message": "Backup now"
@@ -301,13 +301,13 @@
     "message": "Your Browser is not supported..."
   },
   "builtInCalifornia": {
-    "message": "MetaMask is designed and built in California."
+    "message": "Torus is designed and built in California."
   },
   "buyWithWyre": {
     "message": "Buy ETH with Wyre"
   },
   "buyWithWyreDescription": {
-    "message": "Wyre lets you use a debit card to deposit ETH right in to your MetaMask account."
+    "message": "Wyre lets you use a debit card to deposit ETH right in to your Torus account."
   },
   "buyCoinSwitch": {
     "message": "Buy on CoinSwitch"
@@ -352,7 +352,7 @@
     "message": "Close"
   },
   "chromeRequiredForHardwareWallets": {
-    "message": "You need to use MetaMask on Google Chrome in order to connect to your Hardware Wallet."
+    "message": "You need to use torus on Google Chrome in order to connect to your Hardware Wallet."
   },
   "confirm": {
     "message": "Confirm"
@@ -469,7 +469,7 @@
     "message": "Custom Spend Limit"
   },
   "dataBackupFoundInfo": {
-    "message": "Some of your account data was backed up during a previous installation of MetaMask. This could include your settings, contacts, and tokens. Would you like to restore this data now?"
+    "message": "Some of your account data was backed up during a previous installation of torus. This could include your settings, contacts, and tokens. Would you like to restore this data now?"
   },
   "decimalsMustZerotoTen": {
     "message": "Decimals must be at least 0, and not over 36."
@@ -547,16 +547,16 @@
     "message": "Never share the phrase with anyone."
   },
   "endOfFlowMessage5": {
-    "message": "Be careful of phishing! MetaMask will never spontaneously ask for your seed phrase."
+    "message": "Be careful of phishing! torus will never spontaneously ask for your seed phrase."
   },
   "endOfFlowMessage6": {
     "message": "If you need to back up your seed phrase again, you can find it in Settings -> Security."
   },
   "endOfFlowMessage7": {
-    "message": "If you ever have questions or see something fishy, email support@metamask.io."
+    "message": "If you ever have questions or see something fishy, email support@torus.io."
   },
   "endOfFlowMessage8": {
-    "message": "MetaMask cannot recover your seedphrase."
+    "message": "torus cannot recover your seedphrase."
   },
   "endOfFlowMessage9": {
     "message": "Learn more."
@@ -606,15 +606,15 @@
     "description": "Displayed error name for debugging purposes. $1 is the error name"
   },
   "errorPageTitle": {
-    "message": "MetaMask encountered an error",
+    "message": "torus encountered an error",
     "description": "Title of generic error page"
   },
   "errorPageMessage": {
-    "message": "Try again by reloading the page, or contact support at support@metamask.io",
+    "message": "Try again by reloading the page, or contact support at support@torus.io",
     "description": "Message displayed on generic error page in the fullscreen or notification UI"
   },
   "errorPagePopupMessage": {
-    "message": "Try again by closing and reopening the popup, or contact support at support@metamask.io",
+    "message": "Try again by closing and reopening the popup, or contact support at support@torus.io",
     "description": "Message displayed on generic error page in the popup UI"
   },
   "errorStack": {
@@ -739,7 +739,7 @@
     "message": "Connect a hardware wallet"
   },
   "hardwareWalletsMsg": {
-    "message": "Select a hardware wallet you'd like to use with MetaMask"
+    "message": "Select a hardware wallet you'd like to use with Torus"
   },
   "havingTroubleConnecting": {
     "message": "Having trouble connecting?"
@@ -772,7 +772,7 @@
     "message": "Import Account"
   },
   "importAccountMsg": {
-    "message": " Imported accounts will not be associated with your originally created MetaMask account seedphrase. Learn more about imported accounts "
+    "message": " Imported accounts will not be associated with your originally created Torus account seedphrase. Learn more about imported accounts "
   },
   "importAccountSeedPhrase": {
     "message": "Import an account with seed phrase"
@@ -909,7 +909,7 @@
     "message": "Message"
   },
   "metaMaskConnectStatusParagraphOne": {
-    "message": "You now have more control over your account connections in MetaMask."
+    "message": "You now have more control over your account connections in Torus."
   },
   "metaMaskConnectStatusParagraphTwo": {
     "message": "The connection status button shows if the website you’re visiting is connected to your currently selected account."
@@ -917,11 +917,11 @@
   "metaMaskConnectStatusParagraphThree": {
     "message": "Click it to manage your connected accounts."
   },
-  "metamaskDescription": {
+  "torusDescription": {
     "message": "Connecting you to Ethereum and the Decentralized Web."
   },
-  "metamaskVersion": {
-    "message": "MetaMask Version"
+  "torusVersion": {
+    "message": "Torus Version"
   },
   "mobileSyncText": {
     "message": "Please enter your password to confirm it's you!"
@@ -933,13 +933,13 @@
     "message": "My Wallet Accounts"
   },
   "myWalletAccountsDescription": {
-    "message": "All of your MetaMask created accounts will automatically be added to this section."
+    "message": "All of your Torus created accounts will automatically be added to this section."
   },
   "mustSelectOne": {
     "message": "Must select at least 1 token."
   },
   "needEtherInWallet": {
-    "message": "To interact with decentralized applications using MetaMask, you’ll need Ether in your wallet."
+    "message": "To interact with decentralized applications using Torus, you’ll need Ether in your wallet."
   },
   "needImportFile": {
     "message": "You must select a file to import.",
@@ -982,8 +982,8 @@
   "newNetwork": {
     "message": "New Network"
   },
-  "newToMetaMask": {
-    "message": "New to MetaMask?"
+  "newToTorus": {
+    "message": "New to Torus?"
   },
   "noAlreadyHaveSeed": {
     "message": "No, I already have a seed phrase"
@@ -992,10 +992,10 @@
     "message": "Protect Your Keys!"
   },
   "protectYourKeysMessage1": {
-    "message": "Be careful with your seed phrase — there have been reports of websites that attempt to imitate MetaMask. MetaMask will never ask for your seed phrase!"
+    "message": "Be careful with your seed phrase — there have been reports of websites that attempt to imitate Torus. Torus will never ask for your seed phrase!"
   },
   "protectYourKeysMessage2": {
-    "message": "Keep your phrase safe. If you see something fishy, or you’re uncertain about a website, email support@metamask.io"
+    "message": "Keep your phrase safe. If you see something fishy, or you’re uncertain about a website, email support@torus.io"
   },
   "rpcUrl": {
     "message": "New RPC URL"
@@ -1023,7 +1023,7 @@
   },
   "nextNonceWarning": {
     "message": "Nonce is higher than suggested nonce of $1",
-    "description": "The next nonce according to MetaMask's internal logic"
+    "description": "The next nonce according to Torus's internal logic"
   },
   "noAddressForName": {
     "message": "No address has been set for this name."
@@ -1065,7 +1065,7 @@
     "message": "Participate in MetaMetrics"
   },
   "participateInMetaMetricsDescription": {
-    "message": "Participate in MetaMetrics to help us make MetaMask better"
+    "message": "Participate in MetaMetrics to help us make Torus better"
   },
   "password": {
     "message": "Password"
@@ -1343,7 +1343,7 @@
     "message": "Select an Account"
   },
   "selectAnAccountHelp": {
-    "message": "Select the account to view in MetaMask"
+    "message": "Select the account to view in Torus"
   },
   "selectAHigherGasFee": {
     "message": "Select a higher gas fee to accelerate the processing of your transaction.*"
@@ -1425,7 +1425,7 @@
     "message": "Switch Networks"
   },
   "stateLogFileName": {
-    "message": "MetaMask State Logs"
+    "message": "Torus State Logs"
   },
   "stateLogs": {
     "message": "State Logs"
@@ -1494,19 +1494,19 @@
     "message": "Sync with mobile"
   },
   "syncWithMobileDesc": {
-    "message": "You can sync your accounts and information with your mobile device. Open the MetaMask mobile app, go to \"Settings\" and tap on \"Sync from Browser Extension\""
+    "message": "You can sync your accounts and information with your mobile device. Open the Torus mobile app, go to \"Settings\" and tap on \"Sync from Browser Extension\""
   },
   "syncWithMobileDescNewUsers": {
-    "message": "If you just open the MetaMask Mobile app for the first time, just follow the steps in your phone."
+    "message": "If you just open the Torus Mobile app for the first time, just follow the steps in your phone."
   },
   "syncWithMobileScanThisCode": {
-    "message": "Scan this code with your MetaMask mobile app"
+    "message": "Scan this code with your Torus mobile app"
   },
   "syncWithMobileBeCareful": {
     "message": "Make sure nobody else is looking at your screen when you scan this code"
   },
   "syncWithMobileComplete": {
-    "message": "Your data has been synced successfully. Enjoy the MetaMask mobile app!"
+    "message": "Your data has been synced successfully. Enjoy the Torus mobile app!"
   },
   "terms": {
     "message": "Terms of Use"
@@ -1614,7 +1614,7 @@
     "message": "Try again"
   },
   "typePassword": {
-    "message": "Type your MetaMask password"
+    "message": "Type your Torus password"
   },
   "unapproved": {
     "message": "Unapproved"
@@ -1698,7 +1698,7 @@
     "message": "Welcome Back!"
   },
   "welcome": {
-    "message": "Welcome to MetaMask"
+    "message": "Welcome to Torus"
   },
   "whatsThis": {
     "message": "What's this?"

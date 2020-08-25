@@ -62,7 +62,8 @@ export default class RestorePasswordForm extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          It seems like you trying to login from a new device/browser. Please enter the password associated with this account to continue.
+          It seems like you are trying to login from a new device/browser. <br />
+          Please enter the password associated with this account to continue.
         </div>
         <div>
           <input

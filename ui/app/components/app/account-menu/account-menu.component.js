@@ -168,16 +168,16 @@ export default class AccountMenu extends Component {
           <div className="account-menu__check-mark">
             { isSelected && <div className="account-menu__check-mark-icon" /> }
           </div>
-          {/* <Identicon
+          <Identicon
             address={identity.address}
             diameter={24}
-          /> */}
-          <img
+          />
+          {/* <img
             className="account-menu__userimage"
             src="https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg"
             width="25px"
             height="25px"
-          />
+          /> */}
 
           <div className="account-menu__account-info">
             <div className="account-menu__name">
