@@ -24,9 +24,9 @@ export default class AccountImportSubview extends Component {
   renderImportView () {
     const { type } = this.state
     const menuItems = this.getMenuItemTexts()
-    const current = type || menuItems[0]
-    // console.log(current, menuItems)
-    switch (current) {
+    const current = typeof(type) === "object" ? type : menuItems[0]
+    console.log(type, current.value, menuItems)
+    switch (current.value || current) {
       case this.context.t('privateKey'):
         return <PrivateKeyImportView />
       case this.context.t('jsonFile'):

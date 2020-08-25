@@ -319,7 +319,7 @@ DeviceForm.propTypes = {
   getTotalDeviceShares: PropTypes.func,
   copyShareUsingIndexAndStoreLocally: PropTypes.func,
   generateAndStoreNewDeviceShare: PropTypes.func,
-  deleteShareDescription: PropTypes
+  deleteShareDescription: PropTypes.func
 };
 
 DeviceForm.contextTypes = {

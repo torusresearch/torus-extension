@@ -5,6 +5,7 @@
   "manifest_version": 2,
   "description": "Ethereum blockchain wallet secured with one-step Google OAuth logins and 2FA capabilities",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxwz74yXMZr86S6bNwhn/8t9EWc0rk2kP5R6evMHQ9MXI+A+4g7NePyx1q2WAhsZkVdpRxnbOv/mUNimGevixe7xSbcLll7SaVDZGZsaR9tjyW9X4tyr6+cbN1FFDwtlOuCLqrpq42UUQ2b/KFxnXWTrzO/3Zu5VjZzudkkzbQ2I6Xp/iT6BSiboe9EhcNoo+KnzGn7Yj6pXSBMlpXxTGOgfW9cmf/+ft9YzjMfUWWtQgHUFnPc2bPSsW8udGkwWyR93BQHjd6++c7PCpse+V+6dlq3TzqlEHN2094mvceUVPFcdWPYy/+UMiHdpoFanB1BLQyqlnhCrbjIOxc3BgiwIDAQAB",
   "icons": {
     "16": "images/torus-icon-blue.png",
     "19": "images/torus-icon-blue.png",
@@ -72,13 +73,5 @@
     "inpage.js",
     "phishing.html",
     "home.html"
-  ],
-  "externally_connectable": {
-    "matches": [
-      "*://localhost/*"
-    ],
-    "ids": [
-      "*"
-    ]
-  }
+  ]
 }
