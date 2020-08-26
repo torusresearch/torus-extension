@@ -33,7 +33,8 @@ export default class UnlockPage extends Component {
 
   state = {
     password: "",
-    error: null
+    error: null,
+    loginErrorMessage: ''
   };
 
   submitting = false;
@@ -63,6 +64,8 @@ export default class UnlockPage extends Component {
     } catch (err) {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE);
+      } else if (err === "new key assign required") {
+        this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
       }
       console.error(err);
     }
@@ -103,19 +106,7 @@ export default class UnlockPage extends Component {
     } catch ({ message }) {
       if (message === "Incorrect password") {
         const newState = await forceUpdateMetamaskState();
-        // this.context.metricsEvent({
-        //   eventOpts: {
-        //     category: 'Navigation',
-        //     action: 'Unlock',
-        //     name: 'Incorrect Passowrd',
-        //   },
-        //   customVariables: {
-        //     numberOfTokens: newState.tokens.length,
-        //     numberOfAccounts: Object.keys(newState.accounts).length,
-        //   },
-        // })
       }
-
       this.setState({ error: message });
       this.submitting = false;
     }
@@ -163,7 +154,7 @@ export default class UnlockPage extends Component {
           >
           Continue with Google login
         </Button>
-
+        
         <Button
           type="submit"
           style={style}
@@ -208,7 +199,7 @@ export default class UnlockPage extends Component {
   }
 
   render() {
-    const { password, error } = this.state;
+    const { password, error, loginErrorMessage } = this.state;
     const { t } = this.context;
     const { onImport, onRestore } = this.props;
 
@@ -235,6 +226,8 @@ export default class UnlockPage extends Component {
           </Button> */}
 
           {this.renderGoogleButton()}
+
+          <div className='welcome-page__loginErrorMessage'>{loginErrorMessage}</div>
           {/* 
 {/* 
           {/* 

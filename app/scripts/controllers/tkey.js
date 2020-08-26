@@ -155,7 +155,6 @@ export default class TkeyController {
       let priorityOrder = [
         "chromeExtensionStorage",
         "securityQuestions",
-        "webStorage"
       ];
 
       let shareDesc = this.store.getState().parsedShareDesc;

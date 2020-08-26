@@ -32,6 +32,10 @@ export default class Welcome extends PureComponent {
     t: PropTypes.func
   };
 
+  state = {
+    loginErrorMessage: ''
+  }
+
   constructor(props) {
     super(props);
 
@@ -40,21 +44,6 @@ export default class Welcome extends PureComponent {
 
   componentDidMount() {
     const { history, participateInMetaMetrics, welcomeScreenSeen, getIdToken } = this.props;
-    // getIdToken().then((url) => {
-    //   console.log('URLTORUS', url)
-    // })
-    // chrome.runtime.onMessage.addListener(
-    //   (request, sender, sendResponse) => {
-    //     debugger
-    //     console.log(request)
-    //     if (request === "hi")
-    //       sendResponse({message: "hi to you"});
-    //   });
-    
-    // chrome.runtime.sendMessage("hi", function(response) {
-    //     console.log(response)
-    //   });
-    
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
       history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
@@ -75,6 +64,8 @@ export default class Welcome extends PureComponent {
     } catch (err) {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE)
+      } else if (err === "new key assign required") {
+        this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
       }
       console.error(err);
     }
@@ -82,6 +73,8 @@ export default class Welcome extends PureComponent {
 
   render() {
     const { t } = this.context;
+    const { loginErrorMessage } = this.state
+
     return (
       <div className="welcome-page__wrapper">
         <div className="welcome-page">
@@ -125,6 +118,8 @@ export default class Welcome extends PureComponent {
           >
             Continue with Google (new key assign)
           </Button>
+
+          <p className="welcome-page__loginErrorMessage">{loginErrorMessage}</p>
         </div>
       </div>
     );

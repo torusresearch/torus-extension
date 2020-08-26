@@ -123,6 +123,7 @@ export default class PermissionConnect extends Component {
   }
 
   redirect (approved) {
+    const { history } = this.props
     this.setState({
       redirecting: true,
       permissionsApproved: approved,
@@ -130,9 +131,9 @@ export default class PermissionConnect extends Component {
     this.removeBeforeUnload()
 
     if (approved) {
-      setTimeout(this._doRedirect.bind(this), APPROVE_TIMEOUT)
+      setTimeout(() => history.push(DEFAULT_ROUTE), APPROVE_TIMEOUT)
     } else {
-      this._doRedirect()
+      history.push(DEFAULT_ROUTE)
     }
   }
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "../../../components/ui/button";
 import Snackbar from "../../../components/ui/snackbar";
 import MetaFoxLogo from "../../../components/ui/metafox-logo";
-import { DEFAULT_ROUTE } from "../../../helpers/constants/routes";
+import { DEFAULT_ROUTE, TKEY_ROUTE } from "../../../helpers/constants/routes";
 import { returnToOnboardingInitiator } from "../onboarding-initiator-util";
 
 export default class EndOfFlowScreen extends PureComponent {
@@ -45,6 +45,22 @@ export default class EndOfFlowScreen extends PureComponent {
     history.push(DEFAULT_ROUTE);
   };
 
+  gotoSettingsPage = async () => {
+    const {
+      history,
+      completeOnboarding,
+      completionMetaMetricsName,
+      onboardingInitiator
+    } = this.props;
+
+    await completeOnboarding()
+    if (onboardingInitiator) {
+      await returnToOnboardingInitiator(onboardingInitiator)
+    }
+    
+    history.push(TKEY_ROUTE)
+  }
+
   render() {
     const { t } = this.context;
     const { onboardingInitiator } = this.props;
@@ -52,23 +68,31 @@ export default class EndOfFlowScreen extends PureComponent {
     return (
       <div className="end-of-flow">
         <MetaFoxLogo />
-        <div className="first-time-flow__question">Welcome to Torus-mask</div>
+        <div className="first-time-flow__question">Welcome to Torus</div>
         <div className="first-time-flow__text-block end-of-flow__text-1">
-          Torus-mask connects you with any Ethereum application in one-click on
+          Torus connects you with any Ethereum application in one-click on
           your browser.
         </div>
 
         <div className="first-time-flow__question">What’s new?</div>
         <div className="first-time-flow__text-block end-of-flow__text-1">
-          Your Torus-mask extension starts with two wallets - a Google wallet
+          Your Torus extension starts with two wallets - a Google wallet
           and a 2FA Wallet. Your 2FA wallet utilizes tKey, a new form of key
           mangagement with the features of:
         </div>
+
+        <div className="first-time-flow__question">2FA Wallet setup</div>
+        <div className="first-time-flow__text-block end-of-flow__text-1">
+          <a style={{color:"#0363ff"}} onClick={this.gotoSettingsPage}>Add a password</a> to your 2FA wallet in 'Settings' page for account recovery
+        </div>
+
         <div className="first-time-flow__onboarding">
           <a href="https://docs.tor.us" target="_blank">
             <img className="" src="images/torus-onboarding.png" />
           </a>
         </div>
+
+        
         {/* <div className="first-time-flow__text-block end-of-flow__text-2">
           { t('endOfFlowMessage2') }
         </div>
