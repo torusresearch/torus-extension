@@ -78,7 +78,7 @@ export default class EndOfFlowScreen extends PureComponent {
         <div className="first-time-flow__text-block end-of-flow__text-1">
           Your Torus extension starts with two wallets - a Google wallet
           and a 2FA Wallet. Your 2FA wallet utilizes tKey, a new form of key
-          mangagement with the features of:
+          mangagement.
         </div>
 
         <div className="first-time-flow__question">2FA Wallet setup</div>

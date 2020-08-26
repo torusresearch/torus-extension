@@ -20,7 +20,7 @@ export default class DeviceForm extends Component {
   state = {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
-    selectedDevice: "New-device",
+    selectedDevice: "",
     instruction: "Confirm your browser and device details. Store it for future access into your 2FA Wallet.",
     currentDevice: {},
     browser: {},
@@ -58,7 +58,8 @@ export default class DeviceForm extends Component {
         // return {label: getBrowserLabel(devices)}
       });
       this.setState({
-        devices: totalDevices
+        devices: totalDevices,
+        selectedDevice: totalDevices[0]
       });
     }); // populate list of available devices
   }
@@ -99,6 +100,7 @@ export default class DeviceForm extends Component {
       }
     } else {
       try {
+        debugger
         await copyShareUsingIndexAndStoreLocally(selectedDevice.browser.index);
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       } catch (err) {
@@ -112,9 +114,10 @@ export default class DeviceForm extends Component {
     history.push(INITIALIZE_END_OF_FLOW_ROUTE);
   };
 
-  renderAddNewDevice() {
+  renderAddNewDevice = () => {
+    
     const { browser } = this.state;
-
+    
     return (
       <div className="new-account-create-form__device-info">
         <Grid container>
@@ -135,7 +138,7 @@ export default class DeviceForm extends Component {
   }
 
 
-  renderAddOldDevice() {
+  renderAddOldDevice  = () => {
     const { devices, selectedDevice } = this.state;
     // console.log(components)
     // debugger
@@ -201,26 +204,10 @@ export default class DeviceForm extends Component {
       return (
         <ValueContainer {...props}>
           {props.children}
-          {/* <div className="new-account-create-form__device-info new-account-create-form__device-option">
-            <Grid container>
-              <Grid item xs={2}>
-                <ComputerIcon />
-              </Grid>
-              <Grid item xs={10}>
-                <h4>
-                  {props.data.browser.os}
-                  <span> {" (" + props.data.browser.index.substring(0, 4)+")"}</span>
-                </h4>
-                <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
-                <p>{props.data.browser.date}</p>
-              </Grid>
-            </Grid>
-          </div> */}
         </ValueContainer>
       );
     };
-
-
+    
     return (
       <Select
         className="new-account-create-form__device-select"
