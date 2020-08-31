@@ -13,7 +13,7 @@ To learn how to develop MetaMask-compatible applications, visit our [Developer D
 To learn how to contribute to the MetaMask project itself, visit our [Internal Docs](https://github.com/MetaMask/metamask-extension/tree/develop/docs).
 
 ## Testing locally
-Download zip [here](https://s3.amazonaws.com/scripts.toruswallet.io/torus-0.0.1.zip)
+Download zip [here](https://scripts.toruswallet.io/torus-0.0.1.zip)
 
 - Open Chrome.
 - Type in chrome://extensions/
