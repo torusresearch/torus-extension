@@ -79,12 +79,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {Object} opts
    */
   constructor (opts) {
-    super()
-
-
-    // Torus APIS
-    this.tb = undefined
-      
+    super()      
     this.defaultMaxListeners = 20
 
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
@@ -339,8 +334,8 @@ export default class MetamaskController extends EventEmitter {
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
 
-    // const password = process.env.CONF?.password
-    const password = ""
+    const password = process.env.CONF?.password
+    // const password = ""
     if (
       password && !this.isUnlocked() &&
       this.onboardingController.completedOnboarding
@@ -1579,9 +1574,6 @@ export default class MetamaskController extends EventEmitter {
    */
   setupControllerConnection (outStream) {
     const api = this.getApi()
-    api.getIdToken = (cb) => {
-      cb(global.TorusURLToSend)
-    }
     const dnode = Dnode(api)
     // report new active controller connection
     this.activeControllerConnections++
