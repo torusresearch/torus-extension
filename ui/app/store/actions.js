@@ -88,23 +88,6 @@ export function tryUnlockMetamask (password) {
   }
 }
 
-// export function tryUnlockMetamask2 () {
-//   return async (dispatch) => {
-//     dispatch(showLoadingIndication())
-//     dispatch(unlockInProgress())
-//     await dispatch(googleLogin(dispatch))
-//     log.info(`google login completed`)
-
-//     dispatch(unlockSucceeded())
-//     log.info('unlock succeded')
-
-//     dispatch(setCompletedOnboarding())
-
-//     dispatch(hideLoadingIndication())
-//     await forceUpdateMetamaskState(dispatch)
-//     log.info(`background.submitPassword`)
-//   }
-// }
 
 export function tryUnlockMetamask2(newKeyAssign) {
   return (dispatch) => {
