@@ -6,6 +6,8 @@
 
 @import 'settings-tab/index';
 
+@import 'tkey-tab/index';
+
 @import 'contact-list-tab/index';
 
 .settings-page {
@@ -13,6 +15,7 @@
   background: $white;
   display: flex;
   flex-flow: column nowrap;
+  padding-bottom: 16px;
 
   &__header {
     display: flex;
@@ -153,7 +156,7 @@
     padding: 12px 24px;
 
     @media screen and (min-width: 576px) {
-      padding: 12px;
+      padding: 12px 0;
     }
   }
 

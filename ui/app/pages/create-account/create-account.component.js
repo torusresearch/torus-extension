@@ -23,9 +23,9 @@ export default class CreateAccountPage extends Component {
 
     return (
       <div className="new-account__tabs">
-        <div className={getClassNames(NEW_ACCOUNT_ROUTE)} onClick={() => history.push(NEW_ACCOUNT_ROUTE)}>
+        {/* <div className={getClassNames(NEW_ACCOUNT_ROUTE)} onClick={() => history.push(NEW_ACCOUNT_ROUTE)}>
           {this.context.t('create')}
-        </div>
+        </div> */}
         <div className={getClassNames(IMPORT_ACCOUNT_ROUTE)} onClick={() => history.push(IMPORT_ACCOUNT_ROUTE)}>
           {this.context.t('import')}
         </div>
@@ -46,11 +46,11 @@ export default class CreateAccountPage extends Component {
         </div>
         <div className="new-account__form">
           <Switch>
-            <Route
+            {/* <Route
               exact
               path={NEW_ACCOUNT_ROUTE}
               component={NewAccountCreateForm}
-            />
+            /> */}
             <Route
               exact
               path={IMPORT_ACCOUNT_ROUTE}

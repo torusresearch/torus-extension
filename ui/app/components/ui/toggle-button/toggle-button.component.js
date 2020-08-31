@@ -33,7 +33,7 @@ const colors = {
     base: '#0364FF',
   },
   inactiveThumb: {
-    base: '#0364FF',
+    base: '#4d4d4d',
   },
   active: {
     base: '#ffffff',

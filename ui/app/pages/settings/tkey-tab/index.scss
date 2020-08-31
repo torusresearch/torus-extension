@@ -1,0 +1,158 @@
+.tkey-tab {
+  &__clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  &__expansionPanel {
+    margin: 10px 0;
+    padding: 5px;
+  }
+
+  &__share {
+    position: relative;
+    background: #fbfcff;
+    border: 1px solid #d3d5e2;
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 20px 24px 0 0;
+  }
+
+  &__subshare {
+    height: 40px;
+    padding: 0 10px;
+    background: #ffffff;
+    border-top: 1px solid #d3d5e2;
+    box-sizing: border-box;
+
+    p {
+      font-size: 12px;
+      line-height: 40px;
+      float: left;
+    }
+
+    input {
+      border: none;
+      background: transparent;
+      outline: 0;
+      width: 90%;
+      height: 100%;
+      margin: 0 -5px;
+    }
+
+    icon {
+      font-size: 32px;
+    }
+
+    svg {
+      float: right;
+      margin-top: 6px;
+    }
+
+    &:first-child {
+      border: none;
+    }
+  }
+
+  &__addshareButton {
+    position: relative;
+    left: calc(100% - 150px);
+    width: 150px;
+    border: 1.30275px solid #0364ff;
+    box-sizing: border-box;
+    filter: drop-shadow(0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06));
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 16px;
+  }
+
+  &__heading {
+    font-size: 10px;
+    font-weight: 200;
+  }
+
+  &__subheading {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+  }
+
+  &__error {
+    padding-bottom: 20px;
+    text-align: center;
+    color: $crimson;
+  }
+
+  &__advanced-link {
+    @extend %small-link;
+    padding-left: 5px;
+  }
+
+  &__rpc-save-button {
+    align-self: flex-end;
+    padding: 5px;
+    cursor: pointer;
+    width: 25%;
+  }
+
+  &__button--red {
+    border-color: lighten($monzo, 10%);
+    color: $monzo;
+
+    &:active {
+      background: lighten($monzo, 55%);
+      border-color: $monzo;
+    }
+
+    &:hover {
+      border-color: $monzo;
+    }
+  }
+
+  &__radio-buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  &__radio-button {
+    display: flex;
+    align-items: center;
+
+    &:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
+
+  &__radio-label {
+    padding-left: 4px;
+  }
+
+  &__borderWrapper {
+    border: 1px solid #d3d5e2;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+
+  &__error-message{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    color: #EF4C56
+  }
+
+}

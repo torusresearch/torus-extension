@@ -3,6 +3,7 @@ const UNLOCK_ROUTE = '/unlock'
 const LOCK_ROUTE = '/lock'
 const ASSET_ROUTE = '/asset'
 const SETTINGS_ROUTE = '/settings'
+const TKEY_ROUTE = '/settings/tkey'
 const GENERAL_ROUTE = '/settings/general'
 const CONNECTIONS_ROUTE = '/settings/connections'
 const ADVANCED_ROUTE = '/settings/advanced'
@@ -26,6 +27,10 @@ const CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE = '/confirm-add-suggested-token'
 const NEW_ACCOUNT_ROUTE = '/new-account'
 const IMPORT_ACCOUNT_ROUTE = '/new-account/import'
 const CONNECT_HARDWARE_ROUTE = '/new-account/connect'
+const TORUS_RESTORE_PASSWORD_ROUTE = '/torus-restore-password'
+const TRP_BASE_ROUTE = "/torus-restore-password"
+const TRP_PASSWORD_ROUTE = '/torus-restore-password/password'
+const TRP_DEVICE_ROUTE = '/torus-restore-password/device'
 const SEND_ROUTE = '/send'
 const CONNECT_ROUTE = '/connect'
 const CONNECT_CONFIRM_PERMISSIONS_ROUTE = '/confirm-permissions'
@@ -97,6 +102,7 @@ export {
   ADVANCED_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
+  TKEY_ROUTE,
   CONNECTIONS_ROUTE,
   ABOUT_US_ROUTE,
   CONTACT_LIST_ROUTE,
@@ -112,4 +118,8 @@ export {
   CONNECT_CONFIRM_PERMISSIONS_ROUTE,
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
+  TRP_DEVICE_ROUTE,
+  TRP_PASSWORD_ROUTE,
+  TRP_BASE_ROUTE
 }

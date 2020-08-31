@@ -6,6 +6,7 @@ import {
   importNewAccount,
   setSelectedAddress,
   createNewTorusVaultAndRestore,
+  addPasswordShare
 } from '../../../../store/actions'
 
 const mapDispatchToProps = (dispatch) => {
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     createNewTorusVaultAndRestore: (password, privateKey) => {
       return dispatch(createNewTorusVaultAndRestore(password, privateKey))
     },
+    addPasswordShare: (el) =>  dispatch(addPasswordShare(el))
   }
 }
 

@@ -62,7 +62,7 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount = 0,
       firstPermissionsRequestId,
     } = this.props
-
+    
     if (firstPermissionsRequestId) {
       history.push(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
     }
@@ -170,7 +170,6 @@ export default class Home extends PureComponent {
     )
   }
   renderPopover = () => {
-    debugger;
     
     const { setConnectedStatusPopoverHasBeenShown } = this.props
     const { t } = this.context

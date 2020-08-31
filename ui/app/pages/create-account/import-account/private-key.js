@@ -32,7 +32,7 @@ class PrivateKeyImportView extends Component {
     const privateKey = this.inputRef.current.value
     const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
 
-    importNewAccount('Private Key', [ privateKey ])
+    importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
           this.context.metricsEvent({
@@ -142,8 +142,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    importNewAccount: (strategy, [ privateKey ]) => {
-      return dispatch(actions.importNewAccount(strategy, [ privateKey ]))
+    importNewAccount: (strategy, [ privateKey ], userData) => {
+      return dispatch(actions.importNewAccount(strategy, [ privateKey ], userData))
     },
     displayWarning: (message) => dispatch(actions.displayWarning(message || null)),
     setSelectedAddress: (address) => dispatch(actions.setSelectedAddress(address)),

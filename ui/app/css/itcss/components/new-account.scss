@@ -4,7 +4,7 @@
   box-shadow: 0 0 7px 0 rgba(0,0,0,0.08);
   z-index: 25;
   height: unset;
-  overflow: auto;
+  overflow: visible;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -53,8 +53,8 @@
     }
 
     &__selected {
-      color: $curious-blue;
-      border-bottom: 3px solid $curious-blue;
+      color: #0f1222;
+      border-bottom: 3px solid #0f1222;
       cursor: initial;
       pointer-events: none;
     }
@@ -95,23 +95,43 @@
   &__select {
     height: 54px;
     width: 210px;
-    border: 1px solid #D2D8DD;
+    // border: 1px solid #D2D8DD;
     border-radius: 4px;
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
 
+    >div{
+      width: 100%;
+    }
     .Select-control,
     .Select-control:hover {
       height: 100%;
       border: none;
       box-shadow: none;
+      padding-left: 16px;
 
       .Select-value {
         display: flex;
         align-items: center;
       }
+
+      .Select-input input{
+        line-height: 32px;
+      }
     }
+  }
+
+  &__device-select{
+    @extend .new-account-import-form__select;
+    width: 100%;
+  }
+
+  &__device-info{
+    background: #FFFFFF;
+    border: 1px solid #E7E9F4;
+    box-sizing: border-box;
+    border-radius: 6px;
   }
 
   &__private-key-password-container {
@@ -518,6 +538,34 @@
   align-items: center;
   padding: 30px;
 
+  &__device-select{
+    width: 100%;
+    height: 80px;
+
+    > div {
+      border: 1px solid #E7E9F4;
+    }
+  }
+
+  &__tabs{
+    width: 100%;
+    margin: 16px 0;
+  }
+
+  &__tab{
+    width: 50%;
+    text-align: center;
+    float: left;
+    height: 30px;
+    color: #A2A5B5;
+    font-size: 15px;
+  }
+
+  &__tab-selected{
+    border-bottom: 2px solid #0364FF ;
+    color: #0364FF;
+  }
+
   &__input-label {
     color: $scorpion;
     font-family: Roboto;
@@ -538,6 +586,17 @@
     line-height: 21px;
     margin-top: 15px;
     padding: 0px 20px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+
+    color: #5C6C7F;
   }
 
   &__buttons {
@@ -547,8 +606,86 @@
     justify-content: space-between;
   }
 
+  &__cancel-button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background: transparent;
+    border: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #5495F7;
+  }
+
+  &__confirm-button{
+    background: #0364FF;
+    box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
+    border-radius: 3px;
+    color: white;
+    border: none;
+  }
+
+  &__device-info{
+    background: #FFFFFF;
+    border: 1px solid #E7E9F4;
+    box-sizing: border-box;
+    border-radius: 6px;
+    height: 80px;
+    padding: 8px 16px;
+    width: 100%;
+
+    h4{
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 18px;
+
+      span{
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+
+    p{
+      font-family: Roboto;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+    }
+
+    svg{
+      height: 100%;
+    }
+  }
+
+  &__device-option{
+    margin: 0;
+    border: none
+  }
+
+  &__error-message{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 40px;
+    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    color: #EF4C56
+  }
+
   &__button {
     width: 150px;
     min-width: initial;
   }
+
+
 }

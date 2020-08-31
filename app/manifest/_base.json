@@ -1,21 +1,11 @@
 {
-  "name": "__MSG_appName__",
-  "short_name": "__MSG_appName__",
-  "version": "7.7.0",
+  "name": "Torus Extension",
+  "short_name": "Torus",
+  "version": "0.0.1",
   "manifest_version": 2,
-  "author": "https://metamask.io",
-  "description": "__MSG_appDescription__",
+  "description": "Ethereum blockchain wallet secured with one-step Google OAuth logins and 2FA capabilities",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "windows": "Alt+Shift+M",
-        "mac": "Alt+Shift+M",
-        "chromeos": "Alt+Shift+M",
-        "linux": "Alt+Shift+M"
-      }
-    }
-  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApjTwCTkVfN0CH2j5kcMPyQqrTLKS05SnbRkzXR4An+zmJIB3OWZOQ23vSbZ/9ytBjrBkiZuwZM7U6Wu5mYm3R90WCLcQWkzb1Lm9Hw1IaVtkOEB0+eq4NMuM6E71H8ugpbZk/RoRDyZhsAFNAlAOI0Fk99S2tUjqrKxeabltVhRB8LxGcjl4C0YfDh+vPS3z3UPNxRS/xFURYvisb0UClYJ08OSqaAk23GeXuUgGzvO+Vyv821Y+2UgtfvDmHNEolLBRHiC6KMIIlyPggzfHzbU3zPA4goZDzwMwu/rLih83vohsnkoED7BDO3JpmyopNoiH9lsNhV5VxwFOcHMVbQIDAQAB",
   "icons": {
     "16": "images/torus-icon-blue.png",
     "19": "images/torus-icon-blue.png",
@@ -43,13 +33,12 @@
       "128": "/images/torus-icon-blue.png",
       "512": "/images/torus-icon-blue.png"
     },
-    "default_title": "Torus-mask",
+    "default_title": "Torus",
     "default_popup": "popup.html"
   },
   "content_scripts": [
     {
       "matches": [
-        "file://*/*",
         "http://*/*",
         "https://*/*"
       ],
@@ -72,8 +61,6 @@
     "storage",
     "unlimitedStorage",
     "clipboardWrite",
-    "http://localhost:8545/",
-    "https://*.infura.io/",
     "activeTab",
     "webRequest",
     "*://*.eth/",
@@ -81,14 +68,7 @@
   ],
   "web_accessible_resources": [
     "inpage.js",
-    "phishing.html"
-  ],
-  "externally_connectable": {
-    "matches": [
-      "https://metamask.io/*"
-    ],
-    "ids": [
-      "*"
-    ]
-  }
+    "phishing.html",
+    "home.html"
+  ]
 }

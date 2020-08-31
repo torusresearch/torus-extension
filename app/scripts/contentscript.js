@@ -63,7 +63,7 @@ async function setupStreams () {
     name: 'contentscript',
     target: 'inpage',
   })
-  const extensionPort = extension.runtime.connect({ name: 'contentscript' })
+  const extensionPort = extension.runtime.connect({ name: 'contentscript' })  
   const extensionStream = new PortStream(extensionPort)
 
   // create and connect channel muxers

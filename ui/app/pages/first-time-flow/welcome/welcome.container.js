@@ -16,7 +16,7 @@ const mapStateToProps = ({ metamask }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     closeWelcomeScreen: () => dispatch(closeWelcomeScreen()),
-    googleLogin: () => dispatch(googleLogin(dispatch)),
+    googleLogin: (newKeyAssign) => dispatch(googleLogin(newKeyAssign, dispatch)),
     createNewTorusVaultAndRestore: (password, privateKey, userDetails) => {
       return dispatch(createNewTorusVaultAndRestore(password, privateKey, userDetails))
     },

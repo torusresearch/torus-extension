@@ -5,12 +5,13 @@ import Mascot from "../../../components/ui/mascot";
 import Button from "../../../components/ui/button";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
-import ThresholdBak from "threshold-bak";
 
 import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
   INITIALIZE_SELECT_ACTION_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
+  INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
   DEFAULT_ROUTE
 } from "../../../helpers/constants/routes";
 import { getUserDetails } from "../../../store/actions";
@@ -23,12 +24,16 @@ export default class Welcome extends PureComponent {
     createNewTorusVaultAndRestore: PropTypes.func,
     importNewAccount: PropTypes.func,
     setUserDetails: PropTypes.func,
-    googleLogin: PropTypes.func
+    googleLogin: PropTypes.func,
   };
 
   static contextTypes = {
     t: PropTypes.func
   };
+
+  state = {
+    loginErrorMessage: ''
+  }
 
   constructor(props) {
     super(props);
@@ -38,7 +43,6 @@ export default class Welcome extends PureComponent {
 
   componentDidMount() {
     const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props;
-
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
       history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
@@ -47,113 +51,29 @@ export default class Welcome extends PureComponent {
     }
   }
 
-  handleContinue = async () => {
+  handleContinue = async (newKeyAssign) => {
     const {
       history,
-      createNewTorusVaultAndRestore,
-      importNewAccount,
-      setUserDetails,
       googleLogin
     } = this.props;
 
     try {
-      await googleLogin();
+      await googleLogin(newKeyAssign);
       history.push(INITIALIZE_END_OF_FLOW_ROUTE);
     } catch (err) {
+      if (err === "Password required") {
+        history.push(TORUS_RESTORE_PASSWORD_ROUTE)
+      } else if (err === "new key assign required") {
+        this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
+      }
       console.error(err);
     }
-
-    // try {
-    //   const TorusOptions = {
-    //     GOOGLE_CLIENT_ID:
-    //       "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-    //     baseUrl: "http://localhost:3000/serviceworker"
-    //     // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-    //   };
-
-    //   const tb = new ThresholdBak({
-    //     directParams: {
-    //       baseUrl: TorusOptions.baseUrl,
-    //       redirectToOpener: true,
-    //       network: "ropsten",
-    //       proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-    //     }
-    //   });
-
-    //   await tb.serviceProvider.directWeb.init({ skipSw: true });
-
-    //   // Login via torus service provider to get back 1 share
-    //   const postBox = await tb.serviceProvider.triggerAggregateLogin({
-    //     aggregateVerifierType: "single_id_verifier",
-    //     subVerifierDetailsArray: [
-    //       {
-    //         clientId: TorusOptions.GOOGLE_CLIENT_ID,
-    //         typeOfLogin: "google",
-    //         verifier: "google-shubs"
-    //       }
-    //     ],
-    //     verifierIdentifier: "multigoogle-torus"
-    //   });
-    //   console.log(postBox);
-
-    //   // get metadata from the metadata-store
-    //   // let keyDetails = await tb.initialize();
-    //   let keyDetails = await tb.initializeNewKey()
-    //   console.log(keyDetails);
-
-    //   await new Promise(function(resolve, reject) {
-    //     if (keyDetails.requiredShares > 0) {
-    //       chrome.storage.sync.get(["OnDeviceShare"], async result => {
-    //         tb.inputShare(JSON.parse(result.OnDeviceShare));
-    //         resolve();
-    //       });
-    //     } else {
-    //       chrome.storage.sync.set(
-    //         { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
-    //         function() {
-    //           resolve();
-    //         }
-    //       );
-    //     }
-    //   });
-
-    //   // add threshold back key with empty password
-    //   await createNewTorusVaultAndRestore(
-    //     "",
-    //     tb.reconstructKey().toString("hex"),
-    //     { ...postBox.userInfo[0], typeOfLogin: "Vault" }
-    //   );
-
-    //   // import postbox key
-    //   await importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0])
-
-    //   // debugger
-    //   // add user details
-    //   setUserDetails(postBox.userInfo[0])
-
-    //   history.push(INITIALIZE_END_OF_FLOW_ROUTE);
-
-    //   // await onSubmit(password, this.parseSeedPhrase(seedPhrase))
-    //   // this.context.metricsEvent({
-    //   //   eventOpts: {
-    //   //     category: 'Onboarding',
-    //   //     action: 'Import Seed Phrase',
-    //   //     name: 'Import Complete',
-    //   //   },
-    //   // })
-
-    //   // setSeedPhraseBackedUp(true).then(() => {
-    //   //   initializeThreeBox()
-    //   //   history.push(INITIALIZE_END_OF_FLOW_ROUTE)
-    //   // })
-    // } catch (error) {
-    //   console.error(error);
-    //   this.setState({ seedPhraseError: error.message });
-    // }
   };
 
   render() {
     const { t } = this.context;
+    const { loginErrorMessage } = this.state
+
     return (
       <div className="welcome-page__wrapper">
         <div className="welcome-page">
@@ -172,23 +92,33 @@ export default class Welcome extends PureComponent {
 
           <img
             src="images/torus-icon-blue.png"
-            width="100"
-            height="100"
+            width="80"
+            height="80"
             margin="10px"
           />
 
-          <div className="welcome-page__header">Welcome to Torus-mask</div>
+          <div className="welcome-page__header">Welcome to Torus</div>
           <div className="welcome-page__description">
-            <div>{t("metamaskDescription")}</div>
-            <div>{t("happyToSeeYou")}</div>
+            <div>Your digital wallet in one-click</div>
+            {/* <div>{t("happyToSeeYou")}</div> */}
           </div>
           <Button
             type="primary"
             className="first-time-flow__button"
-            onClick={this.handleContinue}
+            onClick={() => this.handleContinue(false)}
           >
-            Continue with google
+            Continue with Google
           </Button>
+{/* 
+          <Button
+            type="primary"
+            className="first-time-flow__button"
+            onClick={() => this.handleContinue(true)}
+          >
+            Continue with Google (new key assign)
+          </Button> */}
+
+          <p className="welcome-page__loginErrorMessage">{loginErrorMessage}</p>
         </div>
       </div>
     );

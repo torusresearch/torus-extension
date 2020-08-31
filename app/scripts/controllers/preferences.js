@@ -256,7 +256,7 @@ export default class PreferencesController {
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {}
       ids[address] = { address, ...oldId }
-      ids[address] = {...ids[address], name: oldId["name"] === "Vault" ? "Vault": userDetails.typeOfLogin}
+      ids[address] = {...ids[address], name: (oldId["name"] === "2FA Wallet") || (oldId["name"] ===  "google") ? oldId["name"] : userDetails.typeOfLogin}
       return ids
     }, {})
     const accountTokens = addresses.reduce((tokens, address) => {

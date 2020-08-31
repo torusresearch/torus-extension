@@ -59,6 +59,7 @@ import LedgerBridgeKeyring from '@metamask/eth-ledger-bridge-keyring'
 import EthQuery from 'eth-query'
 import nanoid from 'nanoid'
 import contractMap from 'eth-contract-metadata'
+// import { ThresholdBak, SecurityQuestionsModule, ChromeExtensionStorageModule, TorusServiceProvider} from "threshold-bak";
 
 import {
   AddressBookController,
@@ -67,6 +68,8 @@ import {
 } from '@metamask/controllers'
 
 import backEndMetaMetricsEvent from './lib/backend-metametrics'
+import { node } from 'prop-types'
+import TkeyController from './controllers/tkey'
 // import { CONSOLE_APPENDER } from 'karma/lib/constants'
 
 export default class MetamaskController extends EventEmitter {
@@ -76,8 +79,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {Object} opts
    */
   constructor (opts) {
-    super()
-
+    super()      
     this.defaultMaxListeners = 20
 
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
@@ -117,6 +119,7 @@ export default class MetamaskController extends EventEmitter {
       network: this.networkController,
     })
 
+    
     this.appStateController = new AppStateController({
       addUnlockListener: this.on.bind(this, 'unlock'),
       isUnlocked: this.isUnlocked.bind(this),
@@ -267,6 +270,12 @@ export default class MetamaskController extends EventEmitter {
       }
     })
 
+    this.tkeyController = new TkeyController({
+      createNewTorusVaultAndRestore: this.createNewTorusVaultAndRestore.bind(this),
+      initState: initState.TkeyController,
+      importAccountWithStrategy: this.importAccountWithStrategy.bind(this)
+    })
+
     this.networkController.on('networkDidChange', () => {
       this.setCurrentCurrency(this.currencyRateController.state.currentCurrency, function () {})
     })
@@ -294,6 +303,7 @@ export default class MetamaskController extends EventEmitter {
       PermissionsController: this.permissionsController.permissions,
       PermissionsMetadata: this.permissionsController.store,
       ThreeBoxController: this.threeBoxController.store,
+      // TkeyController: this.tkeyController.store
     })
 
     this.memStore = new ComposableObservableStore(null, {
@@ -320,16 +330,20 @@ export default class MetamaskController extends EventEmitter {
       ThreeBoxController: this.threeBoxController.store,
       // ENS Controller
       EnsController: this.ensController.store,
+      // TkeyController: this.tkeyController.store
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
 
     const password = process.env.CONF?.password
+    // const password = ""
     if (
       password && !this.isUnlocked() &&
       this.onboardingController.completedOnboarding
     ) {
       this.submitPassword(password)
     }
+    // this.submitPassword('')
+    // this.torusGoogleLogin()
   }
 
   /**
@@ -434,6 +448,7 @@ export default class MetamaskController extends EventEmitter {
     const preferencesController = this.preferencesController
     const threeBoxController = this.threeBoxController
     const txController = this.txController
+    const tkeyController = this.tkeyController
 
     return {
       // etc
@@ -454,6 +469,17 @@ export default class MetamaskController extends EventEmitter {
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
       getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
 
+      //torus key
+      torusGoogleLogin: nodeify(tkeyController.torusGoogleLogin, tkeyController),
+      torusAddPasswordShare: nodeify(tkeyController.torusAddPasswordShare, tkeyController),
+      torusChangePasswordShare: nodeify(tkeyController.torusChangePasswordShare, tkeyController),
+      torusInputPasswordShare: nodeify(tkeyController.torusInputPasswordShare, tkeyController),
+      getTkeyDataForSettingsPage: nodeify(tkeyController.getTkeyDataForSettingsPage, tkeyController),
+      getTotalDeviceShares: nodeify(tkeyController.getTotalDeviceShares, tkeyController),
+      copyShareUsingIndexAndStoreLocally: nodeify(tkeyController.copyShareUsingIndexAndStoreLocally, tkeyController),
+      generateAndStoreNewDeviceShare: nodeify(tkeyController.generateAndStoreNewDeviceShare, tkeyController),
+      deleteShareDescription: nodeify(tkeyController.deleteShareDescription, tkeyController),
+      
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
@@ -1081,7 +1107,7 @@ export default class MetamaskController extends EventEmitter {
     const allAccounts = await this.keyringController.getAccounts()
     this.preferencesController.setAddresses(allAccounts, userDetails)
     // set new account as selected
-    await this.preferencesController.setSelectedAddress(accounts[0])
+    // await this.preferencesController.setSelectedAddress(accounts[0])
   }
 
   // ---------------------------------------------------------------------------
@@ -1819,7 +1845,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * @returns {boolean} Whether the extension is unlocked.
    */
-  isUnlocked () {
+  isUnlocked() {
     return this.keyringController.memStore.getState().isUnlocked
   }
 

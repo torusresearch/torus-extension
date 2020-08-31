@@ -41,6 +41,10 @@
   padding: 14px 0;
   cursor: pointer;
 
+  :focus{
+    outline: none
+  }
+
   &__icon {
     margin-right: 8px;
     grid-row: 1 / span 2;

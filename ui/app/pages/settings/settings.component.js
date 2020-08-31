@@ -10,11 +10,13 @@ import AdvancedTab from './advanced-tab'
 import InfoTab from './info-tab'
 import SecurityTab from './security-tab'
 import ContactListTab from './contact-list-tab'
+import TkeyTab from './tkey-tab'
 import {
   ALERTS_ROUTE,
   ADVANCED_ROUTE,
   SECURITY_ROUTE,
   GENERAL_ROUTE,
+  TKEY_ROUTE,
   ABOUT_US_ROUTE,
   SETTINGS_ROUTE,
   NETWORKS_ROUTE,
@@ -83,7 +85,7 @@ class SettingsPage extends PureComponent {
     )
   }
 
-  renderTitle () {
+  renderTitle() {
     const { t } = this.context
     const { isPopupView, pathnameI18nKey, addressName } = this.props
 
@@ -117,7 +119,7 @@ class SettingsPage extends PureComponent {
       history,
       initialBreadCrumbKey,
     } = this.props
-
+    
     let subheaderText
 
     if (isPopupView && isAddressEntryPage) {
@@ -125,7 +127,7 @@ class SettingsPage extends PureComponent {
     } else if (initialBreadCrumbKey) {
       subheaderText = t(initialBreadCrumbKey)
     } else {
-      subheaderText = t(pathnameI18nKey || 'general')
+      subheaderText = t(pathnameI18nKey || 'general') || '2FA Wallet' //TODO: fix
     }
 
     return currentPath !== NETWORKS_ROUTE && (
@@ -157,6 +159,7 @@ class SettingsPage extends PureComponent {
     return (
       <TabBar
         tabs={[
+          { content: '2FA Wallet', description: "2FA Wallet", key: TKEY_ROUTE },
           { content: t('general'), description: t('generalSettingsDescription'), key: GENERAL_ROUTE },
           { content: t('advanced'), description: t('advancedSettingsDescription'), key: ADVANCED_ROUTE },
           { content: t('contacts'), description: t('contactsSettingsDescription'), key: CONTACT_LIST_ROUTE },
@@ -183,6 +186,11 @@ class SettingsPage extends PureComponent {
           exact
           path={GENERAL_ROUTE}
           component={SettingsTab}
+        />
+        <Route
+          exact
+          path={TKEY_ROUTE}
+          component={TkeyTab}
         />
         <Route
           exact

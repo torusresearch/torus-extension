@@ -21,7 +21,7 @@ import {
 } from '../selectors'
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
-import ThresholdBak from "threshold-bak";
+import { dispatch } from 'd3'
 
 let background = null
 let promisifiedBackground = null
@@ -73,7 +73,6 @@ export function tryUnlockMetamask (password) {
         dispatch(hideLoadingIndication())
       })
       .catch((err) => {
-        debugger;
         dispatch(unlockFailed(err.message))
         dispatch(hideLoadingIndication())
         return Promise.reject(err)
@@ -81,18 +80,69 @@ export function tryUnlockMetamask (password) {
   }
 }
 
-export function tryUnlockMetamask2 () {
-  return async (dispatch) => {
+
+export function tryUnlockMetamask2(newKeyAssign) {
+  return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
-    await dispatch(googleLogin(dispatch))
-    dispatch(unlockSucceeded())
-    dispatch(setCompletedOnboarding())
-
-    dispatch(hideLoadingIndication())
-    await forceUpdateMetamaskState(dispatch)
-    log.debug(`background.submitPassword`)
+    log.debug(`background.googleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusGoogleLogin(newKeyAssign, (error) => {
+        if (error) {
+          return reject(error)
+        }
+        resolve()
+      })
+    })
+      .then(() => {
+        dispatch(unlockSucceeded())
+        dispatch(setCompletedOnboarding())
+        return forceUpdateMetamaskState(dispatch)
+      })
+      .then(() => {
+        dispatch(hideLoadingIndication())
+      })
+      .catch((err) => {
+        // dispatch(unlockFailed(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
   }
+}
+
+export function tryUnlockMetamask3(password) {
+  
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      background.reconstructTorusKeyWithPassword(password, (err) => {
+        if (err) reject(err)
+        resolve()
+      })
+    }).then(() => {
+        
+      dispatch(unMarkPasswordForgotten())
+      return promisifiedBackground.getState()
+    })
+    .then(newState => {
+      
+      dispatch(updateMetamaskState(newState))
+      dispatch(showAccountsPage())
+      dispatch(hideLoadingIndication())
+
+      if (newState.selectedAddress) {
+        dispatch({
+          type: actionConstants.SHOW_ACCOUNT_DETAIL,
+          value: newState.selectedAddress,
+        })
+      }
+      return newState
+    })
+    .catch((err) => {
+      dispatch(displayWarning(err.message))
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
+    })
+  }  
 }
 
 export function createNewVaultAndRestore (password, seed) {
@@ -129,11 +179,11 @@ export function createNewTorusVaultAndRestore (password, privateKey, userDetails
     log.debug(`background.createNewTorusVaultAndRestore`)
     let vault
     return new Promise((resolve, reject) => {
-      console.log('actions.js createnewtoruvaultcalled')
+      log.info('actions.js createnewtoruvaultcalled')
       background.createNewTorusVaultAndRestore(password, privateKey, userDetails, (err, _vault) => {
-        console.log('callback from vault')
+        log.info('callback from vault')
         if (err) {
-          console.error(err)
+          log.debug(err)
           return reject(err)
         }
         vault = _vault
@@ -1183,7 +1233,7 @@ const backgroundSetLocked = () => {
   })
 }
 
-export function lockMetamask () {
+export function lockMetamask() {
   log.debug(`background.setLocked`)
 
   return (dispatch) => {
@@ -1226,84 +1276,174 @@ export function setUserDetails(el) {
   }
 }
 
-export function googleLogin(dispatch) {
+export function changePasswordShare(password) {
   return async (dispatch) => {
-      try {
-        // debugger
-        const TorusOptions = {
-          GOOGLE_CLIENT_ID:
-            "238941746713-qqe4a7rduuk256d8oi5l0q34qtu9gpfg.apps.googleusercontent.com",
-          baseUrl: "http://localhost:3000/serviceworker"
-          // baseUrl: 'https://toruscallback.ont.io/serviceworker',
-        };
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    // dispatch(unlockInProgress())
+    log.debug(`background.torusGoogleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusChangePasswordShare(password, (err) => {
+        if (err) return reject(err)
+        resolve()
+      })
+    }).then(() => { 
+      dispatch(hideLoadingIndication())
+    }).catch(err => {
+      return Promise.reject(err)
+    })
+  }
+}
 
-        const tb = new ThresholdBak({
-          directParams: {
-            baseUrl: TorusOptions.baseUrl,
-            redirectToOpener: true,
-            network: "ropsten",
-            proxyContractAddress: "0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183" // details for test net,
-          }
-        });
+export function addPasswordShare(password) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    // dispatch(unlockInProgress())
+    log.debug(`background.torusGoogleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusAddPasswordShare(password, (err) => {
+        if (err) return reject(err)
+        resolve()
+      })
+    }).then(() => { 
+      dispatch(hideLoadingIndication())
+    }).catch(err => {
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
+    })
+  }
+}
 
-        await tb.serviceProvider.directWeb.init({ skipSw: true });
 
-        // Login via torus service provider to get back 1 share
-        const postBox = await tb.serviceProvider.triggerAggregateLogin({
-          aggregateVerifierType: "single_id_verifier",
-          subVerifierDetailsArray: [
-            {
-              clientId: TorusOptions.GOOGLE_CLIENT_ID,
-              typeOfLogin: "google",
-              verifier: "google-shubs"
-            }
-          ],
-          verifierIdentifier: "multigoogle-torus"
-        });
-        console.log(postBox);
-      
+export function inputPasswordShare(password) {
+  return async (dispatch) => {
+    log.debug(`background.torusGoogleLogin`)
 
-        // get metadata from the metadata-store
-        // let keyDetails = await tb.initialize();
-        let keyDetails = await tb.initializeNewKey()
-        console.log(keyDetails);
+    try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
+      let el = await promisifiedBackground.torusInputPasswordShare(password)
+      dispatch(hideLoadingIndication())
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
+    }
+    // // dispatch(unlockInProgress())
+    // return new Promise((resolve, reject) => {
+    //   background.torusInputPasswordShare(password, (err) => {
+    //     if (err) return reject(err)
+    //     resolve()
+    //   })
+    // }).then(() => { 
+    //   dispatch(hideLoadingIndication())
+    // }).catch(err => {
+    //   debugger
+    //   return Promise.reject(err)
+    // })
+  }
+}
 
-        await new Promise(function (resolve, reject) {
-          if (keyDetails.requiredShares > 0) {
-            chrome.storage.sync.get(["OnDeviceShare"], async result => {
-              tb.inputShare(JSON.parse(result.OnDeviceShare));
-              resolve();
-            });
-          } else {
-            chrome.storage.sync.set(
-              { OnDeviceShare: JSON.stringify(tb.outputShare(2)) },
-              function () {
-                resolve();
-              }
-            );
-          }
-        });
+export function getTkeyDataForSettingsPage(dispatch) {
+  return async (dispatch) => {
+    let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
+    // log.info(tb)
+    return tb
+  }
+}
 
-        // add threshold back key with empty password
-        await dispatch(createNewTorusVaultAndRestore(
-          "",
-          tb.reconstructKey().toString("hex"),
-          { ...postBox.userInfo[0], typeOfLogin: "Vault" }
-        ));
+export function getTotalDeviceShares(dispatch) {
+  return async (dispatch) => {
+    let data = await promisifiedBackground.getTotalDeviceShares()
+    log.info(data)
+    return data
+  }
+}
 
-        // import postbox key
-        await dispatch(importNewAccount('Private Key', [postBox.privateKey], postBox.userInfo[0]))
+export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
+  return async (dispatch) => {
+    try {
+      let data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
+      log.info(data)
+      return data
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
+
+export function getPostboxKey() {
+  return async (dispatch) => {
+    try {
+      let state = await promisifiedBackground.getState()
+      let postbox = state.postbox
+      log.info(postbox)
+      return postbox
+    } catch (err) {
+      log.info(err)
+    }
+  }
+}
+
+export function deleteShareDescription(shareIndex, desc) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
+      await promisifiedBackground.deleteShareDescription(shareIndex, desc)
+      dispatch(hideLoadingIndication())
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
+
+export function generateAndStoreNewDeviceShare(dispatch) {
+  return async (dispatch) => {
+    try {
+      let data = await promisifiedBackground.generateAndStoreNewDeviceShare()
+      log.info(data)
+      return data
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }  
+}
+
+
+export function googleLogin(newKeyAssign, dispatch) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    // dispatch(unlockInProgress())
+    log.debug(`background.torusGoogleLogin`)
+    return new Promise((resolve, reject) => {
+      background.torusGoogleLogin(newKeyAssign, (error) => {
+        if (error) {
+          return reject(error)
+        }
+        resolve()
+      })
+    })
+      .then(() => {
+        log.debug('actions.login completed')
+        dispatch(unMarkPasswordForgotten())
+        return promisifiedBackground.getState()
+      })
+      .then(newState => {
         
-        // debugger
-        // add user details
-        setUserDetails(postBox.userInfo[0])
+        dispatch(updateMetamaskState(newState))
+        dispatch(showAccountsPage())
+        dispatch(hideLoadingIndication())
 
-        // resolve()
-      } catch (error) {
-        debugger
-        console.error(error);
-        return Promise.reject(error)
-      }
+        if (newState.selectedAddress) {
+          dispatch({
+            type: actionConstants.SHOW_ACCOUNT_DETAIL,
+            value: newState.selectedAddress,
+          })
+        }
+        return newState
+      })
+      .catch((err) => {
+        dispatch(displayWarning(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
   }
 }
 

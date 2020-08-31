@@ -18,6 +18,7 @@ import {
   IMPORT_ACCOUNT_ROUTE,
   CONNECT_HARDWARE_ROUTE,
   DEFAULT_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
 } from '../../../helpers/constants/routes'
 import TextField from '../../ui/text-field'
 import SearchIcon from '../../ui/search-icon'
@@ -123,10 +124,11 @@ export default class AccountMenu extends Component {
       addressConnectedDomainMap,
       originOfCurrentTab,
       userInfo,
-      getUserDetails
+      getUserDetails,
+      getPostboxKey
     } = this.props
     const { searchQuery } = this.state
-    
+      
     let filteredIdentities = accounts
     if (searchQuery) {
       this.addressFuse.setCollection(accounts)
@@ -166,16 +168,16 @@ export default class AccountMenu extends Component {
           <div className="account-menu__check-mark">
             { isSelected && <div className="account-menu__check-mark-icon" /> }
           </div>
-          {/* <Identicon
+          <Identicon
             address={identity.address}
             diameter={24}
-          /> */}
-          <img
+          />
+          {/* <img
             className="account-menu__userimage"
             src="https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg"
             width="25px"
             height="25px"
-          />
+          /> */}
 
           <div className="account-menu__account-info">
             <div className="account-menu__name">
@@ -187,7 +189,7 @@ export default class AccountMenu extends Component {
               type={PRIMARY}
             />
           </div>
-          { this.renderKeyringType(keyring) }
+          {/* { this.renderKeyringType(keyring) } */}
           { iconAndNameForOpenDomain
             ? (
               <div className="account-menu__icon-list">
@@ -218,7 +220,7 @@ export default class AccountMenu extends Component {
         label = t('hardware')
         break
       case 'Simple Key Pair':
-        label = t('imported')
+        label = ""
         break
       default:
         return null
@@ -305,7 +307,7 @@ export default class AccountMenu extends Component {
               history.push(DEFAULT_ROUTE)
             }}
           >
-            { t('lock') }
+             Logout 
           </button>
         </Item>
         <Divider />
@@ -363,6 +365,28 @@ export default class AccountMenu extends Component {
           )}
           text={t('importAccount')}
         />
+
+        {/* <Item
+          onClick={() => {
+            // toggleAccountMenu()
+            // metricsEvent({
+            //   eventOpts: {
+            //     category: 'Navigation',
+            //     action: 'Main Menu',
+            //     name: 'Clicked Import Account',
+            //   },
+            // })
+            history.push(TORUS_RESTORE_PASSWORD_ROUTE)
+          }}
+          icon={(
+            <img
+              className="account-menu__item-icon"
+              src="images/import-account.svg"
+            />
+          )}
+          text={"TRP"}
+        /> */}
+
         <Item
           onClick={() => {
             toggleAccountMenu()
@@ -401,7 +425,7 @@ export default class AccountMenu extends Component {
         <Item
           onClick={() => {
             toggleAccountMenu()
-            debugger;
+            // debugger;
             history.push(SETTINGS_ROUTE)
             this.context.metricsEvent({
               eventOpts: {

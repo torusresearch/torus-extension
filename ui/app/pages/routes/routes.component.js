@@ -31,6 +31,7 @@ import AppHeader from '../../components/app/app-header'
 import UnlockPage from '../unlock-page'
 import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
+import RestorePassword from '../torus-restore-password'
 
 import {
   ADD_TOKEN_ROUTE,
@@ -44,12 +45,14 @@ import {
   INITIALIZE_UNLOCK_ROUTE,
   LOCK_ROUTE,
   MOBILE_SYNC_ROUTE,
-  NEW_ACCOUNT_ROUTE,
+  IMPORT_ACCOUNT_ROUTE,
+  CONNECT_HARDWARE_ROUTE,
   RESTORE_VAULT_ROUTE,
   REVEAL_SEED_ROUTE,
   SEND_ROUTE,
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
+  TORUS_RESTORE_PASSWORD_ROUTE,
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
@@ -90,7 +93,7 @@ export default class Routes extends Component {
 
   UNSAFE_componentWillMount () {
     const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
-
+    
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()
     }
@@ -98,15 +101,15 @@ export default class Routes extends Component {
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {
         pageChanged(locationObj.pathname)
-        const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
-        this.context.metricsEvent({}, {
-          currentPath: '',
-          pathname: locationObj.pathname,
-          url,
-          pageOpts: {
-            hideDimensions: true,
-          },
-        })
+        // const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
+        // this.context.metricsEvent({}, {
+        //   currentPath: '',
+        //   pathname: locationObj.pathname,
+        //   url,
+        //   pageOpts: {
+        //     hideDimensions: true,
+        //   },
+        // })
       }
     })
   }
@@ -118,6 +121,7 @@ export default class Routes extends Component {
       <Switch>
         <Route path={LOCK_ROUTE} component={Lock} exact />
         <Route path={INITIALIZE_ROUTE} component={FirstTimeFlow} />
+        <Route path={TORUS_RESTORE_PASSWORD_ROUTE} component={RestorePassword} />
         <Initialized path={UNLOCK_ROUTE} component={UnlockPage} exact />
         <Initialized path={RESTORE_VAULT_ROUTE} component={RestoreVaultPage} exact />
         <Authenticated path={REVEAL_SEED_ROUTE} component={RevealSeedConfirmation} exact />
@@ -128,7 +132,8 @@ export default class Routes extends Component {
         <Authenticated path={ADD_TOKEN_ROUTE} component={AddTokenPage} exact />
         <Authenticated path={CONFIRM_ADD_TOKEN_ROUTE} component={ConfirmAddTokenPage} exact />
         <Authenticated path={CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE} component={ConfirmAddSuggestedTokenPage} exact />
-        <Authenticated path={NEW_ACCOUNT_ROUTE} component={CreateAccountPage} />
+        <Authenticated path={IMPORT_ACCOUNT_ROUTE} component={CreateAccountPage} />
+        <Authenticated path={CONNECT_HARDWARE_ROUTE} component={CreateAccountPage} />
         <Authenticated path={`${CONNECT_ROUTE}/:id`} component={PermissionsConnect} />
         <Authenticated path={`${ASSET_ROUTE}/:asset`} component={Asset} />
         <Authenticated path={DEFAULT_ROUTE} component={Home} />
@@ -199,6 +204,7 @@ export default class Routes extends Component {
       submittedPendingTransactions,
       isMouseUser,
     } = this.props
+    
     const isLoadingNetwork = network === 'loading'
     const loadMessage = (loadingMessage || isLoadingNetwork)
       ? this.getConnectingLabel(loadingMessage)

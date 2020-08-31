@@ -25,7 +25,6 @@ export default class FirstTimeFlowSwitch extends PureComponent {
       optInMetaMetrics,
     } = this.props
 
-    debugger;
     // completedOnboarding = true
     if (completedOnboarding) {
       return <Redirect to={{ pathname: DEFAULT_ROUTE }} />

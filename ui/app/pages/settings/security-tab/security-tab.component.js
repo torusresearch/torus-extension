@@ -14,20 +14,21 @@ export default class SecurityTab extends PureComponent {
     warning: PropTypes.string,
     history: PropTypes.object,
     participateInMetaMetrics: PropTypes.bool.isRequired,
-    setParticipateInMetaMetrics: PropTypes.func.isRequired,
+    setParticipateInMetaMetrics: PropTypes.func,
     showIncomingTransactions: PropTypes.bool.isRequired,
     setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
+    getTkeyState: PropTypes.func.isRequired
   }
 
-  renderSeedWords () {
+  renderSeedWords() {
     const { t } = this.context
-    const { history } = this.props
+    const { history, getTkeyState } = this.props
 
     return (
       <div className="settings-page__content-row">
-        <div className="settings-page__content-item">
+        {/* <div className="settings-page__content-item">
           <span>{ t('revealSeedWords') }</span>
         </div>
         <div className="settings-page__content-item">
@@ -50,7 +51,7 @@ export default class SecurityTab extends PureComponent {
               { t('revealSeedWords') }
             </Button>
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -139,10 +140,10 @@ export default class SecurityTab extends PureComponent {
     return (
       <div className="settings-page__body">
         { warning && <div className="settings-tab__error">{ warning }</div> }
-        { this.renderSeedWords() }
+        {/* { this.renderSeedWords() } */}
         { this.renderIncomingTransactionsOptIn() }
         { this.renderPhishingDetectionToggle() }
-        { this.renderMetaMetricsOptIn() }
+        {/* { this.renderMetaMetricsOptIn() } */}
       </div>
     )
   }

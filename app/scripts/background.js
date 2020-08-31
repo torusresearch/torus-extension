@@ -68,7 +68,6 @@ let versionedData
 if (inTest || process.env.METAMASK_DEBUG) {
   global.metamaskGetState = localStore.get.bind(localStore)
 }
-
 // initialization flow
 initialize().catch(log.error)
 
@@ -167,6 +166,7 @@ async function loadStateFromPersistence () {
 
   // read from disk
   // first from preferred, async API:
+  // console.log(await localStore.get(), 'this is the local store')
   versionedData = (await localStore.get()) ||
                   migrator.generateInitialState(firstTimeState)
 
@@ -245,6 +245,9 @@ function setupController (initState, initLangCode) {
       return openMetamaskTabsIDs
     },
   })
+
+  window.controller = controller
+
 
   setupEnsIpfsResolver({
     getCurrentNetwork: controller.getCurrentNetwork,
@@ -460,7 +463,6 @@ async function openPopup () {
 
 // On first install, open a new tab with MetaMask
 extension.runtime.onInstalled.addListener(({ reason }) => {
-  debugger;
   if (reason === 'install' && !(process.env.METAMASK_DEBUG || process.env.IN_TEST)) {
     platform.openExtensionInBrowser()
   }
