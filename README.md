@@ -1,4 +1,4 @@
-# MetaMask Browser Extension
+# Torus extension
 
 [![Build Status](https://circleci.com/gh/MetaMask/metamask-extension.svg?style=shield&circle-token=a1ddcf3cd38e29267f254c9c59d556d513e3a1fd)](https://circleci.com/gh/MetaMask/metamask-extension) [![Coverage Status](https://coveralls.io/repos/github/MetaMask/metamask-extension/badge.svg?branch=master)](https://coveralls.io/github/MetaMask/metamask-extension?branch=master)
 
@@ -11,6 +11,16 @@ For up to the minute news, follow our [Twitter](https://twitter.com/metamask_io)
 To learn how to develop MetaMask-compatible applications, visit our [Developer Docs](https://metamask.github.io/metamask-docs/).
 
 To learn how to contribute to the MetaMask project itself, visit our [Internal Docs](https://github.com/MetaMask/metamask-extension/tree/develop/docs).
+
+## Testing locally
+Download zip [here](https://s3.amazonaws.com/scripts.toruswallet.io/torus-0.0.1.zip)
+
+- Open Chrome.
+- Type in chrome://extensions/
+- Top right hand, enable developer mode.
+- Top left, click on load unpacked.
+- Select the downloaded torus-0.0.1 folder.
+- Test away!
 
 ## Building locally
 
