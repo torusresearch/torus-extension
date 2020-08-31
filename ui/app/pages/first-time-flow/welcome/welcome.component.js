@@ -25,7 +25,6 @@ export default class Welcome extends PureComponent {
     importNewAccount: PropTypes.func,
     setUserDetails: PropTypes.func,
     googleLogin: PropTypes.func,
-    getIdToken: PropTypes.func,
   };
 
   static contextTypes = {
@@ -43,7 +42,7 @@ export default class Welcome extends PureComponent {
   }
 
   componentDidMount() {
-    const { history, participateInMetaMetrics, welcomeScreenSeen, getIdToken } = this.props;
+    const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props;
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
       history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);

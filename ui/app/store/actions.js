@@ -36,14 +36,6 @@ export function goHome () {
   }
 }
 
-export function getIdToken () {
-  return (dispatch) => {
-    return new Promise((resolve) => {
-      background.getIdToken(resolve)
-    })
-  }
-}
-
 // async actions
 
 export function tryUnlockMetamask (password) {
