@@ -13,9 +13,9 @@ import {
   TRP_DEVICE_ROUTE
 } from '../../helpers/constants/routes'
 
-export default class RestorePassword extends Component {
+export default class ImportShareOrPassword extends Component {
   state = {
-    tabHeading: 'Verification required'
+    tabHeading: 'Verification methods'
   };
 
   changeHeading = (el) => {

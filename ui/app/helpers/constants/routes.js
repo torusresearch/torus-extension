@@ -31,6 +31,7 @@ const TORUS_RESTORE_PASSWORD_ROUTE = '/torus-restore-password'
 const TRP_BASE_ROUTE = "/torus-restore-password"
 const TRP_PASSWORD_ROUTE = '/torus-restore-password/password'
 const TRP_DEVICE_ROUTE = '/torus-restore-password/device'
+const TRP_IMPORT_OR_PASSWORD = '/torus-restore-password/import-or-password'
 const SEND_ROUTE = '/send'
 const CONNECT_ROUTE = '/connect'
 const CONNECT_CONFIRM_PERMISSIONS_ROUTE = '/confirm-permissions'
@@ -121,5 +122,6 @@ export {
   TORUS_RESTORE_PASSWORD_ROUTE,
   TRP_DEVICE_ROUTE,
   TRP_PASSWORD_ROUTE,
-  TRP_BASE_ROUTE
+  TRP_BASE_ROUTE,
+  TRP_IMPORT_OR_PASSWORD
 }

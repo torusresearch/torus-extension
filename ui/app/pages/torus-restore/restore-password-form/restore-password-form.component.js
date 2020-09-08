@@ -18,7 +18,7 @@ export default class RestorePasswordForm extends Component {
 
   componentDidMount(){
     const { changeHeading } = this.props
-    changeHeading("Verify device")
+    changeHeading("Verification method")
   }
 
   verifyPassword = async () => {
@@ -62,8 +62,9 @@ export default class RestorePasswordForm extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          It seems like you are trying to login from a new device/browser. <br /> <br />
-          Please enter the password associated with this account to continue.
+          You require 1 verification to access your 2FA wallet. Verify your identity with any of the following.
+          {/* It seems like you are trying to login from a new device/browser. <br /> <br />
+          Please enter the password associated with this account to continue. */}
         </div>
         <div>
           <input

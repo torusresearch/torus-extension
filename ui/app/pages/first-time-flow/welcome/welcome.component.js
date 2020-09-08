@@ -99,7 +99,7 @@ export default class Welcome extends PureComponent {
 
           <div className="welcome-page__header">Welcome to Torus</div>
           <div className="welcome-page__description">
-            <div>Your digital wallet in one-click</div>
+            <div>Your digital wallet in one-click</div>         
             {/* <div>{t("happyToSeeYou")}</div> */}
           </div>
           <Button
@@ -109,14 +109,14 @@ export default class Welcome extends PureComponent {
           >
             Continue with Google
           </Button>
-{/* 
+
           <Button
             type="primary"
             className="first-time-flow__button"
             onClick={() => this.handleContinue(true)}
           >
             Continue with Google (new key assign)
-          </Button> */}
+          </Button>
 
           <p className="welcome-page__loginErrorMessage">{loginErrorMessage}</p>
         </div>

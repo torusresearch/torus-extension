@@ -2615,6 +2615,19 @@
     "@babel/runtime" "^7.5.4"
     "@types/testing-library__react-hooks" "^3.0.0"
 
+"@tkey/core@../../torus/tkey/tkey-core-1.0.1.tgz":
+  version "1.0.1"
+  resolved "../../torus/tkey/tkey-core-1.0.1.tgz#9772f84c78562ce16c4e9cc83d7aa7d2019e0dee"
+  dependencies:
+    "@toruslabs/eccrypto" "^1.1.5"
+    "@toruslabs/http-helpers" "^1.3.4"
+    "@toruslabs/torus-direct-web-sdk" "^3.4.0"
+    bn.js "^5.1.3"
+    bowser "^2.10.0"
+    elliptic "^6.5.3"
+    json-stable-stringify "^1.0.1"
+    web3-utils "^1.2.11"
+
 "@toruslabs/eccrypto@^1.1.4", "@toruslabs/eccrypto@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@toruslabs/eccrypto/-/eccrypto-1.1.5.tgz#c4b9319e02e913fecd90f3f2b98ae2699e7d498e"
@@ -5688,6 +5701,11 @@ bn.js@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.2.tgz#c9686902d3c9a27729f43ab10f9d79c2004da7b0"
   integrity sha512-40rZaf3bUNKTVYu9sIeeEGOg7g14Yvnj9kH7b50EiwX0Q7A6umbvfI5tvHaOERH0XigqKkfLkFQxzb4e6CIXnA==
+
+bn.js@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.3.tgz#beca005408f642ebebea80b042b4d18d2ac0ee6b"
+  integrity sha512-GkTiFpjFtUzU9CbMeJ5iazkCzGL3jrhzerzZIuqLABjbwRaFt33I9tUdSNryIptM+RxDet6OKm2WnLXzW51KsQ==
 
 body-parser@1.19.0, body-parser@^1.15.0, body-parser@^1.16.0, body-parser@^1.16.1:
   version "1.19.0"
@@ -27040,9 +27058,9 @@ tinycolor2@^1.4.1:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
-"tkey@file:/Users/shubham/Documents/github/torus/tkey/tkey-0.2.0.tgz":
+"tkey@file:../../torus/tkey/tkey-0.2.0.tgz":
   version "0.2.0"
-  resolved "file:/Users/shubham/Documents/github/torus/tkey/tkey-0.2.0.tgz#3d1b8c31e02041f70d72e043884ef7f14b72f128"
+  resolved "file:../../torus/tkey/tkey-0.2.0.tgz#bfc40f1a55e9bca8e50d21a42cf92776088968e6"
   dependencies:
     "@toruslabs/eccrypto" "^1.1.5"
     "@toruslabs/http-helpers" "^1.3.4"
