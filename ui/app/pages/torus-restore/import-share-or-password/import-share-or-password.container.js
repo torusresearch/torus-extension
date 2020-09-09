@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   getTotalDeviceShares,
   requestShareFromOtherDevice,
+  startRequestStatusCheck,
   generateAndStoreNewDeviceShare,
   deleteShareDescription
 } from "../../../store/actions";
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getTotalDeviceShares: () => dispatch(getTotalDeviceShares()),
     requestShareFromOtherDevice: () => dispatch(requestShareFromOtherDevice()),
+    startRequestStatusCheck: (key) => dispatch(startRequestStatusCheck(key)),
   }
 }
 

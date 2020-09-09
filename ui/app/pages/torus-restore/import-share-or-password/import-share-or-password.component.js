@@ -13,7 +13,9 @@ import Button from "../../../components/ui/button";
 import {
   TORUS_RESTORE_PASSWORD_ROUTE,
   TRP_PASSWORD_ROUTE,
-  TRP_DEVICE_ROUTE
+  TRP_DEVICE_ROUTE,
+  DEFAULT_ROUTE,
+  INITIALIZE_END_OF_FLOW_ROUTE
 } from "../../../helpers/constants/routes";
 
 export default class ImportShareOrPassword extends Component {
@@ -146,7 +148,7 @@ export default class ImportShareOrPassword extends Component {
 
     const ValueOption = props => {
       // debugger
-      console.log(props)
+      // console.log(props)
       return <ValueContainer {...props}>{props.children}</ValueContainer>;
     };
 
@@ -184,14 +186,30 @@ export default class ImportShareOrPassword extends Component {
   };
 
   gotoPassword = () => {
-    const { history } = this.props
-    history.goBack()
-  }
+    const { history } = this.props;
+    history.goBack();
+  };
 
   requestShare = async () => {
-    const { requestShareFromOtherDevice } = this.props
-    await requestShareFromOtherDevice()
-  }
+    const {
+      requestShareFromOtherDevice,
+      startRequestStatusCheck,
+      history
+    } = this.props;
+    try {
+      let key = await requestShareFromOtherDevice();
+      // console.log(key)
+      // start loader ui with message
+      await startRequestStatusCheck(key);
+      console.log("construction completed");
+      // setTimeout(function() {
+      //   history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+      // }, 4000);
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+    } catch (err) {
+      // show error UI
+    }
+  };
 
   render() {
     return (
@@ -229,7 +247,8 @@ export default class ImportShareOrPassword extends Component {
 ImportShareOrPassword.propTypes = {
   location: PropTypes.object,
   history: PropTypes.object,
-  requestShareFromOtherDevice: PropTypes.func
+  requestShareFromOtherDevice: PropTypes.func,
+  startRequestStatusCheck: PropTypes.func
 };
 
 ImportShareOrPassword.contextTypes = {

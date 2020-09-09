@@ -358,13 +358,28 @@ export default class TkeyController {
     }
   }
 
-  async requestShareFromOtherDevice(device) {
+  async requestShareFromOtherDevice() {
     try {
       console.log("requesting new share")
       let encPubKeyX = await this.tb.modules.shareTransfer.requestNewShare()
       console.log(encPubKeyX)
+      return encPubKeyX
     } catch (err) {
       return Promise.reject(err)
+    }
+  }
+
+  async startRequestStatusCheck(encKey) {
+    try {
+      console.log("waiting for request to be approved");
+      let share = await this.tb.modules.shareTransfer.startRequestStatusCheck(encKey)
+      await this.tb.modules.shareTransfer.deleteShareTransferStore(encKey) // delete old share requests
+      // console.log(share, this.tb)
+      await this.reconstructTorusKeyrings()
+      // let reconstructedKey = await this.tb.reconstructKey();
+      // return reconstructedKey
+    } catch{
+      console.log("request check interval failed")
     }
   }
 }

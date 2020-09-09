@@ -1372,9 +1372,24 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
 export function requestShareFromOtherDevice() {
   return async (dispatch) => {
     try {
-      await promisifiedBackground.requestShareFromOtherDevice()
+      let key = await promisifiedBackground.requestShareFromOtherDevice()
+      console.log("actions.js", key)
+      return key
     } catch (err) {
-      
+      return err 
+    }
+  }
+}
+
+export function startRequestStatusCheck(encryptionPublicKeyX) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoadingIndication("Please approve share request from another device"))
+      await promisifiedBackground.startRequestStatusCheck(encryptionPublicKeyX)
+      await forceUpdateMetamaskState(dispatch)
+      dispatch(hideLoadingIndication())
+    } catch (err) {
+      return err
     }
   }
 }
