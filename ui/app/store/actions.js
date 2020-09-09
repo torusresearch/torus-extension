@@ -1369,6 +1369,16 @@ export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
   }  
 }
 
+export function requestShareFromOtherDevice() {
+  return async (dispatch) => {
+    try {
+      await promisifiedBackground.requestShareFromOtherDevice()
+    } catch (err) {
+      
+    }
+  }
+}
+
 export function getPostboxKey() {
   return async (dispatch) => {
     try {

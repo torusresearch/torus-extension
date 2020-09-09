@@ -9,7 +9,8 @@ import { getEnvironmentType } from "../../../../app/scripts/lib/util";
 import {
   DEFAULT_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
-  INITIALIZE_END_OF_FLOW_ROUTE
+  INITIALIZE_END_OF_FLOW_ROUTE,
+  TRP_IMPORT_ROUTE
 } from "../../helpers/constants/routes";
 import { ENVIRONMENT_TYPE_FULLSCREEN } from "../../../../app/scripts/lib/enums";
 
@@ -64,7 +65,9 @@ export default class UnlockPage extends Component {
     } catch (err) {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE);
-      } else if (err === "new key assign required") {
+      } else if (err === "Share transfer required") {
+        history.push(TRP_IMPORT_ROUTE)
+      }else if (err === "new key assign required") {
         this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
       }
       console.error(err);

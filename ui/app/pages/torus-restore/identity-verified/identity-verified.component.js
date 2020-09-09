@@ -5,7 +5,7 @@ import {
   TRP_DEVICE_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE, TRP_IMPORT_OR_PASSWORD
 } from '../../../helpers/constants/routes'
 
-export default class RestorePasswordForm extends Component {
+export default class IdentityVerified extends Component {
   static defaultProps = {
     newAccountNumber: 0,
   }
@@ -18,47 +18,12 @@ export default class RestorePasswordForm extends Component {
 
   componentDidMount(){
     const { changeHeading } = this.props
-    changeHeading("Verification method")
+    changeHeading("Identity Verified")
   }
 
-  verifyPassword = async () => {
-    const { accountPassword, accountPasswordError } = this.state;
-    const { history, inputPasswordShare } = this.props;
-
-    if (accountPasswordError == "") {
-      try {
-        await inputPasswordShare(accountPassword);
-        history.push(TRP_DEVICE_ROUTE)
-      } catch (err) {
-        console.error(err)
-        this.setState({accountPasswordError: err.message})
-      }
-    } else {
-      // Show error
-
-    }
-  }
-
-  handlePasswordChange = (el) => {
-    this.setState(state => {
-      const { accountPassword } = state;
-      let accountPasswordError = "";
-
-      // Add check for password if minimum 10 digits
-      if (el.length < 10) {
-        accountPasswordError = "Password should be minimum 10 digits";
-      }
-
-      return {
-        accountPassword: el,
-        accountPasswordError: accountPasswordError
-      };
-    });
-  }
-
-  otherMethods = () => {
+  continueToHomeScreen = () => {
     const { history } = this.props
-    history.push(TRP_IMPORT_OR_PASSWORD)
+    history.push(INITIALIZE_END_OF_FLOW_ROUTE)
   }
 
   render () {
@@ -67,39 +32,28 @@ export default class RestorePasswordForm extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          You require 1 verification to access your 2FA wallet. Verify your identity with any of the following.
+          Identity was approved from another device. Please click on continue to go to the homepage.
           {/* It seems like you are trying to login from a new device/browser. <br /> <br />
           Please enter the password associated with this account to continue. */}
         </div>
         <div>
-          <input
-            type="password"
-            className="new-account-create-form__input"
-            value={accountPassword}
-            placeholder={defaultAccountName}
-            onChange={(event) => this.handlePasswordChange(event.target.value)}
-            onKeyDown={(e) => {
-              if (e.keyCode == 13) this.verifyPassword()
-            }}
-          />
-          <p className="new-account-create-form__error-message">{accountPasswordError}</p>
           <div className="new-account-create-form__buttons">
-            <Button
+            {/* <Button
               type="default"
               large
               className="new-account-create-form__button new-account-create-form__cancel-button"
               onClick={this.otherMethods}
             >
               Verify using another method
-            </Button>
+            </Button> */}
             <Button
               type="secondary"
               large
               className="new-account-create-form__button new-account-create-form__confirm-button"
               // onClick={createClick}
-              onClick={this.verifyPassword}
+              onClick={this.continueToHomeScreen}
             >
-              Confirm
+              Continue
             </Button>
           </div>
         </div>
@@ -108,7 +62,7 @@ export default class RestorePasswordForm extends Component {
   }
 }
 
-RestorePasswordForm.propTypes = {
+IdentityVerified.propTypes = {
   createAccount: PropTypes.func,
   newAccountNumber: PropTypes.number,
   history: PropTypes.object,
@@ -116,7 +70,7 @@ RestorePasswordForm.propTypes = {
   inputPasswordShare: PropTypes.func
 }
 
-RestorePasswordForm.contextTypes = {
+IdentityVerified.contextTypes = {
   t: PropTypes.func,
   metricsEvent: PropTypes.func,
 }

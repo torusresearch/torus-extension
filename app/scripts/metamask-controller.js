@@ -479,6 +479,7 @@ export default class MetamaskController extends EventEmitter {
       copyShareUsingIndexAndStoreLocally: nodeify(tkeyController.copyShareUsingIndexAndStoreLocally, tkeyController),
       generateAndStoreNewDeviceShare: nodeify(tkeyController.generateAndStoreNewDeviceShare, tkeyController),
       deleteShareDescription: nodeify(tkeyController.deleteShareDescription, tkeyController),
+      requestShareFromOtherDevice: nodeify(tkeyController.requestShareFromOtherDevice, tkeyController),
       
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),

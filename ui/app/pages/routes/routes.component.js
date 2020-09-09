@@ -31,7 +31,7 @@ import AppHeader from '../../components/app/app-header'
 import UnlockPage from '../unlock-page'
 import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
-import RestorePassword from '../torus-restore-password'
+import RestorePassword from '../torus-restore'
 
 import {
   ADD_TOKEN_ROUTE,

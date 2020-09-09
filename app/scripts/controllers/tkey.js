@@ -1,11 +1,11 @@
 import ObservableStore from "obs-store";
-import ThresholdKey from "tkey"
-import {
-  SecurityQuestionsModule,
+import ThresholdKey, 
+ { SecurityQuestionsModule,
   ChromeExtensionStorageModule,
   TorusServiceProvider,
   TorusStorageLayer,
-} from "tkey";
+  ShareTransferModule
+} from "@tkey/core";
 
 export default class TkeyController {
   constructor(opts = {}) {
@@ -67,7 +67,8 @@ export default class TkeyController {
       this.tb = new ThresholdKey({
         modules: {
           securityQuestions: new SecurityQuestionsModule(),
-          chromeExtensionStorage: new ChromeExtensionStorageModule()
+          chromeExtensionStorage: new ChromeExtensionStorageModule(),
+          shareTransfer: new ShareTransferModule()
         },
         serviceProvider,
         storageLayer
@@ -151,8 +152,8 @@ export default class TkeyController {
         let currentPriority = tempSD.shift();
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
-            requiredShares--;
+            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
+            // requiredShares--;
           } catch (err) {
             console.log("Couldn't find on device share");
           }
@@ -357,7 +358,13 @@ export default class TkeyController {
     }
   }
 
-  async requestShareForOtherDevice(device) {
-    
+  async requestShareFromOtherDevice(device) {
+    try {
+      console.log("requesting new share")
+      let encPubKeyX = await this.tb.modules.shareTransfer.requestNewShare()
+      console.log(encPubKeyX)
+    } catch (err) {
+      return Promise.reject(err)
+    }
   }
 }
