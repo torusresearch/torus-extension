@@ -62,6 +62,9 @@ export default class UnlockPage extends Component {
     try {
       await onGoogleLogin(newKeyAssign);
       history.push(DEFAULT_ROUTE);
+
+      // setTimeout(function () {
+      // }, 2000)
     } catch (err) {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE);

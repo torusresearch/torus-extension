@@ -201,13 +201,14 @@ export default class ImportShareOrPassword extends Component {
       // console.log(key)
       // start loader ui with message
       await startRequestStatusCheck(key);
-      console.log("construction completed");
+      console.log("share transfer request completed");
       // setTimeout(function() {
       //   history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       // }, 4000);
       history.push(INITIALIZE_END_OF_FLOW_ROUTE)
     } catch (err) {
       // show error UI
+      console.log(err)
     }
   };
 

@@ -100,6 +100,7 @@ export default class Routes extends Component {
 
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {
+        // console.log(locationObj)
         pageChanged(locationObj.pathname)
         // const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
         // this.context.metricsEvent({}, {

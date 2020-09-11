@@ -361,7 +361,10 @@ export default class TkeyController {
   async requestShareFromOtherDevice() {
     try {
       console.log("requesting new share")
-      let encPubKeyX = await this.tb.modules.shareTransfer.requestNewShare()
+      let latestPolynomial = this.tb.metadata.getLatestPublicPolynomial()
+      let latestPolynomialId = latestPolynomial.getPolynomialID()
+      let indexes = this.tb.metadata.getShareIndexesForPolynomial(latestPolynomialId)
+      let encPubKeyX = await this.tb.modules.shareTransfer.requestNewShare(window.navigator.userAgent, indexes)
       console.log(encPubKeyX)
       return encPubKeyX
     } catch (err) {
@@ -378,8 +381,9 @@ export default class TkeyController {
       await this.reconstructTorusKeyrings()
       // let reconstructedKey = await this.tb.reconstructKey();
       // return reconstructedKey
-    } catch{
-      console.log("request check interval failed")
+    } catch(err){
+      console.log("request check interval failed", err)
+      return err
     }
   }
 }
