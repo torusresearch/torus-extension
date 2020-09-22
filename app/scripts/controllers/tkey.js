@@ -4,7 +4,9 @@ import ThresholdKey,
   ChromeExtensionStorageModule,
   TorusServiceProvider,
   TorusStorageLayer,
-  ShareTransferModule
+  ShareTransferModule,
+  MetamaskSeedPhraseFormat,
+  SeedPhraseModule
 } from "@tkey/core";
 
 export default class TkeyController {
@@ -48,6 +50,8 @@ export default class TkeyController {
         // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
 
+      const metamaskSeedPhraseFormat = new MetamaskSeedPhraseFormat("https://mainnet.infura.io/v3/bca735fdbba0408bb09471e86463ae68");
+      const seedPhraseModule = new SeedPhraseModule([metamaskSeedPhraseFormat])
       const serviceProvider = new TorusServiceProvider({
         directParams: {
           GOOGLE_CLIENT_ID:
@@ -68,7 +72,8 @@ export default class TkeyController {
         modules: {
           securityQuestions: new SecurityQuestionsModule(),
           chromeExtensionStorage: new ChromeExtensionStorageModule(),
-          shareTransfer: new ShareTransferModule()
+          shareTransfer: new ShareTransferModule(),
+          seedPhraseModule: seedPhraseModule
         },
         serviceProvider,
         storageLayer
@@ -116,7 +121,7 @@ export default class TkeyController {
       if (newKeyAssign) {
         await this.tb.initializeNewKey({ initializeModules: true });
         keyDetails = this.tb.getKeyDetails();
-        await this.torusAddPasswordShare("torusAddPasswordShare");
+        // await this.torusAddPasswordShare("torusAddPasswordShare");
       } else {
         keyDetails = await this.tb.initialize();
       }
@@ -152,8 +157,8 @@ export default class TkeyController {
         let currentPriority = tempSD.shift();
         if (currentPriority.module === "chromeExtensionStorage") {
           try {
-            // await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
-            // requiredShares--;
+            await this.tb.modules.chromeExtensionStorage.inputShareFromChromeExtensionStorage();
+            requiredShares--;
           } catch (err) {
             console.log("Couldn't find on device share");
           }
@@ -183,16 +188,27 @@ export default class TkeyController {
       // Reconstruct the private key again
       // Exposed on metamask controller for development purposes. delete later.
       let reconstructedKey = await this.tb.reconstructKey();
-      reconstructedKey = reconstructedKey.toString("hex").padStart(64, "0");
-      this.tempPrivateKey = reconstructedKey; // dev purposes
+      // console.log(reconstructedKey)
+      const privKey = reconstructedKey.privKey.toString("hex").padStart(64, "0");
+      // this.tempPrivateKey = privKey; // dev purposes
 
+      const seedPhraseKeys = reconstructedKey.seedPhrase
       //add threshold back key with empty password
-      await this.createNewTorusVaultAndRestore("", reconstructedKey, {
+      await this.createNewTorusVaultAndRestore("", privKey, {
         ...this.postBox.userInfo,
         typeOfLogin: "2FA Wallet"
       });
 
-      // import this.postbox key
+      // import all keys
+      await Promise.all(seedPhraseKeys.map( async el => {
+        return await this.importAccountWithStrategy(
+          "Private Key",
+          [el.toString("hex").padStart(64, "0")],
+          {typeOfLogin: "SeedPhrase"}
+        )
+      }))
+
+      // import postbox key
       await this.importAccountWithStrategy(
         "Private Key",
         [this.postBox.privateKey],
@@ -383,6 +399,16 @@ export default class TkeyController {
       // return reconstructedKey
     } catch(err){
       console.log("request check interval failed", err)
+      return err
+    }
+  }
+
+  async addSeedPhrase(seedPhrase) {
+    try {
+      await this.tb.modules.seedPhraseModule.setSeedPhrase(seedPhrase, "HD Key Tree");
+      await this.reconstructTorusKeyrings()
+    } catch {
+      console.log("adding seed phrase failed")
       return err
     }
   }

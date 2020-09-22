@@ -7,6 +7,8 @@ import JsonImportView from './json.js'
 
 import PrivateKeyImportView from './private-key.js'
 
+import SeedPhraseImportView from "./seed-phrase.js"
+
 export default class AccountImportSubview extends Component {
   static contextTypes = {
     t: PropTypes.func,
@@ -18,6 +20,7 @@ export default class AccountImportSubview extends Component {
     return [
       this.context.t('privateKey'),
       this.context.t('jsonFile'),
+      'Seed Phrase'
     ]
   }
 
@@ -25,12 +28,14 @@ export default class AccountImportSubview extends Component {
     const { type } = this.state
     const menuItems = this.getMenuItemTexts()
     const current = typeof(type) === "object" ? type : menuItems[0]
-    console.log(type, current.value, menuItems)
+    // console.log(type, current.value, menuItems)
     switch (current.value || current) {
       case this.context.t('privateKey'):
         return <PrivateKeyImportView />
       case this.context.t('jsonFile'):
         return <JsonImportView />
+      case "Seed Phrase":
+        return <SeedPhraseImportView />
       default:
         return <JsonImportView />
     }

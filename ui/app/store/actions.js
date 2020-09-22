@@ -1269,6 +1269,7 @@ export function getUserDetails() {
   }
 }
 
+/** Torus functions */
 
 export function setUserDetails(el) {
   return () => {
@@ -1391,6 +1392,32 @@ export function startRequestStatusCheck(encryptionPublicKeyX) {
     } catch (err) {
       return err
     }
+  }
+}
+
+export function addSeedPhrase(seedPhrase, dispatch) {
+  return async (dispatch) => {
+    let newState
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    try {
+      log.debug(`background.addSeedPhrase`)
+      let data = await promisifiedBackground.addSeedPhrase(seedPhrase)
+      log.debug(`background.getState`)
+      newState = await promisifiedBackground.getState()
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      dispatch(displayWarning(err.message))
+      throw err
+    }
+    dispatch(hideLoadingIndication())
+    dispatch(updateMetamaskState(newState))
+    if (newState.selectedAddress) {
+      dispatch({
+        type: actionConstants.SHOW_ACCOUNT_DETAIL,
+        value: newState.selectedAddress,
+      })
+    }
+    return newState
   }
 }
 
