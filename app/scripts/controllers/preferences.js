@@ -250,7 +250,7 @@ export default class PreferencesController {
    *
    */
   setAddresses(addresses, userDetails) {
-    console.log(addresse, userDetails)
+    console.log(addresses, userDetails)
     const oldIdentities = this.store.getState().identities
     const oldAccountTokens = this.store.getState().accountTokens
 
