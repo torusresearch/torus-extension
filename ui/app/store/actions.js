@@ -1395,6 +1395,25 @@ export function startRequestStatusCheck(encryptionPublicKeyX) {
   }
 }
 
+export function lookForNewRequests() {
+  return async (dispatch) => {
+    try {
+      return new Promise((resolve, reject) => {
+        background.lookForRequests((error, data) => {
+          debugger
+          console.log("data in lookForNewRequests is", data)
+          if (error) {
+            return reject(error)
+          }
+          resolve(data)
+        })
+      })
+    } catch (err) {
+      return err
+    }
+  }
+}
+
 export function addSeedPhrase(seedPhrase, dispatch) {
   return async (dispatch) => {
     let newState

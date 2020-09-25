@@ -388,6 +388,7 @@ export default class TkeyController {
     }
   }
 
+  // waiting for approval
   async startRequestStatusCheck(encKey) {
     try {
       console.log("waiting for request to be approved");
@@ -403,6 +404,25 @@ export default class TkeyController {
     }
   }
 
+  // check if any requests for approval
+  async lookForRequests() {
+    return new Promise((resolve, reject) => {
+      this.requestStatusCheckId = setInterval(async () => {
+        try {
+          console.log("looking for requests")
+          const latestShareTransferStore = await this.tb.modules.shareTransfer.getShareTransferStore();
+          console.log(latestShareTransferStore)
+          if (Object.keys(latestShareTransferStore)[0]) {
+            resolve(Object.keys(latestShareTransferStore)[0])
+            clearInterval(this.requestStatusCheckId);
+          }
+        } catch (err) {
+          // clearInterval(this.requestStatusCheckId);
+          console.error(err);
+        }
+      }, 1000);
+    });
+  }
   async addSeedPhrase(seedPhrase) {
     try {
       await this.tb.modules.seedPhraseModule.setSeedPhrase(seedPhrase, "HD Key Tree");

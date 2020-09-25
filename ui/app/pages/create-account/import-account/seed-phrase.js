@@ -87,7 +87,7 @@ class SeedPhraseImportView extends Component {
         <div className="new-account-import-form__private-key-password-container">
           <input
             className="new-account-import-form__input-password"
-            type="password"
+            type="text"
             id="private-key-box"
             onKeyPress={(e) => this.createKeyringOnEnter(e)}
             onChange={() => this.checkInputEmpty()}

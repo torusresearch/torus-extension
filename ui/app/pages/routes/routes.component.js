@@ -53,10 +53,12 @@ import {
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
+  TRP_SHARE_TRANSFER
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
+import { HistorySharp } from '@material-ui/icons'
 
 export default class Routes extends Component {
   static propTypes = {
@@ -84,6 +86,7 @@ export default class Routes extends Component {
     hasPermissionsRequests: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
+    lookForNewRequests: PropTypes.func
   }
 
   static contextTypes = {
@@ -92,11 +95,16 @@ export default class Routes extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
+    const { currentCurrency, pageChanged, setCurrentCurrencyToUSD, lookForNewRequests } = this.props
     
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()
     }
+
+    lookForNewRequests().then(res => {
+      console.log("response in from lookfornewrequests", res)
+      history.push(TRP_SHARE_TRANSFER)
+    })
 
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {
