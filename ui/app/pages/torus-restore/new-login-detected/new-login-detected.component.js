@@ -11,14 +11,20 @@ export default class NewLoginDetected extends Component {
   }
 
   state = {
-    accountPassword: '',
-    accountPasswordError: '',
-    defaultAccountName: 'Enter your password here',
+  }
+
+  confirm() {
+    
+  }
+
+  report() {
+    
   }
 
   componentDidMount(){
-    const { changeHeading } = this.props
-    changeHeading("Identity Verified")
+    const { changeHeading, location } = this.props
+    console.log(changeHeading, location)
+    changeHeading("New login detected")
   }
 
   continueToHomeScreen = () => {
@@ -27,8 +33,6 @@ export default class NewLoginDetected extends Component {
   }
 
   render () {
-    const { accountPassword, defaultAccountName, accountPasswordError } = this.state
-    const { history, createAccount, mostRecentOverviewPage } = this.props
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
@@ -38,22 +42,22 @@ export default class NewLoginDetected extends Component {
         </div>
         <div>
           <div className="new-account-create-form__buttons">
-            {/* <Button
+            <Button
               type="default"
               large
               className="new-account-create-form__button new-account-create-form__cancel-button"
-              onClick={this.otherMethods}
+              onClick={this.report}
             >
-              Verify using another method
-            </Button> */}
+              Report this is not me
+            </Button>
             <Button
               type="secondary"
               large
               className="new-account-create-form__button new-account-create-form__confirm-button"
               // onClick={createClick}
-              onClick={this.continueToHomeScreen}
+              onClick={this.confirm}
             >
-              Continue
+              Confirm
             </Button>
           </div>
         </div>
@@ -63,14 +67,9 @@ export default class NewLoginDetected extends Component {
 }
 
 NewLoginDetected.propTypes = {
-  createAccount: PropTypes.func,
-  newAccountNumber: PropTypes.number,
   history: PropTypes.object,
-  mostRecentOverviewPage: PropTypes.string,
-  inputPasswordShare: PropTypes.func
+  approveShareRequest: PropTypes.func
 }
 
 NewLoginDetected.contextTypes = {
-  t: PropTypes.func,
-  metricsEvent: PropTypes.func,
 }

@@ -101,11 +101,6 @@ export default class Routes extends Component {
       setCurrentCurrencyToUSD()
     }
 
-    lookForNewRequests().then(res => {
-      console.log("response in from lookfornewrequests", res)
-      history.push(TRP_SHARE_TRANSFER)
-    })
-
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {
         // console.log(locationObj)

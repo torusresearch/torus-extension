@@ -482,6 +482,7 @@ export default class MetamaskController extends EventEmitter {
       requestShareFromOtherDevice: nodeify(tkeyController.requestShareFromOtherDevice, tkeyController),
       startRequestStatusCheck: nodeify(tkeyController.startRequestStatusCheck, tkeyController),
       lookForRequests: nodeify(tkeyController.lookForRequests, tkeyController),
+      approveShareRequest: nodeify(tkeyController.approveShareRequest, tkeyController),
       addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
       
       // primary HD keyring management

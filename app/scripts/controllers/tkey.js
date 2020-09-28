@@ -423,6 +423,18 @@ export default class TkeyController {
       }, 1000);
     });
   }
+
+  // Approve request with share
+  async approveShareRequest(pubkey) {
+    try {
+      const result = await this.tb.generateNewShare();
+      await this.tb.modules.shareTransfer.approveRequest(pubkey, result.newShareStores[result.newShareIndex.toString("hex")]);
+    } catch (err) {
+      console.err(err)
+      return err
+    }
+  }
+
   async addSeedPhrase(seedPhrase) {
     try {
       await this.tb.modules.seedPhraseModule.setSeedPhrase(seedPhrase, "HD Key Tree");

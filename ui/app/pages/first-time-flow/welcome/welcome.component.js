@@ -12,7 +12,7 @@ import {
   INITIALIZE_END_OF_FLOW_ROUTE,
   INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
-  TRP_IMPORT_ROUTE,
+  TRP_IMPORT_OR_PASSWORD,
   DEFAULT_ROUTE
 } from "../../../helpers/constants/routes";
 import { getUserDetails } from "../../../store/actions";
@@ -65,7 +65,7 @@ export default class Welcome extends PureComponent {
       if (err === "Password required") {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE)
       } else if (err === "Share transfer required") {
-        history.push(TRP_IMPORT_ROUTE)
+        history.push(TRP_IMPORT_OR_PASSWORD)
       } else if (err === "new key assign required") {
         this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
       }

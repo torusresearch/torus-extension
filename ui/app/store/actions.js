@@ -1400,7 +1400,6 @@ export function lookForNewRequests() {
     try {
       return new Promise((resolve, reject) => {
         background.lookForRequests((error, data) => {
-          debugger
           console.log("data in lookForNewRequests is", data)
           if (error) {
             return reject(error)
@@ -1410,6 +1409,17 @@ export function lookForNewRequests() {
       })
     } catch (err) {
       return err
+    }
+  }
+}
+
+export function approveShareRequest(pubkey) {
+  return async (dispatch) => {
+    try {
+      let key = await promisifiedBackground.approveShareRequest(pubkey)
+      console.log("approveShareRequest", key)
+    } catch (err) {
+      return err 
     }
   }
 }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { inputPasswordShare} from '../../../store/actions'
+import { approveShareRequest} from '../../../store/actions'
 import NewLoginDetected from './new-login-detected.component'
 // import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
@@ -18,8 +18,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // inputPasswordShare: (el) => dispatch(inputPasswordShare(el))
+    approveShareRequest: (el) => dispatch(approveShareRequest(el))
   }
 }
 
-export default connect(null, null)(NewLoginDetected)
+export default connect(null, mapDispatchToProps)(NewLoginDetected)
