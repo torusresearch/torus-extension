@@ -41,11 +41,11 @@ export default class EndOfFlowScreen extends PureComponent {
     //   },
     // })
 
-    console.log("looking for new requests")
-    lookForNewRequests().then(res => {
-      console.log("response in from lookfornewrequests", res)
-      history.push(TRP_SHARE_TRANSFER, {res})
-    })
+    // console.log("looking for new requests")
+    // lookForNewRequests().then(res => {
+    //   console.log("response in from lookfornewrequests", res)
+    //   history.push(TRP_SHARE_TRANSFER, {res})
+    // })
 
     if (onboardingInitiator) {
       await returnToOnboardingInitiator(onboardingInitiator)

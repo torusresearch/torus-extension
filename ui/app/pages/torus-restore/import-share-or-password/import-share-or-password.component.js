@@ -237,8 +237,16 @@ export default class ImportShareOrPassword extends Component {
             className="new-account-create-form__button new-account-create-form__confirm-button"
             onClick={this.requestShare}
           >
-            Request Share
+            Go back
           </Button>
+          {/* <Button
+            type="secondary"
+            large
+            className="new-account-create-form__button new-account-create-form__confirm-button"
+            onClick={this.requestShare}
+          >
+            Request Share
+          </Button> */}
         </div>
       </div>
     );

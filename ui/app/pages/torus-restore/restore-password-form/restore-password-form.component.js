@@ -84,14 +84,22 @@ export default class RestorePasswordForm extends Component {
           />
           <p className="new-account-create-form__error-message">{accountPasswordError}</p>
           <div className="new-account-create-form__buttons">
-            <Button
+            {/* <Button
               type="default"
               large
               className="new-account-create-form__button new-account-create-form__cancel-button"
               onClick={this.otherMethods}
             >
               Verify using another method
-            </Button>
+            </Button> */}
+            {/* <Button
+              type="default"
+              large
+              className="new-account-create-form__button new-account-create-form__cancel-button"
+              onClick={this.otherMethods}
+            >
+              Contact Support
+            </Button> */}
             <Button
               type="secondary"
               large
