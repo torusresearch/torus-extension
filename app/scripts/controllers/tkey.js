@@ -47,7 +47,6 @@ export default class TkeyController {
           "876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com",
         baseUrl: "https://scripts.toruswallet.io/",
         redirectPathName: "redirectChromeExtension.html"
-        // baseUrl: 'https://toruscallback.ont.io/serviceworker',
       };
 
       const metamaskSeedPhraseFormat = new MetamaskSeedPhraseFormat("https://mainnet.infura.io/v3/bca735fdbba0408bb09471e86463ae68");
@@ -60,7 +59,7 @@ export default class TkeyController {
           redirectPathName: "redirectChromeExtension.html",
           redirectToOpener: true,
           network: "mainnet",
-        },
+        }
       });
       const storageLayer = new TorusStorageLayer({
         hostUrl: "https://metadata.tor.us",
