@@ -2615,10 +2615,10 @@
     "@babel/runtime" "^7.5.4"
     "@types/testing-library__react-hooks" "^3.0.0"
 
-"@tkey/core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@tkey/core/-/core-1.1.1.tgz#1951f1369e015e395ec36960cbcdb19e6b8638d6"
-  integrity sha512-wlvYUXwyDOk+qFzZBo13lPHle117ojPx5AT7zNbfDW1JIVH7okg3p+2Ak23Xdv6cszEmw5KrSKgBZQcOZibbgA==
+"@tkey/core@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@tkey/core/-/core-1.1.2.tgz#10c52aa71432e1467611ac4949a4c69bcabed0c8"
+  integrity sha512-UBAev7NyZSG8tHoNSeuTzDf6rwBWBgUDpGQsg5oLH+gPLDBI7r38VhcyLLvsCtGAxIRY0yh/jhps4IWMACikfw==
   dependencies:
     "@toruslabs/eccrypto" "^1.1.5"
     "@toruslabs/http-helpers" "^1.3.4"

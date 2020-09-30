@@ -163,9 +163,7 @@ export default class TkeyController {
       // Reconstruct the private key again
       // Exposed on metamask controller for development purposes. delete later.
       let reconstructedKey = await this.tb.reconstructKey();
-      // console.log(reconstructedKey)
       const privKey = reconstructedKey.privKey.toString("hex").padStart(64, "0");
-      // this.tempPrivateKey = privKey; // dev purposes
 
       const seedPhraseKeys = reconstructedKey.seedPhrase
       //add threshold back key with empty password
