@@ -38,7 +38,7 @@ export default class ImportShareOrPassword extends Component {
   componentDidMount() {
     const { changeHeading, getTotalDeviceShares } = this.props;
 
-    changeHeading("Save extension"); // for tabs
+    changeHeading("Verify with device"); // for tabs
 
     // this.setDeviceDetails(); // for adding this extension
 
