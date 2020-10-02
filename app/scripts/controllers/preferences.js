@@ -261,7 +261,7 @@ export default class PreferencesController {
       const oldId = oldIdentities[address] || {}
       ids[address] = { address, ...oldId }
       ids[address] = { ...ids[address], name: oldId["name"] ? oldId["name"] : userDetails.typeOfLogin }
-      console.log( oldId["name"], userDetails.typeOfLogin, ids[address])
+      // console.log( oldId["name"], userDetails.typeOfLogin, ids[address])
       return ids
     }, {})
     const accountTokens = addresses.reduce((tokens, address) => {

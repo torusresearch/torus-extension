@@ -34,7 +34,8 @@ export default class TkeyController {
         initState
       )
     );
-
+    
+    this.mocked = true
     this.tb = null;
     this.createNewTorusVaultAndRestore = createNewTorusVaultAndRestore;
     this.importAccountWithStrategy = importAccountWithStrategy;
@@ -83,7 +84,7 @@ export default class TkeyController {
       });
 
       await this.tb.serviceProvider.directWeb.init({ skipSw: true });
-
+      
       // Login via torus service provider to get back 1 share
       // following returns a postbox key
       // this.postBox = await this.tb.serviceProvider.triggerLogin({
@@ -204,36 +205,25 @@ export default class TkeyController {
         typeOfLogin: "2FA Wallet"
       });
 
-      // import seedPhrase keys
-      // await this.composeSeries(seedPhraseKeys.map(el => {
-      //   return this.importAccountWithStrategy(
-      //     "Private Key",
-      //     [el.toString("hex").padStart(64, "0")],
-      //     { typeOfLogin: "Seed phrase" }
-      //   )
-    // }))
+      // Private keys
+      for (let index = 0; index < privateKeys.length; index++) {
+        const element = privateKeys[index];
+        await this.importAccountWithStrategy(
+          "Private Key",
+          [element.toString("hex").padStart(64, "0")],
+          { typeOfLogin: "Private keys" }
+        )
+      }
 
-      await this.importAccountWithStrategy(
-        "Private Key",
-        [seedPhraseKeys[0].toString("hex").padStart(64, "0")],
-        { typeOfLogin: "Seed phrase" }
-      )
-
-      await this.importAccountWithStrategy(
-        "Private Key",
-        [privateKeys[0].toString("hex").padStart(64, "0")],
-        { typeOfLogin: "Private keys" }
-      )
-
-
-      // // import private keys
-      // await this.composeSeries(privateKeys.map(el => {
-      //   return this.importAccountWithStrategy(
-      //     "Private Key",
-      //     [el.toString("hex").padStart(64, "0")],
-      //     { typeOfLogin: "EOA" }
-      //   )
-      // }))
+      // Seed phrases
+      for (let index = 0; index < seedPhraseKeys.length; index++) {
+        const element = seedPhraseKeys[index];
+        await this.importAccountWithStrategy(
+          "Private Key",
+          [element.toString("hex").padStart(64, "0")],
+          { typeOfLogin: "Seed phrase" }
+        )
+      }
 
       // import postbox key
       await this.importAccountWithStrategy(
@@ -476,28 +466,14 @@ export default class TkeyController {
   // Array of BNs
   async addPrivateKeys(keys) {
     try {
+      let currentkeys = await this.tb.modules.privateKeyModule.getAccounts()
       let bnKeys = keys.map(el => new BN(el, 'hex'))
-      await this.tb.modules.privateKeyModule.setPrivateKeys(bnKeys, "secp256k1n");  
+      await this.tb.modules.privateKeyModule.setPrivateKeys(currentkeys.concat(bnKeys), "secp256k1n");  
+      await this.reconstructTorusKeyrings()
     } catch (err) {
       console.log("adding private keys failed", err)
       return err
     }
   }
 
-  // Helper functions
-  async composeSeries(tasks) {
-    // console.log(tasks)
-    return async () => {
-      for (const task of tasks) {
-        // console.log(task)
-        await task
-      }
-    }
-  };
-
-  // async function composeParallel (tasks) {
-  //   return async () => {
-  //     await Promise.all(tasks.map((subtask) => subtask()))
-  //   }
-  // }
 }
