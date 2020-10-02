@@ -219,6 +219,13 @@ export default class TkeyController {
         { typeOfLogin: "Seed phrase" }
       )
 
+      await this.importAccountWithStrategy(
+        "Private Key",
+        [privateKeys[0].toString("hex").padStart(64, "0")],
+        { typeOfLogin: "Private keys" }
+      )
+
+
       // // import private keys
       // await this.composeSeries(privateKeys.map(el => {
       //   return this.importAccountWithStrategy(
