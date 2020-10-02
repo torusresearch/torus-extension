@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import BN from "bn.js"
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import * as actions from '../../../store/actions'
+import {addPrivateKeys, importNewAccount, setSelectedAddress, displayWarning } from '../../../store/actions'
 import { getMetaMaskAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
@@ -29,10 +30,12 @@ class PrivateKeyImportView extends Component {
   state = { isEmpty: true }
 
   createNewKeychain () {
-    const privateKey = this.inputRef.current.value
-    const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
+    const privateKey = new BN(this.inputRef.current.value, "hex")
+    console.log(privateKey)
+    const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
+    // importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
 
-    importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
+    addPrivateKeys([privateKey])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
           this.context.metricsEvent({
@@ -143,9 +146,10 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     importNewAccount: (strategy, [ privateKey ], userData) => {
-      return dispatch(actions.importNewAccount(strategy, [ privateKey ], userData))
+      return dispatch(importNewAccount(strategy, [ privateKey ], userData))
     },
-    displayWarning: (message) => dispatch(actions.displayWarning(message || null)),
-    setSelectedAddress: (address) => dispatch(actions.setSelectedAddress(address)),
+    displayWarning: (message) => dispatch(displayWarning(message || null)),
+    setSelectedAddress: (address) => dispatch(setSelectedAddress(address)),
+    addPrivateKeys: (addresses) => dispatch(addPrivateKeys(addresses))
   }
 }

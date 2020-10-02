@@ -7,6 +7,7 @@ import {addSeedPhrase, setSelectedAddress, displayWarning, importNewAccount} fro
 import { getMetaMaskAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
+import { TextField } from '@material-ui/core'
 
 class SeedPhraseImportView extends Component {
   static contextTypes = {
@@ -92,6 +93,7 @@ class SeedPhraseImportView extends Component {
             onKeyPress={(e) => this.createKeyringOnEnter(e)}
             onChange={() => this.checkInputEmpty()}
             ref={this.inputRef}
+            autoComplete="off"
           />
         </div>
         <div className="new-account-import-form__buttons">

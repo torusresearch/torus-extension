@@ -79,6 +79,9 @@ export default class PreferencesController {
     }
   }
   // PUBLIC METHODS
+  clearState() {
+    this.store.updateState({ identities: {}, lostIdentities: {}})
+  }
 
   setUserDetails(el) {
     this.store.updateState({ userDetails: el })
@@ -250,14 +253,15 @@ export default class PreferencesController {
    *
    */
   setAddresses(addresses, userDetails) {
-    console.log(addresses, userDetails)
+    // console.log(addresses, userDetails)
     const oldIdentities = this.store.getState().identities
     const oldAccountTokens = this.store.getState().accountTokens
 
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {}
       ids[address] = { address, ...oldId }
-      ids[address] = {...ids[address], name: oldId["name"] ? oldId["name"] : userDetails.typeOfLogin}
+      ids[address] = { ...ids[address], name: oldId["name"] ? oldId["name"] : userDetails.typeOfLogin }
+      console.log( oldId["name"], userDetails.typeOfLogin, ids[address])
       return ids
     }, {})
     const accountTokens = addresses.reduce((tokens, address) => {

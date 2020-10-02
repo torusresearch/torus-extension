@@ -1450,6 +1450,33 @@ export function addSeedPhrase(seedPhrase, dispatch) {
   }
 }
 
+
+export function addPrivateKeys(keys, dispatch) {
+  return async (dispatch) => {
+    let newState
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    try {
+      log.debug(`background.addPrivateKeys`)
+      let data = await promisifiedBackground.addPrivateKeys(keys)
+      log.debug(`background.getState`)
+      newState = await promisifiedBackground.getState()
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      dispatch(displayWarning(err.message))
+      throw err
+    }
+    dispatch(hideLoadingIndication())
+    dispatch(updateMetamaskState(newState))
+    if (newState.selectedAddress) {
+      dispatch({
+        type: actionConstants.SHOW_ACCOUNT_DETAIL,
+        value: newState.selectedAddress,
+      })
+    }
+    return newState
+  }
+}
+
 export function getPostboxKey() {
   return async (dispatch) => {
     try {

@@ -1,4 +1,5 @@
 import ObservableStore from "obs-store";
+import BN from "bn.js"
 import ThresholdKey, 
  { SecurityQuestionsModule,
   ChromeExtensionStorageModule,
@@ -6,7 +7,9 @@ import ThresholdKey,
   TorusStorageLayer,
   ShareTransferModule,
   MetamaskSeedPhraseFormat,
-  SeedPhraseModule
+  SeedPhraseModule,
+  PrivateKeyModule,
+  SECP256K1Format
 } from "@tkey/core";
 
 export default class TkeyController {
@@ -60,8 +63,8 @@ export default class TkeyController {
           redirectToOpener: true,
           network: "mainnet",
         },
-        // postboxKey:
-        //   "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852"
+        postboxKey:
+          "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852"
       });
       const storageLayer = new TorusStorageLayer({
         hostUrl: "https://metadata.tor.us",
@@ -72,7 +75,8 @@ export default class TkeyController {
           securityQuestions: new SecurityQuestionsModule(),
           chromeExtensionStorage: new ChromeExtensionStorageModule(),
           shareTransfer: new ShareTransferModule(),
-          seedPhraseModule: seedPhraseModule
+          seedPhraseModule: seedPhraseModule,
+          privateKeyModule: new PrivateKeyModule([new SECP256K1Format()])
         },
         serviceProvider,
         storageLayer
@@ -82,32 +86,32 @@ export default class TkeyController {
 
       // Login via torus service provider to get back 1 share
       // following returns a postbox key
-      this.postBox = await this.tb.serviceProvider.triggerLogin({
-        clientId: TorusOptions.GOOGLE_CLIENT_ID,
-        typeOfLogin: "google",
-        verifier: "google"
-      });
+      // this.postBox = await this.tb.serviceProvider.triggerLogin({
+      //   clientId: TorusOptions.GOOGLE_CLIENT_ID,
+      //   typeOfLogin: "google",
+      //   verifier: "google"
+      // });
 
-      // this.postBox = {
-      //   publicAddress: "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE",
-      //   privateKey:
-      //     "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852",
-      //   userInfo: 
-      //     {
-      //       email: "shubham@tor.us",
-      //       name: "Shubham Rathi",
-      //       profileImage:
-      //         "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg",
-      //       verifier: "google-shubs",
-      //       verifierId: "shubham@tor.us",
-      //       typeOfLogin: "google",
-      //       accessToken:
-      //         "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA",
-      //       idToken:
-      //         "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ"
-      //     }
+      this.postBox = {
+        publicAddress: "0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE",
+        privateKey:
+          "f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852",
+        userInfo: 
+          {
+            email: "shubham@tor.us",
+            name: "Shubham Rathi",
+            profileImage:
+              "https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg",
+            verifier: "google-shubs",
+            verifierId: "shubham@tor.us",
+            typeOfLogin: "google",
+            accessToken:
+              "ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA",
+            idToken:
+              "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ"
+          }
         
-      // };
+      };
 
 
       let postBox = this.postBox;
@@ -191,21 +195,38 @@ export default class TkeyController {
       const privKey = reconstructedKey.privKey.toString("hex").padStart(64, "0");
       // this.tempPrivateKey = privKey; // dev purposes
 
-      const seedPhraseKeys = reconstructedKey.seedPhrase
+      const seedPhraseKeys = reconstructedKey.seedPhraseModule
+      const privateKeys = reconstructedKey.privateKeyModule
+      console.log(seedPhraseKeys, privateKeys)
       //add threshold back key with empty password
       await this.createNewTorusVaultAndRestore("", privKey, {
         ...this.postBox.userInfo,
         typeOfLogin: "2FA Wallet"
       });
 
-      // import all keys
-      await Promise.all(seedPhraseKeys.map( async el => {
-        return await this.importAccountWithStrategy(
-          "Private Key",
-          [el.toString("hex").padStart(64, "0")],
-          {typeOfLogin: "SeedPhrase"}
-        )
-      }))
+      // import seedPhrase keys
+      // await this.composeSeries(seedPhraseKeys.map(el => {
+      //   return this.importAccountWithStrategy(
+      //     "Private Key",
+      //     [el.toString("hex").padStart(64, "0")],
+      //     { typeOfLogin: "Seed phrase" }
+      //   )
+    // }))
+
+      await this.importAccountWithStrategy(
+        "Private Key",
+        [seedPhraseKeys[0].toString("hex").padStart(64, "0")],
+        { typeOfLogin: "Seed phrase" }
+      )
+
+      // // import private keys
+      // await this.composeSeries(privateKeys.map(el => {
+      //   return this.importAccountWithStrategy(
+      //     "Private Key",
+      //     [el.toString("hex").padStart(64, "0")],
+      //     { typeOfLogin: "EOA" }
+      //   )
+      // }))
 
       // import postbox key
       await this.importAccountWithStrategy(
@@ -434,13 +455,42 @@ export default class TkeyController {
     }
   }
 
+  // String 
   async addSeedPhrase(seedPhrase) {
     try {
       await this.tb.modules.seedPhraseModule.setSeedPhrase(seedPhrase, "HD Key Tree");
       await this.reconstructTorusKeyrings()
-    } catch {
-      console.log("adding seed phrase failed")
+    } catch (err){
+      console.log("adding seed phrase failed", err)
       return err
     }
   }
+
+  // Array of BNs
+  async addPrivateKeys(keys) {
+    try {
+      let bnKeys = keys.map(el => new BN(el, 'hex'))
+      await this.tb.modules.privateKeyModule.setPrivateKeys(bnKeys, "secp256k1n");  
+    } catch (err) {
+      console.log("adding private keys failed", err)
+      return err
+    }
+  }
+
+  // Helper functions
+  async composeSeries(tasks) {
+    // console.log(tasks)
+    return async () => {
+      for (const task of tasks) {
+        // console.log(task)
+        await task
+      }
+    }
+  };
+
+  // async function composeParallel (tasks) {
+  //   return async () => {
+  //     await Promise.all(tasks.map((subtask) => subtask()))
+  //   }
+  // }
 }

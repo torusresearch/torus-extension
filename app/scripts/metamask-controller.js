@@ -484,6 +484,7 @@ export default class MetamaskController extends EventEmitter {
       lookForRequests: nodeify(tkeyController.lookForRequests, tkeyController),
       approveShareRequest: nodeify(tkeyController.approveShareRequest, tkeyController),
       addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
+      addPrivateKeys: nodeify(tkeyController.addPrivateKeys, tkeyController),
       
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
@@ -698,12 +699,12 @@ export default class MetamaskController extends EventEmitter {
     const releaseLock = await this.createVaultMutex.acquire()
     try {
       // let lastBalance
-
       const keyringController = this.keyringController
+      keyringController.clearKeyrings()
 
       // clear known identities
       this.preferencesController.setAddresses([])
-
+      
       // clear permissions
       this.permissionsController.clearPermissions()
 
