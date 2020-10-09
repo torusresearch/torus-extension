@@ -159,8 +159,8 @@ class SettingsPage extends PureComponent {
     return (
       <TabBar
         tabs={[
-          { content: '2FA Wallet', description: "2FA Wallet", key: TKEY_ROUTE },
           { content: t('general'), description: t('generalSettingsDescription'), key: GENERAL_ROUTE },
+          { content: '2FA Wallet', description: "2FA Wallet", key: TKEY_ROUTE },
           { content: t('advanced'), description: t('advancedSettingsDescription'), key: ADVANCED_ROUTE },
           { content: t('contacts'), description: t('contactsSettingsDescription'), key: CONTACT_LIST_ROUTE },
           { content: t('securityAndPrivacy'), description: t('securitySettingsDescription'), key: SECURITY_ROUTE },
