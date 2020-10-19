@@ -277,6 +277,7 @@ function setupController (initState, initLangCode) {
   }
 
   async function persistData (state) {
+    console.log('persistData', state)
     if (!state) {
       throw new Error('MetaMask - updated state is missing')
     }

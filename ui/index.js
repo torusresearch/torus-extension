@@ -37,8 +37,8 @@ export default function launchMetamaskUi (opts, cb) {
   })
 }
 
-async function startApp(metamaskState, backgroundConnection, opts) {
-  
+async function startApp (metamaskState, backgroundConnection, opts) {
+
   // parse opts
   if (!metamaskState.featureFlags) {
     metamaskState.featureFlags = {}
