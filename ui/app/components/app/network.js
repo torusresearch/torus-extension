@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import NetworkDropdownIcon from './dropdowns/components/network-dropdown-icon'
+import Signal from '../ui/icon/signal-icon'
 
 function NetworkIndicator ({ disabled, children, hoverText, onClick, providerName }) {
   return (
@@ -76,11 +76,7 @@ export default class Network extends Component {
       case 'mainnet':
         return (
           <NetworkIndicator disabled={disabled} hoverText={t('mainnet')} onClick={onClick} providerName={providerName}>
-            <NetworkDropdownIcon
-              backgroundColor="#038789"
-              nonSelectBackgroundColor="#15afb2"
-              loading={networkNumber === 'loading'}
-            />
+            <Signal size={10} />
             <div className="network-name">{t('mainnet')}</div>
           </NetworkIndicator>
         )
@@ -88,11 +84,7 @@ export default class Network extends Component {
       case 'ropsten':
         return (
           <NetworkIndicator disabled={disabled} hoverText={t('ropsten')} onClick={onClick} providerName={providerName}>
-            <NetworkDropdownIcon
-              backgroundColor="#e91550"
-              nonSelectBackgroundColor="#ec2c50"
-              loading={networkNumber === 'loading'}
-            />
+            <Signal size={10} />
             <div className="network-name">{t('ropsten')}</div>
           </NetworkIndicator>
         )
@@ -100,11 +92,7 @@ export default class Network extends Component {
       case 'kovan':
         return (
           <NetworkIndicator disabled={disabled} hoverText={t('kovan')} onClick={onClick} providerName={providerName}>
-            <NetworkDropdownIcon
-              backgroundColor="#690496"
-              nonSelectBackgroundColor="#b039f3"
-              loading={networkNumber === 'loading'}
-            />
+            <Signal size={10} />
             <div className="network-name">{t('kovan')}</div>
           </NetworkIndicator>
         )
@@ -112,11 +100,7 @@ export default class Network extends Component {
       case 'rinkeby':
         return (
           <NetworkIndicator disabled={disabled} hoverText={t('rinkeby')} onClick={onClick} providerName={providerName}>
-            <NetworkDropdownIcon
-              backgroundColor="#ebb33f"
-              nonSelectBackgroundColor="#ecb23e"
-              loading={networkNumber === 'loading'}
-            />
+            <Signal size={10} />
             <div className="network-name">{t('rinkeby')}</div>
           </NetworkIndicator>
         )
@@ -124,11 +108,7 @@ export default class Network extends Component {
       case 'goerli':
         return (
           <NetworkIndicator disabled={disabled} hoverText={t('goerli')} onClick={onClick} providerName={providerName}>
-            <NetworkDropdownIcon
-              backgroundColor="#3099f2"
-              nonSelectBackgroundColor="#ecb23e"
-              loading={networkNumber === 'loading'}
-            />
+            <Signal size={10} />
             <div className="network-name">{t('goerli')}</div>
           </NetworkIndicator>
         )
@@ -149,7 +129,7 @@ export default class Network extends Component {
                   </span>
                 )
                 : (
-                  <i className="fa fa-question-circle fa-lg" style={{ color: 'rgb(125, 128, 130)' }} />
+                  <Signal size={10} />
                 )
             }
             <div className="network-name">

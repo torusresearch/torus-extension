@@ -10,6 +10,8 @@ $hover-red-primary: #C72837;
 $hover-orange: #FFD3B5;
 $danger-light-red: #EA7E77;
 $warning-light-orange: #F8B588;
+$disabled: #D3D3D4;
+$disabled-text: #5C6C7F;
 
 %button {
   @include h6;
@@ -24,6 +26,7 @@ $warning-light-orange: #F8B588;
   box-sizing: border-box;
   border-radius: 6px;
   width: 100%;
+  height: 50px;
   transition: border-color .3s ease, background-color .3s ease;
 
   &--disabled,
@@ -76,7 +79,7 @@ $warning-light-orange: #F8B588;
 
 .btn-secondary {
   color: $Blue-500;
-  border: 2px solid $hover-secondary;
+  border: 1px solid $Blue-500;
   background-color: $white;
 
   &:hover {
@@ -197,8 +200,9 @@ $warning-light-orange: #F8B588;
 
   &--disabled,
   &[disabled] {
-    border-color: $hover-secondary;
-    background-color: $hover-secondary;
+    border-color: $disabled;
+    background-color: $disabled;
+    color: $disabled-text;
   }
 }
 
@@ -207,7 +211,11 @@ $warning-light-orange: #F8B588;
 }
 
 .btn--large {
-  min-height: 54px;
+  height: 53px;
+}
+
+.btn--small {
+  height: 40px;
 }
 
 /**
@@ -217,12 +225,13 @@ $warning-light-orange: #F8B588;
 .btn-raised {
   color: $curious-blue;
   background-color: $white;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+  // box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   padding: 6px;
-  height: initial;
-  min-height: initial;
   width: initial;
   min-width: initial;
+  // torus
+  border: 1px solid rgba(206, 208, 214, 0.3);
+  box-shadow: -5px -5px 10px #FAFBFF, 5px 5px 10px rgba(222, 229, 255, 0.5);
 }
 
 .btn--first-time {
