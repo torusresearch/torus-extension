@@ -35,6 +35,10 @@
     margin-right: 12px;
   }
   font-weight: bold;
+
+  @media (max-width: 620px) {
+    width: 160px;
+  }
 }
 
 .eth-overview {

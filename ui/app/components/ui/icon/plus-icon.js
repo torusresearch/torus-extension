@@ -13,16 +13,16 @@ export default function Plus({ size, color }) {
       <path
         d="M5 10H15"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M10 5V15"
         stroke={color}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -30,6 +30,7 @@ export default function Plus({ size, color }) {
 
 Plus.defaultProps = {
   color: "#FFFFFF",
+  size: 20,
 };
 
 Plus.propTypes = {
