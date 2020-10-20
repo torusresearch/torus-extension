@@ -49,21 +49,19 @@ class JsonImportSubview extends Component {
         />
         <div className="new-account-create-form__buttons">
           <Button
-            type="default"
-            large
-            className="new-account-create-form__button"
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
             onClick={() => history.push(mostRecentOverviewPage)}
           >
             {this.context.t('cancel')}
           </Button>
           <Button
-            type="secondary"
-            large
+            type="primary"
             className="new-account-create-form__button"
             onClick={() => this.createNewKeychain()}
             disabled={!enabled}
           >
-            {this.context.t('import')}
+            {this.context.t('confirm')}
           </Button>
         </div>
         {

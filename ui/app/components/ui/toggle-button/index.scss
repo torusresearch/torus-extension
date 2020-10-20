@@ -5,13 +5,14 @@
   &__status {
     font-family: Roboto;
     font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 23px;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 18px;
     display: flex;
     align-items: center;
-    text-transform: uppercase;
     display: grid;
+    margin-right: 12px;
+    color: #0F1222;
   }
 
   &__label-off, &__label-on {

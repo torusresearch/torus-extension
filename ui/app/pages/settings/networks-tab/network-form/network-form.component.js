@@ -313,18 +313,18 @@ export default class NetworkForm extends PureComponent {
             )
           }
           <Button
-            type="default"
+            type="link"
             onClick={this.onCancel}
             disabled={viewOnly || this.stateIsUnchanged()}
           >
             { t('cancel') }
           </Button>
           <Button
-            type="secondary"
+            type="primary"
             disabled={isSubmitDisabled}
             onClick={this.onSubmit}
           >
-            { t('save') }
+            { t('confirm') }
           </Button>
         </div>
       </div>

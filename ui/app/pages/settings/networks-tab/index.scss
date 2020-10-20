@@ -224,8 +224,15 @@
     flex-flow: row nowrap;
     margin: .75rem 0;
 
-    .btn-default {
+    .button {
+      font-size: 12px;
+      line-height: 14px;
+      font-weight: 500;
+    }
+
+    .btn-link {
       margin-right: .375rem;
+      color: #B3C0CE;
     }
 
     .btn-secondary {
