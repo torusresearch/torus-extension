@@ -19,10 +19,10 @@ export default class SecurityTab extends PureComponent {
     setShowIncomingTransactionsFeatureFlag: PropTypes.func.isRequired,
     setUsePhishDetect: PropTypes.func.isRequired,
     usePhishDetect: PropTypes.bool.isRequired,
-    getTkeyState: PropTypes.func.isRequired
+    getTkeyState: PropTypes.func.isRequired,
   }
 
-  renderSeedWords() {
+  renderSeedWords () {
     const { t } = this.context
     const { history, getTkeyState } = this.props
 
@@ -139,7 +139,7 @@ export default class SecurityTab extends PureComponent {
 
     return (
       <div className="settings-page__body">
-        { warning && <div className="settings-tab__error">{ warning }</div> }
+        {/* { warning && <div className="settings-tab__error">{ warning }</div> } */}
         {/* { this.renderSeedWords() } */}
         { this.renderIncomingTransactionsOptIn() }
         { this.renderPhishingDetectionToggle() }
