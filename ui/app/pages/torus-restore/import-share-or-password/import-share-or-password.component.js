@@ -20,7 +20,7 @@ import {
 
 export default class ImportShareOrPassword extends Component {
   state = {
-    tabHeading: "Verify with device"
+    tabHeading: "Verify with Device"
   };
 
   state = {
@@ -38,7 +38,7 @@ export default class ImportShareOrPassword extends Component {
   componentDidMount() {
     const { changeHeading, getTotalDeviceShares } = this.props;
 
-    changeHeading("Verify with device"); // for tabs
+    changeHeading("Verify with Device"); // for tabs
 
     // this.setDeviceDetails(); // for adding this extension
 
@@ -154,7 +154,7 @@ export default class ImportShareOrPassword extends Component {
 
     return (
       <Select
-        className="new-account-create-form__device-select"
+        className="new-account-create-form__device-select new-account-create-form__device-select--options"
         name="import-type-select"
         isClearable={false}
         // value={selectedDevice}
@@ -215,26 +215,26 @@ export default class ImportShareOrPassword extends Component {
   render() {
     return (
       <div className="new-account-create-form">
+        <div className="new-account-create-form__input-image">
+          <img src="images/tkey-input-methods.png" />
+        </div>
         <div className="new-account-create-form__input-label">
-          Login to app.tor.us using one of the stored devices to verify your
-          identity.
+          Login to <span style={{fontWeight: 'bold'}}>one</span> of the stored browser below to verify your identity.
         </div>
 
         {this.renderAddOldDevice()}
 
         <div className="new-account-create-form__buttons">
           <Button
-            type="default"
-            large
-            className="new-account-create-form__button new-account-create-form__cancel-button"
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
             onClick={this.gotoPassword}
           >
             Verify using password
           </Button>
           <Button
-            type="secondary"
-            large
-            className="new-account-create-form__button new-account-create-form__confirm-button"
+            type="primary"
+            className="new-account-create-form__button"
             onClick={this.requestShare}
           >
             Request Share

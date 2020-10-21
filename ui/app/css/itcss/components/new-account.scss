@@ -1,11 +1,16 @@
 .new-account {
-  width: 375px;
+  width: 300px;
+  min-height: 450px;
   background-color: #FFFFFF;
   box-shadow: 0 0 7px 0 rgba(0,0,0,0.08);
   z-index: 25;
   height: unset;
   overflow: visible;
   scrollbar-width: none;
+  
+  border: 1px solid #E2E3E3;
+  box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
+  border-radius: 6px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -21,6 +26,22 @@
     border-bottom: 1px solid $geyser;
   }
 
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: calc(100% - 50px);
+    margin: 0 25px 10px;
+    border-top: 0.5px solid #D3D5E2;
+    padding: 8px;
+    >div {
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 18px;
+      flex-grow: 1;
+    }
+  }
+
   &__title {
     color: $tundora;
     font-family: Roboto;
@@ -32,17 +53,15 @@
   }
 
   &__tabs {
-    margin-left: 22px;
     display: flex;
-    margin-top: 10px;
+    padding: 0 25px;
 
     &__tab {
-      height: 54px;
-      padding: 15px 10px;
-      color: $dusty-gray;
-      font-family: Roboto;
-      font-size: 18px;
-      line-height: 24px;
+      padding: 20px 10px 10px;
+      color: #0F1222;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 19px;
       text-align: center;
       cursor: pointer;
     }
@@ -54,9 +73,16 @@
 
     &__selected {
       color: #0f1222;
-      border-bottom: 3px solid #0f1222;
+      border-bottom: 2px solid #0f1222;
       cursor: initial;
       pointer-events: none;
+    }
+    &--inner {
+      .new-account-create-form__tab  {
+        font-weight: bold;
+        font-size: 12px;
+        line-height: 14px;
+      }
     }
   }
 }
@@ -95,7 +121,7 @@
   &__select {
     height: 54px;
     width: 210px;
-    // border: 1px solid #D2D8DD;
+    border: 1px solid #D2D8DD;
     border-radius: 4px;
     background-color: #FFFFFF;
     display: flex;
@@ -125,6 +151,17 @@
   &__device-select{
     @extend .new-account-import-form__select;
     width: 100%;
+    height: 40px;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    text-align: justify;
+    color: $scorpion;
+    background: #FFFFFF;
+    box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+    border: 0;
+    border-radius: 6px;
+    color: #5C6C7F;
   }
 
   &__device-info{
@@ -536,7 +573,7 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  padding: 30px;
+  padding: 16px 24px;
 
   &__device-select{
     width: 100%;
@@ -545,11 +582,20 @@
     > div {
       border: 1px solid #E7E9F4;
     }
+    &--options {
+      height: 40px;
+      > div {
+        border: 0;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
   }
 
   &__tabs{
     width: 100%;
-    margin: 16px 0;
+    margin: 0 0 16px;
   }
 
   &__tab{
@@ -568,65 +614,75 @@
 
   &__input-label {
     color: $scorpion;
-    font-family: Roboto;
-    font-size: 16px;
-    line-height: 21px;
-    align-self: flex-start;
-  }
-
-  &__input {
-    height: 54px;
-    width: 315.84px;
-    border: 1px solid $geyser;
-    border-radius: 4px;
-    background-color: $white;
-    color: $scorpion;
-    font-family: Roboto;
-    font-size: 16px;
-    line-height: 21px;
-    margin-top: 15px;
-    padding: 0px 20px;
-
-    font-family: Roboto;
-    font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 14px;
+    align-self: flex-start;
+    margin-bottom: 24px;
+  }
+
+  &__input-image {
+    width: 56px;
+    height: 54px;
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-bottom: 12px;
+  }
+
+  &__input-fields {
+    align-self: flex-start;
+    width: 100%;
+  }
+
+  &__input {
+    height: 40px;
+    width: 100%;
+    padding: 0px 20px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
     display: flex;
     align-items: center;
     text-align: justify;
 
+    color: $scorpion;
+    background: #FFFFFF;
+    box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+    border: 0;
+    border-radius: 6px;
     color: #5C6C7F;
   }
 
   &__buttons {
-    margin-top: 39px;
+    margin-top: 16px;
     display: flex;
     width: 100%;
     justify-content: space-between;
   }
 
   &__cancel-button {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    background: transparent;
-    border: none;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 14px;
-    text-align: center;
-    color: #5495F7;
+    // display: flex;
+    // width: 100%;
+    // justify-content: space-between;
+    // background: transparent;
+    // border: none;
+    // font-family: Roboto;
+    // font-style: normal;
+    // font-weight: bold;
+    // font-size: 12px;
+    // line-height: 14px;
+    // text-align: center;
+    // color: #5495F7;
   }
 
   &__confirm-button{
-    background: #0364FF;
-    box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
-    border-radius: 3px;
-    color: white;
-    border: none;
+    // background: #0364FF;
+    // box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
+    // border-radius: 3px;
+    // color: white;
+    // border: none;
   }
 
   &__device-info{
@@ -634,29 +690,25 @@
     border: 1px solid #E7E9F4;
     box-sizing: border-box;
     border-radius: 6px;
-    height: 80px;
     padding: 8px 16px;
     width: 100%;
 
     h4{
-      font-family: Roboto;
-      font-style: normal;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 12px;
+      line-height: 14px;
 
       span{
-        font-family: Roboto;
-        font-style: normal;
         font-weight: normal;
-        font-size: 14px;
+        font-size: 10px;
+        line-height: 12px;
       }
     }
 
     p{
-      font-family: Roboto;
-      font-style: normal;
       font-weight: normal;
-      font-size: 14px;
+      font-size: 10px;
+      line-height: 12px;
     }
 
     svg{
@@ -670,12 +722,11 @@
   }
 
   &__error-message{
-    font-family: Roboto;
-    font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    line-height: 40px;
-    padding-left: 16px;
+    line-height: 14px;
+    padding: 0 3px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
     text-align: justify;
@@ -691,6 +742,9 @@
     
     &--cancel {
       color: #5C6C7F;
+      &:hover {
+        color: #5C6C7F;
+      }
     }
   }
 

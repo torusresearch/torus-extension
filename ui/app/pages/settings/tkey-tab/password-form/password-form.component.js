@@ -50,7 +50,7 @@ export default class PasswordForm extends PureComponent {
       let accountPasswordError = "";
 
       // Add check for password if minimum 10 digits
-      if (this.passwordValidator(el)) {
+      if (!this.passwordValidator(el)) {
         accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
       }
 
@@ -68,9 +68,8 @@ export default class PasswordForm extends PureComponent {
 
       field === 1 ? accountPassword = value : field === 2 ? accountPassword2 = value : void 0
 
-      // Add check for password if minimum 10 digits
-      if (value.length < 10) {
-        accountPasswordError = "Password should be minimum 10 digits";
+      if (!this.passwordValidator(value)) {
+        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
       } else if (accountPassword !== accountPassword2) {
         accountPasswordError = "Both passwords should be same";
       }
@@ -241,7 +240,7 @@ export default class PasswordForm extends PureComponent {
 
   render() {
     let { passwordShare } = this.props;
-    let { accountPasswordError } = this.state;
+    let { accountPasswordError, passwordBlockType } = this.state;
     return (
       <div>
         <div className="tkey-tab__share">

@@ -1,8 +1,13 @@
+.main-container {
+  box-shadow: none;
+  padding-top: 3%;
+}
+
 .end-of-flow {
   color: black;
   font-family: Roboto;
   font-style: normal;
-  margin: 0 30% 0 10%;
+  margin: 0;
 
   .app-header__logo-container {
     width: 742px;

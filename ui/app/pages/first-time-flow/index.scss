@@ -34,11 +34,43 @@
   }
 
   &__onboarding{
-    img{
-      width: 100%;
-      border-radius: 6px;
-      box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
+    display: flex;
+    box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
+    margin-top: 15px;
+    padding: 30px;
+    & > div {
+      flex: 1 1 0px;
     }
+  }
+
+  &__onboarding-image{
+    text-align: center;
+    padding-right: 20px;
+    img {
+      max-width: 277px;
+      width: 100%;
+    }
+  }
+
+  &__onboarding-feats{
+    margin-bottom: 24px;
+    li {
+      display: flex;
+      align-items: center;
+      color: #5C6C7F;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 16px;
+    }
+    img {
+      margin-right: 16px;
+    }
+  }
+
+  &__onboarding-more{
+    font-size: 14px;
+    line-height: 16px;
+    color: #7F8FA4;
   }
 
   &__question{
