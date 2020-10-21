@@ -1,6 +1,6 @@
 .new-account {
-  width: 300px;
-  min-height: 450px;
+  width: 310px;
+  min-height: 470px;
   background-color: #FFFFFF;
   box-shadow: 0 0 7px 0 rgba(0,0,0,0.08);
   z-index: 25;
@@ -11,7 +11,9 @@
   border: 1px solid #E2E3E3;
   box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
   border-radius: 6px;
-
+  &--import {
+    width: 375px;
+  }
   &::-webkit-scrollbar {
     display: none;
   }
@@ -126,6 +128,9 @@
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
+    &--no-border {
+      border: 0;
+    }
 
     >div{
       width: 100%;
@@ -582,13 +587,27 @@
     > div {
       border: 1px solid #E7E9F4;
     }
-    &--options {
+    &--options-device {
       height: 40px;
+      box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+      div {
+        background-color: #FFFFFF;
+        &:active {
+          background-color: #FFFFFF;
+        }
+      }
       > div {
-        border: 0;
+        margin-bottom: 0px;
+        margin-top: 0px;
         font-weight: normal;
         font-size: 12px;
         line-height: 14px;
+      }
+      .new-account-create-form__device-info {
+        background: #FFFFFF;
+        border: 0;
+        box-sizing: border-box;
+        padding: 0;
       }
     }
   }
@@ -663,26 +682,26 @@
   }
 
   &__cancel-button {
-    // display: flex;
-    // width: 100%;
-    // justify-content: space-between;
-    // background: transparent;
-    // border: none;
-    // font-family: Roboto;
-    // font-style: normal;
-    // font-weight: bold;
-    // font-size: 12px;
-    // line-height: 14px;
-    // text-align: center;
-    // color: #5495F7;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background: transparent;
+    border: none;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: #5495F7;
   }
 
   &__confirm-button{
-    // background: #0364FF;
-    // box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
-    // border-radius: 3px;
-    // color: white;
-    // border: none;
+    background: #0364FF;
+    box-shadow: 0px 18.2385px 36.4771px rgba(46, 91, 255, 0.06);
+    border-radius: 3px;
+    color: white;
+    border: none;
   }
 
   &__device-info{

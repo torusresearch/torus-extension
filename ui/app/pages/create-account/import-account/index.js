@@ -69,7 +69,7 @@ export default class AccountImportSubview extends Component {
           </div>
 
           <Select
-            className="new-account-import-form__select"
+            className="new-account-import-form__select new-account-import-form__select--no-border"
             name="import-type-select"
             clearable={false}
             defaultValue={{ label: menuItems[0], value: menuItems[0] }}

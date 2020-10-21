@@ -38,7 +38,7 @@ export default class CreateAccountPage extends Component {
 
   render () {
     return (
-      <div className="new-account">
+      <div className="new-account new-account--import">
         <div className="new-account__header">
           <div className={`new-account__header ${this.context.t('newAccount')}`}>
             {this.renderTabs()}

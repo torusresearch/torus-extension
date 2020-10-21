@@ -28,7 +28,7 @@ export default class ImportShareOrPassword extends Component {
     defaultAccountName: "Enter your password here",
     selectedDevice: "",
     instruction:
-      "Confirm your browser and device details. Store it for future access into your 2FA Wallet.",
+      "Save new extension as a separate authentication factor or add it to an existing device.",
     currentDevice: {},
     browser: {},
     devices: [],
@@ -94,7 +94,7 @@ export default class ImportShareOrPassword extends Component {
       // console.log(props)
       return (
         <Option {...props}>
-          <div className="new-account-create-form__device-info new-account-create-form__device-option">
+          <div className="new-account-create-form__device-info">
             <Grid container>
               <Grid item xs={2}>
                 <ComputerIcon />
@@ -122,7 +122,7 @@ export default class ImportShareOrPassword extends Component {
       // console.log(props.data)
       return (
         <ValueContainer {...props}>
-          <div className="new-account-create-form__device-info new-account-create-form__device-option">
+          <div className="new-account-create-form__device-info">
             <Grid container>
               <Grid item xs={2}>
                 <ComputerIcon />
@@ -154,7 +154,7 @@ export default class ImportShareOrPassword extends Component {
 
     return (
       <Select
-        className="new-account-create-form__device-select new-account-create-form__device-select--options"
+        className="new-account-create-form__device-select new-account-create-form__device-select--options-device"
         name="import-type-select"
         isClearable={false}
         // value={selectedDevice}
