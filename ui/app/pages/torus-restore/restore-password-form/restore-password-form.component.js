@@ -40,18 +40,13 @@ export default class RestorePasswordForm extends Component {
     }
   }
 
-  passwordValidator(v) {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{10,}$/.test(v)
-  }
-
   handlePasswordChange = (el) => {
     this.setState(state => {
       const { accountPassword } = state;
       let accountPasswordError = "";
 
-      // Add check for password if minimum 10 digits
-      if (!this.passwordValidator(el)) {
-        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
+      if (!el) {
+        accountPasswordError = "Required";
       }
 
       return {
@@ -102,7 +97,7 @@ export default class RestorePasswordForm extends Component {
             type="primary"
             className="new-account-create-form__button"
             onClick={this.verifyPassword}
-            disabled={accountPasswordError !== '' || accountPassword === ''}
+            disabled={accountPassword === ''}
           >
             Confirm
           </Button>

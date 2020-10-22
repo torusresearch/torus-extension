@@ -58,7 +58,6 @@
 
   &__addshareButton {
     position: relative;
-    left: calc(100% - 150px);
     width: 150px;
     border: 1.30275px solid #0364ff;
     box-sizing: border-box;
@@ -69,7 +68,6 @@
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
-    margin-top: 16px;
   }
 
   &__heading {
@@ -153,5 +151,27 @@
     align-items: center;
     text-align: justify;
     color: #EF4C56
+  }
+  &__buttons-container {
+    display: flex;
+    margin-top: 16px;
+  }
+  &__password-requirements {
+    li {
+      margin-left: 5px;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 18px;
+      color: #5C6C7F;
+      display: flex;
+      align-items: center;
+      &.valid {
+        color: #00D065;
+      }
+      i.fa {
+        margin-right: 8px;
+        font-size: 8px;
+      }
+    }
   }
 }

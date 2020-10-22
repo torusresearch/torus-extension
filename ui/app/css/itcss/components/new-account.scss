@@ -588,13 +588,15 @@
       border: 1px solid #E7E9F4;
     }
     &--options-device {
-      height: 40px;
-      box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+      height: 50px;
       div {
         background-color: #FFFFFF;
         &:active {
           background-color: #FFFFFF;
         }
+      }
+      > div:first-of-type {
+        height: 50px;
       }
       > div {
         margin-bottom: 0px;
