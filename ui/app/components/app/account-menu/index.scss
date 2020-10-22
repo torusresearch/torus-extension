@@ -39,7 +39,7 @@
   &__lock-button {
     border: 1px solid $dusty-gray;
     background-color: transparent;
-    color: $white;
+    color: #0F1222;
     border-radius: 4px;
     font-size: 12px;
     line-height: 23px;
@@ -139,7 +139,7 @@
   }
 
   &__check-mark-icon {
-    background-image: url("images/check-white.svg");
+    background-image: url("images/check-grey.svg");
     height: 18px;
     width: 18px;
     background-repeat: no-repeat;
@@ -154,12 +154,14 @@
   }
 
   &__name {
-    color: $white;
+    // color: $white;
     font-size: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     max-width: 200px;
+    color: #0F1222;
+    text-transform: capitalize;
   }
 
   &__balance {

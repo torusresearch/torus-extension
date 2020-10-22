@@ -144,6 +144,9 @@ export default class tkeyTab extends PureComponent {
 
     return (
       <div className="settings-page__body">
+        <div className="spinner-container">
+          <Spinner color="#0364FF" />
+        </div>
         {currentThreshold ? (
           <div className="tkey-tab__share">
             <p className="tkey-tab__subheading">

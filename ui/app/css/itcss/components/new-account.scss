@@ -11,7 +11,11 @@
   border: 1px solid #E2E3E3;
   box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
   &--import {
+    display: block;
+    flex-direction: unset;
     width: 375px;
   }
   &::-webkit-scrollbar {
@@ -29,11 +33,9 @@
   }
 
   &__footer {
-    position: absolute;
-    bottom: 0;
     display: flex;
     width: calc(100% - 50px);
-    margin: 0 25px 10px;
+    margin: auto 25px 20px;
     border-top: 0.5px solid #D3D5E2;
     padding: 8px;
     >div {
