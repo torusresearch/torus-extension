@@ -159,7 +159,7 @@ class NetworkDropdown extends Component {
               className="network-name-item"
               style={{
                 color: currentRpcTarget
-                  ? '#ffffff'
+                  ? '#0F1222'
                   : '#9b9b9b',
               }}
             >
@@ -262,7 +262,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'mainnet'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -285,7 +285,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'ropsten'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -308,7 +308,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'kovan'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -331,7 +331,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'rinkeby'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -354,7 +354,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'goerli'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -377,7 +377,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'localhost'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -404,7 +404,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: activeNetwork === 'custom'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >

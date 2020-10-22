@@ -260,5 +260,8 @@
     .spinner {
       margin: 8px auto;
     }
+    @media (max-width: 600px) {
+      margin: 20px 0 0 0;
+    }
   }
 }
