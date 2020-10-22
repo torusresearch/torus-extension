@@ -70,23 +70,23 @@ describe('Network Dropdown', function () {
     })
 
     it('checks background color for first NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(0).prop('backgroundColor'), '#29B6AF') // Main Ethereum Network Teal
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(0).prop('backgroundColor'), '#cde0ff') // Main Ethereum Network Teal
     })
 
     it('checks background color for second NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(1).prop('backgroundColor'), '#ff4a8d') // Ropsten Red
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(1).prop('backgroundColor'), '#ffd9f8') // Ropsten Red
     })
 
     it('checks background color for third NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(2).prop('backgroundColor'), '#7057ff') // Kovan Purple
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(2).prop('backgroundColor'), '#b7f7e9') // Kovan Purple
     })
 
     it('checks background color for fourth NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(3).prop('backgroundColor'), '#f6c343') // Rinkeby Yellow
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(3).prop('backgroundColor'), '#caf1fe') // Rinkeby Yellow
     })
 
     it('checks background color for fifth NetworkDropdownIcon', function () {
-      assert.equal(wrapper.find(NetworkDropdownIcon).at(4).prop('backgroundColor'), '#3099f2') // Goerli Blue
+      assert.equal(wrapper.find(NetworkDropdownIcon).at(4).prop('backgroundColor'), '#ffe1d4') // Goerli Blue
     })
 
     it('checks background color for sixth NetworkDropdownIcon', function () {
