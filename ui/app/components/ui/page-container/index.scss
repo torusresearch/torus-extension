@@ -82,9 +82,15 @@
 
   &__footer-button {
     margin-right: 16px;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 500;
 
     &:last-of-type {
       margin-right: 0;
+    }
+    &--cancel {
+      color: #5C6C7F;
     }
   }
 

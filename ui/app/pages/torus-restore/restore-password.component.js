@@ -119,7 +119,15 @@ export default class RestorePassword extends Component {
         </div>
         <div className="new-account__footer">
           <div><Secure size={14} /><span style={{marginLeft: '8px'}}>Secure Torus sign in</span></div>
-          <div style={{textAlign: 'right'}}>Contact Support</div>
+          <div style={{textAlign: 'right'}}>
+            <a
+              href="mailto:hello@tor.us"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Contact Support</span>
+            </a>
+          </div>
         </div>
       </div>
     )

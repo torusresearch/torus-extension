@@ -208,7 +208,7 @@ export default class TkeyController {
         await this.importAccountWithStrategy(
           'Private Key',
           [element.toString('hex').padStart(64, '0')],
-          { typeOfLogin: 'Private keys' }
+          { typeOfLogin: 'Private key' }
         )
       }
 
