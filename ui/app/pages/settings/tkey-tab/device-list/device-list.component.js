@@ -70,10 +70,10 @@ export default class DeviceList extends PureComponent {
   renderDevices() {
     const { shareDesc } = this.state;
     return shareDesc.map(device => {
-      let date = new Date(device.dateAdded)
+      let date = new Date(device.dateAdded).toLocaleString()
       return (
         <div className="tkey-tab__subshare">
-          <p>{Bowser.getParser(device.userAgent).getBrowserName() + " - " + date.toISOString()}</p>
+          <p>{Bowser.getParser(device.userAgent).getBrowserName() + " - " + date.toLocaleString()}</p>
           {/* <div onClick={() => this.deleteDevice(device.userAgent, device.dateAdded)}>
             <DeleteOutlinedIcon />
           </div> */}
