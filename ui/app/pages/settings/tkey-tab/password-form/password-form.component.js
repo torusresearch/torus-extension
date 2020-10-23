@@ -41,7 +41,7 @@ export default class PasswordForm extends PureComponent {
   }
 
   passwordValidator(v) {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{10,}$/.test(v)
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{9,}$/.test(v)
   }
 
   onPasswordChange(el) {
