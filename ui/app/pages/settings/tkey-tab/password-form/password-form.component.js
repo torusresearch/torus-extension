@@ -41,7 +41,7 @@ export default class PasswordForm extends PureComponent {
   }
 
   passwordValidator(v) {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{10,}$/.test(v)
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{9,}$/.test(v)
   }
 
   onPasswordChange(el) {
@@ -50,8 +50,9 @@ export default class PasswordForm extends PureComponent {
       let accountPasswordError = "";
 
       // Add check for password if minimum 10 digits
-      if (this.passwordValidator(el)) {
-        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
+      if (!this.passwordValidator(el)) {
+        // accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
+        accountPasswordError = "Invalid password";
       }
 
       return {
@@ -68,9 +69,9 @@ export default class PasswordForm extends PureComponent {
 
       field === 1 ? accountPassword = value : field === 2 ? accountPassword2 = value : void 0
 
-      // Add check for password if minimum 10 digits
-      if (value.length < 10) {
-        accountPasswordError = "Password should be minimum 10 digits";
+      if (!this.passwordValidator(value)) {
+        // accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
+        accountPasswordError = "Invalid password";
       } else if (accountPassword !== accountPassword2) {
         accountPasswordError = "Both passwords should be same";
       }
@@ -239,16 +240,42 @@ export default class PasswordForm extends PureComponent {
     }
   }
 
+  renderPasswordRequirements() {
+    let { passwordBlockType, accountPassword } = this.state;
+    const minChars = accountPassword.length >= 10
+    const hasUpper = /.*[A-Z].*/.test(accountPassword)
+    const hasLower = /.*[a-z].*/.test(accountPassword)
+    const hasNumber = /.*[0-9].*/.test(accountPassword)
+    const hasSpecial = /.*[^a-zA-Z0-9\s].*/.test(accountPassword)
+    
+    if (passwordBlockType !== 'hidden') {
+      return (
+        <div>
+          <ul className="tkey-tab__password-requirements">
+            <li className={minChars ? 'valid': ''}><i className="fa fa-circle" />Min 10 characters</li>
+            <li className={hasUpper ? 'valid': ''}><i className="fa fa-circle" />At least one uppercase letter</li>
+            <li className={hasLower ? 'valid': ''}><i className="fa fa-circle" />At least one lowercase letter</li>
+            <li className={hasNumber ? 'valid': ''}><i className="fa fa-circle" />One number</li>
+            <li className={hasSpecial ? 'valid': ''}><i className="fa fa-circle" />One special character </li>
+          </ul>
+        </div>
+      )
+    }
+  }
+
   render() {
     let { passwordShare } = this.props;
-    let { accountPasswordError } = this.state;
+    let { accountPasswordError, passwordBlockType } = this.state;
     return (
       <div>
         <div className="tkey-tab__share">
           <p className="tkey-tab__subheading">Account Password</p>
           {this.renderPasswordBlock()}
           <p className="tkey-tab__error-message">{accountPasswordError}</p>
-          {this.renderButton()}
+          <div className="tkey-tab__buttons-container">
+            {this.renderPasswordRequirements()}
+            <div style={{marginLeft: 'auto'}}>{this.renderButton()}</div>            
+          </div>          
         </div>
       </div>
     );

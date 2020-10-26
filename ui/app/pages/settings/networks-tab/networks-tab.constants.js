@@ -1,7 +1,7 @@
 const defaultNetworksData = [
   {
     labelKey: 'mainnet',
-    iconColor: '#29B6AF',
+    iconColor: '#cde0ff',
     providerType: 'mainnet',
     rpcUrl: 'https://api.infura.io/v1/jsonrpc/mainnet',
     chainId: '1',
@@ -10,7 +10,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: 'ropsten',
-    iconColor: '#FF4A8D',
+    iconColor: '#ffd9f8',
     providerType: 'ropsten',
     rpcUrl: 'https://api.infura.io/v1/jsonrpc/ropsten',
     chainId: '3',
@@ -19,7 +19,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: 'rinkeby',
-    iconColor: '#F6C343',
+    iconColor: '#caf1fe',
     providerType: 'rinkeby',
     rpcUrl: 'https://api.infura.io/v1/jsonrpc/rinkeby',
     chainId: '4',
@@ -28,7 +28,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: 'goerli',
-    iconColor: '#3099f2',
+    iconColor: '#ffe1d4',
     providerType: 'goerli',
     rpcUrl: 'https://api.infura.io/v1/jsonrpc/goerli',
     chainId: '5',
@@ -37,7 +37,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: 'kovan',
-    iconColor: '#9064FF',
+    iconColor: '#b7f7e9',
     providerType: 'kovan',
     rpcUrl: 'https://api.infura.io/v1/jsonrpc/kovan',
     chainId: '42',

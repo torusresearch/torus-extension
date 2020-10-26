@@ -15,10 +15,11 @@ export class Dropdown extends Component {
     } = this.props
 
     const innerStyleDefaults = Object.assign({
-      borderRadius: '4px',
+      borderRadius: '9px',
       padding: '8px 16px',
-      background: 'rgba(0, 0, 0, 0.8)',
-      boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 2px 2px',
+      background: '#FFFFFF',
+      boxShadow: '0px 14px 28px rgba(46, 91, 255, 0.06)',
+      border: '1px solid #F5F5F5',
     }, innerStyle)
 
     return (
@@ -34,9 +35,9 @@ export class Dropdown extends Component {
         <style>
           {`
             li.dropdown-menu-item:hover {
-              color:rgb(225, 225, 225);
+              color:rgb(15,18,34);
               background-color: rgba(255, 255, 255, 0.05);
-              border-radius: 4px;
+              border-radius: 9px;
             }
             li.dropdown-menu-item { color: rgb(185, 185, 185); }
           `}

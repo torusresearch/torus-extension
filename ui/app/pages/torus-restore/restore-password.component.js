@@ -7,6 +7,7 @@ import DeviceForm from './device-form/device-form.container'
 import ImportShareOrPassword from './import-share-or-password'
 import IdentityVerified from './identity-verified/identity-verified.container'
 import NewLoginDetected from './new-login-detected/new-login-detected.container'
+import Secure from "../../components/ui/icon/secure-icon.component";
 // import NewAccountCreateForm from './restore-password-form.container'
 // import NewAccountImportForm from './import-account'
 // import ConnectHardwareForm from './connect-hardware'
@@ -115,6 +116,18 @@ export default class RestorePassword extends Component {
             />
 
           </Switch>
+        </div>
+        <div className="new-account__footer">
+          <div><Secure size={14} /><span style={{marginLeft: '8px'}}>Secure Torus sign in</span></div>
+          <div style={{textAlign: 'right'}}>
+            <a
+              href="mailto:hello@tor.us"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Contact Support</span>
+            </a>
+          </div>
         </div>
       </div>
     )

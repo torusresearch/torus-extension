@@ -89,7 +89,7 @@ export default class AppHeader extends PureComponent {
 
     return (
       <div
-        className={classnames('app-header', { 'app-header--back-drop': isUnlocked })}
+        className={classnames('app-header', 'app-header--back-drop')}
       >
         <div className="app-header__contents">
           <MetaFoxLogo

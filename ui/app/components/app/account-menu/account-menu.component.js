@@ -273,7 +273,7 @@ export default class AccountMenu extends Component {
         onClick={this.handleScrollDown}
       >
         <img
-          src="./images/icons/down-arrow.svg"
+          src="./images/icons/down-arrow-grey.svg"
           width={28}
           height={28}
           alt="scroll down"
@@ -360,7 +360,7 @@ export default class AccountMenu extends Component {
           icon={(
             <img
               className="account-menu__item-icon"
-              src="images/import-account.svg"
+              src="images/import-account-grey.svg"
             />
           )}
           text={t('importAccount')}
@@ -406,7 +406,7 @@ export default class AccountMenu extends Component {
           icon={(
             <img
               className="account-menu__item-icon"
-              src="images/connect-icon.svg"
+              src="images/connect-icon-grey.svg"
             />
           )}
           text={t('connectHardwareWallet')}

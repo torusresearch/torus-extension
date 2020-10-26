@@ -21,7 +21,7 @@ export default class DeviceForm extends Component {
     inputPassword: "",
     defaultAccountName: "Enter your password here",
     selectedDevice: "",
-    instruction: "Confirm your browser and device details. Store it for future access into your 2FA Wallet.",
+    instruction: "Save new browser as a separate authentication factor or add it as an existing device.",
     currentDevice: {},
     browser: {},
     devices: [],
@@ -156,7 +156,7 @@ export default class DeviceForm extends Component {
       // console.log(props)
       return (
         <Option {...props}>
-          <div className="new-account-create-form__device-info new-account-create-form__device-option">
+          <div className="new-account-create-form__device-info">
             <Grid container>
               <Grid item xs={2}>
                 <ComputerIcon />
@@ -179,7 +179,7 @@ export default class DeviceForm extends Component {
       // console.log(props.data)
       return (
         <ValueContainer {...props}>
-          <div className="new-account-create-form__device-info new-account-create-form__device-option">
+          <div className="new-account-create-form__device-info">
             <Grid container>
               <Grid item xs={2}>
                 <ComputerIcon />
@@ -210,7 +210,7 @@ export default class DeviceForm extends Component {
     
     return (
       <Select
-        className="new-account-create-form__device-select"
+        className="new-account-create-form__device-select new-account-create-form__device-select--options-device"
         name="import-type-select"
         isClearable={false}
         // value={selectedDevice}
@@ -248,12 +248,14 @@ export default class DeviceForm extends Component {
 
     return (
       <div className="new-account-create-form">
+        <div className="new-account-create-form__input-image">
+          <img src="images/tkey-input-verified.png" />
+        </div>
         <div className="new-account-create-form__input-label">
-          {tabValue === 1 ? "Confirm your browser and device details. Store it for future access into your 2FA Wallet." : "Save new extension as a separate authentication factor or add it to an existing device."}
-          
+          Save new extension as a separate authentication factor or add it to an existing device.
         </div>
 
-        <div className="new-account-create-form__tabs">
+        <div className="new-account-create-form__tabs new-account-create-form__tabs--inner">
           <div
             className={`new-account-create-form__tab ${
               tabValue === 1 ? "new-account-create-form__tab-selected" : ""
@@ -276,17 +278,15 @@ export default class DeviceForm extends Component {
 
         <div className="new-account-create-form__buttons">
           <Button
-            type="default"
-            large
-            className="new-account-create-form__button new-account-create-form__cancel-button"
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
             onClick={this.continueWithoutAddingDevice}
           >
             Do not save extension
           </Button>
           <Button
-            type="secondary"
-            large
-            className="new-account-create-form__button new-account-create-form__confirm-button"
+            type="primary"
+            className="new-account-create-form__button"
             onClick={this.addDevice}
           >
             Confirm and save

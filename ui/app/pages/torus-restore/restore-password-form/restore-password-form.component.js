@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
+import TextField from '../../../components/ui/text-field'
 import {
   TRP_DEVICE_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE, TRP_IMPORT_OR_PASSWORD
 } from '../../../helpers/constants/routes'
@@ -18,7 +19,7 @@ export default class RestorePasswordForm extends Component {
 
   componentDidMount(){
     const { changeHeading } = this.props
-    changeHeading("Verification method")
+    changeHeading("Verification required")
   }
 
   verifyPassword = async () => {
@@ -39,18 +40,13 @@ export default class RestorePasswordForm extends Component {
     }
   }
 
-  passwordValidator(v) {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\dA-Za-z]).\S{10,}$/.test(v)
-  }
-
   handlePasswordChange = (el) => {
     this.setState(state => {
       const { accountPassword } = state;
       let accountPasswordError = "";
 
-      // Add check for password if minimum 10 digits
-      if (this.passwordValidator(el)) {
-        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
+      if (!el) {
+        accountPasswordError = "Required";
       }
 
       return {
@@ -70,12 +66,13 @@ export default class RestorePasswordForm extends Component {
     const { history, createAccount, mostRecentOverviewPage } = this.props
     return (
       <div className="new-account-create-form">
-        <div className="new-account-create-form__input-label">
-          You require 1 verification to access your 2FA wallet. Verify your identity with any of the following.
-          {/* It seems like you are trying to login from a new device/browser. <br /> <br />
-          Please enter the password associated with this account to continue. */}
+        <div className="new-account-create-form__input-image">
+          <img src="images/tkey-input-password.png" />
         </div>
-        <div>
+        <div className="new-account-create-form__input-label">
+        You are accessing your 2FA Wallet from a new platform. <span style={{fontWeight: 'bold'}}>Verify your identity</span> with your password:
+        </div>
+        <div className="new-account-create-form__input-fields">
           <input
             type="password"
             className="new-account-create-form__input"
@@ -87,25 +84,23 @@ export default class RestorePasswordForm extends Component {
             }}
           />
           <p className="new-account-create-form__error-message">{accountPasswordError}</p>
-          <div className="new-account-create-form__buttons">
-            <Button
-              type="default"
-              large
-              className="new-account-create-form__button new-account-create-form__cancel-button"
-              onClick={this.otherMethods}
-            >
-              Verify using another method
-            </Button>
-            <Button
-              type="secondary"
-              large
-              className="new-account-create-form__button new-account-create-form__confirm-button"
-              // onClick={createClick}
-              onClick={this.verifyPassword}
-            >
-              Confirm
-            </Button>
-          </div>
+        </div>
+        <div className="new-account-create-form__buttons">
+          <Button
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
+            onClick={this.otherMethods}
+          >
+            Verify using another method
+          </Button>
+          <Button
+            type="primary"
+            className="new-account-create-form__button"
+            onClick={this.verifyPassword}
+            disabled={accountPassword === ''}
+          >
+            Confirm
+          </Button>
         </div>
       </div>
     )
