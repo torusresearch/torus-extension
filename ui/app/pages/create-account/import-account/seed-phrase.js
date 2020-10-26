@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {addSeedPhrase, setSelectedAddress, displayWarning, importNewAccount} from '../../../store/actions'
+import { addSeedPhrase, setSelectedAddress, displayWarning, importNewAccount } from '../../../store/actions'
 import { getMetaMaskAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
@@ -148,6 +148,6 @@ function mapDispatchToProps (dispatch) {
     },
     displayWarning: (message) => dispatch(displayWarning(message || null)),
     setSelectedAddress: (address) => dispatch(setSelectedAddress(address)),
-    addSeedPhrase: (seedPhrase) => dispatch(addSeedPhrase(seedPhrase))
+    addSeedPhrase: (seedPhrase) => dispatch(addSeedPhrase(seedPhrase)),
   }
 }

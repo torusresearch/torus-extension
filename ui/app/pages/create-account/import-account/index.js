@@ -7,7 +7,7 @@ import JsonImportView from './json.js'
 
 import PrivateKeyImportView from './private-key.js'
 
-import SeedPhraseImportView from "./seed-phrase.js"
+import SeedPhraseImportView from './seed-phrase.js'
 
 export default class AccountImportSubview extends Component {
   static contextTypes = {
@@ -20,21 +20,21 @@ export default class AccountImportSubview extends Component {
     return [
       this.context.t('privateKey'),
       this.context.t('jsonFile'),
-      'Seed Phrase'
+      'Seed Phrase',
     ]
   }
 
   renderImportView () {
     const { type } = this.state
     const menuItems = this.getMenuItemTexts()
-    const current = typeof(type) === "object" ? type : menuItems[0]
+    const current = typeof (type) === 'object' ? type : menuItems[0]
     // console.log(type, current.value, menuItems)
     switch (current.value || current) {
       case this.context.t('privateKey'):
         return <PrivateKeyImportView />
       case this.context.t('jsonFile'):
         return <JsonImportView />
-      case "Seed Phrase":
+      case 'Seed Phrase':
         return <SeedPhraseImportView />
       default:
         return <JsonImportView />
@@ -44,7 +44,7 @@ export default class AccountImportSubview extends Component {
   render () {
     const menuItems = this.getMenuItemTexts()
     const { type } = this.state
-    
+
     return (
       <div className="new-account-import-form">
         <div className="new-account-import-disclaimer">
