@@ -391,9 +391,7 @@ export default class TkeyController {
   async requestShareFromOtherDevice () {
     try {
       console.log('requesting new share')
-      const latestPolynomial = this.tb.metadata.getLatestPublicPolynomial()
-      const latestPolynomialId = latestPolynomial.getPolynomialID()
-      const indexes = this.tb.metadata.getShareIndexesForPolynomial(latestPolynomialId)
+      const indexes = this.tb.getCurrentShareIndexes()
       const encPubKeyX = await this.tb.modules.shareTransfer.requestNewShare(window.navigator.userAgent, indexes)
       console.log(encPubKeyX)
       return encPubKeyX
