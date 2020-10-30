@@ -1418,8 +1418,8 @@ export function lookForNewRequests () {
   }
 }
 
-export async function approveShareRequest (pubkey) {
-  return async () => {
+export function approveShareRequest (pubkey) {
+  return async (dispatch) => {
     try {
       const key = await promisifiedBackground.approveShareRequest(pubkey)
       console.log('approveShareRequest', key)

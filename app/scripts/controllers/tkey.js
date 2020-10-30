@@ -425,8 +425,11 @@ export default class TkeyController {
           const latestShareTransferStore = await this.tb.modules.shareTransfer.getShareTransferStore()
           console.log(latestShareTransferStore)
           if (Object.keys(latestShareTransferStore)[0]) {
-            resolve(Object.keys(latestShareTransferStore)[0])
-            clearInterval(this.requestStatusCheckId)
+            if(this.currentEncKey !== Object.keys(latestShareTransferStore)[0]) {
+              this.currentEncKey = Object.keys(latestShareTransferStore)[0]
+              resolve(latestShareTransferStore[this.currentEncKey])
+              clearInterval(this.requestStatusCheckId)
+            }
           }
         } catch (err) {
           // clearInterval(this.requestStatusCheckId);
@@ -438,9 +441,14 @@ export default class TkeyController {
 
   // Approve request with share
   async approveShareRequest (pubkey) {
+    console.log('approveShareRequest -> pubkey', pubkey)
     try {
-      const result = await this.tb.generateNewShare()
-      await this.tb.modules.shareTransfer.approveRequest(pubkey, result.newShareStores[result.newShareIndex.toString('hex')])
+      // const result = await this.tb.generateNewShare()
+      // await this.tb.modules.shareTransfer.approveRequest(pubkey, result.newShareStores[result.newShareIndex.toString('hex')])
+      await this.tb.modules.shareTransfer.approveRequest(this.currentEncKey)
+      // await this.tb.modules.shareTransfer.deleteShareTransferStore(this.currentEncKey)
+      // const store = await this.tb.modules.shareTransfer.getShareTransferStore()
+      // console.log('approveShareRequest -> store', store)
     } catch (err) {
       console.err(err)
       return err

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import EndOfFlow from './end-of-flow.component'
-import { setCompletedOnboarding, lookForNewRequests } from '../../../store/actions'
+import { setCompletedOnboarding } from '../../../store/actions'
 import { getOnboardingInitiator } from '../../../selectors'
 
 const firstTimeFlowTypeNameMap = {
@@ -20,7 +20,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     completeOnboarding: () => dispatch(setCompletedOnboarding()),
-    lookForNewRequests: () => dispatch(lookForNewRequests())
   }
 }
 

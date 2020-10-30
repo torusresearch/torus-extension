@@ -100,7 +100,6 @@ export default class DeviceForm extends Component {
       }
     } else {
       try {
-        debugger
         await copyShareUsingIndexAndStoreLocally(selectedDevice.browser.index);
         history.push(INITIALIZE_END_OF_FLOW_ROUTE);
       } catch (err) {

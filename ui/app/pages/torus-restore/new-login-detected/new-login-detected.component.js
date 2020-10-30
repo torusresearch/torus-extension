@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import bowser from "bowser";
 import Button from "../../../components/ui/button";
 import {
   TRP_DEVICE_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
   TRP_IMPORT_OR_PASSWORD
 } from "../../../helpers/constants/routes";
+import ComputerIcon from "@material-ui/icons/Computer";
 import Grid from "@material-ui/core/Grid";
 
 
@@ -14,17 +16,25 @@ export default class NewLoginDetected extends Component {
     newAccountNumber: 0
   };
 
-  state = {};
-
-  confirm() {
-    this.continueToHomeScreen()
+  state = {
+    encPubKey: '',
+    browserName: '',
+    browserVersion: '',
+  };
+  componentWillMount() {
+    const { location } = this.props;
+    console.log('NewLoginDetected -> componentDidMount -> location', location)
+    const { encPubKey, userAgent } = location.state.res;
+    const browserInfo = bowser.parse(userAgent)
+    this.setState({
+      encPubKey: encPubKey,
+      browserName: browserInfo.browser.name || '',
+      browserVersion: browserInfo.browser.version || '',
+    })
   }
 
-  report() {}
-
   componentDidMount() {
-    const { changeHeading, location } = this.props;
-    console.log(changeHeading, location);
+    const { changeHeading } = this.props;
     changeHeading("New login detected");
   }
 
@@ -33,7 +43,21 @@ export default class NewLoginDetected extends Component {
     history.push(INITIALIZE_END_OF_FLOW_ROUTE);
   };
 
+  async confirm() {
+    const { encPubKey } = this.state
+    const { approveShareRequest } = this.props;
+    if(encPubKey) {
+      await approveShareRequest(encPubKey)
+    }
+    this.continueToHomeScreen()
+  }
+
+  async cancel() {
+    // TODO: deny share request
+  }
+
   render() {
+    const {browserName, browserVersion} = this.state;
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
@@ -50,35 +74,52 @@ export default class NewLoginDetected extends Component {
             </Grid>
             <Grid item xs={10}>
               <h4>
-                {browser.os}
-                <span> (Current new device)</span>
+                {browserName}
               </h4>
-              <p>{browser.platform + ", " + browser.name}</p>
-              <p>{browser.date}</p>
+              <p>V{browserVersion}</p>
             </Grid>
           </Grid>
         </div>
+        {/* <div style={{width: '100%', textAlign: 'right'}}>
+          <a
+            href="mailto:hello@tor.us"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{fontSize: '12px', lineHeight: '1.2em'}}
+          >
+            Report this is not me
+          </a>
+        </div> */}
 
-        <div>
-          <div className="new-account-create-form__buttons">
+        <div className="new-account-create-form__buttons">
+          {/* <Button
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
+            onClick={this.cancel.bind(this)}
+          >
+            Cancel
+          </Button> */}
+          <a
+            href="mailto:hello@tor.us"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{fontSize: '12px', lineHeight: '1.2em'}}
+          >
             <Button
-              type="default"
-              large
-              className="new-account-create-form__button new-account-create-form__cancel-button"
-              onClick={this.report}
+              type="link"
+              className="new-account-create-form__button new-account-create-form__button--cancel"
             >
               Report this is not me
             </Button>
-            <Button
-              type="secondary"
-              large
-              className="new-account-create-form__button new-account-create-form__confirm-button"
-              // onClick={createClick}
-              onClick={this.confirm}
-            >
-              Confirm
-            </Button>
-          </div>
+          </a>
+          <Button
+            type="primary"
+            className="new-account-create-form__button"
+            // onClick={createClick}
+            onClick={this.confirm.bind(this)}
+          >
+            Confirm
+          </Button>
         </div>
       </div>
     );

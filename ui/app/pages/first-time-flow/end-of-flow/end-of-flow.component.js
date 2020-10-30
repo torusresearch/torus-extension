@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "../../../components/ui/button";
 import Snackbar from "../../../components/ui/snackbar";
 import MetaFoxLogo from "../../../components/ui/metafox-logo";
-import { DEFAULT_ROUTE, TKEY_ROUTE, TRP_SHARE_TRANSFER } from "../../../helpers/constants/routes";
+import { DEFAULT_ROUTE, TKEY_ROUTE } from "../../../helpers/constants/routes";
 import { returnToOnboardingInitiator } from "../onboarding-initiator-util";
 
 export default class EndOfFlowScreen extends PureComponent {
@@ -15,7 +15,6 @@ export default class EndOfFlowScreen extends PureComponent {
   static propTypes = {
     history: PropTypes.object,
     completeOnboarding: PropTypes.func,
-    lookForNewRequests: PropTypes.func,
     completionMetaMetricsName: PropTypes.string,
     onboardingInitiator: PropTypes.exact({
       location: PropTypes.string,
@@ -28,8 +27,7 @@ export default class EndOfFlowScreen extends PureComponent {
       history,
       completeOnboarding,
       completionMetaMetricsName,
-      onboardingInitiator,
-      lookForNewRequests
+      onboardingInitiator
     } = this.props;
 
     await completeOnboarding()
