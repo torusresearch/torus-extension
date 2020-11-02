@@ -444,12 +444,16 @@ export default class TkeyController {
   async approveShareRequest (pubkey) {
     console.log('approveShareRequest -> pubkey', pubkey)
     try {
-      // const result = await this.tb.generateNewShare()
-      // await this.tb.modules.shareTransfer.approveRequest(pubkey, result.newShareStores[result.newShareIndex.toString('hex')])
       await this.tb.modules.shareTransfer.approveRequest(this.currentEncKey)
-      // await this.tb.modules.shareTransfer.deleteShareTransferStore(this.currentEncKey)
-      // const store = await this.tb.modules.shareTransfer.getShareTransferStore()
-      // console.log('approveShareRequest -> store', store)
+    } catch (err) {
+      console.err(err)
+      return err
+    }
+  }
+
+  async cancelShareRequest () {
+    try {
+      await this.tb.modules.shareTransfer.deleteShareTransferStore(this.currentEncKey)
     } catch (err) {
       console.err(err)
       return err
