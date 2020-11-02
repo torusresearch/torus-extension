@@ -421,18 +421,19 @@ export default class TkeyController {
     return new Promise((resolve) => {
       this.requestStatusCheckId = setInterval(async () => {
         try {
-          console.log('looking for requests')
+          // console.log('looking for requests')
           const latestShareTransferStore = await this.tb.modules.shareTransfer.getShareTransferStore()
+          const encKeys = Object.keys(latestShareTransferStore)
           console.log(latestShareTransferStore)
-          if (Object.keys(latestShareTransferStore)[0]) {
-            if(this.currentEncKey !== Object.keys(latestShareTransferStore)[0]) {
-              this.currentEncKey = Object.keys(latestShareTransferStore)[0]
+          if (encKeys.length > 0 && this.currentEncKey !== encKeys[0]) {
+            // Multiple share transfer requests could exist at any point in time. We do serialized resolution of requests.
+            this.currentEncKey = encKeys[0]
+            // To check if other devices have already approved the share request
+            if (!latestShareTransferStore[this.currentEncKey].encShareInTransit) {
               resolve(latestShareTransferStore[this.currentEncKey])
-              clearInterval(this.requestStatusCheckId)
             }
           }
         } catch (err) {
-          // clearInterval(this.requestStatusCheckId);
           console.error(err)
         }
       }, 1000)

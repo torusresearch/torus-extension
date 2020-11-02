@@ -53,7 +53,7 @@ import {
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
-  TRP_SHARE_TRANSFER
+  TRP_SHARE_TRANSFER,
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
@@ -86,7 +86,7 @@ export default class Routes extends Component {
     hasPermissionsRequests: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
-    lookForNewRequests: PropTypes.func
+    lookForNewRequests: PropTypes.func,
   }
 
   static contextTypes = {
@@ -96,7 +96,7 @@ export default class Routes extends Component {
 
   UNSAFE_componentWillMount () {
     const { currentCurrency, pageChanged, setCurrentCurrencyToUSD, lookForNewRequests } = this.props
-    
+
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()
     }
@@ -208,7 +208,7 @@ export default class Routes extends Component {
       submittedPendingTransactions,
       isMouseUser,
     } = this.props
-    
+
     const isLoadingNetwork = network === 'loading'
     const loadMessage = (loadingMessage || isLoadingNetwork)
       ? this.getConnectingLabel(loadingMessage)

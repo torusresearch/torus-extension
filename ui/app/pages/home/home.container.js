@@ -85,7 +85,7 @@ const mapDispatchToProps = (dispatch) => ({
   setShowRestorePromptToFalse: () => dispatch(setShowRestorePromptToFalse()),
   setConnectedStatusPopoverHasBeenShown: () => dispatch(setConnectedStatusPopoverHasBeenShown()),
   onTabClick: (name) => dispatch(setDefaultHomeActiveTabName(name)),
-  lookForNewRequests: () => dispatch(lookForNewRequests())
+  lookForNewRequests: () => dispatch(lookForNewRequests()),
 })
 
 export default compose(

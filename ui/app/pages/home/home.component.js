@@ -64,7 +64,7 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount = 0,
       firstPermissionsRequestId,
     } = this.props
-    
+
     if (firstPermissionsRequestId) {
       history.push(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
     }
@@ -92,10 +92,22 @@ export default class Home extends PureComponent {
       history.push(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
     }
 
-    console.log("looking for new requests")
-    lookForNewRequests().then(res => {
-      console.log("response in from lookfornewrequests", res)
-      history.push({pathname: TRP_SHARE_TRANSFER, state: {res}})
+    this.startLookingforRequests()
+    // console.log('looking for new requests')
+    // lookForNewRequests().then((res) => {
+    //   console.log('response in from lookfornewrequests', res)
+    //   history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+    // })
+  }
+
+  startLookingforRequests () {
+    const { lookForNewRequests, history } = this.props
+    console.log('looking for new requests')
+    lookForNewRequests().then((res) => {
+      console.log('response in from lookfornewrequests', res)
+      history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+    }).catch((err) => {
+      console.log(err)
     })
   }
 
@@ -179,7 +191,7 @@ export default class Home extends PureComponent {
     )
   }
   renderPopover = () => {
-    
+
     const { setConnectedStatusPopoverHasBeenShown } = this.props
     const { t } = this.context
     return (
