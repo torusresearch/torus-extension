@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { approveShareRequest} from '../../../store/actions'
+import { approveShareRequest, cancelShareRequest} from '../../../store/actions'
 import NewLoginDetected from './new-login-detected.component'
 // import { getMostRecentOverviewPage } from '../../ducks/history/history'
 
@@ -18,7 +18,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    approveShareRequest: (el) => dispatch(approveShareRequest(el))
+    approveShareRequest: (el) => dispatch(approveShareRequest(el)),
+    cancelShareRequest: (el) => dispatch(cancelShareRequest(el)),
   }
 }
 

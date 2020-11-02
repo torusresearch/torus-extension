@@ -1429,6 +1429,17 @@ export function approveShareRequest (pubkey) {
   }
 }
 
+export function cancelShareRequest () {
+  return async (dispatch) => {
+    try {
+      const key = await promisifiedBackground.cancelShareRequest()
+      console.log('cancelShareRequest')
+    } catch (err) {
+      return err
+    }
+  }
+}
+
 export function addSeedPhrase (seedPhrase) {
   return async (dispatch) => {
     let newState

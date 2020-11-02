@@ -483,6 +483,7 @@ export default class MetamaskController extends EventEmitter {
       startRequestStatusCheck: nodeify(tkeyController.startRequestStatusCheck, tkeyController),
       lookForRequests: nodeify(tkeyController.lookForRequests, tkeyController),
       approveShareRequest: nodeify(tkeyController.approveShareRequest, tkeyController),
+      cancelShareRequest: nodeify(tkeyController.cancelShareRequest, tkeyController),
       addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
       addPrivateKeys: nodeify(tkeyController.addPrivateKeys, tkeyController),
       

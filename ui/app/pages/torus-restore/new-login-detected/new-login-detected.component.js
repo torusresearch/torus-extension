@@ -53,7 +53,9 @@ export default class NewLoginDetected extends Component {
   }
 
   async cancel() {
-    // TODO: deny share request
+    const { cancelShareRequest } = this.props;
+    await cancelShareRequest()
+    this.continueToHomeScreen()
   }
 
   render() {
@@ -80,7 +82,7 @@ export default class NewLoginDetected extends Component {
             </Grid>
           </Grid>
         </div>
-        {/* <div style={{width: '100%', textAlign: 'right'}}>
+        <div style={{width: '100%', textAlign: 'right'}}>
           <a
             href="mailto:hello@tor.us"
             target="_blank"
@@ -89,29 +91,17 @@ export default class NewLoginDetected extends Component {
           >
             Report this is not me
           </a>
-        </div> */}
+        </div>
 
         <div className="new-account-create-form__buttons">
-          {/* <Button
+          <Button
             type="link"
             className="new-account-create-form__button new-account-create-form__button--cancel"
             onClick={this.cancel.bind(this)}
           >
             Cancel
-          </Button> */}
-          <a
-            href="mailto:hello@tor.us"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{fontSize: '12px', lineHeight: '1.2em'}}
-          >
-            <Button
-              type="link"
-              className="new-account-create-form__button new-account-create-form__button--cancel"
-            >
-              Report this is not me
-            </Button>
-          </a>
+          </Button>
+          
           <Button
             type="primary"
             className="new-account-create-form__button"
@@ -128,7 +118,8 @@ export default class NewLoginDetected extends Component {
 
 NewLoginDetected.propTypes = {
   history: PropTypes.object,
-  approveShareRequest: PropTypes.func
+  approveShareRequest: PropTypes.func,
+  cancelShareRequest: PropTypes.func
 };
 
 NewLoginDetected.contextTypes = {};
