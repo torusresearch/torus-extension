@@ -425,11 +425,12 @@ export default class TkeyController {
           const latestShareTransferStore = await this.tb.modules.shareTransfer.getShareTransferStore()
           const encKeys = Object.keys(latestShareTransferStore)
           console.log(latestShareTransferStore)
-          if (encKeys.length > 0 && this.currentEncKey !== encKeys[0]) {
+          if (encKeys.length > 0) {
             // Multiple share transfer requests could exist at any point in time. We do serialized resolution of requests.
             this.currentEncKey = encKeys[0]
             // To check if other devices have already approved the share request
             if (!latestShareTransferStore[this.currentEncKey].encShareInTransit) {
+              clearInterval(this.requestStatusCheckId)
               resolve(latestShareTransferStore[this.currentEncKey])
             }
           }

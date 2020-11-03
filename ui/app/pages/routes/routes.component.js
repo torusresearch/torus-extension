@@ -86,7 +86,6 @@ export default class Routes extends Component {
     hasPermissionsRequests: PropTypes.bool,
     autoLockTimeLimit: PropTypes.number,
     pageChanged: PropTypes.func.isRequired,
-    lookForNewRequests: PropTypes.func,
   }
 
   static contextTypes = {
@@ -95,7 +94,7 @@ export default class Routes extends Component {
   }
 
   UNSAFE_componentWillMount () {
-    const { currentCurrency, pageChanged, setCurrentCurrencyToUSD, lookForNewRequests } = this.props
+    const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
 
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()

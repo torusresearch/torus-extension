@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import bowser from "bowser";
-import Button from "../../../components/ui/button";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import bowser from 'bowser'
+import Button from '../../../components/ui/button'
 import {
   TRP_DEVICE_ROUTE,
   INITIALIZE_END_OF_FLOW_ROUTE,
-  TRP_IMPORT_OR_PASSWORD
-} from "../../../helpers/constants/routes";
-import ComputerIcon from "@material-ui/icons/Computer";
-import Grid from "@material-ui/core/Grid";
+  TRP_IMPORT_OR_PASSWORD,
+} from '../../../helpers/constants/routes'
+import ComputerIcon from '@material-ui/icons/Computer'
+import Grid from '@material-ui/core/Grid'
 
 
 export default class NewLoginDetected extends Component {
   static defaultProps = {
-    newAccountNumber: 0
-  };
+    newAccountNumber: 0,
+  }
 
   state = {
     encPubKey: '',
     browserName: '',
     browserVersion: '',
-  };
-  componentWillMount() {
-    const { location } = this.props;
+  }
+  UNSAFE_componentWillMount () {
+    const { location } = this.props
     console.log('NewLoginDetected -> componentDidMount -> location', location)
-    const { encPubKey, userAgent } = location.state.res;
+    const { encPubKey, userAgent } = location.state.res
     const browserInfo = bowser.parse(userAgent)
     this.setState({
       encPubKey: encPubKey,
@@ -33,33 +33,33 @@ export default class NewLoginDetected extends Component {
     })
   }
 
-  componentDidMount() {
-    const { changeHeading } = this.props;
-    changeHeading("New login detected");
+  componentDidMount () {
+    const { changeHeading } = this.props
+    changeHeading('New login detected')
   }
 
   continueToHomeScreen = () => {
-    const { history } = this.props;
-    history.push(INITIALIZE_END_OF_FLOW_ROUTE);
-  };
+    const { history } = this.props
+    history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+  }
 
-  async confirm() {
+  async confirm () {
     const { encPubKey } = this.state
-    const { approveShareRequest } = this.props;
-    if(encPubKey) {
+    const { approveShareRequest } = this.props
+    if (encPubKey) {
       await approveShareRequest(encPubKey)
     }
     this.continueToHomeScreen()
   }
 
-  async cancel() {
-    const { cancelShareRequest } = this.props;
+  async cancel () {
+    const { cancelShareRequest } = this.props
     await cancelShareRequest()
     this.continueToHomeScreen()
   }
 
-  render() {
-    const {browserName, browserVersion} = this.state;
+  render () {
+    const { browserName, browserVersion } = this.state
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
@@ -82,12 +82,12 @@ export default class NewLoginDetected extends Component {
             </Grid>
           </Grid>
         </div>
-        <div style={{width: '100%', textAlign: 'right'}}>
+        <div style={{ width: '100%', textAlign: 'right' }}>
           <a
             href="mailto:hello@tor.us"
             target="_blank"
             rel="noopener noreferrer"
-            style={{fontSize: '12px', lineHeight: '1.2em'}}
+            style={{ fontSize: '12px', lineHeight: '1.2em' }}
           >
             Report this is not me
           </a>
@@ -101,7 +101,7 @@ export default class NewLoginDetected extends Component {
           >
             Cancel
           </Button>
-          
+
           <Button
             type="primary"
             className="new-account-create-form__button"
@@ -112,14 +112,14 @@ export default class NewLoginDetected extends Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
 
 NewLoginDetected.propTypes = {
   history: PropTypes.object,
   approveShareRequest: PropTypes.func,
-  cancelShareRequest: PropTypes.func
-};
+  cancelShareRequest: PropTypes.func,
+}
 
-NewLoginDetected.contextTypes = {};
+NewLoginDetected.contextTypes = {}

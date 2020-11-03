@@ -93,11 +93,6 @@ export default class Home extends PureComponent {
     }
 
     this.startLookingforRequests()
-    // console.log('looking for new requests')
-    // lookForNewRequests().then((res) => {
-    //   console.log('response in from lookfornewrequests', res)
-    //   history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
-    // })
   }
 
   startLookingforRequests () {
@@ -106,6 +101,7 @@ export default class Home extends PureComponent {
     lookForNewRequests().then((res) => {
       console.log('response in from lookfornewrequests', res)
       history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+      this.startLookingforRequests()
     }).catch((err) => {
       console.log(err)
     })
