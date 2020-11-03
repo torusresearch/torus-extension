@@ -101,7 +101,7 @@ export default class Home extends PureComponent {
     lookForNewRequests().then((res) => {
       console.log('response in from lookfornewrequests', res)
       history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
-      this.startLookingforRequests()
+      // this.startLookingforRequests()
     }).catch((err) => {
       console.log(err)
     })

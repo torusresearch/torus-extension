@@ -430,7 +430,6 @@ export default class TkeyController {
             this.currentEncKey = encKeys[0]
             // To check if other devices have already approved the share request
             if (!latestShareTransferStore[this.currentEncKey].encShareInTransit) {
-              clearInterval(this.requestStatusCheckId)
               resolve(latestShareTransferStore[this.currentEncKey])
             }
           }
