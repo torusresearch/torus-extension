@@ -628,6 +628,7 @@
     height: 30px;
     color: #A2A5B5;
     font-size: 15px;
+    cursor: pointer;
   }
 
   &__tab-selected{
@@ -771,5 +772,37 @@
     }
   }
 
+  &__password-field {
+    height: 40px;
+    padding: 0 10px;
+    background: #FFFFFF;
+    box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+    border: 0;
+    border-radius: 6px;
+
+    input {
+      border: none;
+      background: transparent;
+      outline: 0;
+      width: 90%;
+      height: 100%;
+      margin: 0 -5px;
+      padding: 0 10px;
+    }
+
+    icon {
+      font-size: 32px;
+    }
+
+    svg {
+      float: right;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    &:first-child {
+      border: none;
+    }
+  }
 
 }
