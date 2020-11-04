@@ -2615,17 +2615,17 @@
     "@babel/runtime" "^7.5.4"
     "@types/testing-library__react-hooks" "^3.0.0"
 
-"@tkey/chrome-storage@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/chrome-storage/-/chrome-storage-2.0.1.tgz#6aab7bfe6e651ab430419e7abc31ac35f03852cb"
-  integrity sha512-NakbVV1rty73CcAj/RygEyEumko5trrtcw7vIqahZWGAu3Flrk63hbtjwWikTmYqcj2yoBEUVgNtHLVJQ2JUWQ==
+"@tkey/chrome-storage@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/chrome-storage/-/chrome-storage-3.0.1.tgz#705e19480b4f083be900e3713a572b7a6170f9c6"
+  integrity sha512-brMMQ3Op8Lw4GK+os+OTnjG4SHIGPuduIa2A+Jcz59r+zDyVdGL6vRShfHwaFKw+tzJfQ+mf8uinIjtpV/lZEA==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
 
-"@tkey/common-types@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/common-types/-/common-types-2.0.1.tgz#9ec9965e3b525c95b57794005def81b1e2720715"
-  integrity sha512-SoAOJgVbrX8mz2gKovEsc8AAEzwf59JdQRvTopfiSAtUj8QjGstuae067BlcUQuvXra4wmaefWbE3DLR+UALPg==
+"@tkey/common-types@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/common-types/-/common-types-3.0.1.tgz#636bdb670d06e17dd85ba93a4fc87dfa35152b62"
+  integrity sha512-ktgpEjmHVxDyZzn4+RZWorNCVcWpp2Xg2gFsIRLc5xL1B4YOeLoMnd/c5TB/uAB6764kFx2bTCzFkEqB94Ma7g==
   dependencies:
     "@toruslabs/eccrypto" "^1.1.5"
     "@toruslabs/torus-direct-web-sdk" "^3.4.1"
@@ -2633,33 +2633,34 @@
     elliptic "^6.5.3"
     web3-utils "^1.3.0"
 
-"@tkey/core@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/core/-/core-2.0.1.tgz#8a67fb1ef96511a15bdabca66e2ffc6409fe1e29"
-  integrity sha512-nCGw+Y/fjspBQ9zAf07Tgvv/LDwxjMVTwm0PZtTCCbyoDciuswIQTvKob2yyXXX9YlsPsT5r+LB9A7Qk7c4RoQ==
+"@tkey/core@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@tkey/core/-/core-3.0.2.tgz#500e82c2b4de99ce0a226cecbde049a13c5f4f2a"
+  integrity sha512-p5FXkhRsydBCjTE+DhIYUve1Udn4rZkJ/pkWDCl/fzegbQnCtlQ0niAkJEe8T0WHSQTt++Yv15cPHOrvtYw8aw==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     "@toruslabs/eccrypto" "^1.1.5"
     "@toruslabs/http-helpers" "^1.3.4"
     bn.js "^5.1.3"
     elliptic "^6.5.3"
     json-stable-stringify "^1.0.1"
+    web3-utils "^1.3.0"
 
-"@tkey/default@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/default/-/default-2.0.1.tgz#d2e123e1db5c1977a1364827374ab81ace50e386"
-  integrity sha512-d4x+N8S2zPB9VJwCR5nwo3+7UWIaRBm39b6RG9due2Qjxd5WaRi7X/YYa+8Pp214GPkztI3gMWHq3+DfiY9caA==
+"@tkey/default@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@tkey/default/-/default-3.0.2.tgz#67538d1b212d1e277b156460bf23fa014d67fc2b"
+  integrity sha512-qSnCqIUN13Y2qM6QrbM/FLld1vpS2sBnMwHXUoPw+c9dP8jA3nARpp53B+abeCl2/z9juvCvWKSyqxL4i/i0ig==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
-    "@tkey/core" "^2.0.1"
-    "@tkey/private-keys" "^2.0.1"
-    "@tkey/security-questions" "^2.0.1"
-    "@tkey/seed-phrase" "^2.0.1"
-    "@tkey/service-provider-base" "^2.0.1"
-    "@tkey/service-provider-torus" "^2.0.1"
-    "@tkey/share-serialization" "^2.0.1"
-    "@tkey/share-transfer" "^2.0.1"
-    "@tkey/storage-layer-torus" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
+    "@tkey/core" "^3.0.2"
+    "@tkey/private-keys" "^3.0.1"
+    "@tkey/security-questions" "^3.0.1"
+    "@tkey/seed-phrase" "^3.0.1"
+    "@tkey/service-provider-base" "^3.0.1"
+    "@tkey/service-provider-torus" "^3.0.1"
+    "@tkey/share-serialization" "^3.0.1"
+    "@tkey/share-transfer" "^3.0.1"
+    "@tkey/storage-layer-torus" "^3.0.1"
     "@toruslabs/eccrypto" "^1.1.5"
     atob "^2.1.2"
     bn.js "^5.1.3"
@@ -2667,29 +2668,29 @@
     node-fetch "^2.6.1"
     web3-utils "^1.3.0"
 
-"@tkey/private-keys@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/private-keys/-/private-keys-2.0.1.tgz#2dbcd21987e01ebbb257cb091d834563258f4088"
-  integrity sha512-fpoYFeTPEAwqiodIkHhgaeVRvtVWNS4cti4zVE21KXyM9hezA6OtRYMyPPYroXEXT4cu6xoiCfWQpOFjOmlFZQ==
+"@tkey/private-keys@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/private-keys/-/private-keys-3.0.1.tgz#4c5eeacd3be0ddd1ee18aa8bfbc443cfb8486006"
+  integrity sha512-KdsigSQEEFsh9DzsigEPSwhvc10/lTb+WI30xS/wmqXn12MYwsJTgKao5OkoNaA3xvwAb6sAZ/w1XQeDtAoehA==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     bn.js "^5.1.3"
 
-"@tkey/security-questions@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/security-questions/-/security-questions-2.0.1.tgz#0851ca9b8195812e95dff25be0fe99aa07b35e59"
-  integrity sha512-Z5crghXb3W7Yg1ATvzTllvkTN3cmkhL+O1V2yYUOjQ7e88kc//YV97WxjPV+KdtIOlOf/oBSA/icIZXk9MdSiQ==
+"@tkey/security-questions@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/security-questions/-/security-questions-3.0.1.tgz#27708a93cf26c00cd3c478ca30e11e75e79b37a0"
+  integrity sha512-BTa3bjwaG3MxDVQU+BjkswnKbTSKMvce79uDQe98Cf9HYEhyZnmvM1JUgLzPbBitKBzo+lCWw5VxVbkDWJPouQ==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     bn.js "^5.1.3"
     web3-utils "^1.3.0"
 
-"@tkey/seed-phrase@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/seed-phrase/-/seed-phrase-2.0.1.tgz#405bdd73d5fec99a445c7a51b1858e9e4a95e6a6"
-  integrity sha512-FQPr2JIn2M4xwC3YJLinGX2ZTIIWtWPSoqTvB8SeCUTX+gYoXbFa0iOeZyQN0wJYIUJ6pUIZQAi8j5iV7ZkQvQ==
+"@tkey/seed-phrase@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/seed-phrase/-/seed-phrase-3.0.1.tgz#e47d5988fff776dfe7ef2a3d623dd19b7252e424"
+  integrity sha512-MIXPKVHJpEX7frux2RYnBmXYeRRuOZqaFAjzlqJXb4Wc4R6gJswYo4mpXolkHEjF8+j52yBPL7GPIIYekmYtHQ==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     bip39 "^3.0.2"
     bn.js "^5.1.3"
     hdkey "^2.0.1"
@@ -2697,51 +2698,51 @@
     web3-eth "^1.3.0"
     web3-utils "^1.3.0"
 
-"@tkey/service-provider-base@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/service-provider-base/-/service-provider-base-2.0.1.tgz#b5f0356f0a564ba9fc86a67f74bc604528651959"
-  integrity sha512-suNYQEMf5IDGp/yZlcURw48f1U3ijEgMc7XNqdMH28kn5Gr5WKCnrldlkYhdUzFMYUutzaVdhzxLbvBIjIq1vA==
+"@tkey/service-provider-base@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/service-provider-base/-/service-provider-base-3.0.1.tgz#54a97c08affe3137da8f7cddcade83c4dff54d86"
+  integrity sha512-KLVRDlCvl2NvXBHcauCuPV16NLgT0qHJpXTddOblJTAqYT0M/7w8ZC+CJifmHofDLtVZZUTd74FBoOU/54c5fw==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     bn.js "^5.1.3"
     elliptic "^6.5.3"
 
-"@tkey/service-provider-torus@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/service-provider-torus/-/service-provider-torus-2.0.1.tgz#2850c3284afac1775b94498e3198aced55dadc68"
-  integrity sha512-m4tA/o9SyAKS1vRESVA6j+ahWqt4Mc02DbU9ytVEFPf0PNgVLxian8Bj67JWqW+XONeJ/jLYbVujsBBHDPmoHQ==
+"@tkey/service-provider-torus@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/service-provider-torus/-/service-provider-torus-3.0.1.tgz#52fd37165f75c1842ee07e00286cf3536b233160"
+  integrity sha512-A04F3b2AbsxrpebfoJ2XU9gAit4/4n29YZ2Tv0kOGoWJzbC9T4jXzZ7XM/3EuoF4lqtRvC0HkFTPPAmE68tONw==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
-    "@tkey/service-provider-base" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
+    "@tkey/service-provider-base" "^3.0.1"
     "@toruslabs/torus-direct-web-sdk" "^3.4.1"
     bn.js "^5.1.3"
     elliptic "^6.5.3"
 
-"@tkey/share-serialization@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/share-serialization/-/share-serialization-2.0.1.tgz#fd27538ee81900ed6fa8a41512cf3a567bd555ac"
-  integrity sha512-DGJlIHxeo2oEpNRV+1edcQ1Xu2JuUDhudtlybM15jRND0TzeCeWWM4GIzhiuqN19mcrN6izqJnKTQmeuLkprDw==
+"@tkey/share-serialization@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/share-serialization/-/share-serialization-3.0.1.tgz#84df856b37169cf35ae13b852774abd1b5b68948"
+  integrity sha512-bH78BaI0dWbkaHRTzwFYXORUbXrIbUWMhYtNUvEkT62f9uA1XBR0j71TBYJwJiyCiyySYqZpvLARBtna1YInVA==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     "@types/create-hash" "1.2.2"
     bn.js "^5.1.3"
     create-hash "^1.2.0"
 
-"@tkey/share-transfer@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/share-transfer/-/share-transfer-2.0.1.tgz#51169ccc1c4e89bbc679382e36f57d7241942b9a"
-  integrity sha512-mddEIAhnYbnJZZYuRdftd28ViB5ycj5W4sv1L7tjHt3b5WN7D/9z3mFIlWxBzHO3zc4LSw9gEFgEAlKCv9sS4w==
+"@tkey/share-transfer@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/share-transfer/-/share-transfer-3.0.1.tgz#1c1795e664b61fbf20a2753cf236e3066440eae5"
+  integrity sha512-JN5rDocfrEyhz3dC7e3mPmg+hfq0U7yNlz8xoRAHje6eNFYFxPJI9ItWzlLQ0L5M2hkLKA4hIyChMfjeP+6G+g==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     "@toruslabs/eccrypto" "^1.1.5"
     bn.js "^5.1.3"
 
-"@tkey/storage-layer-torus@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/storage-layer-torus/-/storage-layer-torus-2.0.1.tgz#07d882e49f49502f83a405e0513d8c11fe8d2a4c"
-  integrity sha512-JpEIRd0WUQ3RVKCBR9cDWy+eg9X7AUij0ZI0J0qCeR/dRKz4RXTngtHAcP070INO2N2TAAVPn45GVZRBTolvrw==
+"@tkey/storage-layer-torus@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@tkey/storage-layer-torus/-/storage-layer-torus-3.0.1.tgz#3bef755f6f7d1001354d084c1fc4b405c2d34aef"
+  integrity sha512-3CRgakrqEA4kf80M1jg4njQQ8kdRHJs9tVAa5XaExEfpGK9Mr/mMihtogexcLsznbbVFYrMvJ1z6bYQE5LP+JQ==
   dependencies:
-    "@tkey/common-types" "^2.0.1"
+    "@tkey/common-types" "^3.0.1"
     "@toruslabs/http-helpers" "^1.3.4"
     bn.js "^5.1.3"
     json-stable-stringify "^1.0.1"
