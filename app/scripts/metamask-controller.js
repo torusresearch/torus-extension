@@ -79,7 +79,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {Object} opts
    */
   constructor (opts) {
-    super()      
+    super()
     this.defaultMaxListeners = 20
 
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
@@ -119,7 +119,7 @@ export default class MetamaskController extends EventEmitter {
       network: this.networkController,
     })
 
-    
+
     this.appStateController = new AppStateController({
       addUnlockListener: this.on.bind(this, 'unlock'),
       isUnlocked: this.isUnlocked.bind(this),
@@ -273,7 +273,7 @@ export default class MetamaskController extends EventEmitter {
     this.tkeyController = new TkeyController({
       createNewTorusVaultAndRestore: this.createNewTorusVaultAndRestore.bind(this),
       initState: initState.TkeyController,
-      importAccountWithStrategy: this.importAccountWithStrategy.bind(this)
+      importAccountWithStrategy: this.importAccountWithStrategy.bind(this),
     })
 
     this.networkController.on('networkDidChange', () => {
@@ -469,7 +469,7 @@ export default class MetamaskController extends EventEmitter {
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
       getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
 
-      //torus key
+      // torus key
       torusGoogleLogin: nodeify(tkeyController.torusGoogleLogin, tkeyController),
       torusAddPasswordShare: nodeify(tkeyController.torusAddPasswordShare, tkeyController),
       torusChangePasswordShare: nodeify(tkeyController.torusChangePasswordShare, tkeyController),
@@ -486,7 +486,7 @@ export default class MetamaskController extends EventEmitter {
       cancelShareRequest: nodeify(tkeyController.cancelShareRequest, tkeyController),
       addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
       addPrivateKeys: nodeify(tkeyController.addPrivateKeys, tkeyController),
-      
+
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
@@ -705,7 +705,7 @@ export default class MetamaskController extends EventEmitter {
 
       // clear known identities
       this.preferencesController.setAddresses([])
-      
+
       // clear permissions
       this.permissionsController.clearPermissions()
 
@@ -847,7 +847,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {string} password - The user's password
    * @returns {Promise<object>} - The keyringController update.
    */
-  async submitPassword(password) {
+  async submitPassword (password) {
     debugger
     await this.keyringController.submitPassword(password)
     // verify keyrings
@@ -1852,7 +1852,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * @returns {boolean} Whether the extension is unlocked.
    */
-  isUnlocked() {
+  isUnlocked () {
     return this.keyringController.memStore.getState().isUnlocked
   }
 

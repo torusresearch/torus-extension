@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import Button from '../../../components/ui/button'
 import TextField from '../../../components/ui/text-field'
 import {
-  TRP_DEVICE_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE, TRP_IMPORT_OR_PASSWORD
+  TRP_DEVICE_ROUTE, INITIALIZE_END_OF_FLOW_ROUTE, TRP_IMPORT_OR_PASSWORD,
 } from '../../../helpers/constants/routes'
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 export default class RestorePasswordForm extends Component {
   static defaultProps = {
@@ -20,22 +20,22 @@ export default class RestorePasswordForm extends Component {
     showPassword: false,
   }
 
-  componentDidMount(){
+  componentDidMount () {
     const { changeHeading } = this.props
-    changeHeading("Verification required")
+    changeHeading('Verification required')
   }
 
   verifyPassword = async () => {
-    const { accountPassword, accountPasswordError } = this.state;
-    const { history, inputPasswordShare } = this.props;
+    const { accountPassword, accountPasswordError } = this.state
+    const { history, inputPasswordShare } = this.props
 
-    if (accountPasswordError == "") {
+    if (accountPasswordError === '') {
       try {
-        await inputPasswordShare(accountPassword);
+        await inputPasswordShare(accountPassword)
         history.push(TRP_DEVICE_ROUTE)
       } catch (err) {
         console.error(err)
-        this.setState({accountPasswordError: err.message})
+        this.setState({ accountPasswordError: err.message })
       }
     } else {
       // Show error
@@ -44,19 +44,19 @@ export default class RestorePasswordForm extends Component {
   }
 
   handlePasswordChange = (el) => {
-    this.setState(state => {
-      const { accountPassword } = state;
-      let accountPasswordError = "";
+    this.setState((state) => {
+      const { accountPassword } = state
+      let accountPasswordError = ''
 
       if (!el) {
-        accountPasswordError = "Required";
+        accountPasswordError = 'Required'
       }
 
       return {
         accountPassword: el,
-        accountPasswordError: accountPasswordError
-      };
-    });
+        accountPasswordError: accountPasswordError,
+      }
+    })
   }
 
   otherMethods = () => {
@@ -65,8 +65,8 @@ export default class RestorePasswordForm extends Component {
   }
 
   handleClickShowPassword = (el) => {
-    this.setState({ showPassword: el });
-  };
+    this.setState({ showPassword: el })
+  }
 
   render () {
     const { accountPassword, defaultAccountName, accountPasswordError } = this.state
@@ -77,17 +77,19 @@ export default class RestorePasswordForm extends Component {
           <img src="images/tkey-input-password.png" />
         </div>
         <div className="new-account-create-form__input-label">
-        You are accessing your 2FA Wallet from a new platform. <span style={{fontWeight: 'bold'}}>Verify your identity</span> with your password:
+        You are accessing your 2FA Wallet from a new platform. <span style={{ fontWeight: 'bold' }}>Verify your identity</span> with your password:
         </div>
         <div className="new-account-create-form__input-fields">
           <div className="new-account-create-form__password-field">
             <input
-              type={this.state.showPassword ? "text" : "password"}
+              type={this.state.showPassword ? 'text' : 'password'}
               value={accountPassword}
               placeholder={defaultAccountName}
               onChange={(event) => this.handlePasswordChange(event.target.value)}
               onKeyDown={(e) => {
-                if (e.keyCode == 13) this.verifyPassword()
+                if (e.keyCode == 13) {
+                  this.verifyPassword()
+                }
               }}
             />
             {!this.state.showPassword ? (
@@ -129,7 +131,7 @@ RestorePasswordForm.propTypes = {
   newAccountNumber: PropTypes.number,
   history: PropTypes.object,
   mostRecentOverviewPage: PropTypes.string,
-  inputPasswordShare: PropTypes.func
+  inputPasswordShare: PropTypes.func,
 }
 
 RestorePasswordForm.contextTypes = {

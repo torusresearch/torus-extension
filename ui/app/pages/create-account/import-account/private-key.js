@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import BN from "bn.js"
+import BN from 'bn.js'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {addPrivateKeys, importNewAccount, setSelectedAddress, displayWarning } from '../../../store/actions'
+import { addPrivateKeys, importNewAccount, setSelectedAddress, displayWarning } from '../../../store/actions'
 import { getMetaMaskAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
@@ -30,7 +30,7 @@ class PrivateKeyImportView extends Component {
   state = { isEmpty: true }
 
   createNewKeychain () {
-    const privateKey = new BN(this.inputRef.current.value, "hex")
+    const privateKey = new BN(this.inputRef.current.value, 'hex')
     console.log(privateKey)
     const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
     // importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
@@ -148,6 +148,6 @@ function mapDispatchToProps (dispatch) {
     },
     displayWarning: (message) => dispatch(displayWarning(message || null)),
     setSelectedAddress: (address) => dispatch(setSelectedAddress(address)),
-    addPrivateKeys: (addresses) => dispatch(addPrivateKeys(addresses))
+    addPrivateKeys: (addresses) => dispatch(addPrivateKeys(addresses)),
   }
 }

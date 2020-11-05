@@ -28,9 +28,9 @@ const NEW_ACCOUNT_ROUTE = '/new-account'
 const IMPORT_ACCOUNT_ROUTE = '/new-account/import'
 const CONNECT_HARDWARE_ROUTE = '/new-account/connect'
 const TORUS_RESTORE_PASSWORD_ROUTE = '/torus-restore-password'
-const TRP_BASE_ROUTE = "/torus-restore-password"
+const TRP_BASE_ROUTE = '/torus-restore-password'
 const TRP_PASSWORD_ROUTE = '/torus-restore-password/password'
-const TRP_DEVICE_ROUTE = '/torus-restore-password/device' 
+const TRP_DEVICE_ROUTE = '/torus-restore-password/device'
 const TRP_IMPORT_OR_PASSWORD = '/torus-restore-password/import-or-password'
 const TRP_IMPORT_ROUTE = '/torus-restore-password/import'
 const TRP_IDENTITY_VERIFIED = '/torus-restore-password/identity-verified'
@@ -129,5 +129,5 @@ export {
   TRP_IMPORT_OR_PASSWORD,
   TRP_IMPORT_ROUTE,
   TRP_IDENTITY_VERIFIED,
-  TRP_SHARE_TRANSFER
+  TRP_SHARE_TRANSFER,
 }
