@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 
 // Subviews
-import JsonImportView from './json.js'
+// import JsonImportView from './json.js'
 
 import PrivateKeyImportView from './private-key.js'
 
@@ -19,7 +19,7 @@ export default class AccountImportSubview extends Component {
   getMenuItemTexts () {
     return [
       this.context.t('privateKey'),
-      this.context.t('jsonFile'),
+      // this.context.t('jsonFile'),
       'Seed Phrase',
     ]
   }
@@ -32,12 +32,12 @@ export default class AccountImportSubview extends Component {
     switch (current.value || current) {
       case this.context.t('privateKey'):
         return <PrivateKeyImportView />
-      case this.context.t('jsonFile'):
-        return <JsonImportView />
+      // case this.context.t('jsonFile'):
+      //   return <JsonImportView />
       case 'Seed Phrase':
         return <SeedPhraseImportView />
       default:
-        return <JsonImportView />
+        return <SeedPhraseImportView />
     }
   }
 
