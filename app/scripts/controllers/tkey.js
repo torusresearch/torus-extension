@@ -419,12 +419,13 @@ export default class TkeyController {
   // check if any requests for approval
   async lookForRequests () {
     return new Promise((resolve) => {
+      clearInterval(this.requestStatusCheckId)
       this.requestStatusCheckId = setInterval(async () => {
         try {
           // console.log('looking for requests')
           const latestShareTransferStore = await this.tb.modules.shareTransfer.getShareTransferStore()
           const encKeys = Object.keys(latestShareTransferStore)
-          console.log(latestShareTransferStore)
+          // console.log(latestShareTransferStore)
           if (encKeys.length > 0) {
             // Multiple share transfer requests could exist at any point in time. We do serialized resolution of requests.
             this.currentEncKey = encKeys[0]
