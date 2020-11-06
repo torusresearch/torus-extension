@@ -18,16 +18,10 @@
   }
 
   &__button--red {
-    border-color: lighten($monzo, 10%);
-    color: $monzo;
+    color: $danger-red;
 
     &:active {
-      background: lighten($monzo, 55%);
-      border-color: $monzo;
-    }
-
-    &:hover {
-      border-color: $monzo;
+      background: lighten($danger-red, 55%);
     }
   }
 

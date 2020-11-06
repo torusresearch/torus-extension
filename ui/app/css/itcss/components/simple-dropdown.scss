@@ -1,5 +1,5 @@
 .simple-dropdown {
-  height: 56px;
+  height: 54px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -10,6 +10,8 @@
   color: #4d4d4d;
   cursor: pointer;
   position: relative;
+  box-shadow: inset 0px 4px 28px rgba(46, 91, 255, 0.06);
+  border-radius: 6px;
 }
 
 .simple-dropdown__caret {

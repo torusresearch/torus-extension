@@ -254,4 +254,14 @@
       justify-content: flex-end;
     }
   }
+
+  .spinner-container {
+    margin: 20px 24px 0 0;
+    .spinner {
+      margin: 8px auto;
+    }
+    @media (max-width: 600px) {
+      margin: 20px 0 0 0;
+    }
+  }
 }

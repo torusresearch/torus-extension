@@ -7,30 +7,34 @@
 }
 
 .network-component.pointer {
-  border: 2px solid $Grey-200;
-  border-radius: 82px;
+  // border: 2px solid $Grey-200;
+  // border-radius: 82px;
   padding: 6px 3px;
   flex: 0 0 auto;
   display: flex;
+  border: 0;
+  height: 24px;
+  border-radius: 12px;
+  padding: 0 8px 0 14px;
 
-  &.ethereum-network .menu-icon-circle div {
-    background-color: rgba(3, 135, 137, .7) !important;
+  &.ethereum-network {
+    background-color: rgba(205, 224, 255, .7) !important;
   }
 
-  &.ropsten-test-network .menu-icon-circle div {
-    background-color: rgba(233, 21, 80, .7) !important;
+  &.ropsten-test-network {
+    background-color: rgba(255, 217, 248, .7) !important;
   }
 
-  &.kovan-test-network .menu-icon-circle div {
-    background-color: rgba(105, 4, 150, .7) !important;
+  &.kovan-test-network {
+    background-color: rgba(183, 247, 233, .7) !important;
   }
 
-  &.rinkeby-test-network .menu-icon-circle div {
-    background-color: rgba(235, 179, 63, .7) !important;
+  &.rinkeby-test-network {
+    background-color: rgba(202, 241, 254, .7) !important;
   }
 
-  &.goerli-test-network .menu-icon-circle div {
-    background-color: rgba(48, 153, 242, .7) !important;
+  &.goerli-test-network {
+    background-color: rgba(255, 225, 212, .7) !important;
   }
 }
 
@@ -50,7 +54,7 @@
     height: 8px;
     width: 12px;
     display: block;
-    background-image: url(/images/icons/caret-down.svg);
+    background-image: url(/images/icons/caret-solid-down.svg);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -65,17 +69,18 @@
 }
 
 .network-name {
-  padding: 0 4px;
+  padding: 0 8px;
   font-family: Roboto;
   font-size: 12px;
   line-height: 14px;
   flex: 1 1 auto;
   color: $tundora;
-  font-weight: 500;
+  font-weight: bold;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   height: 16px;
+  color: #000000;
 }
 
 .dropdown-menu-item .fa.delete {
@@ -161,13 +166,13 @@
   width: 100%;
   height: 1px;
   margin: 10px 0;
-  background-color: $scorpion;
+  background-color: #F5F5F5;
 }
 
 .network-dropdown-title {
   height: 25px;
   width: 120px;
-  color: $white;
+  color: #0F1222;
   font-family: Roboto;
   font-size: 18px;
   line-height: 25px;

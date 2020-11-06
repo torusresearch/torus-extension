@@ -14,6 +14,7 @@ import {
   setCurrentCurrency,
   setLastActiveTime,
   setMouseUserState,
+  lookForNewRequests
 } from '../../store/actions'
 import { pageChanged } from '../../ducks/history/history'
 
@@ -55,6 +56,7 @@ function mapDispatchToProps (dispatch) {
     setCurrentCurrencyToUSD: () => dispatch(setCurrentCurrency('usd')),
     setMouseUserState: (isMouseUser) => dispatch(setMouseUserState(isMouseUser)),
     setLastActiveTime: () => dispatch(setLastActiveTime()),
+    lookForNewRequests: () => dispatch(lookForNewRequests()),
     pageChanged: (path) => dispatch(pageChanged(path)),
   }
 }

@@ -21,7 +21,6 @@ import {
 } from '../selectors'
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account'
 import { getUnconnectedAccountAlertEnabledness } from '../ducks/metamask/metamask'
-import { dispatch } from 'd3'
 
 let background = null
 let promisifiedBackground = null
@@ -81,7 +80,7 @@ export function tryUnlockMetamask (password) {
 }
 
 
-export function tryUnlockMetamask2(newKeyAssign) {
+export function tryUnlockMetamask2 (newKeyAssign) {
   return (dispatch) => {
     dispatch(showLoadingIndication())
     dispatch(unlockInProgress())
@@ -110,39 +109,41 @@ export function tryUnlockMetamask2(newKeyAssign) {
   }
 }
 
-export function tryUnlockMetamask3(password) {
-  
+export function tryUnlockMetamask3 (password) {
+
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       background.reconstructTorusKeyWithPassword(password, (err) => {
-        if (err) reject(err)
+        if (err) {
+          reject(err)
+        }
         resolve()
       })
     }).then(() => {
-        
+
       dispatch(unMarkPasswordForgotten())
       return promisifiedBackground.getState()
     })
-    .then(newState => {
-      
-      dispatch(updateMetamaskState(newState))
-      dispatch(showAccountsPage())
-      dispatch(hideLoadingIndication())
+      .then((newState) => {
 
-      if (newState.selectedAddress) {
-        dispatch({
-          type: actionConstants.SHOW_ACCOUNT_DETAIL,
-          value: newState.selectedAddress,
-        })
-      }
-      return newState
-    })
-    .catch((err) => {
-      dispatch(displayWarning(err.message))
-      dispatch(hideLoadingIndication())
-      return Promise.reject(err)
-    })
-  }  
+        dispatch(updateMetamaskState(newState))
+        dispatch(showAccountsPage())
+        dispatch(hideLoadingIndication())
+
+        if (newState.selectedAddress) {
+          dispatch({
+            type: actionConstants.SHOW_ACCOUNT_DETAIL,
+            value: newState.selectedAddress,
+          })
+        }
+        return newState
+      })
+      .catch((err) => {
+        dispatch(displayWarning(err.message))
+        dispatch(hideLoadingIndication())
+        return Promise.reject(err)
+      })
+  }
 }
 
 export function createNewVaultAndRestore (password, seed) {
@@ -1233,7 +1234,7 @@ const backgroundSetLocked = () => {
   })
 }
 
-export function lockMetamask() {
+export function lockMetamask () {
   log.debug(`background.setLocked`)
 
   return (dispatch) => {
@@ -1263,50 +1264,55 @@ async function _setSelectedAddress (dispatch, address) {
   dispatch(updateTokens(tokens))
 }
 
-export function getUserDetails() {
+export function getUserDetails () {
   return () => {
     return background.getUserDetails()
   }
 }
 
+/** Torus functions */
 
-export function setUserDetails(el) {
+export function setUserDetails (el) {
   return () => {
     return background.setUserDetails(el)
   }
 }
 
-export function changePasswordShare(password) {
+export function changePasswordShare (password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     // dispatch(unlockInProgress())
     log.debug(`background.torusGoogleLogin`)
     return new Promise((resolve, reject) => {
       background.torusChangePasswordShare(password, (err) => {
-        if (err) return reject(err)
+        if (err) {
+          return reject(err)
+        }
         resolve()
       })
-    }).then(() => { 
+    }).then(() => {
       dispatch(hideLoadingIndication())
-    }).catch(err => {
+    }).catch((err) => {
       return Promise.reject(err)
     })
   }
 }
 
-export function addPasswordShare(password) {
+export function addPasswordShare (password) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     // dispatch(unlockInProgress())
     log.debug(`background.torusGoogleLogin`)
     return new Promise((resolve, reject) => {
       background.torusAddPasswordShare(password, (err) => {
-        if (err) return reject(err)
+        if (err) {
+          return reject(err)
+        }
         resolve()
       })
-    }).then(() => { 
+    }).then(() => {
       dispatch(hideLoadingIndication())
-    }).catch(err => {
+    }).catch((err) => {
       dispatch(hideLoadingIndication())
       return Promise.reject(err)
     })
@@ -1314,13 +1320,13 @@ export function addPasswordShare(password) {
 }
 
 
-export function inputPasswordShare(password) {
+export function inputPasswordShare (password) {
   return async (dispatch) => {
     log.debug(`background.torusGoogleLogin`)
 
     try {
       dispatch(showLoadingIndication('This may take a while, please be patient.'))
-      let el = await promisifiedBackground.torusInputPasswordShare(password)
+      await promisifiedBackground.torusInputPasswordShare(password)
       dispatch(hideLoadingIndication())
     } catch (err) {
       dispatch(hideLoadingIndication())
@@ -1332,7 +1338,7 @@ export function inputPasswordShare(password) {
     //     if (err) return reject(err)
     //     resolve()
     //   })
-    // }).then(() => { 
+    // }).then(() => {
     //   dispatch(hideLoadingIndication())
     // }).catch(err => {
     //   debugger
@@ -1341,39 +1347,157 @@ export function inputPasswordShare(password) {
   }
 }
 
-export function getTkeyDataForSettingsPage(dispatch) {
+export function getTkeyDataForSettingsPage (dispatch) {
   return async (dispatch) => {
-    let tb = await promisifiedBackground.getTkeyDataForSettingsPage()
+    const tb = await promisifiedBackground.getTkeyDataForSettingsPage()
     // log.info(tb)
     return tb
   }
 }
 
-export function getTotalDeviceShares(dispatch) {
+export function getTotalDeviceShares (dispatch) {
   return async (dispatch) => {
-    let data = await promisifiedBackground.getTotalDeviceShares()
+    const data = await promisifiedBackground.getTotalDeviceShares()
     log.info(data)
     return data
   }
 }
 
-export function copyShareUsingIndexAndStoreLocally(index, dispatch) {
+export function copyShareUsingIndexAndStoreLocally (index, dispatch) {
   return async (dispatch) => {
     try {
-      let data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
+      const data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
       log.info(data)
       return data
     } catch (err) {
       return Promise.reject(err)
     }
-  }  
+  }
 }
 
-export function getPostboxKey() {
+export function requestShareFromOtherDevice () {
   return async (dispatch) => {
     try {
-      let state = await promisifiedBackground.getState()
-      let postbox = state.postbox
+      const key = await promisifiedBackground.requestShareFromOtherDevice()
+      console.log('actions.js', key)
+      return key
+    } catch (err) {
+      return err
+    }
+  }
+}
+
+export function startRequestStatusCheck (encryptionPublicKeyX) {
+  return async (dispatch) => {
+    try {
+      dispatch(showLoadingIndication('Please approve share request from another device'))
+      await promisifiedBackground.startRequestStatusCheck(encryptionPublicKeyX)
+      await forceUpdateMetamaskState(dispatch)
+      dispatch(hideLoadingIndication())
+    } catch (err) {
+      return err
+    }
+  }
+}
+
+export function lookForNewRequests () {
+  return (async) => {
+    try {
+      return new Promise((resolve, reject) => {
+        background.lookForRequests((error, data) => {
+          console.log('data in lookForNewRequests is', data)
+          if (error) {
+            return reject(error)
+          }
+          resolve(data)
+        })
+      })
+    } catch (err) {
+      return err
+    }
+  }
+}
+
+export function approveShareRequest (pubkey) {
+  return async (dispatch) => {
+    try {
+      const key = await promisifiedBackground.approveShareRequest(pubkey)
+      console.log('approveShareRequest', key)
+    } catch (err) {
+      return err
+    }
+  }
+}
+
+export function cancelShareRequest () {
+  return async (dispatch) => {
+    try {
+      const key = await promisifiedBackground.cancelShareRequest()
+      console.log('cancelShareRequest')
+    } catch (err) {
+      return err
+    }
+  }
+}
+
+export function addSeedPhrase (seedPhrase) {
+  return async (dispatch) => {
+    let newState
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    try {
+      log.debug(`background.addSeedPhrase`)
+      const data = await promisifiedBackground.addSeedPhrase(seedPhrase)
+      log.debug(`background.getState`)
+      newState = await promisifiedBackground.getState()
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      dispatch(displayWarning(err.message))
+      throw err
+    }
+    dispatch(hideLoadingIndication())
+    dispatch(updateMetamaskState(newState))
+    if (newState.selectedAddress) {
+      dispatch({
+        type: actionConstants.SHOW_ACCOUNT_DETAIL,
+        value: newState.selectedAddress,
+      })
+    }
+    return newState
+  }
+}
+
+
+export function addPrivateKeys (keys, dispatch) {
+  return async (dispatch) => {
+    let newState
+    dispatch(showLoadingIndication('This may take a while, please be patient.'))
+    try {
+      log.debug(`background.addPrivateKeys`)
+      const data = await promisifiedBackground.addPrivateKeys(keys)
+      log.debug(`background.getState`)
+      newState = await promisifiedBackground.getState()
+    } catch (err) {
+      dispatch(hideLoadingIndication())
+      dispatch(displayWarning(err.message))
+      throw err
+    }
+    dispatch(hideLoadingIndication())
+    dispatch(updateMetamaskState(newState))
+    if (newState.selectedAddress) {
+      dispatch({
+        type: actionConstants.SHOW_ACCOUNT_DETAIL,
+        value: newState.selectedAddress,
+      })
+    }
+    return newState
+  }
+}
+
+export function getPostboxKey () {
+  return async (dispatch) => {
+    try {
+      const state = await promisifiedBackground.getState()
+      const postbox = state.postbox
       log.info(postbox)
       return postbox
     } catch (err) {
@@ -1382,7 +1506,7 @@ export function getPostboxKey() {
   }
 }
 
-export function deleteShareDescription(shareIndex, desc) {
+export function deleteShareDescription (shareIndex, desc) {
   return async (dispatch) => {
     try {
       dispatch(showLoadingIndication('This may take a while, please be patient.'))
@@ -1391,23 +1515,23 @@ export function deleteShareDescription(shareIndex, desc) {
     } catch (err) {
       return Promise.reject(err)
     }
-  }  
+  }
 }
 
-export function generateAndStoreNewDeviceShare(dispatch) {
+export function generateAndStoreNewDeviceShare (dispatch) {
   return async (dispatch) => {
     try {
-      let data = await promisifiedBackground.generateAndStoreNewDeviceShare()
+      const data = await promisifiedBackground.generateAndStoreNewDeviceShare()
       log.info(data)
       return data
     } catch (err) {
       return Promise.reject(err)
     }
-  }  
+  }
 }
 
 
-export function googleLogin(newKeyAssign, dispatch) {
+export function googleLogin (newKeyAssign, dispatch) {
   return async (dispatch) => {
     dispatch(showLoadingIndication('This may take a while, please be patient.'))
     // dispatch(unlockInProgress())
@@ -1425,8 +1549,8 @@ export function googleLogin(newKeyAssign, dispatch) {
         dispatch(unMarkPasswordForgotten())
         return promisifiedBackground.getState()
       })
-      .then(newState => {
-        
+      .then((newState) => {
+
         dispatch(updateMetamaskState(newState))
         dispatch(showAccountsPage())
         dispatch(hideLoadingIndication())

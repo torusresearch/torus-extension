@@ -23,6 +23,7 @@ import {
   CONNECT_ROUTE,
   CONNECTED_ROUTE,
   CONNECTED_ACCOUNTS_ROUTE,
+  TRP_SHARE_TRANSFER,
 } from '../../helpers/constants/routes'
 
 const LEARN_MORE_URL = 'https://metamask.zendesk.com/hc/en-us/articles/360045129011-Intro-to-MetaMask-v8-extension'
@@ -54,6 +55,7 @@ export default class Home extends PureComponent {
     connectedStatusPopoverHasBeenShown: PropTypes.bool,
     defaultHomeActiveTabName: PropTypes.string,
     onTabClick: PropTypes.func.isRequired,
+    lookForNewRequests: PropTypes.func,
   }
 
   UNSAFE_componentWillMount () {
@@ -62,7 +64,7 @@ export default class Home extends PureComponent {
       unconfirmedTransactionsCount = 0,
       firstPermissionsRequestId,
     } = this.props
-    
+
     if (firstPermissionsRequestId) {
       history.push(`${CONNECT_ROUTE}/${firstPermissionsRequestId}`)
     }
@@ -78,6 +80,7 @@ export default class Home extends PureComponent {
       isNotification,
       suggestedTokens = {},
       totalUnapprovedCount,
+      lookForNewRequests,
     } = this.props
 
     if (isNotification && totalUnapprovedCount === 0) {
@@ -88,6 +91,20 @@ export default class Home extends PureComponent {
     if (Object.keys(suggestedTokens).length > 0) {
       history.push(CONFIRM_ADD_SUGGESTED_TOKEN_ROUTE)
     }
+
+    this.startLookingforRequests()
+  }
+
+  startLookingforRequests () {
+    const { lookForNewRequests, history } = this.props
+    // console.log('looking for new requests')
+    lookForNewRequests().then((res) => {
+      // console.log('response in from lookfornewrequests', res)
+      history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+      // this.startLookingforRequests()
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   componentDidUpdate () {
@@ -170,7 +187,7 @@ export default class Home extends PureComponent {
     )
   }
   renderPopover = () => {
-    
+
     const { setConnectedStatusPopoverHasBeenShown } = this.props
     const { t } = this.context
     return (

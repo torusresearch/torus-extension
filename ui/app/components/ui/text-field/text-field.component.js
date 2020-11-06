@@ -61,8 +61,8 @@ const styles = {
     'label + &': {
       marginTop: '9px',
     },
-    border: '2px solid #BBC0C5',
-    height: '48px',
+    border: '0',
+    height: '54px',
     borderRadius: '6px',
     padding: '0 16px',
     display: 'flex',
@@ -70,6 +70,7 @@ const styles = {
     '&$inputFocused': {
       border: '1px solid #2f9ae0',
     },
+    boxShadow: 'inset 0px 4px 28px rgba(46, 91, 255, 0.06)',
   },
   largeInputLabel: {
     ...inputLabelBase,

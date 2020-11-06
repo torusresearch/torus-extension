@@ -79,7 +79,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {Object} opts
    */
   constructor (opts) {
-    super()      
+    super()
     this.defaultMaxListeners = 20
 
     this.sendUpdate = debounce(this.privateSendUpdate.bind(this), 200)
@@ -119,7 +119,7 @@ export default class MetamaskController extends EventEmitter {
       network: this.networkController,
     })
 
-    
+
     this.appStateController = new AppStateController({
       addUnlockListener: this.on.bind(this, 'unlock'),
       isUnlocked: this.isUnlocked.bind(this),
@@ -273,7 +273,7 @@ export default class MetamaskController extends EventEmitter {
     this.tkeyController = new TkeyController({
       createNewTorusVaultAndRestore: this.createNewTorusVaultAndRestore.bind(this),
       initState: initState.TkeyController,
-      importAccountWithStrategy: this.importAccountWithStrategy.bind(this)
+      importAccountWithStrategy: this.importAccountWithStrategy.bind(this),
     })
 
     this.networkController.on('networkDidChange', () => {
@@ -469,7 +469,7 @@ export default class MetamaskController extends EventEmitter {
       getRequestAccountTabIds: (cb) => cb(null, this.getRequestAccountTabIds()),
       getOpenMetamaskTabsIds: (cb) => cb(null, this.getOpenMetamaskTabsIds()),
 
-      //torus key
+      // torus key
       torusGoogleLogin: nodeify(tkeyController.torusGoogleLogin, tkeyController),
       torusAddPasswordShare: nodeify(tkeyController.torusAddPasswordShare, tkeyController),
       torusChangePasswordShare: nodeify(tkeyController.torusChangePasswordShare, tkeyController),
@@ -479,7 +479,14 @@ export default class MetamaskController extends EventEmitter {
       copyShareUsingIndexAndStoreLocally: nodeify(tkeyController.copyShareUsingIndexAndStoreLocally, tkeyController),
       generateAndStoreNewDeviceShare: nodeify(tkeyController.generateAndStoreNewDeviceShare, tkeyController),
       deleteShareDescription: nodeify(tkeyController.deleteShareDescription, tkeyController),
-      
+      requestShareFromOtherDevice: nodeify(tkeyController.requestShareFromOtherDevice, tkeyController),
+      startRequestStatusCheck: nodeify(tkeyController.startRequestStatusCheck, tkeyController),
+      lookForRequests: nodeify(tkeyController.lookForRequests, tkeyController),
+      approveShareRequest: nodeify(tkeyController.approveShareRequest, tkeyController),
+      cancelShareRequest: nodeify(tkeyController.cancelShareRequest, tkeyController),
+      addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
+      addPrivateKeys: nodeify(tkeyController.addPrivateKeys, tkeyController),
+
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),
       verifySeedPhrase: nodeify(this.verifySeedPhrase, this),
@@ -693,8 +700,8 @@ export default class MetamaskController extends EventEmitter {
     const releaseLock = await this.createVaultMutex.acquire()
     try {
       // let lastBalance
-
       const keyringController = this.keyringController
+      keyringController.clearKeyrings()
 
       // clear known identities
       this.preferencesController.setAddresses([])
@@ -840,7 +847,7 @@ export default class MetamaskController extends EventEmitter {
    * @param {string} password - The user's password
    * @returns {Promise<object>} - The keyringController update.
    */
-  async submitPassword(password) {
+  async submitPassword (password) {
     debugger
     await this.keyringController.submitPassword(password)
     // verify keyrings
@@ -1845,7 +1852,7 @@ export default class MetamaskController extends EventEmitter {
   /**
    * @returns {boolean} Whether the extension is unlocked.
    */
-  isUnlocked() {
+  isUnlocked () {
     return this.keyringController.memStore.getState().isUnlocked
   }
 

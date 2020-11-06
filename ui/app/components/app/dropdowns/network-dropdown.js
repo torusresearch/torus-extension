@@ -159,7 +159,7 @@ class NetworkDropdown extends Component {
               className="network-name-item"
               style={{
                 color: currentRpcTarget
-                  ? '#ffffff'
+                  ? '#0F1222'
                   : '#9b9b9b',
               }}
             >
@@ -257,12 +257,12 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon backgroundColor="#29B6AF" isSelected={providerType === 'mainnet'} />
+          <NetworkDropdownIcon backgroundColor="#cde0ff" isSelected={providerType === 'mainnet'} />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'mainnet'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -280,12 +280,12 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon backgroundColor="#ff4a8d" isSelected={providerType === 'ropsten'} />
+          <NetworkDropdownIcon backgroundColor="#ffd9f8" isSelected={providerType === 'ropsten'} />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'ropsten'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -303,12 +303,12 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon backgroundColor="#7057ff" isSelected={providerType === 'kovan'} />
+          <NetworkDropdownIcon backgroundColor="#b7f7e9" isSelected={providerType === 'kovan'} />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'kovan'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -326,12 +326,12 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon backgroundColor="#f6c343" isSelected={providerType === 'rinkeby'} />
+          <NetworkDropdownIcon backgroundColor="#caf1fe" isSelected={providerType === 'rinkeby'} />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'rinkeby'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -349,12 +349,12 @@ class NetworkDropdown extends Component {
               ? <i className="fa fa-check" />
               : <div className="network-check__transparent">✓</div>
           }
-          <NetworkDropdownIcon backgroundColor="#3099f2" isSelected={providerType === 'goerli'} />
+          <NetworkDropdownIcon backgroundColor="#ffe1d4" isSelected={providerType === 'goerli'} />
           <span
             className="network-name-item"
             style={{
               color: providerType === 'goerli'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -377,7 +377,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: providerType === 'localhost'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >
@@ -404,7 +404,7 @@ class NetworkDropdown extends Component {
             className="network-name-item"
             style={{
               color: activeNetwork === 'custom'
-                ? '#ffffff'
+                ? '#0F1222'
                 : '#9b9b9b',
             }}
           >

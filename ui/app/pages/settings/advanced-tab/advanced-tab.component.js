@@ -86,8 +86,8 @@ export default class AdvancedTab extends PureComponent {
         <div className="settings-page__content-item">
           <div className="settings-page__content-item-col">
             <Button
-              type="secondary"
-              large
+              type="raised"
+              small
               onClick={() => {
                 window.logStateString((err, result) => {
                   if (err) {
@@ -121,8 +121,8 @@ export default class AdvancedTab extends PureComponent {
         <div className="settings-page__content-item">
           <div className="settings-page__content-item-col">
             <Button
-              type="warning"
-              large
+              type="raised"
+              small
               className="settings-tab__button--red"
               onClick={(event) => {
                 event.preventDefault()
@@ -470,7 +470,7 @@ export default class AdvancedTab extends PureComponent {
 
     return (
       <div className="settings-page__body">
-        { warning && <div className="settings-tab__error">{ warning }</div> }
+        {/* { warning && <div className="settings-tab__error">{ warning }</div> } */}
         { this.renderStateLogs() }
         {/* { this.renderMobileSync() } */}
         { this.renderResetAccount() }

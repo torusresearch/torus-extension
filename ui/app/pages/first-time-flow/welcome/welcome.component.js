@@ -1,10 +1,10 @@
-import EventEmitter from "events";
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import Mascot from "../../../components/ui/mascot";
-import Button from "../../../components/ui/button";
-import { withStyles } from "@material-ui/core/styles";
-import Avatar from "@material-ui/core/Avatar";
+import EventEmitter from 'events'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import Mascot from '../../../components/ui/mascot'
+import Button from '../../../components/ui/button'
+import { withStyles } from '@material-ui/core/styles'
+import Avatar from '@material-ui/core/Avatar'
 
 import {
   INITIALIZE_CREATE_PASSWORD_ROUTE,
@@ -12,9 +12,10 @@ import {
   INITIALIZE_END_OF_FLOW_ROUTE,
   INITIALIZE_IMPORT_WITH_TORUS_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
-  DEFAULT_ROUTE
-} from "../../../helpers/constants/routes";
-import { getUserDetails } from "../../../store/actions";
+  TRP_IMPORT_OR_PASSWORD,
+  DEFAULT_ROUTE,
+} from '../../../helpers/constants/routes'
+import { getUserDetails } from '../../../store/actions'
 
 export default class Welcome extends PureComponent {
   static propTypes = {
@@ -25,53 +26,55 @@ export default class Welcome extends PureComponent {
     importNewAccount: PropTypes.func,
     setUserDetails: PropTypes.func,
     googleLogin: PropTypes.func,
-  };
+  }
 
   static contextTypes = {
-    t: PropTypes.func
-  };
+    t: PropTypes.func,
+  }
 
   state = {
-    loginErrorMessage: ''
+    loginErrorMessage: '',
   }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.animationEventEmitter = new EventEmitter();
+    this.animationEventEmitter = new EventEmitter()
   }
 
-  componentDidMount() {
-    const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props;
+  componentDidMount () {
+    const { history, participateInMetaMetrics, welcomeScreenSeen } = this.props
     // history.push(INITIALIZE_SELECT_ACTION_ROUTE);
     if (welcomeScreenSeen && participateInMetaMetrics !== null) {
-      history.push(INITIALIZE_CREATE_PASSWORD_ROUTE);
+      history.push(INITIALIZE_CREATE_PASSWORD_ROUTE)
     } else if (welcomeScreenSeen) {
-      history.push(INITIALIZE_SELECT_ACTION_ROUTE);
+      history.push(INITIALIZE_SELECT_ACTION_ROUTE)
     }
   }
 
   handleContinue = async (newKeyAssign) => {
     const {
       history,
-      googleLogin
-    } = this.props;
+      googleLogin,
+    } = this.props
 
     try {
-      await googleLogin(newKeyAssign);
-      history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+      await googleLogin(newKeyAssign)
+      history.push(INITIALIZE_END_OF_FLOW_ROUTE)
     } catch (err) {
-      if (err === "Password required") {
+      if (err.message === 'Password required') {
         history.push(TORUS_RESTORE_PASSWORD_ROUTE)
-      } else if (err === "new key assign required") {
-        this.setState({loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us'})
+      } else if (err.message === 'Share transfer required') {
+        history.push(TRP_IMPORT_OR_PASSWORD)
+      } else if (err.message === 'new key assign required') {
+        this.setState({ loginErrorMessage: 'Unsuccessful login. Please contact us at hello@tor.us' })
       }
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
-  render() {
-    const { t } = this.context;
+  render () {
+    const { t } = this.context
     const { loginErrorMessage } = this.state
 
     return (
@@ -109,8 +112,8 @@ export default class Welcome extends PureComponent {
           >
             Continue with Google
           </Button>
-{/* 
-          <Button
+
+          {/* <Button
             type="primary"
             className="first-time-flow__button"
             onClick={() => this.handleContinue(true)}
@@ -121,6 +124,6 @@ export default class Welcome extends PureComponent {
           <p className="welcome-page__loginErrorMessage">{loginErrorMessage}</p>
         </div>
       </div>
-    );
+    )
   }
 }

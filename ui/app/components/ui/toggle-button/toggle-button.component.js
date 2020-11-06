@@ -19,8 +19,8 @@ const offTrackStyle = {
 }
 
 const thumbStyle = {
-  width: '18px',
-  height: '18px',
+  width: '20px',
+  height: '20px',
   display: 'flex',
   boxShadow: 'none',
   alignSelf: 'center',
@@ -30,14 +30,14 @@ const thumbStyle = {
 
 const colors = {
   activeThumb: {
-    base: '#0364FF',
+    base: '#FFFFFF',
   },
   inactiveThumb: {
     base: '#4d4d4d',
   },
   active: {
-    base: '#ffffff',
-    hover: '#ffffff',
+    base: '#0364FF',
+    hover: '#0364FF',
   },
   inactive: {
     base: '#DADADA',
@@ -52,6 +52,10 @@ const ToggleButton = (props) => {
 
   return (
     <div className={`toggle-button toggle-button--${modifier}`}>
+      <div className="toggle-button__status">
+        <span className="toggle-button__label-off">{offLabel}</span>
+        <span className="toggle-button__label-on">{onLabel}</span>
+      </div>
       <ReactToggleButton
         value={value}
         onToggle={onToggle}
@@ -59,13 +63,9 @@ const ToggleButton = (props) => {
         inactiveLabel=""
         trackStyle={value ? trackStyle : offTrackStyle}
         thumbStyle={thumbStyle}
-        thumbAnimateRange={[3, 18]}
+        thumbAnimateRange={[2, 18]}
         colors={colors}
       />
-      <div className="toggle-button__status">
-        <span className="toggle-button__label-off">{offLabel}</span>
-        <span className="toggle-button__label-on">{onLabel}</span>
-      </div>
     </div>
   )
 }

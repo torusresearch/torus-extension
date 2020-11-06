@@ -22,20 +22,23 @@
   &__buttons {
     display: flex;
     flex-direction: row;
-    height: 44px;
+    height: 40px;
     margin-bottom: 24px;
   }
 }
 
 %asset-buttons {
   min-width: initial;
-  width: 100px;
+  width: 240px;
 
   &:not(:last-child) {
     margin-right: 12px;
   }
-  text-transform: uppercase;
   font-weight: bold;
+
+  @media (max-width: 620px) {
+    width: 160px;
+  }
 }
 
 .eth-overview {

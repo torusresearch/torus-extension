@@ -129,7 +129,7 @@ export default class DepositEtherModal extends Component {
               onButtonClick: () => toFaucet(network),
               hide: !isTestNetwork,
             })}
-            {this.renderRow({
+            {/* {this.renderRow({
               logo: (
                 <div
                   className="deposit-ether-modal__logo"
@@ -153,8 +153,8 @@ export default class DepositEtherModal extends Component {
                 toWyre(address)
               },
               hide: isTestNetwork,
-            })}
-            {this.renderRow({
+            })} */}
+            {/* {this.renderRow({
               logo: (
                 <div
                   className="deposit-ether-modal__logo"
@@ -178,7 +178,7 @@ export default class DepositEtherModal extends Component {
                 toCoinSwitch(address)
               },
               hide: isTestNetwork,
-            })}
+            })} */}
           </div>
         </div>
       </div>

@@ -31,7 +31,7 @@ import AppHeader from '../../components/app/app-header'
 import UnlockPage from '../unlock-page'
 import Alerts from '../../components/app/alerts'
 import Asset from '../asset'
-import RestorePassword from '../torus-restore-password'
+import RestorePassword from '../torus-restore'
 
 import {
   ADD_TOKEN_ROUTE,
@@ -53,10 +53,12 @@ import {
   SETTINGS_ROUTE,
   UNLOCK_ROUTE,
   TORUS_RESTORE_PASSWORD_ROUTE,
+  TRP_SHARE_TRANSFER,
 } from '../../helpers/constants/routes'
 
 import { ENVIRONMENT_TYPE_NOTIFICATION, ENVIRONMENT_TYPE_POPUP } from '../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../app/scripts/lib/util'
+import { HistorySharp } from '@material-ui/icons'
 
 export default class Routes extends Component {
   static propTypes = {
@@ -93,13 +95,14 @@ export default class Routes extends Component {
 
   UNSAFE_componentWillMount () {
     const { currentCurrency, pageChanged, setCurrentCurrencyToUSD } = this.props
-    
+
     if (!currentCurrency) {
       setCurrentCurrencyToUSD()
     }
 
     this.props.history.listen((locationObj, action) => {
       if (action === 'PUSH') {
+        // console.log(locationObj)
         pageChanged(locationObj.pathname)
         // const url = `&url=${encodeURIComponent('http://www.metamask.io/metametrics' + locationObj.pathname)}`
         // this.context.metricsEvent({}, {
@@ -204,7 +207,7 @@ export default class Routes extends Component {
       submittedPendingTransactions,
       isMouseUser,
     } = this.props
-    
+
     const isLoadingNetwork = network === 'loading'
     const loadMessage = (loadingMessage || isLoadingNetwork)
       ? this.getConnectingLabel(loadingMessage)

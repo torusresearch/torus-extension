@@ -5,6 +5,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import Bowser from "bowser";
 import PasswordForm from "./password-form";
 import DeviceList from "./device-list";
+import Spinner from '../../../components/ui/spinner'
 
 export default class tkeyTab extends PureComponent {
   static contextTypes = {
@@ -143,11 +144,17 @@ export default class tkeyTab extends PureComponent {
 
     return (
       <div className="settings-page__body">
-        <div className="tkey-tab__share">
-          <p className="tkey-tab__subheading">
-            Authentication threshold - {currentThreshold}
-          </p>
-        </div>
+        {currentThreshold ? (
+          <div className="tkey-tab__share">
+            <p className="tkey-tab__subheading">
+              Authentication threshold - {currentThreshold}
+            </p>
+          </div>
+        ) : (
+          <div className="spinner-container">
+            <Spinner color="#0364FF" />
+          </div>
+        )}
 
         {this.state.torusPanel === null ? (
           void (0)

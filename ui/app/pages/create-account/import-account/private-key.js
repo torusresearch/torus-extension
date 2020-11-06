@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import BN from 'bn.js'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import * as actions from '../../../store/actions'
+import { addPrivateKeys, importNewAccount, setSelectedAddress, displayWarning } from '../../../store/actions'
 import { getMetaMaskAccounts } from '../../../selectors'
 import Button from '../../../components/ui/button'
 import { getMostRecentOverviewPage } from '../../../ducks/history/history'
@@ -29,10 +30,10 @@ class PrivateKeyImportView extends Component {
   state = { isEmpty: true }
 
   createNewKeychain () {
-    const privateKey = this.inputRef.current.value
-    const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress } = this.props
+    const privateKey = new BN(this.inputRef.current.value, 'hex')
+    const { history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
 
-    importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
+    addPrivateKeys([privateKey])
       .then(({ selectedAddress }) => {
         if (selectedAddress) {
           this.context.metricsEvent({
@@ -95,9 +96,8 @@ class PrivateKeyImportView extends Component {
         </div>
         <div className="new-account-import-form__buttons">
           <Button
-            type="default"
-            large
-            className="new-account-create-form__button"
+            type="link"
+            className="new-account-create-form__button new-account-create-form__button--cancel"
             onClick={() => {
               const { history, mostRecentOverviewPage } = this.props
               displayWarning(null)
@@ -107,13 +107,12 @@ class PrivateKeyImportView extends Component {
             {this.context.t('cancel')}
           </Button>
           <Button
-            type="secondary"
-            large
+            type="primary"
             className="new-account-create-form__button"
             onClick={() => this.createNewKeychain()}
             disabled={this.state.isEmpty}
           >
-            {this.context.t('import')}
+            {this.context.t('confirm')}
           </Button>
         </div>
         {
@@ -143,9 +142,10 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     importNewAccount: (strategy, [ privateKey ], userData) => {
-      return dispatch(actions.importNewAccount(strategy, [ privateKey ], userData))
+      return dispatch(importNewAccount(strategy, [ privateKey ], userData))
     },
-    displayWarning: (message) => dispatch(actions.displayWarning(message || null)),
-    setSelectedAddress: (address) => dispatch(actions.setSelectedAddress(address)),
+    displayWarning: (message) => dispatch(displayWarning(message || null)),
+    setSelectedAddress: (address) => dispatch(setSelectedAddress(address)),
+    addPrivateKeys: (addresses) => dispatch(addPrivateKeys(addresses)),
   }
 }

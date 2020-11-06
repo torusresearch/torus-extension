@@ -4,6 +4,7 @@ import { useI18nContext } from '../../../hooks/useI18nContext'
 import { useHistory } from 'react-router-dom'
 import { ADD_TOKEN_ROUTE } from '../../../helpers/constants/routes'
 import Button from '../../ui/button'
+import Plus from '../../ui/icon/plus-icon'
 
 
 export default function AddTokenButton () {
@@ -21,8 +22,9 @@ export default function AddTokenButton () {
     <div className="add-token-button">
       <Button
         className="add-token-button__button"
-        type="secondary"
-        rounded
+        type="raised"
+        small
+        icon={<Plus color="#0364FF" size={20} />}
         onClick={() => {
           history.push(ADD_TOKEN_ROUTE)
           addTokenEvent()
