@@ -2646,10 +2646,10 @@
     json-stable-stringify "^1.0.1"
     web3-utils "^1.3.0"
 
-"@tkey/default@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tkey/default/-/default-3.0.2.tgz#67538d1b212d1e277b156460bf23fa014d67fc2b"
-  integrity sha512-qSnCqIUN13Y2qM6QrbM/FLld1vpS2sBnMwHXUoPw+c9dP8jA3nARpp53B+abeCl2/z9juvCvWKSyqxL4i/i0ig==
+"@tkey/default@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@tkey/default/-/default-3.0.3.tgz#94ea5309613aac2e903417b57e4f31e38f7acafb"
+  integrity sha512-9NrtkWPTO7hLHBH+7eqUslzLmhfG5ta+IxUONQFLERhqwbhpKNvY3uKcqYO+1sOF9Q5eMdyWkjozCR425UQ9Iw==
   dependencies:
     "@tkey/common-types" "^3.0.1"
     "@tkey/core" "^3.0.2"
@@ -2659,7 +2659,7 @@
     "@tkey/service-provider-base" "^3.0.1"
     "@tkey/service-provider-torus" "^3.0.1"
     "@tkey/share-serialization" "^3.0.1"
-    "@tkey/share-transfer" "^3.0.1"
+    "@tkey/share-transfer" "^3.0.3"
     "@tkey/storage-layer-torus" "^3.0.1"
     "@toruslabs/eccrypto" "^1.1.5"
     atob "^2.1.2"
@@ -2728,10 +2728,10 @@
     bn.js "^5.1.3"
     create-hash "^1.2.0"
 
-"@tkey/share-transfer@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@tkey/share-transfer/-/share-transfer-3.0.1.tgz#1c1795e664b61fbf20a2753cf236e3066440eae5"
-  integrity sha512-JN5rDocfrEyhz3dC7e3mPmg+hfq0U7yNlz8xoRAHje6eNFYFxPJI9ItWzlLQ0L5M2hkLKA4hIyChMfjeP+6G+g==
+"@tkey/share-transfer@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@tkey/share-transfer/-/share-transfer-3.0.3.tgz#1ec3eef66cdeab1733cc2b836aefbc7bc4f3d571"
+  integrity sha512-ZkaZ4IP25ikpHV6t3n5iIYwbfGm3kNQKr6UGaBcJMlnIQUq7R6mQIno3SLTsz0DnfyW8PdiGq7pRu/IU4zoAyg==
   dependencies:
     "@tkey/common-types" "^3.0.1"
     "@toruslabs/eccrypto" "^1.1.5"

@@ -24,13 +24,17 @@ export default class NewLoginDetected extends Component {
   UNSAFE_componentWillMount () {
     const { location } = this.props
     console.log('NewLoginDetected -> componentDidMount -> location', location)
-    const { encPubKey, userAgent } = location.state.res
-    const browserInfo = bowser.parse(userAgent)
-    this.setState({
-      encPubKey: encPubKey,
-      browserName: browserInfo.browser.name || '',
-      browserVersion: browserInfo.browser.version || '',
-    })
+    if (location.state && location.state.res) {
+      const { encPubKey, userAgent } = location.state.res
+      const browserInfo = bowser.parse(userAgent)
+      this.setState({
+        encPubKey: encPubKey,
+        browserName: browserInfo.browser.name || '',
+        browserVersion: browserInfo.browser.version || '',
+      })
+    } else {
+      this.continueToHomeScreen()
+    }
   }
 
   componentDidMount () {

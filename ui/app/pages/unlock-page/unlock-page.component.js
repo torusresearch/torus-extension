@@ -161,7 +161,7 @@ export default class UnlockPage extends Component {
           Continue with Google login
         </Button>
 
-        {/* <Button
+        <Button
           type="submit"
           style={style}
           disabled={false}
@@ -172,7 +172,7 @@ export default class UnlockPage extends Component {
           disableRipple
         >
           Google Login (with new key assign)
-        </Button> */}
+        </Button>
       </div>
     )
   }
