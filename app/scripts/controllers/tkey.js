@@ -374,6 +374,7 @@ export default class TkeyController {
       console.log(encPubKeyX)
       return encPubKeyX
     } catch (err) {
+      // console.error(err)
       return Promise.reject(err)
     }
   }
@@ -390,7 +391,7 @@ export default class TkeyController {
       // return reconstructedKey
     } catch (err) {
       console.log('request check interval failed', err)
-      return err
+      return Promise.reject(err)
     }
   }
 

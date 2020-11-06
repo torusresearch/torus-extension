@@ -1382,7 +1382,7 @@ export function requestShareFromOtherDevice () {
       console.log('actions.js', key)
       return key
     } catch (err) {
-      return err
+      return Promise.reject(err)
     }
   }
 }
@@ -1395,7 +1395,8 @@ export function startRequestStatusCheck (encryptionPublicKeyX) {
       await forceUpdateMetamaskState(dispatch)
       dispatch(hideLoadingIndication())
     } catch (err) {
-      return err
+      dispatch(hideLoadingIndication())
+      return Promise.reject(err)
     }
   }
 }
@@ -1413,7 +1414,7 @@ export function lookForNewRequests () {
         })
       })
     } catch (err) {
-      return err
+      return Promise.reject(err)
     }
   }
 }
@@ -1424,7 +1425,7 @@ export function approveShareRequest (pubkey) {
       const key = await promisifiedBackground.approveShareRequest(pubkey)
       console.log('approveShareRequest', key)
     } catch (err) {
-      return err
+      return Promise.reject(err)
     }
   }
 }
@@ -1435,7 +1436,7 @@ export function cancelShareRequest () {
       const key = await promisifiedBackground.cancelShareRequest()
       console.log('cancelShareRequest')
     } catch (err) {
-      return err
+      return Promise.reject(err)
     }
   }
 }

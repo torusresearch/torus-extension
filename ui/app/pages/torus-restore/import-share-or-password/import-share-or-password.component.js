@@ -20,6 +20,7 @@ import {
 export default class ImportShareOrPassword extends Component {
   state = {
     tabHeading: 'Verify with Device',
+    accountPasswordError: '',
   }
 
   state = {
@@ -188,23 +189,23 @@ export default class ImportShareOrPassword extends Component {
       startRequestStatusCheck,
       history,
     } = this.props
+    // const { accountPasswordError } = this.state
     try {
       const key = await requestShareFromOtherDevice()
-      // console.log(key)
-      // start loader ui with message
       await startRequestStatusCheck(key)
       console.log('share transfer request completed')
-      // setTimeout(function() {
-      //   history.push(INITIALIZE_END_OF_FLOW_ROUTE);
-      // }, 4000);
       history.push(TRP_DEVICE_ROUTE)
     } catch (err) {
+      if (err.message === 'User cancelled request') {
+        this.setState({ accountPasswordError: `${err.message}. Please create a new request` })
+      }
       // show error UI
       console.log(err)
     }
   }
 
   render () {
+    const { accountPasswordError } = this.state
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-image">
@@ -216,6 +217,7 @@ export default class ImportShareOrPassword extends Component {
 
         {this.renderAddOldDevice()}
 
+        <p className="new-account-create-form__error-message">{accountPasswordError}</p>
         <div className="new-account-create-form__buttons">
           <Button
             type="link"
