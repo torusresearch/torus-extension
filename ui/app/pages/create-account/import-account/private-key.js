@@ -31,9 +31,7 @@ class PrivateKeyImportView extends Component {
 
   createNewKeychain () {
     const privateKey = new BN(this.inputRef.current.value, 'hex')
-    console.log(privateKey)
-    const { importNewAccount, history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
-    // importNewAccount('Private Key', [ privateKey ], {typeOfLogin: "Private key"})
+    const { history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
 
     addPrivateKeys([privateKey])
       .then(({ selectedAddress }) => {

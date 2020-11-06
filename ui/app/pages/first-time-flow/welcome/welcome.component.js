@@ -113,13 +113,13 @@ export default class Welcome extends PureComponent {
             Continue with Google
           </Button>
 
-          <Button
+          {/* <Button
             type="primary"
             className="first-time-flow__button"
             onClick={() => this.handleContinue(true)}
           >
             Continue with Google (new key assign)
-          </Button>
+          </Button> */}
 
           <p className="welcome-page__loginErrorMessage">{loginErrorMessage}</p>
         </div>
