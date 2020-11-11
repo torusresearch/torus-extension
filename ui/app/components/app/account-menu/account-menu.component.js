@@ -297,12 +297,14 @@ export default class AccountMenu extends Component {
       history,
       getPostBox,
     } = this.props
+    const { userimage } = this.state
 
-
-    getPostBox().then((postBox) => {
-      const { userInfo } = postBox
-      this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})
-    })
+    if(!userimage) {
+      getPostBox().then((postBox) => {
+        const { userInfo } = postBox
+        this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})
+      })
+    }
 
     return (
       <Menu
