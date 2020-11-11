@@ -27,7 +27,23 @@
     background-position: center;
     padding: 8px;
   }
-  &__explorer-origin {
+  &__account-details:before {
+    content: "";
+    background-image: url(/images/icons/account-details.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 8px;
+  }
+  &__explorer-origin:before {
+    content: "";
+    background-image: url(/images/icons/explorer-origin.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 8px;
+  }
+  &__explorer-origin-sub {
     color: $Grey-500;
     font-size: 12px;
   }

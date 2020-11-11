@@ -35,6 +35,7 @@ export default class PasswordForm extends PureComponent {
       accountPasswordError: "",
       showPassword1: false,
       showPassword2: false,
+      showPassword3: false,
       passwordBlockType: passwordShare.available ? "hidden" : "input",
       buttonText: passwordShare.available ? "Change password" : "Add password"
     };
@@ -135,11 +136,7 @@ export default class PasswordForm extends PureComponent {
 
 
   handleClickShowPassword = (field, el) => {
-    if (field === 1) {
-      this.setState({ showPassword1: el });
-    } else if (field === 2) {
-      this.setState({ showPassword2: el });
-    }
+    this.setState({ [`showPassword${field}`]: el });
   };
 
   renderButton() {
@@ -187,7 +184,7 @@ export default class PasswordForm extends PureComponent {
             <input
               value={this.state.accountPassword}
               type={this.state.showPassword1 ? "text" : "password"}
-              placeholder="Enter your password"
+              placeholder="Min 10 alphanumeric characters"
               onChange={event => this.onPasswordChange2(1, event.target.value)}
               id="password1"
             />
@@ -227,13 +224,22 @@ export default class PasswordForm extends PureComponent {
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
             <input
-              type="password"
+              type={this.state.showPassword3 ? "text" : "password"}
               value={this.state.accountPassword}
-              placeholder="Enter your password"
+              placeholder="Min 10 alphanumeric characters"
               onChange={event => this.onPasswordChange(event.target.value)}
               // onKeyDown={() => this.addAccountPassword()}
               id="password"
             />
+            {!this.state.showPassword3 ? (
+              <Visibility
+                onClick={() => this.handleClickShowPassword(3, true)}
+              />
+            ) : (
+              <VisibilityOff
+                onClick={() => this.handleClickShowPassword(3, false)}
+              />
+            )}
           </div>
         </div>
       );

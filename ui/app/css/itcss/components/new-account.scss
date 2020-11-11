@@ -627,13 +627,16 @@
     float: left;
     height: 30px;
     color: #A2A5B5;
-    font-size: 15px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
     cursor: pointer;
   }
 
   &__tab-selected{
     border-bottom: 2px solid #0364FF ;
     color: #0364FF;
+    font-weight: bold;
   }
 
   &__input-label {

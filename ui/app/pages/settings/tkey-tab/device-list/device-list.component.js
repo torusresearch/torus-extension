@@ -71,9 +71,17 @@ export default class DeviceList extends PureComponent {
     const { shareDesc } = this.state;
     return shareDesc.map((device, index) => {
       let date = new Date(device.dateAdded).toLocaleString()
+      let browserDetails = Bowser.parse(device.userAgent)
+      // browserDetails.platform.type
       return (
-        <div className="tkey-tab__subshare" key={index}>
-          <p>{Bowser.getParser(device.userAgent).getBrowserName() + " - " + date.toLocaleString()}</p>
+        <div className="tkey-tab__subshare tkey-tab__device-info" key={index}>
+          <div className="device-info__icon">
+            <img src={`images/device-${browserDetails.platform.type}.svg`} />
+          </div>
+          <div>
+            <div className="device-info__name">{browserDetails.browser.name} V{browserDetails.browser.version}</div>
+            <div className="device-info__details">{date.toLocaleString()}</div>
+          </div>
           {/* <div onClick={() => this.deleteDevice(device.userAgent, device.dateAdded)}>
             <DeleteOutlinedIcon />
           </div> */}

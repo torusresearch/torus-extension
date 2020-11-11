@@ -463,5 +463,10 @@ export default class TkeyController {
       return err
     }
   }
+  
+  async getPostBox () {
+    const { postBox } = this.store.getState()
+    return postBox
+  }
 
 }

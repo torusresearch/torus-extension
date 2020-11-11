@@ -84,7 +84,7 @@ export default function AccountOptionsMenu ({ anchorElement, onClose }) {
           viewAccountDetailsEvent()
           onClose()
         }}
-        iconClassName="fas fa-qrcode"
+        iconClassName="account-options-menu__account-details"
       >
         { t('accountDetails') }
       </MenuItem>
@@ -97,13 +97,13 @@ export default function AccountOptionsMenu ({ anchorElement, onClose }) {
         subtitle={
           rpcPrefs.blockExplorerUrl
             ? (
-              <span className="account-options-menu__explorer-origin">
+              <span className="account-options-menu__explorer-origin-sub">
                 { rpcPrefs.blockExplorerUrl.match(/^https?:\/\/(.+)/)[1] }
               </span>
             )
             : null
         }
-        iconClassName="fas fa-external-link-alt"
+        iconClassName="account-options-menu__explorer-origin"
       >
         {
           rpcPrefs.blockExplorerUrl

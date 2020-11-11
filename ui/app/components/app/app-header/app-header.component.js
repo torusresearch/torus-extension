@@ -20,6 +20,12 @@ export default class AppHeader extends PureComponent {
     hideNetworkIndicator: PropTypes.bool,
     disabled: PropTypes.bool,
     isAccountMenuOpen: PropTypes.bool,
+    selectedIdentity: PropTypes.object,
+    getPostBox: PropTypes.func,
+  }
+
+  state = {
+    userimage: '',
   }
 
   static contextTypes = {
@@ -48,7 +54,21 @@ export default class AppHeader extends PureComponent {
   }
 
   renderAccountMenu () {
-    const { isUnlocked, toggleAccountMenu, selectedAddress, disabled, isAccountMenuOpen } = this.props
+    const { isUnlocked, toggleAccountMenu, selectedAddress, disabled, isAccountMenuOpen, selectedIdentity } = this.props
+    const { userimage } = this.state
+
+    let accountMenuIcon = <img src={`images/account-icon.svg`} width="32" height="32" />
+    if(selectedIdentity) {
+      if(selectedIdentity.name.toLowerCase() === '2fa wallet') {
+        accountMenuIcon = <img src={`images/account-icon-2fa.svg`} width="32" height="32" />
+      } else if(selectedIdentity.name.toLowerCase() === 'private key') {
+        accountMenuIcon = <img src={`images/account-icon-pk.svg`} width="32" height="32" />
+      } else if(selectedIdentity.name.toLowerCase() === 'seed phrase') {
+        accountMenuIcon = <img src={`images/account-icon-sp.svg`} width="32" height="32" />
+      } else if(selectedIdentity.name.toLowerCase() === 'google') {
+        accountMenuIcon = <img src={userimage} width="32" height="32" style={{borderRadius: '50%'}} />
+      }
+    }
 
     return isUnlocked && (
       <div
@@ -68,11 +88,14 @@ export default class AppHeader extends PureComponent {
           }
         }}
       >
-        <Identicon
+        {/* <Identicon
           address={selectedAddress}
           diameter={32}
           addBorder
-        />
+        /> */}
+        <div className="account-menu__icon-container">
+          {accountMenuIcon}
+        </div>
       </div>
     )
   }
@@ -85,7 +108,14 @@ export default class AppHeader extends PureComponent {
       isUnlocked,
       hideNetworkIndicator,
       disabled,
+      getPostBox,
     } = this.props
+
+
+    getPostBox().then((postBox) => {
+      const { userInfo } = postBox
+      this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})
+    })
 
     return (
       <div

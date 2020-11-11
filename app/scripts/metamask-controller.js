@@ -486,6 +486,7 @@ export default class MetamaskController extends EventEmitter {
       cancelShareRequest: nodeify(tkeyController.cancelShareRequest, tkeyController),
       addSeedPhrase: nodeify(tkeyController.addSeedPhrase, tkeyController),
       addPrivateKeys: nodeify(tkeyController.addPrivateKeys, tkeyController),
+      getPostBox: nodeify(tkeyController.getPostBox, tkeyController),
 
       // primary HD keyring management
       addNewAccount: nodeify(this.addNewAccount, this),

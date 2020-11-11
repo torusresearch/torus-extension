@@ -29,6 +29,13 @@
     }
   }
 
+  &__icon-container {
+    border: 2px solid #0364FF;
+    border-radius: 50%;
+    line-height: 0;
+    padding: 2px;
+  }
+
   &__header {
     display: flex;
     flex-flow: row nowrap;
