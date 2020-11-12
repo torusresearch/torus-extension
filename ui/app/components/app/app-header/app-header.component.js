@@ -25,12 +25,22 @@ export default class AppHeader extends PureComponent {
   }
 
   state = {
-    userimage: '',
+    userimage: ''
   }
+
+  isMounted = false
 
   static contextTypes = {
     t: PropTypes.func,
     metricsEvent: PropTypes.func,
+  }
+
+  componentDidMount() {
+    this.isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.isMounted = false;
   }
 
   handleNetworkIndicatorClick (event) {
@@ -112,7 +122,7 @@ export default class AppHeader extends PureComponent {
     } = this.props
     const { userimage } = this.state
 
-    if(!userimage) {
+    if(!userimage && this.isMounted) {
       getPostBox().then((postBox) => {
         const { userInfo } = postBox
         this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})

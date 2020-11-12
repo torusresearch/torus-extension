@@ -68,6 +68,16 @@ export default class AccountMenu extends Component {
     ],
   })
 
+  isMounted
+
+  componentDidMount() {
+    this.isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this.isMounted = false;
+  }
+
   componentDidUpdate (prevProps, prevState) {
     const { isAccountMenuOpen: prevIsAccountMenuOpen } = prevProps
     const { searchQuery: prevSearchQuery } = prevState
@@ -299,7 +309,7 @@ export default class AccountMenu extends Component {
     } = this.props
     const { userimage } = this.state
 
-    if(!userimage) {
+    if(!userimage && this.isMounted) {
       getPostBox().then((postBox) => {
         const { userInfo } = postBox
         this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})
