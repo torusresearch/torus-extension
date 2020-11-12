@@ -73,15 +73,19 @@ export default class ConfirmEncryptionPublicKey extends Component {
   renderHeader = () => {
     return (
       <div className="request-encryption-public-key__header">
-        <div className="request-encryption-public-key__header-background" />
+        {/* <div className="request-encryption-public-key__header-background" /> */}
 
+        <img
+          height={16}
+          src="/images/torus-wordmark.png"
+        />
         <div className="request-encryption-public-key__header__text">
-          { this.context.t('encryptionPublicKeyRequest') }
+          Encryption request
         </div>
 
-        <div className="request-encryption-public-key__header__tip-container">
+        {/* <div className="request-encryption-public-key__header__tip-container">
           <div className="request-encryption-public-key__header__tip" />
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -144,27 +148,46 @@ export default class ConfirmEncryptionPublicKey extends Component {
     )
   }
 
-  renderAccountInfo = () => {
+  renderAccountInfo = (host, origin) => {
     return (
       <div className="request-encryption-public-key__account-info">
-        { this.renderAccount() }
+        <div className="request-encryption-public-key__account-info-title">Allow E2E test Dapp to compose encrypted messages to you</div>
+        <hr className="request-encryption-public-key__account-divider"/>
+        <div>
+          <div className="request-encryption-public-key__account-label">Requested from:</div>
+          <div className="request-encryption-public-key__account-info-box">
+            <a className="info-url" href={origin} target="_blank">{host}</a>
+            <a href={origin} target="_blank" style={{marginLeft: 'auto'}}>
+              <button className="info-link">
+                <img
+                  height={10}
+                  className="account-menu__item-icon"
+                  src="images/etherscan-link.svg"
+                />
+              </button>
+            </a>
+          </div>
+        </div>
+        {/* { this.renderAccount() }
         { this.renderRequestIcon() }
-        { this.renderBalance() }
+        { this.renderBalance() } */}
       </div>
     )
   }
 
   renderBody = () => {
     const { domainMetadata, txData } = this.props
+    console.log('ConfirmEncryptionPublicKey -> txData', txData)
     const { t } = this.context
 
     const origin = domainMetadata[txData.origin]
+    console.log('ConfirmEncryptionPublicKey -> origin', origin)
     const notice = t('encryptionPublicKeyNotice', [origin.name])
 
     return (
       <div className="request-encryption-public-key__body">
-        { this.renderAccountInfo() }
-        <div
+        { this.renderAccountInfo(origin.host, txData.origin) }
+        {/* <div
           className="request-encryption-public-key__visual"
         >
           <section>
@@ -184,7 +207,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
               { notice }
             </div>
           </section>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -203,8 +226,8 @@ export default class ConfirmEncryptionPublicKey extends Component {
     return (
       <div className="request-encryption-public-key__footer">
         <Button
-          type="default"
-          large
+          type="link"
+          small
           className="request-encryption-public-key__footer__cancel-button"
           onClick={async (event) => {
             this._removeBeforeUnload()
@@ -220,11 +243,11 @@ export default class ConfirmEncryptionPublicKey extends Component {
             history.push(mostRecentOverviewPage)
           }}
         >
-          { this.context.t('cancel') }
+          Deny
         </Button>
         <Button
-          type="secondary"
-          large
+          type="primary"
+          small
           className="request-encryption-public-key__footer__sign-button"
           onClick={async (event) => {
             this._removeBeforeUnload()
@@ -240,7 +263,7 @@ export default class ConfirmEncryptionPublicKey extends Component {
             history.push(mostRecentOverviewPage)
           }}
         >
-          { t('provide') }
+          Allow
         </Button>
       </div>
     )

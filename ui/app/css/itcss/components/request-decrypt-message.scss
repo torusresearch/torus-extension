@@ -43,7 +43,7 @@
   }
 
   &__header {
-    height: 64px;
+    height: 110px;
     width: 100%;
     position: relative;
     display: flex;
@@ -51,6 +51,11 @@
     justify-content: center;
     align-items: center;
     flex: 0 0 auto;
+    background: #FFFFFF;
+    border: 1px solid #F5F5F5;
+    box-sizing: border-box;
+    box-shadow: 0px 14px 28px rgba(46, 91, 255, 0.06);
+    border-radius: 6px;
   }
 
   &__header-background {
@@ -64,10 +69,14 @@
   &__header__text {
     color: #5B5D67;
     font-family: Roboto;
-    font-size: 22px;
-    line-height: 29px;
     z-index: 3;
-	text-align: center;
+	  text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    margin-top: 16px;
   }
 
   &__header__tip-container {
@@ -87,10 +96,47 @@
   }
 
   &__account-info {
+    padding: 32px 24px 0;
+  }
+
+  &__account-info-title {
+    padding: 0 24px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+  }
+
+  &__account-divider {
+    border: 1px solid #F1F2F6;
+    margin: 24px 0;
+  }
+  &__account-label {
+    font-size: 12px;
+    line-height: 14px;
+  }
+  &__account-info-box {
     display: flex;
-    justify-content: space-between;
-    margin-top: 18px;
-    margin-bottom: 20px;
+    background: #F1F2F6;
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-top: 8px;
+    align-items: center;
+    .info-url {
+      font-size: 12px;
+      line-height: 12px;
+      color: #2468F6;
+      &:hover {
+        color: #2468F6;
+      }
+    }
+    .info-link {
+      border: 1px solid rgba(206, 208, 214, 0.3);
+      box-sizing: border-box;
+      box-shadow: -5px -5px 10px #FAFBFF, 5px 5px 10px rgba(222, 229, 255, 0.5);
+      border-radius: 6px;
+      background: white;
+    }
   }
 
   &__account {
@@ -167,25 +213,34 @@
 
   &__message {
     overflow-wrap: break-word;
-    margin: 20px;
+    margin: 16px 24px 8px;
     overflow: hidden;
-    border: 1px solid #dedede;
     padding: 5px;
-    border-radius: 5px;
     position: relative;
-	
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #F1F2F6;
+
+  &--pressed {
+    background: #F1F2F6;
+    border: 0;
+  }
+
 	&-text {
-		font-size: 0.7em;
-		height: 115px;
+    height: 115px;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 10px;
 	}
 	
 	&-cover {
-		background-color: white;
-		opacity: 0.75;
-		position: absolute;
-		height: 100%;
-		width: 100%;
-		top: 0px;
+    background-color: white;
+    opacity: 0.8;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    backdrop-filter: blur(2px);
 	}
 	
 	&-lock {
@@ -195,12 +250,12 @@
 		top: 0px;
 		cursor: pointer;
 		img {
-			padding: 5px;
-			background-color: #fff;
-			left: calc(50% - 24px);
-			position: absolute;
-			top: calc(50% - 34px);
-			border-radius: 3px;
+      padding: 5px;
+      background-color: #F1F2F6;
+      left: calc(50% - 24px);
+      position: absolute;
+      top: calc(50% - 34px);
+      border-radius: 50%;
 		}
 		
 		&--pressed {
@@ -209,19 +264,21 @@
 	}
 	
 	&-lock-text {
-		width: 200px;
-		font-size: 0.75em;
-		position: absolute;
-		top: calc(50% + 5px);
-		text-align: center;
-		left: calc(50% - 100px);
-		background-color: white;
-		line-height: 1em;
-		border-radius: 3px;
+    width: 120px;
+    position: absolute;
+    top: calc(50% + 5px);
+    left: calc(50% - 60px);
+    background-color: #F1F2F6;
+    border-radius: 12px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 24px;
+    text-align: center;
+    color: #5C6C7F;
 	}
 	
 	&-copy {
-		justify-content: space-evenly;
+    justify-content: flex-end;
 		font-size: 0.75em;
 		margin-left: 20px;
 		margin-right: 20px;
@@ -230,12 +287,19 @@
 	}
 	
 	&-copy-text {
-	    margin-right: 10px;
-		display: inline;
+    margin-left: 4px;
+    display: inline;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 12px;
+    color: #5C6C7F;
 	}
 	
 	&-copy-tooltip {
-		float: right;
+    float: right;
+    background: #F9F9FB;
+    border-radius: 12px;
+    padding: 5px 10px;
 	}
   }
 
@@ -247,14 +311,18 @@
     font-size: 22px;
     position: relative;
     flex: 0 0 auto;
-    border-top: 1px solid $geyser;
+    border: 0;
     padding: 1.6rem;
 
     button {
       width: 165px;
+      font-size: 12px;
+      line-height: 14px;
+      font-weight: 500;
     }
 
     &__cancel-button {
+      color: #5C6C7F;
       margin-right: 1.2rem;
     }
   }

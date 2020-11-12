@@ -92,15 +92,19 @@ export default class ConfirmDecryptMessage extends Component {
   renderHeader = () => {
     return (
       <div className="request-decrypt-message__header">
-        <div className="request-decrypt-message__header-background" />
+        {/* <div className="request-decrypt-message__header-background" /> */}
 
+        <img
+          height={16}
+          src="/images/torus-wordmark.png"
+        />
         <div className="request-decrypt-message__header__text">
-          { this.context.t('decryptRequest') }
+          Decryption request
         </div>
 
-        <div className="request-decrypt-message__header__tip-container">
+        {/* <div className="request-decrypt-message__header__tip-container">
           <div className="request-decrypt-message__header__tip" />
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -163,12 +167,29 @@ export default class ConfirmDecryptMessage extends Component {
     )
   }
 
-  renderAccountInfo = () => {
+  renderAccountInfo = (host, origin) => {
     return (
       <div className="request-decrypt-message__account-info">
-        { this.renderAccount() }
+        <div className="request-encryption-public-key__account-info-title">Allow E2E test Dapp to compose encrypted messages to you</div>
+        <hr className="request-encryption-public-key__account-divider"/>
+        <div>
+          <div className="request-encryption-public-key__account-label">Requested from:</div>
+          <div className="request-encryption-public-key__account-info-box">
+            <a className="info-url" href={origin} target="_blank">{host}</a>
+            <a href={origin} target="_blank" style={{marginLeft: 'auto'}}>
+              <button className="info-link">
+                <img
+                  height={10}
+                  className="account-menu__item-icon"
+                  src="images/etherscan-link.svg"
+                />
+              </button>
+            </a>
+          </div>
+        </div>
+        {/* { this.renderAccount() }
         { this.renderRequestIcon() }
-        { this.renderBalance() }
+        { this.renderBalance() } */}
       </div>
     )
   }
@@ -191,8 +212,8 @@ export default class ConfirmDecryptMessage extends Component {
 
     return (
       <div className="request-decrypt-message__body">
-        { this.renderAccountInfo() }
-        <div
+        { this.renderAccountInfo(origin.host, txData.msgParams.origin) }
+        {/* <div
           className="request-decrypt-message__visual"
         >
           <section>
@@ -212,9 +233,12 @@ export default class ConfirmDecryptMessage extends Component {
               { notice }
             </div>
           </section>
-        </div>
+        </div> */}
         <div
-          className="request-decrypt-message__message"
+          className={classnames({
+            'request-decrypt-message__message': true,
+            'request-decrypt-message__message--pressed': hasDecrypted || hasError,
+          })}
         >
           <div
             className="request-decrypt-message__message-text"
@@ -244,7 +268,7 @@ export default class ConfirmDecryptMessage extends Component {
               })
             }}
           >
-            <img src="images/lock.svg" />
+            <img src="images/decrypt-lock.svg" />
             <div
               className="request-decrypt-message__message-lock-text"
             >
@@ -268,12 +292,12 @@ export default class ConfirmDecryptMessage extends Component {
                 title={hasCopied ? t('copiedExclamation') : t('copyToClipboard')}
                 wrapperClassName="request-decrypt-message__message-copy-tooltip"
               >
+                <img style={{marginBottom: '-2px'}} src="images/copy-to-clipboard.svg" />
                 <div
                   className="request-decrypt-message__message-copy-text"
                 >
                   {t('decryptCopy')}
                 </div>
-                <img src="images/copy-to-clipboard.svg" />
               </Tooltip>
             </div>
           )
@@ -298,8 +322,8 @@ export default class ConfirmDecryptMessage extends Component {
     return (
       <div className="request-decrypt-message__footer">
         <Button
-          type="default"
-          large
+          type="link"
+          small
           className="request-decrypt-message__footer__cancel-button"
           onClick={async (event) => {
             this._removeBeforeUnload()
@@ -315,11 +339,11 @@ export default class ConfirmDecryptMessage extends Component {
             history.push(mostRecentOverviewPage)
           }}
         >
-          { t('cancel') }
+          Deny
         </Button>
         <Button
-          type="secondary"
-          large
+          type="primary"
+          small
           className="request-decrypt-message__footer__sign-button"
           onClick={async (event) => {
             this._removeBeforeUnload()
@@ -335,7 +359,7 @@ export default class ConfirmDecryptMessage extends Component {
             history.push(mostRecentOverviewPage)
           }}
         >
-          { t('decrypt') }
+          Allow
         </Button>
       </div>
     )
