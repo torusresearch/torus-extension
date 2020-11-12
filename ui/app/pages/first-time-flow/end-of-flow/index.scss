@@ -1,16 +1,41 @@
 .main-container {
   box-shadow: none;
+  @media screen and (min-width: 1281px) {
+    .main-container {
+      max-width: 900px;
+      width: 62vw;
+      min-height: 82vh;
+      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.08);
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .main-container {
+      max-width: 700px;
+      width: 75vw;
+      min-height: 82vh;
+      box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+
+.main-background {
+  background-image: url(/images/bg-astro.png), url(/images/bg-planet.png), url(/images/bg-bubble-2.png), url(/images/bg-bubble-1.png);
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: right -124px bottom -60px, left 40px bottom -178px, left -75px bottom -650px, right -700px top -200px;
+  display: flex;
+  justify-content: center;
 }
 
 .end-of-flow {
-  color: black;
+  color: #0F1222;
   font-family: Roboto;
   font-style: normal;
   margin: 0;
 
   .app-header__logo-container {
     width: 742px;
-    margin: 3% 0 6% 0;
+    margin: 6% 0;
 
     @media screen and (max-width: $break-small) {
       width: 100%;
@@ -19,8 +44,14 @@
 
   &__text-1, &__text-3 {
     font-weight: normal;
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 8px;
+    color: #5C6C7F;
+  }
+
+  &__text-1 {
+    max-width: 700px;
   }
 
   &__text-2 {
@@ -43,8 +74,10 @@
     margin-top: 26px;
   }
 
-  button {
+  &__button {
     width: 207px;
+    margin-left: auto;
+    letter-spacing: 0.05em;
   }
 
   &__start-over-button {
@@ -54,5 +87,17 @@
   &__emoji {
     font-size: 80px;
     margin-top: 70px;
+  }
+
+  &__text-block {
+    margin-bottom: 40px;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 24px;
+
+    @media screen and (max-width: $break-small) {
+      margin-bottom: 16px;
+      font-size: .875rem;
+    }
   }
 }
