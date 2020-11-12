@@ -25,7 +25,7 @@ export default class AppHeader extends PureComponent {
   }
 
   state = {
-    userimage: ''
+    userimage: '',
   }
 
   isMounted = false
@@ -35,12 +35,12 @@ export default class AppHeader extends PureComponent {
     metricsEvent: PropTypes.func,
   }
 
-  componentDidMount() {
-    this.isMounted = true;
+  componentDidMount () {
+    this.isMounted = true
   }
 
-  componentWillUnmount() {
-    this.isMounted = false;
+  componentWillUnmount () {
+    this.isMounted = false
   }
 
   handleNetworkIndicatorClick (event) {
@@ -67,16 +67,16 @@ export default class AppHeader extends PureComponent {
     const { isUnlocked, toggleAccountMenu, selectedAddress, disabled, isAccountMenuOpen, selectedIdentity } = this.props
     const { userimage } = this.state
 
-    let accountMenuIcon = <img src={`images/account-icon.svg`} width="32" height="32" />
-    if(selectedIdentity) {
-      if(selectedIdentity.name.toLowerCase() === '2fa wallet') {
-        accountMenuIcon = <img src={`images/account-icon-2fa.svg`} width="32" height="32" />
-      } else if(selectedIdentity.name.toLowerCase() === 'private key') {
-        accountMenuIcon = <img src={`images/account-icon-pk.svg`} width="32" height="32" />
-      } else if(selectedIdentity.name.toLowerCase() === 'seed phrase') {
-        accountMenuIcon = <img src={`images/account-icon-sp.svg`} width="32" height="32" />
-      } else if(selectedIdentity.name.toLowerCase() === 'google') {
-        accountMenuIcon = <img src={userimage} width="32" height="32" style={{borderRadius: '50%'}} />
+    let accountMenuIcon = <img src="images/account-icon.svg" width="32" height="32" />
+    if (selectedIdentity) {
+      if (selectedIdentity.name.toLowerCase() === '2fa wallet') {
+        accountMenuIcon = <img src="images/account-icon-2fa.svg" width="32" height="32" />
+      } else if (selectedIdentity.name.toLowerCase() === 'private key') {
+        accountMenuIcon = <img src="images/account-icon-pk.svg" width="32" height="32" />
+      } else if (selectedIdentity.name.toLowerCase() === 'seed phrase') {
+        accountMenuIcon = <img src="images/account-icon-sp.svg" width="32" height="32" />
+      } else if (selectedIdentity.name.toLowerCase() === 'google') {
+        accountMenuIcon = <img src={userimage} width="32" height="32" style={{ borderRadius: '50%' }} />
       }
     }
 
@@ -122,10 +122,10 @@ export default class AppHeader extends PureComponent {
     } = this.props
     const { userimage } = this.state
 
-    if(!userimage && this.isMounted) {
+    if (!userimage && this.isMounted) {
       getPostBox().then((postBox) => {
         const { userInfo } = postBox
-        this.setState({userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : ''})
+        this.setState({ userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
       })
     }
 

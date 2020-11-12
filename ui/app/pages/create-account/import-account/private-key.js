@@ -29,8 +29,19 @@ class PrivateKeyImportView extends Component {
 
   state = { isEmpty: true }
 
+  stripHexPrefix = function (str) {
+    if (typeof str !== 'string') {
+      return str
+    }
+    return this.isHexPrefixed(str) ? str.slice(2) : str
+  }
+
+  isHexPrefixed = function (str) {
+    return str.slice(0, 2) === '0x'
+  }
+
   createNewKeychain () {
-    const privateKey = new BN(this.inputRef.current.value, 'hex')
+    const privateKey = new BN(this.stripHexPrefix(this.inputRef.current.value), 'hex')
     const { history, displayWarning, mostRecentOverviewPage, setSelectedAddress, firstAddress, addPrivateKeys } = this.props
 
     addPrivateKeys([privateKey])
