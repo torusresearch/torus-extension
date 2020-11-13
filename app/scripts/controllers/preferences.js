@@ -63,8 +63,8 @@ export default class PreferencesController {
       // ENS decentralized website resolution
       ipfsGateway: 'dweb.link',
 
-      //torus login details
-      userDetails: {}
+      // torus login details
+      userDetails: {},
     }, opts.initState)
 
     this.diagnostics = opts.diagnostics
@@ -79,19 +79,19 @@ export default class PreferencesController {
     }
   }
   // PUBLIC METHODS
-  clearState() {
-    this.store.updateState({ identities: {}, lostIdentities: {}})
+  clearState () {
+    this.store.updateState({ identities: {}, lostIdentities: {} })
   }
 
-  setUserDetails(el) {
+  setUserDetails (el) {
     this.store.updateState({ userDetails: el })
   }
 
-  getUserDetails() {
+  getUserDetails () {
     // console.log(this.store.getState().userDetails)
     return this.store.getState().userDetails
   }
-  
+
   /**
    * Sets the {@code forgottenPassword} state property
    * @param {boolean} forgottenPassword - whether or not the user has forgotten their password
@@ -252,7 +252,7 @@ export default class PreferencesController {
    * @param {string[]} addresses - An array of hex addresses
    *
    */
-  setAddresses(addresses, userDetails) {
+  setAddresses (addresses, userDetails) {
     // console.log(addresses, userDetails)
     const oldIdentities = this.store.getState().identities
     const oldAccountTokens = this.store.getState().accountTokens
@@ -260,7 +260,7 @@ export default class PreferencesController {
     const identities = addresses.reduce((ids, address, index) => {
       const oldId = oldIdentities[address] || {}
       ids[address] = { address, ...oldId }
-      ids[address] = { ...ids[address], name: oldId["name"] ? oldId["name"] : userDetails.typeOfLogin }
+      ids[address] = { ...ids[address], name: oldId['name'] ? oldId['name'] : userDetails.typeOfLogin }
       // console.log( oldId["name"], userDetails.typeOfLogin, ids[address])
       return ids
     }, {})
@@ -314,7 +314,7 @@ export default class PreferencesController {
         return
       }
       // add missing identity
-      
+
       const identityCount = Object.keys(identities).length
 
       accountTokens[address] = {}

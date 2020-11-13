@@ -17,7 +17,7 @@
   }
 
   @media screen and (min-width: 1281px) {
-    right: calc((100vw - 65vw) / 2);
+    right: calc((100vw - 65vw) / 2)a;
   }
 
   &__icon {
@@ -34,6 +34,7 @@
     border-radius: 50%;
     line-height: 0;
     padding: 2px;
+    overflow: hidden;
   }
 
   &__header {

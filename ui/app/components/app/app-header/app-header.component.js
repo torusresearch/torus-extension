@@ -25,7 +25,7 @@ export default class AppHeader extends PureComponent {
   }
 
   state = {
-    userimage: '',
+    userImage: '',
   }
 
   isMounted = false
@@ -41,6 +41,14 @@ export default class AppHeader extends PureComponent {
 
   componentWillUnmount () {
     this.isMounted = false
+  }
+
+  updateUserImage () {
+    const { getPostBox } = this.props
+    getPostBox().then((postBox) => {
+      const { userInfo } = postBox
+      this.setState({ userImage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
+    })
   }
 
   handleNetworkIndicatorClick (event) {
@@ -65,7 +73,7 @@ export default class AppHeader extends PureComponent {
 
   renderAccountMenu () {
     const { isUnlocked, toggleAccountMenu, selectedAddress, disabled, isAccountMenuOpen, selectedIdentity } = this.props
-    const { userimage } = this.state
+    const { userImage } = this.state
 
     let accountMenuIcon = <img src="images/account-icon.svg" width="32" height="32" />
     if (selectedIdentity) {
@@ -76,7 +84,7 @@ export default class AppHeader extends PureComponent {
       } else if (selectedIdentity.name.toLowerCase() === 'seed phrase') {
         accountMenuIcon = <img src="images/account-icon-sp.svg" width="32" height="32" />
       } else if (selectedIdentity.name.toLowerCase() === 'google') {
-        accountMenuIcon = <img src={userimage} width="32" height="32" style={{ borderRadius: '50%' }} />
+        accountMenuIcon = <img src={userImage} width="32" height="32" style={{ borderRadius: '50%' }} />
       }
     }
 
@@ -122,12 +130,14 @@ export default class AppHeader extends PureComponent {
     } = this.props
     const { userimage } = this.state
 
-    if (!userimage && this.isMounted) {
-      getPostBox().then((postBox) => {
-        const { userInfo } = postBox
-        this.setState({ userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
-      })
-    }
+    // if (!userimage && this.isMounted) {
+    //   getPostBox().then((postBox) => {
+    //     const { userInfo } = postBox
+    //     this.setState({ userimage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
+    //   })
+    // }
+
+    this.updateUserImage()
 
     return (
       <div

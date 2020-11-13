@@ -54,8 +54,6 @@ export default class TkeyController {
       const seedPhraseModule = new SeedPhraseModule([metamaskSeedPhraseFormat])
       const serviceProvider = new TorusServiceProvider({
         directParams: {
-          GOOGLE_CLIENT_ID:
-            '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
           baseUrl: 'https://scripts.toruswallet.io/',
           redirectPathName: 'redirectChromeExtension.html',
           redirectToOpener: true,
@@ -84,11 +82,54 @@ export default class TkeyController {
 
       // Login via torus service provider to get back 1 share
       // following returns a postbox key
-      this.postBox = await this.tb.serviceProvider.triggerLogin({
-        clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
-        typeOfLogin: 'google',
-        verifier: 'google',
+      // this.postBox = await this.tb.serviceProvider.triggerLogin({
+      //   clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
+      //   typeOfLogin: 'google',
+      //   verifier: 'google',
+      // })
+
+      const hybridObject = await this.tb.serviceProvider.triggerHybirdLogin({
+        singleLogin: {
+          clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
+          typeOfLogin: 'google',
+          verifier: 'google',
+        },
+        aggregateLoginParams: {
+          aggregateVerifierType: 'single_id_verifier',
+          verifierIdentifier: 'tkey-google',
+          subVerifierDetailsArray: [
+            {
+              clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
+              typeOfLogin: 'google',
+              verifier: 'torus',
+            },
+          ],
+        },
       })
+      this.postBox = hybridObject.singleLogin // for backward compatibility
+
+
+      // // Delete postbox later. Strictly for development purposes.
+      // this.postBox = {
+      //   publicAddress: '0x9fbef084FB345721e3eC057Bd91bF050f3fb84dE',
+      //   privateKey:
+      //     'f1f02ee186749cfe1ef8f957fc3d7a5b7128f979bacc10ab3b2a811d4f990852',
+      //   userInfo: {
+      //     email: 'shubham@tor.us',
+      //     name: 'Shubham Rathi',
+      //     profileImage:
+      //     // 'https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg',
+      //       'https://savageuniversal.com/wp-content/uploads/2016/04/KyleG-Travis-Curry-01-3-1080x675.jpg',
+      //     verifier: 'google-shubs',
+      //     verifierId: 'shubham@tor.us',
+      //     typeOfLogin: 'google',
+      //     accessToken:
+      //         'ya29.a0AfH6SMBiDCcm-nQMnifShrYJ606p6g5EY_5PHpXpamrNuAN_D2qWBk4p-9XgNhhPlXHT808UaKvexUQFtUEf1Ajk6OyLWcGxEv4a8GwqXCDSQ8LzRK50OU29capbmMwxkwDi1br0MWjiIAaze5ZZAl7NQSrX9dVYAEA',
+      //     idToken:
+      //         'eyJhbGciOiJSUzI1NiIsImtpZCI6ImYwNTQxNWIxM2FjYjk1OTBmNzBkZjg2Mjc2NWM2NTVmNWE3YTAxOWUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiIyMzg5NDE3NDY3MTMtcXFlNGE3cmR1dWsyNTZkOG9pNWwwcTM0cXR1OWdwZmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDk1ODQzNTA5MTA3Mjc0NzAzNDkiLCJoZCI6InRvci51cyIsImVtYWlsIjoic2h1YmhhbUB0b3IudXMiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlFEUDI1Z1VqNDRNNVRZdFBQVGhHSlEiLCJub25jZSI6InhXYjZ1WldJbmQ5cGlYdDRiRXpPY1g4UklQbWdJaSIsIm5hbWUiOiJTaHViaGFtIFJhdGhpIiwicGljdHVyZSI6Imh0dHBzOi8vbGg0Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8tT19SUi1aYlQwZVUvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQU1adXVjazdCR2hkRkhZdEtfQVN6T01wZlpTSWVHU2NmZy9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2h1YmhhbSIsImZhbWlseV9uYW1lIjoiUmF0aGkiLCJsb2NhbGUiOiJlbiIsImlhdCI6MTU5NjcwNTgzMCwiZXhwIjoxNTk2NzA5NDMwLCJqdGkiOiI1Y2Q0ZDQ3ZDAxYzliYjBmZmQ4ZDhlOTRhNzBkMWI0NDBmNTNhN2UwIn0.yKFXqJVoKleZTt8eXbuQYvpWr1ZPBVx880AeeBG-PZzmoE5_6OjTEe_b_VX4Ks-bSg3O2mFnVGAbgsK-GHKTmTUii_Ck_xVuGQJpRKTotJMxcyMUP9pXzs7sut21X08KQpouIeX4H0Wz-uWYQub1JAI7TZ41y3lxddAaI6-HR729zv1lfy2y42qLMNqllUsJpu-ItBwV1kdZuHg-ipxUDCq6n4JQkzOi3CyF69YJp6u6VVXcY857tyYbJTHfoLYzUZKVTzNB33A0rayg4x_mkNMle1c14GFOrzEH1gfOFR2a-H7F8jD8q2ShweyWWXcrl5mQx0GNGaUnXOVYTJVNgQ',
+      //   },
+      // }
+
 
       const postBox = this.postBox
       // const verifierId = postBox.userInfo.email
@@ -171,12 +212,14 @@ export default class TkeyController {
       const privKey = reconstructedKey.privKey.toString('hex').padStart(64, '0')
       // this.tempPrivateKey = privKey; // dev purposes
 
+      const { postBox } = this.store.getState()
+
       const seedPhraseKeys = reconstructedKey.seedPhraseModule
       const privateKeys = reconstructedKey.privateKeyModule
       console.log(seedPhraseKeys, privateKeys)
       // add threshold back key with empty password
       await this.createNewTorusVaultAndRestore('', privKey, {
-        ...this.postBox.userInfo,
+        ...postBox.userInfo,
         typeOfLogin: '2FA Wallet',
       })
 
@@ -203,8 +246,8 @@ export default class TkeyController {
       // import postbox key
       await this.importAccountWithStrategy(
         'Private Key',
-        [this.postBox.privateKey],
-        this.postBox.userInfo
+        [postBox.privateKey],
+        postBox.userInfo
       )
 
       await this.setSettingsPageData()
@@ -463,10 +506,9 @@ export default class TkeyController {
       return err
     }
   }
-  
+
   async getPostBox () {
     const { postBox } = this.store.getState()
     return postBox
   }
-
 }
