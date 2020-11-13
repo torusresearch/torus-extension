@@ -4,6 +4,9 @@ import { compose } from 'redux'
 
 import AppHeader from './app-header.component'
 import * as actions from '../../../store/actions'
+import {
+  getSelectedIdentity,
+} from '../../../selectors'
 
 const mapStateToProps = (state) => {
   const { appState, metamask } = state
@@ -15,7 +18,7 @@ const mapStateToProps = (state) => {
     isUnlocked,
     isAccountMenuOpen,
   } = metamask
-
+  
   return {
     networkDropdownOpen,
     network,
@@ -23,6 +26,7 @@ const mapStateToProps = (state) => {
     selectedAddress,
     isUnlocked,
     isAccountMenuOpen,
+    selectedIdentity: getSelectedIdentity(state),
   }
 }
 
@@ -31,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
     showNetworkDropdown: () => dispatch(actions.showNetworkDropdown()),
     hideNetworkDropdown: () => dispatch(actions.hideNetworkDropdown()),
     toggleAccountMenu: () => dispatch(actions.toggleAccountMenu()),
+    getPostBox: () => dispatch(actions.getPostBox()),
   }
 }
 

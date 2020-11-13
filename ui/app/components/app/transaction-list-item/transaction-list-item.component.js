@@ -73,8 +73,9 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
     const cancelButton = (
       <Button
         onClick={cancelTransaction}
-        rounded
-        className="transaction-list-item__header-button"
+        type="link"
+        small
+        className="transaction-list-item__header-button cancel"
         disabled={!cancelEnabled}
       >
         { t('cancel') }
@@ -100,8 +101,8 @@ export default function TransactionListItem ({ transactionGroup, isEarliestNonce
     }
     return (
       <Button
-        type="secondary"
-        rounded
+        type="primary"
+        small
         onClick={retryTransaction}
         className="transaction-list-item-details__header-button"
       >

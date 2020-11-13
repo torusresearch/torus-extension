@@ -52,10 +52,31 @@
     svg {
       float: right;
       margin-top: 6px;
+      cursor: pointer;
     }
 
     &:first-child {
       border: none;
+    }
+  }
+
+  &__device-info {
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    .device-info__icon {
+      line-height: 0;
+      margin-right: 4px;
+    }
+    .device-info__name {
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 1.2em;
+    }
+    .device-info__details {
+      font-weight: normal;
+      font-size: 10px;
+      line-height: 1.2em;
     }
   }
 

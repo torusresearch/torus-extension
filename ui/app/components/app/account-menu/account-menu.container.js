@@ -7,7 +7,7 @@ import {
   hideSidebar,
   lockMetamask,
   hideWarning,
-  getPostboxKey
+  getPostBox,
 } from '../../../store/actions'
 import {
   getAddressConnectedDomainMap,
@@ -25,7 +25,7 @@ import AccountMenu from './account-menu.component'
 const SHOW_SEARCH_ACCOUNTS_MIN_COUNT = 5
 
 function mapStateToProps (state) {
-  const { metamask: { isAccountMenuOpen } } = state
+  const { metamask: { isAccountMenuOpen }, postBox } = state
   const accounts = getMetaMaskAccountsOrdered(state)
   const origin = getOriginOfCurrentTab(state)
   const selectedAddress = getSelectedAddress(state)
@@ -57,7 +57,7 @@ function mapDispatchToProps (dispatch) {
       dispatch(hideSidebar())
       dispatch(toggleAccountMenu())
     },
-    getPostboxKey: () => dispatch(getPostboxKey())
+    getPostBox: () => dispatch(getPostBox()),
   }
 }
 

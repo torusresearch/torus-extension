@@ -27,6 +27,12 @@
       white-space: nowrap;
       line-height: 1rem;
     }
+    .cancel {
+      color:#5C6C7F;
+      &:hover {
+        color:#5C6C7F;
+      }
+    }
     &:empty {
       padding-top: 0;
     }

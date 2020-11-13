@@ -2794,3 +2794,14 @@ export function getCurrentWindowTab () {
     dispatch(setCurrentWindowTab(currentWindowTab))
   }
 }
+
+export function getPostBox () {
+  return async (dispatch) => {
+    try {
+      const postbox = await promisifiedBackground.getPostBox()
+      return postbox
+    } catch (err) {
+      log.info(err)
+    }
+  }
+}

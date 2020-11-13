@@ -10,7 +10,7 @@ export default function configureStore (initialState) {
     port: 8000,
     realtime: Boolean(process.env.METAMASK_DEBUG),
   })
-  let store = createStore(rootReducer, initialState, composeEnhancers(
+  const store = createStore(rootReducer, initialState, composeEnhancers(
     applyMiddleware(
       thunkMiddleware,
     ),

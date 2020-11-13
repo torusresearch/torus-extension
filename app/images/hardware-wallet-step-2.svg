@@ -1,67 +1,96 @@
-<svg width="302" height="98" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <filter x="-2.4%" y="-15.6%" width="104.8%" height="143.8%" filterUnits="objectBoundingBox" id="a">
-            <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
-            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
-            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
-            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.123075181 0" in="shadowBlurOuter1"/>
-        </filter>
-        <path id="b" d="M0 0h294v32H0z"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd">
-        <g transform="translate(25 45)">
-            <path stroke="#AFDFFF" fill="#FFF" d="M.5.5h250v26H.5z"/>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="31" y="19">3</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="50" y="19">OXz3…T3A4</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="142" y="19">0.020000 ETH</tspan>
-            </text>
-            <circle stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="14.5" r="6.5"/>
-        </g>
-        <g transform="translate(25)">
-            <path stroke="#AFDFFF" fill="#FFF" d="M.5.5h250v26H.5z"/>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="31" y="19">1</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="50" y="19">OXa4…s0a2</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="142" y="19">0.01500 ETH</tspan>
-            </text>
-            <circle stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="14.5" r="6.5"/>
-        </g>
-        <g transform="translate(25 71)">
-            <path stroke="#AFDFFF" fill="#FFF" d="M.5.5h250v26H.5z"/>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="31" y="18">4</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="50" y="18">OXd2…D0V4</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="12" fill="#ABB4BB">
-                <tspan x="142" y="18">0.030000 ETH</tspan>
-            </text>
-            <circle stroke="#AFDFFF" stroke-width="2" cx="16.5" cy="13.5" r="6.5"/>
-        </g>
-        <g transform="translate(4 21)">
-            <use fill="#000" filter="url(#a)" xlink:href="#b"/>
-            <path stroke="#3098DC" stroke-linejoin="square" fill="#D9F0FF" d="M.5.5h293v31H.5z"/>
-            <text font-family="Roboto-Regular, Roboto" font-size="16" fill="#4A4A4A">
-                <tspan x="36" y="22">2</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="16" fill="#4A4A4A">
-                <tspan x="58" y="22">OXe7…B0a1</tspan>
-            </text>
-            <text font-family="Roboto-Regular, Roboto" font-size="16" fill="#4A4A4A">
-                <tspan x="166" y="22">0.041000 ETH</tspan>
-            </text>
-            <circle stroke="#3098DC" stroke-width="2" cx="19.5" cy="16.5" r="7.5"/>
-            <path stroke="#3098DC" stroke-width="2" d="M15 17l2.55 2.55L24 13.904"/>
-        </g>
-    </g>
+<svg width="177" height="153" viewBox="0 0 177 153" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M176.139 68.0294C179.622 85.8827 157.006 97.3899 145.897 111.76C135.251 125.531 129.729 147.654 112.565 150.264C95.0329 152.93 83.4551 132.29 67.9723 123.61C56.5204 117.19 43.8581 114.525 33.7795 106.097C20.7072 95.1651 1.08124 85.1067 1.5068 68.0294C1.93432 50.8733 23.9054 43.7953 35.6429 31.3217C45.3784 20.9756 50.6198 4.79315 64.3479 1.24688C77.9496 -2.26677 90.9822 7.40856 103.506 13.791C114.097 19.1882 121.432 28.0775 130.962 35.1942C146.254 46.6129 172.477 49.2506 176.139 68.0294Z" fill="#F1F2F6"/>
+<g filter="url(#filter0_d)">
+<g filter="url(#filter1_d)">
+<rect x="14" y="46" width="142" height="32" rx="6" fill="url(#paint0_linear)"/>
+</g>
+<g filter="url(#filter2_d)">
+<rect x="45" y="85" width="80" height="18" rx="6" fill="url(#paint1_linear)"/>
+</g>
+<g filter="url(#filter3_d)">
+<rect x="45" y="21" width="80" height="18" rx="6" fill="url(#paint2_linear)"/>
+</g>
+<g filter="url(#filter4_d)">
+<rect x="45" y="107" width="80" height="18" rx="6" fill="url(#paint3_linear)"/>
+</g>
+</g>
+<rect x="51" y="60" width="94" height="5" rx="2.5" fill="#0364FF"/>
+<rect x="66" y="92" width="49" height="5" rx="2.5" fill="#FCFCFC"/>
+<rect x="66" y="28" width="49" height="5" rx="2.5" fill="#FCFCFC"/>
+<rect x="66" y="113" width="49" height="5" rx="2.5" fill="#FCFCFC"/>
+<ellipse cx="32.5" cy="62" rx="6.5" ry="6" fill="#0364FF"/>
+<circle cx="54" cy="94" r="3" fill="#FCFCFC"/>
+<circle cx="54" cy="30" r="3" fill="#FCFCFC"/>
+<circle cx="54" cy="116" r="3" fill="#FCFCFC"/>
+<defs>
+<filter id="filter0_d" x="0" y="21" width="170" height="132" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="14"/>
+<feGaussianBlur stdDeviation="7"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter1_d" x="2" y="38" width="166" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="6"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter2_d" x="33" y="77" width="104" height="42" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="6"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter3_d" x="33" y="13" width="104" height="42" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="6"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter4_d" x="33" y="99" width="104" height="42" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="6"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear" x1="85" y1="46" x2="85" y2="78" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EFF7FE"/>
+<stop offset="0.0727484" stop-color="#E2F1FD"/>
+<stop offset="0.946608" stop-color="#C9E4FC"/>
+<stop offset="1" stop-color="#B2D3F2"/>
+</linearGradient>
+<linearGradient id="paint1_linear" x1="85" y1="85" x2="85" y2="103" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EFF7FE"/>
+<stop offset="0.0727484" stop-color="#E2F1FD"/>
+<stop offset="0.946608" stop-color="#C9E4FC"/>
+<stop offset="1" stop-color="#B2D3F2"/>
+</linearGradient>
+<linearGradient id="paint2_linear" x1="85" y1="21" x2="85" y2="39" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EFF7FE"/>
+<stop offset="0.0727484" stop-color="#E2F1FD"/>
+<stop offset="0.946608" stop-color="#C9E4FC"/>
+<stop offset="1" stop-color="#B2D3F2"/>
+</linearGradient>
+<linearGradient id="paint3_linear" x1="85" y1="107" x2="85" y2="125" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EFF7FE"/>
+<stop offset="0.0727484" stop-color="#E2F1FD"/>
+<stop offset="0.946608" stop-color="#C9E4FC"/>
+<stop offset="1" stop-color="#B2D3F2"/>
+</linearGradient>
+</defs>
 </svg>

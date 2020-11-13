@@ -67,8 +67,8 @@ export default class NewLoginDetected extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          A new login is trying to access your 2FA wallet. Please confirm the
-          reference ID to confirm your identity.
+          A new login is trying to access your 2FA Wallet.&nbsp;
+          <span style={{fontWeight: 'bold'}}>Match the Reference ID</span> and confirm this is you:
           {/* It seems like you are trying to login from a new device/browser. <br /> <br />
           Please enter the password associated with this account to continue. */}
         </div>
@@ -86,14 +86,15 @@ export default class NewLoginDetected extends Component {
             </Grid>
           </Grid>
         </div>
-        <div style={{ width: '100%', textAlign: 'right' }}>
+        <div style={{ width: '100%', textAlign: 'right', fontSize: '12px', lineHeight: '1.2em', marginTop: '3px' }}>
+          This is not me,&nbsp;
           <a
             href="mailto:hello@tor.us"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontSize: '12px', lineHeight: '1.2em' }}
+            style={{color: '#0364FF'}}
           >
-            Report this is not me
+            report it
           </a>
         </div>
 

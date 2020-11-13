@@ -43,7 +43,8 @@ export default class AccountMenu extends Component {
     addressConnectedDomainMap: PropTypes.object,
     userInfo: PropTypes.object,
     originOfCurrentTab: PropTypes.string,
-    getUserDetails: PropTypes.func
+    getUserDetails: PropTypes.func,
+    getPostBox: PropTypes.func,
   }
 
   accountsRef
@@ -51,7 +52,8 @@ export default class AccountMenu extends Component {
   state = {
     shouldShowScrollButton: false,
     searchQuery: '',
-    userimage: ''
+    userImage: '',
+    userImageAddress: '',
   }
 
   addressFuse = new Fuse([], {
@@ -66,6 +68,19 @@ export default class AccountMenu extends Component {
       { name: 'address', weight: 0.5 },
     ],
   })
+
+  isMounted
+
+  componentDidMount () {
+    this.isMounted = true
+    console.log(this.state, 'component mounted')
+  }
+
+  componentWillUnmount () {
+    this.setState({ userImage: '', userImageAddress: '' })
+    console.log(this.state, 'unmounted')
+    this.isMounted = false
+  }
 
   componentDidUpdate (prevProps, prevState) {
     const { isAccountMenuOpen: prevIsAccountMenuOpen } = prevProps
@@ -115,6 +130,14 @@ export default class AccountMenu extends Component {
     ]
   }
 
+  updateUserImage () {
+    const { getPostBox } = this.props
+    getPostBox().then((postBox) => {
+      const { userInfo } = postBox
+      this.setState({ userImage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
+    })
+  }
+
   renderAccounts () {
     const {
       accounts,
@@ -123,12 +146,9 @@ export default class AccountMenu extends Component {
       showAccountDetail,
       addressConnectedDomainMap,
       originOfCurrentTab,
-      userInfo,
-      getUserDetails,
-      getPostboxKey
     } = this.props
-    const { searchQuery } = this.state
-      
+    const { searchQuery, userImage, userImageAddress } = this.state
+
     let filteredIdentities = accounts
     if (searchQuery) {
       this.addressFuse.setCollection(accounts)
@@ -149,18 +169,28 @@ export default class AccountMenu extends Component {
       })
       const addressDomains = addressConnectedDomainMap[identity.address] || {}
       const iconAndNameForOpenDomain = addressDomains[originOfCurrentTab]
+      let accountMenuIcon = <img src="images/account-icon.svg" width="24" height="24" style={{ marginRight: '12px' }} />
+      if (identity.name.toLowerCase() === '2fa wallet') {
+        accountMenuIcon = <img src="images/account-icon-2fa.svg" width="24" height="24" style={{ marginRight: '12px' }} />
+      } else if (identity.name.toLowerCase() === 'private key') {
+        accountMenuIcon = <img src="images/account-icon-pk.svg" width="24" height="24" style={{ marginRight: '12px' }} />
+      } else if (identity.name.toLowerCase() === 'seed phrase') {
+        accountMenuIcon = <img src="images/account-icon-sp.svg" width="24" height="24" style={{ marginRight: '12px' }} />
+      } else if (identity.name.toLowerCase() === 'google') {
+        accountMenuIcon = <img src={userImage} width="24" height="24" style={{ marginRight: '12px', borderRadius: '50%' }} />
+      }
 
       return (
         <div
           className="account-menu__account menu__item--clickable"
           onClick={() => {
-            this.context.metricsEvent({
-              eventOpts: {
-                category: 'Navigation',
-                action: 'Main Menu',
-                name: 'Switched Account',
-              },
-            })
+            // this.context.metricsEvent({
+            //   eventOpts: {
+            //     category: 'Navigation',
+            //     action: 'Main Menu',
+            //     name: 'Switched Account',
+            //   },
+            // })
             showAccountDetail(identity.address)
           }}
           key={identity.address}
@@ -168,12 +198,9 @@ export default class AccountMenu extends Component {
           <div className="account-menu__check-mark">
             { isSelected && <div className="account-menu__check-mark-icon" /> }
           </div>
-          <Identicon
-            address={identity.address}
-            diameter={24}
-          />
+          {accountMenuIcon}
           {/* <img
-            className="account-menu__userimage"
+            className="account-menu__userImage"
             src="https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg"
             width="25px"
             height="25px"
@@ -220,7 +247,7 @@ export default class AccountMenu extends Component {
         label = t('hardware')
         break
       case 'Simple Key Pair':
-        label = ""
+        label = ''
         break
       default:
         return null
@@ -290,7 +317,15 @@ export default class AccountMenu extends Component {
       toggleAccountMenu,
       lockMetamask,
       history,
+      getPostBox,
     } = this.props
+    const { userImage, userImageAddress } = this.state
+
+    // getPostBox().then((postBox) => {
+    //   const { userInfo } = postBox
+    //   this.setState({ userImage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
+    // })
+    this.updateUserImage()
 
     return (
       <Menu
@@ -307,7 +342,7 @@ export default class AccountMenu extends Component {
               history.push(DEFAULT_ROUTE)
             }}
           >
-             Logout 
+             Logout
           </button>
         </Item>
         <Divider />
@@ -348,14 +383,15 @@ export default class AccountMenu extends Component {
         <Item
           onClick={() => {
             toggleAccountMenu()
-            metricsEvent({
-              eventOpts: {
-                category: 'Navigation',
-                action: 'Main Menu',
-                name: 'Clicked Import Account',
-              },
-            })
+            // metricsEvent({
+            //   eventOpts: {
+            //     category: 'Navigation',
+            //     action: 'Main Menu',
+            //     name: 'Clicked Import Account',
+            //   },
+            // })
             history.push(IMPORT_ACCOUNT_ROUTE)
+            this.updateUserImage()
           }}
           icon={(
             <img
@@ -417,9 +453,12 @@ export default class AccountMenu extends Component {
             toggleAccountMenu()
             history.push(ABOUT_US_ROUTE)
           }}
-          icon={
-            <img src="images/mm-info-icon.svg" />
-          }
+          icon={(
+            <img
+              className="account-menu__item-icon"
+              src="images/mm-info-icon.svg"
+            />
+          )}
           text={t('infoHelp')}
         />
         <Item
