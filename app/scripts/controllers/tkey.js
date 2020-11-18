@@ -220,7 +220,7 @@ export default class TkeyController {
       // add threshold back key with empty password
       await this.createNewTorusVaultAndRestore('', privKey, {
         ...postBox.userInfo,
-        typeOfLogin: '2FA Wallet',
+        typeOfLogin: 'tKey Wallet',
       })
 
       // Private keys

@@ -104,7 +104,7 @@ export default class InfoTab extends PureComponent {
               <div className="info-tab__about">
                 {/* { t('builtInCalifornia') } */}
                 Torus extension is a OAuth 2.0 distributed private key
-                management solution with 2FA support
+                management solution with tKey support
               </div>
             </div>
           </div>

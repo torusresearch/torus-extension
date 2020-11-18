@@ -127,7 +127,7 @@ class SettingsPage extends PureComponent {
     } else if (initialBreadCrumbKey) {
       subheaderText = t(initialBreadCrumbKey)
     } else {
-      subheaderText = t(pathnameI18nKey || 'general') || '2FA Wallet' //TODO: fix
+      subheaderText = t(pathnameI18nKey || 'general') || 'tKey Wallet' //TODO: fix
     }
 
     return currentPath !== NETWORKS_ROUTE && (
@@ -160,7 +160,7 @@ class SettingsPage extends PureComponent {
       <TabBar
         tabs={[
           { content: t('general'), description: t('generalSettingsDescription'), key: GENERAL_ROUTE },
-          { content: '2FA Wallet', description: "2FA Wallet", key: TKEY_ROUTE },
+          { content: 'tKey Wallet', description: "tKey Wallet", key: TKEY_ROUTE },
           { content: t('advanced'), description: t('advancedSettingsDescription'), key: ADVANCED_ROUTE },
           { content: t('contacts'), description: t('contactsSettingsDescription'), key: CONTACT_LIST_ROUTE },
           { content: t('securityAndPrivacy'), description: t('securitySettingsDescription'), key: SECURITY_ROUTE },

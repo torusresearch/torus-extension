@@ -94,7 +94,7 @@ export default class EndOfFlowScreen extends PureComponent {
             </div>
 
             <div className="first-time-flow__onboarding">
-              <a className="first-time-flow__onboarding-more" href="https://docs.tor.us" target="_blank" style={{color:"#0363ff", fontWeight: 'bold', fontSize: '18px', lineHeight: '21px'}}>
+              <a className="first-time-flow__onboarding-more" href="https://hackmd.io/Tej2tf83SZOxZmz70ObEpg" target="_blank" style={{color:"#0363ff", fontWeight: 'bold', fontSize: '18px', lineHeight: '21px'}}>
                 Learn more about tKey here &gt;
               </a>
               <Button

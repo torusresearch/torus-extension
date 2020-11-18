@@ -170,8 +170,8 @@ export default class AccountMenu extends Component {
       const addressDomains = addressConnectedDomainMap[identity.address] || {}
       const iconAndNameForOpenDomain = addressDomains[originOfCurrentTab]
       let accountMenuIcon = <img src="images/account-icon.svg" width="24" height="24" style={{ marginRight: '12px' }} />
-      if (identity.name.toLowerCase() === '2fa wallet') {
-        accountMenuIcon = <img src="images/account-icon-2fa.svg" width="24" height="24" style={{ marginRight: '12px' }} />
+      if (identity.name.toLowerCase() === 'tkey wallet') {
+        accountMenuIcon = <img src="images/account-icon-tkey.svg" width="24" height="24" style={{ marginRight: '12px' }} />
       } else if (identity.name.toLowerCase() === 'private key') {
         accountMenuIcon = <img src="images/account-icon-pk.svg" width="24" height="24" style={{ marginRight: '12px' }} />
       } else if (identity.name.toLowerCase() === 'seed phrase') {
@@ -208,7 +208,7 @@ export default class AccountMenu extends Component {
 
           <div className="account-menu__account-info">
             <div className="account-menu__name">
-              { identity.name || '' }
+              { identity.name === 'google' ? 'Google' : identity.name || '' }
             </div>
             <UserPreferencedCurrencyDisplay
               className="account-menu__balance"

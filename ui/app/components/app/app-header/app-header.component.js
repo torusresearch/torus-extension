@@ -77,8 +77,8 @@ export default class AppHeader extends PureComponent {
 
     let accountMenuIcon = <img src="images/account-icon.svg" width="32" height="32" />
     if (selectedIdentity) {
-      if (selectedIdentity.name.toLowerCase() === '2fa wallet') {
-        accountMenuIcon = <img src="images/account-icon-2fa.svg" width="32" height="32" />
+      if (selectedIdentity.name.toLowerCase() === 'tkey wallet') {
+        accountMenuIcon = <img src="images/account-icon-tkey.svg" width="32" height="32" />
       } else if (selectedIdentity.name.toLowerCase() === 'private key') {
         accountMenuIcon = <img src="images/account-icon-pk.svg" width="32" height="32" />
       } else if (selectedIdentity.name.toLowerCase() === 'seed phrase') {

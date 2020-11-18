@@ -67,7 +67,7 @@ export default class NewLoginDetected extends Component {
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          A new login is trying to access your 2FA Wallet.&nbsp;
+          A new login is trying to access your tKey Wallet.&nbsp;
           <span style={{fontWeight: 'bold'}}>Match the Reference ID</span> and confirm this is you:
           {/* It seems like you are trying to login from a new device/browser. <br /> <br />
           Please enter the password associated with this account to continue. */}
