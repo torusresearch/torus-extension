@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { checksumAddress } from '../../../helpers/utils/util'
-import Identicon from '../../../components/ui/identicon'
+import AccountIcon from '../../../components/ui/account-icon'
 import UserPreferencedCurrencyDisplay from '../../../components/app/user-preferenced-currency-display'
 import { PRIMARY, SECONDARY } from '../../../helpers/constants/common'
 import Tooltip from '../../../components/ui/tooltip-v2'
@@ -29,11 +29,12 @@ export default function AccountListItem ({
     >
 
       <div className="account-list-item__top-row">
-        <Identicon
+        <AccountIcon className="account-list-item__identicon" name={name} size={18} />
+        {/* <Identicon
           address={address}
           className="account-list-item__identicon"
           diameter={18}
-        />
+        /> */}
 
         <div className="account-list-item__account-name">{ name || address }</div>
 

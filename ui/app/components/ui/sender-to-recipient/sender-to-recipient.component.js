@@ -53,7 +53,7 @@ function SenderAddress ({
       {!addressOnly && (
         <div className="sender-to-recipient__sender-icon">
           <AccountIcon
-            name={name}
+            name={senderName}
             size={24}
           />
         </div>

@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 
 export default class AccountIcon extends PureComponent {
   static propTypes = {
     getPostBox: PropTypes.func,
     name: PropTypes.string,
     size: PropTypes.number,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
     name: '',
     size: 46,
+    className: undefined,
   }
 
   state = {
@@ -27,7 +30,7 @@ export default class AccountIcon extends PureComponent {
 
   render() {
     const { userImage } = this.state
-    const { name, size } = this.props
+    const { name, size, className } = this.props
 
     this.updateUserImage()
   
@@ -45,7 +48,7 @@ export default class AccountIcon extends PureComponent {
     }
 
     return (
-      <div className="account-icon">
+      <div className={classnames('account-icon', className)}>
         {accountMenuIcon}
       </div>
     )
