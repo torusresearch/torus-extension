@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fuse from 'fuse.js'
 import Identicon from '../../../../components/ui/identicon'
+import AccountIcon from '../../../../components/ui/account-icon'
 import { isValidAddress } from '../../../../helpers/utils/util'
 import Dialog from '../../../../components/ui/dialog'
 import ContactList from '../../../../components/app/contact-list'
@@ -124,7 +125,8 @@ export default class AddRecipient extends Component {
         className="send__select-recipient-wrapper__group-item"
         onClick={() => this.selectRecipient(address, name)}
       >
-        <Identicon address={address} diameter={28} />
+        <AccountIcon name={name} size={28} />
+        {/* <Identicon address={address} diameter={28} /> */}
         <div className="send__select-recipient-wrapper__group-item__content">
           <div className="send__select-recipient-wrapper__group-item__title">
             {name || ellipsify(address)}
