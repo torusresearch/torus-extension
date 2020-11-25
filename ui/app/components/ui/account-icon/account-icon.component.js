@@ -36,7 +36,7 @@ export default class AccountIcon extends PureComponent {
   
     let accountMenuIcon = <img src="images/account-icon.svg" width={size} height={size} />
     if (name) {
-      if (name.toLowerCase() === 'tkey wallet') {
+      if (name.toLowerCase() === 'tkey') {
         accountMenuIcon = <img src="images/account-icon-tkey.svg" width={size} height={size} />
       } else if (name.toLowerCase() === 'private key') {
         accountMenuIcon = <img src="images/account-icon-pk.svg" width={size} height={size} />

@@ -20,18 +20,30 @@ export default class NewLoginDetected extends Component {
     encPubKey: '',
     browserName: '',
     browserVersion: '',
+    shortIndex: '',
   }
   UNSAFE_componentWillMount () {
-    const { location } = this.props
+    const { location, getTkeyDataForSettingsPage } = this.props
     console.log('NewLoginDetected -> componentDidMount -> location', location)
     if (location.state && location.state.res) {
       const { encPubKey, userAgent } = location.state.res
       const browserInfo = bowser.parse(userAgent)
+      
       this.setState({
-        encPubKey: encPubKey,
+        encPubKey,
         browserName: browserInfo.browser.name || '',
         browserVersion: browserInfo.browser.version || '',
       })
+
+      getTkeyDataForSettingsPage().then(el => {
+        const { deviceShare } = el
+        if (deviceShare.share) {
+          const shortIndex = deviceShare.share.share.shareIndex.toString().slice(0, 4)
+          this.setState({
+            shortIndex,            
+          })
+        }
+      });
     } else {
       this.continueToHomeScreen()
     }
@@ -63,11 +75,12 @@ export default class NewLoginDetected extends Component {
   }
 
   render () {
-    const { browserName, browserVersion } = this.state
+    const { browserName, browserVersion, shortIndex } = this.state
+    const referenceId = shortIndex ? <p>Reference ID: {shortIndex}</p> : ''
     return (
       <div className="new-account-create-form">
         <div className="new-account-create-form__input-label">
-          A new login is trying to access your tKey Wallet.&nbsp;
+          A new login is trying to access your tKey account.&nbsp;
           <span style={{fontWeight: 'bold'}}>Match the Reference ID</span> and confirm this is you:
           {/* It seems like you are trying to login from a new device/browser. <br /> <br />
           Please enter the password associated with this account to continue. */}
@@ -79,10 +92,17 @@ export default class NewLoginDetected extends Component {
               <ComputerIcon />
             </Grid>
             <Grid item xs={10}>
-              <h4>
-                {browserName}
-              </h4>
-              <p>V{browserVersion}</p>
+              <div>
+                <div>
+                  <h4>
+                    {browserName}
+                  </h4>
+                  <p>V{browserVersion}</p>
+                  {referenceId}
+                </div>
+                <div>
+                </div>
+              </div>
             </Grid>
           </Grid>
         </div>
@@ -125,6 +145,7 @@ NewLoginDetected.propTypes = {
   history: PropTypes.object,
   approveShareRequest: PropTypes.func,
   cancelShareRequest: PropTypes.func,
+  getTkeyDataForSettingsPage: PropTypes.func.isRequired
 }
 
 NewLoginDetected.contextTypes = {}

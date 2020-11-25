@@ -220,7 +220,7 @@ export default class TkeyController {
       // add threshold back key with empty password
       await this.createNewTorusVaultAndRestore('', privKey, {
         ...postBox.userInfo,
-        typeOfLogin: 'tKey Wallet',
+        typeOfLogin: 'tKey',
       })
 
       // Private keys
@@ -325,6 +325,8 @@ export default class TkeyController {
     // For ondevice share
     try {
       const el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+      console.log('For ondevice share', tkey.modules)
+      console.log('For ondevice share', el)
       if (el) {
         onDeviceShare.available = true
         onDeviceShare.share = el
