@@ -88,7 +88,7 @@ export default class TkeyController {
       //   verifier: 'google',
       // })
 
-      const hybridObject = await this.tb.serviceProvider.triggerHybirdLogin({
+      const hybridObject = await this.tb.serviceProvider.triggerHybridAggregateLogin({
         singleLogin: {
           clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
           typeOfLogin: 'google',
