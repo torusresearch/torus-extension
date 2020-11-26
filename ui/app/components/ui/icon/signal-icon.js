@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function Signal({ size, color }) {
+export default function Signal ({ size, color }) {
   return (
     <svg
       width={size}
@@ -17,15 +17,15 @@ export default function Signal({ size, color }) {
         fill={color}
       />
     </svg>
-  );
+  )
 }
 
 Signal.defaultProps = {
-  color: "#000000",
+  color: '#000000',
   size: 20,
-};
+}
 
 Signal.propTypes = {
   size: PropTypes.number.isRequired,
   color: PropTypes.string,
-};
+}
