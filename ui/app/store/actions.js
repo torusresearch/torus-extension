@@ -1293,6 +1293,7 @@ export function changePasswordShare (password) {
     }).then(() => {
       dispatch(hideLoadingIndication())
     }).catch((err) => {
+      dispatch(hideLoadingIndication())
       return Promise.reject(err)
     })
   }
@@ -1366,10 +1367,12 @@ export function getTotalDeviceShares (dispatch) {
 export function copyShareUsingIndexAndStoreLocally (index, dispatch) {
   return async (dispatch) => {
     try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
       const data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
-      log.info(data)
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
       return data
     } catch (err) {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
       return Promise.reject(err)
     }
   }
@@ -1522,15 +1525,17 @@ export function deleteShareDescription (shareIndex, desc) {
 export function generateAndStoreNewDeviceShare (dispatch) {
   return async (dispatch) => {
     try {
+      dispatch(showLoadingIndication('This may take a while, please be patient.'))
       const data = await promisifiedBackground.generateAndStoreNewDeviceShare()
-      log.info(data)
+      // log.info(data)
+      dispatch(hideLoadingIndication())
       return data
     } catch (err) {
+      dispatch(hideLoadingIndication())
       return Promise.reject(err)
     }
   }
 }
-
 
 export function googleLogin (newKeyAssign, dispatch) {
   return async (dispatch) => {
