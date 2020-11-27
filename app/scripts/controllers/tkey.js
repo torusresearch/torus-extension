@@ -471,7 +471,7 @@ export default class TkeyController {
     try {
       await this.tb.modules.shareTransfer.approveRequest(this.currentEncKey)
     } catch (err) {
-      console.err(err)
+      console.error(err)
       return err
     }
   }
@@ -480,7 +480,7 @@ export default class TkeyController {
     try {
       await this.tb.modules.shareTransfer.deleteShareTransferStore(this.currentEncKey)
     } catch (err) {
-      console.err(err)
+      console.error(err)
       return err
     }
   }
