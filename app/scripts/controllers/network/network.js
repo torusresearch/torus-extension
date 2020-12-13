@@ -19,6 +19,8 @@ import {
   MAINNET,
   LOCALHOST,
   INFURA_PROVIDER_TYPES,
+  BSC,
+  BSC_TESTNET,
 } from './enums'
 
 const env = process.env.METAMASK_ENV
@@ -142,7 +144,7 @@ export default class NetworkController extends EventEmitter {
 
   async setProviderType (type, rpcTarget = '', ticker = 'ETH', nickname = '') {
     assert.notEqual(type, 'rpc', `NetworkController - cannot call "setProviderType" with type 'rpc'. use "setRpcTarget"`)
-    assert(INFURA_PROVIDER_TYPES.includes(type) || type === LOCALHOST, `NetworkController - Unknown rpc type "${type}"`)
+    assert(INFURA_PROVIDER_TYPES.includes(type) || type === LOCALHOST || type === BSC || type === BSC_TESTNET, `NetworkController - Unknown rpc type "${type}"`)
     const providerConfig = { type, rpcTarget, ticker, nickname }
     this.providerConfig = providerConfig
   }

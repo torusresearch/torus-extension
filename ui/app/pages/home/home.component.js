@@ -44,6 +44,7 @@ export default class Home extends PureComponent {
     threeBoxSynced: PropTypes.bool,
     setupThreeBox: PropTypes.func,
     turnThreeBoxSyncingOn: PropTypes.func,
+    isUnlocked: PropTypes.bool,
     showRestorePrompt: PropTypes.bool,
     selectedAddress: PropTypes.string,
     restoreFromThreeBox: PropTypes.func,
@@ -96,11 +97,13 @@ export default class Home extends PureComponent {
   }
 
   startLookingforRequests () {
-    const { lookForNewRequests, history } = this.props
+    const { lookForNewRequests, history, isUnlocked } = this.props
     // console.log('looking for new requests')
     lookForNewRequests().then((res) => {
-      // console.log('response in from lookfornewrequests', res)
-      history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+      console.log('response in from lookfornewrequests', res, isUnlocked)
+      if (isUnlocked) {
+        history.push({ pathname: TRP_SHARE_TRANSFER, state: { res } })
+      }
       // this.startLookingforRequests()
     }).catch((err) => {
       console.log(err)
