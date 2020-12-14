@@ -1,7 +1,7 @@
 {
   "name": "Torus Extension",
   "short_name": "Torus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
   "description": "Ethereum blockchain wallet secured with one-step Google OAuth logins and 2FA capabilities",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
