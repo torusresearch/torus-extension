@@ -390,7 +390,6 @@ export default class PreferencesController {
   setSelectedAddress (_address) {
     const address = normalizeAddress(_address)
     this._updateTokens(address)
-
     const { identities, tokens } = this.store.getState()
     const selectedIdentity = identities[address]
     if (!selectedIdentity) {

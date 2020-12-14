@@ -325,8 +325,8 @@ export default class TkeyController {
     // For ondevice share
     try {
       const el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
-      console.log('For ondevice share', tkey.modules)
-      console.log('For ondevice share', el)
+      // console.log('For ondevice share', tkey.modules)
+      // console.log('For ondevice share', el)
       if (el) {
         onDeviceShare.available = true
         onDeviceShare.share = el
@@ -470,6 +470,7 @@ export default class TkeyController {
     console.log('approveShareRequest -> pubkey', pubkey)
     try {
       await this.tb.modules.shareTransfer.approveRequest(this.currentEncKey)
+      await this.tb.syncShareMetadata()
     } catch (err) {
       console.error(err)
       return err

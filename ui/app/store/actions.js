@@ -1369,10 +1369,10 @@ export function copyShareUsingIndexAndStoreLocally (index, dispatch) {
     try {
       dispatch(showLoadingIndication('This may take a while, please be patient.'))
       const data = await promisifiedBackground.copyShareUsingIndexAndStoreLocally(index)
-      dispatch(showLoadingIndication('This may take a while, please be patient.'))
+      dispatch(hideLoadingIndication())
       return data
     } catch (err) {
-      dispatch(showLoadingIndication('This may take a while, please be patient.'))
+      dispatch(hideLoadingIndication())
       return Promise.reject(err)
     }
   }
