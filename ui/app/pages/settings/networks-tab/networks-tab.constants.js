@@ -52,6 +52,22 @@ const defaultNetworksData = [
     rpcUrl: 'http://localhost:8545/',
     blockExplorerUrl: 'https://etherscan.io',
   },
+  {
+    labelKey: 'BSC',
+    iconColor: 'white',
+    border: '1px solid #6A737D',
+    providerType: 'BSC',
+    rpcUrl: 'https://bsc-dataseed.binance.org/',
+    blockExplorerUrl: ' https://bscscan.com',
+  },
+  {
+    labelKey: 'BSC-testnet',
+    iconColor: 'white',
+    border: '1px solid #6A737D',
+    providerType: 'BSC_TESTNET',
+    rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545//',
+    blockExplorerUrl: ' https://testnet.bscscan.com',
+  },
 ]
 
 export {

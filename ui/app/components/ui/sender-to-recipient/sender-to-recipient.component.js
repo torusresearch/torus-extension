@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Identicon from '../identicon'
+import AccountIcon from '../account-icon'
 import Tooltip from '../tooltip-v2'
 import copyToClipboard from 'copy-to-clipboard'
 import { DEFAULT_VARIANT, CARDS_VARIANT, FLAT_VARIANT } from './sender-to-recipient.constants'
@@ -37,6 +38,7 @@ function SenderAddress ({
         </p>
       )
   }
+  const senderNameFormatted = senderName === 'google' ? 'Google' : senderName
   return (
     <div
       className={classnames('sender-to-recipient__party sender-to-recipient__party--sender')}
@@ -50,9 +52,9 @@ function SenderAddress ({
     >
       {!addressOnly && (
         <div className="sender-to-recipient__sender-icon">
-          <Identicon
-            address={checksumAddress(senderAddress)}
-            diameter={24}
+          <AccountIcon
+            name={senderName}
+            size={24}
           />
         </div>
       )}
@@ -66,8 +68,8 @@ function SenderAddress ({
         <div className="sender-to-recipient__name">
           {
             addressOnly
-              ? <span>{`${t('from')}: ${senderName || checksummedSenderAddress}`}</span>
-              : senderName
+              ? <span>{`${t('from')}: ${senderNameFormatted || checksummedSenderAddress}`}</span>
+              : senderNameFormatted
           }
         </div>
       </Tooltip>

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import classnames from 'classnames'
-import Identicon from '../../../components/ui/identicon'
+import AccountIcon from '../../../components/ui/account-icon'
 import Button from '../../../components/ui/button'
 import CheckBox, { CHECKED, INDETERMINATE, UNCHECKED } from '../../../components/ui/check-box'
 import Tooltip from '../../../components/ui/tooltip-v2'
@@ -80,7 +80,7 @@ export default class ChooseAccount extends Component {
       <div className="permissions-connect-choose-account__accounts-list">
         {
           accounts.map((account, index) => {
-            const { address, addressLabel, balance } = account
+            const { address, addressLabel, balance, label } = account
             return (
               <div
                 key={`permissions-connect-choose-account-${index}`}
@@ -92,9 +92,9 @@ export default class ChooseAccount extends Component {
                     className="permissions-connect-choose-account__list-check-box"
                     checked={selectedAccounts.has(address)}
                   />
-                  <Identicon
-                    diameter={34}
-                    address={address}
+                  <AccountIcon
+                    size={34}
+                    name={label}
                   />
                   <div className="permissions-connect-choose-account__account__info">
                     <div className="permissions-connect-choose-account__account__label">{ addressLabel }</div>

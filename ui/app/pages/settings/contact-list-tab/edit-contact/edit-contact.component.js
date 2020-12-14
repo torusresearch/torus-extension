@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Identicon from '../../../../components/ui/identicon'
+import AccountIcon from '../../../../components/ui/account-icon'
 import Button from '../../../../components/ui/button/button.component'
 import TextField from '../../../../components/ui/text-field'
 import { isValidAddress } from '../../../../helpers/utils/util'
@@ -45,7 +45,8 @@ export default class EditContact extends PureComponent {
     return (
       <div className="settings-page__content-row address-book__edit-contact">
         <div className="settings-page__header address-book__header--edit">
-          <Identicon address={address} diameter={60} />
+          <AccountIcon name={name} size={60} />
+          {/* <Identicon address={address} diameter={60} /> */}
           <Button
             type="link"
             className="settings-page__address-book-button"

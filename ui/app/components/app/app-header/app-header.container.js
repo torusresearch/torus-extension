@@ -35,7 +35,6 @@ const mapDispatchToProps = (dispatch) => {
     showNetworkDropdown: () => dispatch(actions.showNetworkDropdown()),
     hideNetworkDropdown: () => dispatch(actions.hideNetworkDropdown()),
     toggleAccountMenu: () => dispatch(actions.toggleAccountMenu()),
-    getPostBox: () => dispatch(actions.getPostBox()),
   }
 }
 

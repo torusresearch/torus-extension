@@ -362,6 +362,54 @@ class NetworkDropdown extends Component {
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem
+          key="BSC"
+          closeMenu={() => this.props.hideNetworkDropdown()}
+          onClick={() => this.handleClick('BSC')}
+          style={dropdownMenuItemStyle}
+        >
+          {
+            providerType === 'BSC'
+              ? <i className="fa fa-check" />
+              : <div className="network-check__transparent">✓</div>
+          }
+          <NetworkDropdownIcon backgroundColor="#ffe1d4" isSelected={providerType === 'BSC'} />
+          <span
+            className="network-name-item"
+            style={{
+              color: providerType === 'BSC'
+                ? '#0F1222'
+                : '#9b9b9b',
+            }}
+          >
+            BSC
+          </span>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          key="BSC-testnet"
+          closeMenu={() => this.props.hideNetworkDropdown()}
+          onClick={() => this.handleClick('BSC_TESTNET')}
+          style={dropdownMenuItemStyle}
+        >
+          {
+            providerType === 'BSC_TESTNET'
+              ? <i className="fa fa-check" />
+              : <div className="network-check__transparent">✓</div>
+          }
+          <NetworkDropdownIcon backgroundColor="#ffe1d4" isSelected={providerType === 'BSC'} />
+          <span
+            className="network-name-item"
+            style={{
+              color: providerType === 'BSC_TESTNET'
+                ? '#0F1222'
+                : '#9b9b9b',
+            }}
+          >
+            BSC
+          </span>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
           key="default"
           closeMenu={() => this.props.hideNetworkDropdown()}
           onClick={() => this.handleClick('localhost')}

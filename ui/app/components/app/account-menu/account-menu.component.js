@@ -7,7 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import { Menu, Item, Divider, CloseArea } from '../dropdowns/components/menu'
 import { ENVIRONMENT_TYPE_POPUP } from '../../../../../app/scripts/lib/enums'
 import { getEnvironmentType } from '../../../../../app/scripts/lib/util'
-import Identicon from '../../ui/identicon'
+import AccountIcon from '../../ui/account-icon'
 import SiteIcon from '../../ui/site-icon'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
 import { PRIMARY } from '../../../helpers/constants/common'
@@ -52,8 +52,6 @@ export default class AccountMenu extends Component {
   state = {
     shouldShowScrollButton: false,
     searchQuery: '',
-    userImage: '',
-    userImageAddress: '',
   }
 
   addressFuse = new Fuse([], {
@@ -68,19 +66,6 @@ export default class AccountMenu extends Component {
       { name: 'address', weight: 0.5 },
     ],
   })
-
-  isMounted
-
-  componentDidMount () {
-    this.isMounted = true
-    console.log(this.state, 'component mounted')
-  }
-
-  componentWillUnmount () {
-    this.setState({ userImage: '', userImageAddress: '' })
-    console.log(this.state, 'unmounted')
-    this.isMounted = false
-  }
 
   componentDidUpdate (prevProps, prevState) {
     const { isAccountMenuOpen: prevIsAccountMenuOpen } = prevProps
@@ -147,7 +132,7 @@ export default class AccountMenu extends Component {
       addressConnectedDomainMap,
       originOfCurrentTab,
     } = this.props
-    const { searchQuery, userImage, userImageAddress } = this.state
+    const { searchQuery } = this.state
 
     let filteredIdentities = accounts
     if (searchQuery) {
@@ -169,16 +154,6 @@ export default class AccountMenu extends Component {
       })
       const addressDomains = addressConnectedDomainMap[identity.address] || {}
       const iconAndNameForOpenDomain = addressDomains[originOfCurrentTab]
-      let accountMenuIcon = <img src="images/account-icon.svg" width="24" height="24" style={{ marginRight: '12px' }} />
-      if (identity.name.toLowerCase() === '2fa wallet') {
-        accountMenuIcon = <img src="images/account-icon-2fa.svg" width="24" height="24" style={{ marginRight: '12px' }} />
-      } else if (identity.name.toLowerCase() === 'private key') {
-        accountMenuIcon = <img src="images/account-icon-pk.svg" width="24" height="24" style={{ marginRight: '12px' }} />
-      } else if (identity.name.toLowerCase() === 'seed phrase') {
-        accountMenuIcon = <img src="images/account-icon-sp.svg" width="24" height="24" style={{ marginRight: '12px' }} />
-      } else if (identity.name.toLowerCase() === 'google') {
-        accountMenuIcon = <img src={userImage} width="24" height="24" style={{ marginRight: '12px', borderRadius: '50%' }} />
-      }
 
       return (
         <div
@@ -198,7 +173,7 @@ export default class AccountMenu extends Component {
           <div className="account-menu__check-mark">
             { isSelected && <div className="account-menu__check-mark-icon" /> }
           </div>
-          {accountMenuIcon}
+          <AccountIcon name={identity.name} size={24} />
           {/* <img
             className="account-menu__userImage"
             src="https://lh4.googleusercontent.com/-O_RR-ZbT0eU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuck7BGhdFHYtK_ASzOMpfZSIeGScfg/photo.jpg"
@@ -206,9 +181,9 @@ export default class AccountMenu extends Component {
             height="25px"
           /> */}
 
-          <div className="account-menu__account-info">
+          <div className="account-menu__account-info" style={{marginLeft: '12px'}}>
             <div className="account-menu__name">
-              { identity.name || '' }
+              { identity.name === 'google' ? 'Google' : identity.name || '' }
             </div>
             <UserPreferencedCurrencyDisplay
               className="account-menu__balance"
@@ -317,15 +292,7 @@ export default class AccountMenu extends Component {
       toggleAccountMenu,
       lockMetamask,
       history,
-      getPostBox,
     } = this.props
-    const { userImage, userImageAddress } = this.state
-
-    // getPostBox().then((postBox) => {
-    //   const { userInfo } = postBox
-    //   this.setState({ userImage: userInfo && userInfo.profileImage ? userInfo.profileImage : '' })
-    // })
-    this.updateUserImage()
 
     return (
       <Menu

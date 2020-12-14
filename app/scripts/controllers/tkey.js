@@ -88,7 +88,7 @@ export default class TkeyController {
       //   verifier: 'google',
       // })
 
-      const hybridObject = await this.tb.serviceProvider.triggerHybirdLogin({
+      const hybridObject = await this.tb.serviceProvider.triggerHybridAggregateLogin({
         singleLogin: {
           clientId: '876733105116-i0hj3s53qiio5k95prpfmj0hp0gmgtor.apps.googleusercontent.com',
           typeOfLogin: 'google',
@@ -220,7 +220,7 @@ export default class TkeyController {
       // add threshold back key with empty password
       await this.createNewTorusVaultAndRestore('', privKey, {
         ...postBox.userInfo,
-        typeOfLogin: '2FA Wallet',
+        typeOfLogin: 'tKey',
       })
 
       // Private keys
@@ -325,6 +325,8 @@ export default class TkeyController {
     // For ondevice share
     try {
       const el = await tkey.modules.chromeExtensionStorage.getStoreFromChromeExtensionStorage()
+      // console.log('For ondevice share', tkey.modules)
+      // console.log('For ondevice share', el)
       if (el) {
         onDeviceShare.available = true
         onDeviceShare.share = el
@@ -378,8 +380,8 @@ export default class TkeyController {
   }
 
   async copyShareUsingIndexAndStoreLocally (index) {
-    const outputshare = this.tb.outputShare(index)
-    this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputshare)
+    const outputShareStore = this.tb.outputShareStore(index)
+    await this.tb.modules.chromeExtensionStorage.storeDeviceShare(outputShareStore)
     this.store.updateState({ keyDetails: this.tb.getKeyDetails() })
     await this.setSettingsPageData()
     // store locally
@@ -388,7 +390,7 @@ export default class TkeyController {
   async generateAndStoreNewDeviceShare () {
     try {
       const newShare = await this.tb.generateNewShare()
-      this.tb.modules.chromeExtensionStorage.storeDeviceShare(
+      await this.tb.modules.chromeExtensionStorage.storeDeviceShare(
         newShare.newShareStores[newShare.newShareIndex.toString('hex')]
       )
       this.store.updateState({ keyDetails: this.tb.getKeyDetails() })
@@ -468,8 +470,9 @@ export default class TkeyController {
     console.log('approveShareRequest -> pubkey', pubkey)
     try {
       await this.tb.modules.shareTransfer.approveRequest(this.currentEncKey)
+      await this.tb.syncShareMetadata()
     } catch (err) {
-      console.err(err)
+      console.error(err)
       return err
     }
   }
@@ -478,7 +481,7 @@ export default class TkeyController {
     try {
       await this.tb.modules.shareTransfer.deleteShareTransferStore(this.currentEncKey)
     } catch (err) {
-      console.err(err)
+      console.error(err)
       return err
     }
   }

@@ -42,7 +42,7 @@ export default class AccountDetailsModal extends Component {
     // }
 
     return (
-      <AccountModalContainer>
+      <AccountModalContainer selectedIdentity={selectedIdentity}>
         <EditableLabel
           className="account-modal__name"
           defaultValue={name}

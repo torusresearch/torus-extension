@@ -1,16 +1,16 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import Button from "../../../components/ui/button";
-import Snackbar from "../../../components/ui/snackbar";
-import MetaFoxLogo from "../../../components/ui/metafox-logo";
-import { DEFAULT_ROUTE, TKEY_ROUTE } from "../../../helpers/constants/routes";
-import { returnToOnboardingInitiator } from "../onboarding-initiator-util";
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import Button from '../../../components/ui/button'
+import Snackbar from '../../../components/ui/snackbar'
+import MetaFoxLogo from '../../../components/ui/metafox-logo'
+import { DEFAULT_ROUTE, TKEY_ROUTE } from '../../../helpers/constants/routes'
+import { returnToOnboardingInitiator } from '../onboarding-initiator-util'
 
 export default class EndOfFlowScreen extends PureComponent {
   static contextTypes = {
     t: PropTypes.func,
-    metricsEvent: PropTypes.func
-  };
+    metricsEvent: PropTypes.func,
+  }
 
   static propTypes = {
     history: PropTypes.object,
@@ -18,17 +18,17 @@ export default class EndOfFlowScreen extends PureComponent {
     completionMetaMetricsName: PropTypes.string,
     onboardingInitiator: PropTypes.exact({
       location: PropTypes.string,
-      tabId: PropTypes.number
-    })
-  };
+      tabId: PropTypes.number,
+    }),
+  }
 
   onComplete = async () => {
     const {
       history,
       completeOnboarding,
       completionMetaMetricsName,
-      onboardingInitiator
-    } = this.props;
+      onboardingInitiator,
+    } = this.props
 
     await completeOnboarding()
     // this.context.metricsEvent({
@@ -48,28 +48,28 @@ export default class EndOfFlowScreen extends PureComponent {
     if (onboardingInitiator) {
       await returnToOnboardingInitiator(onboardingInitiator)
     }
-    history.push(DEFAULT_ROUTE);
-  };
+    history.push(DEFAULT_ROUTE)
+  }
 
   gotoSettingsPage = async () => {
     const {
       history,
       completeOnboarding,
       completionMetaMetricsName,
-      onboardingInitiator
-    } = this.props;
+      onboardingInitiator,
+    } = this.props
 
     await completeOnboarding()
     if (onboardingInitiator) {
       await returnToOnboardingInitiator(onboardingInitiator)
     }
-    
+
     history.push(TKEY_ROUTE)
   }
 
-  render() {
-    const { t } = this.context;
-    const { onboardingInitiator } = this.props;
+  render () {
+    const { t } = this.context
+    const { onboardingInitiator } = this.props
 
     return (
       <div className="main-background">
@@ -82,19 +82,21 @@ export default class EndOfFlowScreen extends PureComponent {
               your browser.
             </div>
 
-            <div className="first-time-flow__question-2">Universal Logins is back</div>
+            <div className="first-time-flow__question-2">Checkout tKey</div>
             <div className="end-of-flow__text-block end-of-flow__text-1">
-              <div>Experience it with a separate <span style={{fontWeight: 'bold'}}>tKey account</span> on Torus.</div>
-              <div><span style={{fontWeight: 'bold'}}>tKey account</span> - A separate, non-custodial account that allows you to retrieve your private key when you lose access to your login (e.g Google).</div>
+              <div>A separate account with added security</div><br></br>
+              <div><span style={{ fontWeight: 'bold' }}>tKey</span> - is a separate, secure account that allows you to retrieve your private key when you lose access to your login. This is useful for users who would like to have more control over their account, especially when they have a significant sum in their wallet in future.
+              </div><br></br>
+              <a style={{ color: '#0363ff', fontWeight: 'bold' }} onClick={this.gotoSettingsPage}>Add a password</a> to your tKey Account in 'Settings' page for account recovery.
             </div>
 
-            <div className="first-time-flow__question-2">tKey Account set up</div>
+            {/* <div className="first-time-flow__question-2">tKey Account set up</div>
             <div className="end-of-flow__text-block end-of-flow__text-1">
-              <a style={{color:"#0363ff", fontWeight: 'bold'}} onClick={this.gotoSettingsPage}>Add a password</a> to your tKey Account in 'Settings' page for account recovery.
-            </div>
+              <a style={{ color: '#0363ff', fontWeight: 'bold' }} onClick={this.gotoSettingsPage}>Add a password</a> to your tKey Account in 'Settings' page for account recovery.
+            </div> */}
 
             <div className="first-time-flow__onboarding">
-              <a className="first-time-flow__onboarding-more" href="https://docs.tor.us" target="_blank" style={{color:"#0363ff", fontWeight: 'bold', fontSize: '18px', lineHeight: '21px'}}>
+              <a className="first-time-flow__onboarding-more" href="https://hackmd.io/Tej2tf83SZOxZmz70ObEpg" target="_blank" style={{ color: '#0363ff', fontWeight: 'bold', fontSize: '18px', lineHeight: '21px' }}>
                 Learn more about tKey here &gt;
               </a>
               <Button
@@ -106,7 +108,7 @@ export default class EndOfFlowScreen extends PureComponent {
               </Button>
             </div>
 
-            
+
             {/* <div className="end-of-flow__text-block end-of-flow__text-2">
               { t('endOfFlowMessage2') }
             </div>
@@ -139,15 +141,15 @@ export default class EndOfFlowScreen extends PureComponent {
             </div> */}
             {onboardingInitiator ? (
               <Snackbar
-                content={t("onboardingReturnNotice", [
-                  t("endOfFlowMessage10"),
-                  onboardingInitiator.location
+                content={t('onboardingReturnNotice', [
+                  t('endOfFlowMessage10'),
+                  onboardingInitiator.location,
                 ])}
               />
             ) : null}
           </div>
         </div>
       </div>
-    );
+    )
   }
 }

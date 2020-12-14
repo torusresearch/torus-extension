@@ -77,7 +77,7 @@ export default class RestorePasswordForm extends Component {
           <img src="images/tkey-input-password.png" />
         </div>
         <div className="new-account-create-form__input-label">
-        You are accessing your 2FA Wallet from a new platform. <span style={{ fontWeight: 'bold' }}>Verify your identity</span> with your password:
+        You are accessing your tKey account from a new platform. <span style={{ fontWeight: 'bold' }}>Verify your identity</span> with your password:
         </div>
         <div className="new-account-create-form__input-fields">
           <div className="new-account-create-form__password-field">

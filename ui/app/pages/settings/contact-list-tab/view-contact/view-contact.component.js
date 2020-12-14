@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Identicon from '../../../../components/ui/identicon'
+import AccountIcon from '../../../../components/ui/account-icon'
 import Copy from '../../../../components/ui/icon/copy-icon.component'
 
 import Button from '../../../../components/ui/button/button.component'
@@ -33,7 +33,8 @@ export default class ViewContact extends PureComponent {
       <div className="settings-page__content-row">
         <div className="settings-page__content-item">
           <div className="settings-page__header address-book__header">
-            <Identicon address={address} diameter={60} />
+            <AccountIcon name={name} size={60} />
+            {/* <Identicon address={address} diameter={60} /> */}
             <div className="address-book__header__name">{ name }</div>
           </div>
           <div className="address-book__view-contact__group">

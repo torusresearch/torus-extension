@@ -1,122 +1,122 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import validUrl from "valid-url";
-import TextField from "../../../../components/ui/text-field";
-import Button from "../../../../components/ui/button";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import IconButton from "@material-ui/core/IconButton";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import validUrl from 'valid-url'
+import TextField from '../../../../components/ui/text-field'
+import Button from '../../../../components/ui/button'
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import IconButton from '@material-ui/core/IconButton'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
 
 export default class PasswordForm extends PureComponent {
   static contextTypes = {
     t: PropTypes.func.isRequired,
-    metricsEvent: PropTypes.func.isRequired
-  };
+    metricsEvent: PropTypes.func.isRequired,
+  }
 
   static propTypes = {
     passwordShare: PropTypes.object,
     addPasswordShare: PropTypes.func,
     changePasswordShare: PropTypes.func,
-    renderThresholdPanels: PropTypes.func
-  };
+    renderThresholdPanels: PropTypes.func,
+  }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     // console.log(props)
-    let { passwordShare } = props;
+    const { passwordShare } = props
     // console.log(passwordShare.available);
 
     this.state = {
       passwordPanel: null,
-      accountPassword: "",
-      accountPassword2: "",
-      accountPasswordError: "",
+      accountPassword: '',
+      accountPassword2: '',
+      accountPasswordError: '',
       showPassword1: false,
       showPassword2: false,
       showPassword3: false,
-      passwordBlockType: passwordShare.available ? "hidden" : "input",
-      buttonText: passwordShare.available ? "Change password" : "Add password"
-    };
+      passwordBlockType: passwordShare.available ? 'hidden' : 'input',
+      buttonText: passwordShare.available ? 'Change password' : 'Add password',
+    }
   }
 
-  passwordValidator(v) {
+  passwordValidator (v) {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/.test(v)
   }
 
-  onPasswordChange(el) {
-    this.setState(state => {
-      const { accountPassword } = state;
-      let accountPasswordError = "";
+  onPasswordChange (el) {
+    this.setState((state) => {
+      const { accountPassword } = state
+      let accountPasswordError = ''
 
       // Add check for password if minimum 10 digits
       if (!this.passwordValidator(el)) {
         // accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
-        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number";
+        accountPasswordError = 'Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number'
       }
 
       return {
         accountPassword: el,
-        accountPasswordError: accountPasswordError
-      };
-    });
+        accountPasswordError: accountPasswordError,
+      }
+    })
   }
 
-  onPasswordChange2(field, value) {
-    this.setState(state => {
-      let { accountPassword, accountPassword2 } = state;
-      let accountPasswordError = "";
+  onPasswordChange2 (field, value) {
+    this.setState((state) => {
+      let { accountPassword, accountPassword2 } = state
+      let accountPasswordError = ''
 
       field === 1 ? accountPassword = value : field === 2 ? accountPassword2 = value : void 0
 
       if (!this.passwordValidator(value)) {
         // accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number and one special character";
-        accountPasswordError = "Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number";
+        accountPasswordError = 'Must contain at least 10 characters. At least one uppercase letter, one lowercase letter, one number'
       } else if (accountPassword !== accountPassword2) {
-        accountPasswordError = "Both passwords should be same";
+        accountPasswordError = 'Both passwords should be same'
       }
-      
+
       if (field === 1) {
         return {
           accountPassword: accountPassword,
-          accountPasswordError: accountPasswordError
-        };
-      } else if(field === 2) {
+          accountPasswordError: accountPasswordError,
+        }
+      } else if (field === 2) {
         return {
           accountPassword2: accountPassword2,
-          accountPasswordError: accountPasswordError
-        };
+          accountPasswordError: accountPasswordError,
+        }
       }
-    });
+    })
   }
 
-  async addAccountPassword() {
-    const { accountPassword, accountPasswordError, buttonText } = this.state;
+  async addAccountPassword () {
+    const { accountPassword, accountPasswordError, buttonText } = this.state
     const {
       history,
       addPasswordShare,
       changePasswordShare,
-      renderThresholdPanels
-    } = this.props;
+      renderThresholdPanels,
+    } = this.props
     // console.log(accountPassword);
 
-    if (accountPasswordError === "") {
+    if (accountPasswordError === '') {
       // console.log(buttonText);
       try {
-        buttonText === "Add new password"
+        buttonText === 'Add new password'
           ? await changePasswordShare(accountPassword)
-          : await addPasswordShare(accountPassword);
+          : await addPasswordShare(accountPassword)
         // this.forceUpdate()
         this.setState({
-          passwordBlockType: "hidden",
-          buttonText: "Change password",
-          accountPassword: "",
-          accountPassword2: "",
+          passwordBlockType: 'hidden',
+          buttonText: 'Change password',
+          accountPassword: '',
+          accountPassword2: '',
           showPassword1: false,
-          showPassword2 : false
-        });
-        renderThresholdPanels();
+          showPassword2: false,
+        })
+        renderThresholdPanels()
       } catch (err) {
         console.error(err)
       }
@@ -126,23 +126,23 @@ export default class PasswordForm extends PureComponent {
     }
   }
 
-  changePassword() {
+  changePassword () {
     this.setState({
-      passwordBlockType: "change",
-      buttonText: "Add new password"
-    });
+      passwordBlockType: 'change',
+      buttonText: 'Add new password',
+    })
     // this.renderPasswordBlock()
   }
 
 
   handleClickShowPassword = (field, el) => {
-    this.setState({ [`showPassword${field}`]: el });
-  };
+    this.setState({ [`showPassword${field}`]: el })
+  }
 
-  renderButton() {
-    let { passwordBlockType, buttonText } = this.state;
+  renderButton () {
+    const { passwordBlockType, buttonText } = this.state
     // console.log("renderButton", passwordBlockType);
-    if (passwordBlockType === "hidden") {
+    if (passwordBlockType === 'hidden') {
       return (
         <Button
           type="secondary"
@@ -151,7 +151,7 @@ export default class PasswordForm extends PureComponent {
         >
           {buttonText}
         </Button>
-      );
+      )
     } else {
       return (
         <Button
@@ -161,14 +161,14 @@ export default class PasswordForm extends PureComponent {
         >
           {buttonText}
         </Button>
-      );
+      )
     }
   }
 
-  renderPasswordBlock() {
-    let { passwordBlockType, accountPassword, accountPassword2 } = this.state;
+  renderPasswordBlock () {
+    const { passwordBlockType, accountPassword, accountPassword2 } = this.state
     // console.log("renderPasswordBlock", passwordBlockType);
-    if (passwordBlockType === "hidden") {
+    if (passwordBlockType === 'hidden') {
       return (
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
@@ -176,16 +176,16 @@ export default class PasswordForm extends PureComponent {
             {/* <DeleteOutlinedIcon /> */}
           </div>
         </div>
-      );
-    } else if (passwordBlockType === "change") {
+      )
+    } else if (passwordBlockType === 'change') {
       return (
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
             <input
               value={this.state.accountPassword}
-              type={this.state.showPassword1 ? "text" : "password"}
+              type={this.state.showPassword1 ? 'text' : 'password'}
               placeholder="Min 10 alphanumeric characters"
-              onChange={event => this.onPasswordChange2(1, event.target.value)}
+              onChange={(event) => this.onPasswordChange2(1, event.target.value)}
               id="password1"
             />
             {!this.state.showPassword1 ? (
@@ -201,9 +201,9 @@ export default class PasswordForm extends PureComponent {
           <div className="tkey-tab__subshare">
             <input
               value={this.state.accountPassword2}
-              type={this.state.showPassword2 ? "text" : "password"}
+              type={this.state.showPassword2 ? 'text' : 'password'}
               placeholder="Confirm password"
-              onChange={event => this.onPasswordChange2(2, event.target.value)}
+              onChange={(event) => this.onPasswordChange2(2, event.target.value)}
               // onKeyDown={() => this.addAccountPassword()}
               id="password2"
             />
@@ -218,16 +218,16 @@ export default class PasswordForm extends PureComponent {
             )}
           </div>
         </div>
-      );
+      )
     } else {
       return (
         <div className="tkey-tab__borderWrapper">
           <div className="tkey-tab__subshare">
             <input
-              type={this.state.showPassword3 ? "text" : "password"}
+              type={this.state.showPassword3 ? 'text' : 'password'}
               value={this.state.accountPassword}
               placeholder="Min 10 alphanumeric characters"
-              onChange={event => this.onPasswordChange(event.target.value)}
+              onChange={(event) => this.onPasswordChange(event.target.value)}
               // onKeyDown={() => this.addAccountPassword()}
               id="password"
             />
@@ -242,13 +242,13 @@ export default class PasswordForm extends PureComponent {
             )}
           </div>
         </div>
-      );
+      )
     }
   }
 
-  render() {
-    let { passwordShare } = this.props;
-    let { accountPasswordError, passwordBlockType } = this.state;
+  render () {
+    const { passwordShare } = this.props
+    const { accountPasswordError, passwordBlockType } = this.state
     return (
       <div>
         <div className="tkey-tab__share">
@@ -256,10 +256,10 @@ export default class PasswordForm extends PureComponent {
           {this.renderPasswordBlock()}
           <p className="tkey-tab__error-message">{accountPasswordError}</p>
           <div className="tkey-tab__buttons-container">
-            <div style={{marginLeft: 'auto'}}>{this.renderButton()}</div>            
-          </div> 
+            <div style={{ marginLeft: 'auto' }}>{this.renderButton()}</div>
+          </div>
         </div>
       </div>
-    );
+    )
   }
 }

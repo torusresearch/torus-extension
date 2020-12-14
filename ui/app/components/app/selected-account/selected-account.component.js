@@ -39,7 +39,7 @@ class SelectedAccount extends Component {
             }}
           >
             <div className="selected-account__name">
-              { selectedIdentity.name }
+              { selectedIdentity.name === 'google' ? 'Google' : selectedIdentity.name }
             </div>
             <div className="selected-account__address">
               { shortenAddress(checksummedAddress) }

@@ -7,7 +7,6 @@ import {
   hideSidebar,
   lockMetamask,
   hideWarning,
-  getPostBox,
 } from '../../../store/actions'
 import {
   getAddressConnectedDomainMap,
@@ -57,7 +56,6 @@ function mapDispatchToProps (dispatch) {
       dispatch(hideSidebar())
       dispatch(toggleAccountMenu())
     },
-    getPostBox: () => dispatch(getPostBox()),
   }
 }
 

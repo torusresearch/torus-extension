@@ -1,48 +1,48 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Button from "../../../components/ui/button";
-import Select from "react-select";
-import { components } from "react-select";
-import Bowser from "bowser";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Button from '../../../components/ui/button'
+import Select, { components } from 'react-select'
+
+import Bowser from 'bowser'
 import {
   INITIALIZE_END_OF_FLOW_ROUTE,
-  DEFAULT_ROUTE
-} from "../../../helpers/constants/routes";
-import ComputerIcon from "@material-ui/icons/Computer";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+  DEFAULT_ROUTE,
+} from '../../../helpers/constants/routes'
+import ComputerIcon from '@material-ui/icons/Computer'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 
 export default class DeviceForm extends Component {
   static defaultProps = {
-    newAccountNumber: 0
-  };
+    newAccountNumber: 0,
+  }
 
   state = {
-    inputPassword: "",
-    defaultAccountName: "Enter your password here",
-    selectedDevice: "",
-    instruction: "Save new browser as a separate authentication factor or add it as an existing device.",
+    inputPassword: '',
+    defaultAccountName: 'Enter your password here',
+    selectedDevice: '',
+    instruction: 'Save new browser as a separate authentication factor or add it as an existing device.',
     currentDevice: {},
     browser: {},
     devices: [],
-    tabValue: 1
-  };
+    tabValue: 1,
+  }
 
-  componentDidMount() {
-    const { changeHeading, getTotalDeviceShares } = this.props;
+  componentDidMount () {
+    const { changeHeading, getTotalDeviceShares } = this.props
 
-    changeHeading("Save extension"); // for tabs
+    changeHeading('Save extension') // for tabs
 
-    this.setDeviceDetails(); // for adding this extension
+    this.setDeviceDetails() // for adding this extension
 
     // Show options with labels
-    getTotalDeviceShares().then(devices => {
-      let totalDevices = [];
-      Object.keys(devices).map(index => {
-        devices[index] = devices[index].slice(0, 1);
-        return devices[index].map(device => {
-          let date = new Date(device.dateAdded)
-          const browser = Bowser.getParser(device.userAgent);
+    getTotalDeviceShares().then((devices) => {
+      const totalDevices = []
+      Object.keys(devices).map((index) => {
+        devices[index] = devices[index].slice(0, 1)
+        return devices[index].map((device) => {
+          const date = new Date(device.dateAdded)
+          const browser = Bowser.getParser(device.userAgent)
           totalDevices.push({
             label: this.getBowserLabel(device.userAgent),
             value: index,
@@ -51,72 +51,72 @@ export default class DeviceForm extends Component {
               os: browser.getOSName(),
               platform: browser.getPlatformType(),
               date: date.toDateString(),
-              index: index
-            }
-          });
-        });
+              index: index,
+            },
+          })
+        })
         // return {label: getBrowserLabel(devices)}
-      });
+      })
       this.setState({
         devices: totalDevices,
-        selectedDevice: totalDevices[0]
-      });
-    }); // populate list of available devices
+        selectedDevice: totalDevices[0],
+      })
+    }) // populate list of available devices
   }
 
-  getBowserLabel(agent) {
-    const browser = Bowser.getParser(agent);
-    return browser.getBrowserName() + " " + browser.getOSName();
+  getBowserLabel (agent) {
+    const browser = Bowser.getParser(agent)
+    return browser.getBrowserName() + ' ' + browser.getOSName()
   }
 
-  setDeviceDetails() {
-    const browser = Bowser.getParser(navigator.userAgent);
-    let date = new Date()
+  setDeviceDetails () {
+    const browser = Bowser.getParser(navigator.userAgent)
+    const date = new Date()
 
     this.setState({
       browser: {
         name: browser.getBrowserName(),
         os: browser.getOSName(),
         platform: browser.getPlatformType(),
-        date: date.toDateString()
-      }
-    });
+        date: date.toDateString(),
+      },
+    })
   }
 
   addDevice = async () => {
-    const { selectedDevice, tabValue } = this.state;
+    const { selectedDevice, tabValue } = this.state
     const {
       copyShareUsingIndexAndStoreLocally,
       generateAndStoreNewDeviceShare,
-      history
-    } = this.props;
+      history,
+    } = this.props
     if (tabValue === 1) {
       try {
-        await generateAndStoreNewDeviceShare();
-        history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+        await generateAndStoreNewDeviceShare()
+        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
       } catch (err) {
-        console.error(err);
-        
+        console.error(err)
+
       }
     } else {
       try {
-        await copyShareUsingIndexAndStoreLocally(selectedDevice.browser.index);
-        history.push(INITIALIZE_END_OF_FLOW_ROUTE);
+        await copyShareUsingIndexAndStoreLocally(selectedDevice.browser.index)
+        history.push(INITIALIZE_END_OF_FLOW_ROUTE)
       } catch (err) {
-        console.error(err);
+        console.error(err)
       }
     }
-  };
+  }
 
   continueWithoutAddingDevice = () => {
-    const { history } = this.props;
-    history.push(INITIALIZE_END_OF_FLOW_ROUTE);
-  };
+    const { history } = this.props
+    history.push(INITIALIZE_END_OF_FLOW_ROUTE)
+  }
 
   renderAddNewDevice = () => {
-    
-    const { browser } = this.state;
-    
+
+    const { browser } = this.state
+
     return (
       <div className="new-account-create-form__device-info">
         <Grid container>
@@ -128,30 +128,30 @@ export default class DeviceForm extends Component {
               {browser.os}
               <span> (Current new device)</span>
             </h4>
-            <p>{browser.platform + ", " + browser.name}</p>
+            <p>{browser.platform + ', ' + browser.name}</p>
             <p>{browser.date}</p>
           </Grid>
         </Grid>
       </div>
-    );
+    )
   }
 
 
-  renderAddOldDevice  = () => {
-    const { devices, selectedDevice } = this.state;
+  renderAddOldDevice = () => {
+    const { devices, selectedDevice } = this.state
     // console.log(components)
     // debugger
-    const { Option, ValueContainer, IndicatorSeparator } = components;
+    const { Option, ValueContainer, IndicatorSeparator } = components
 
     const indicatorSeparatorStyle = {
-      width: 0
-    };
-    
-    const IndicatorSeparator2 = ({ innerProps }) => {
-      return <span style={indicatorSeparatorStyle} {...innerProps} />;
-    };
+      width: 0,
+    }
 
-    const IconOption = props => {
+    const IndicatorSeparator2 = ({ innerProps }) => {
+      return <span style={indicatorSeparatorStyle} {...innerProps} />
+    }
+
+    const IconOption = (props) => {
       // console.log(props)
       return (
         <Option {...props}>
@@ -163,16 +163,16 @@ export default class DeviceForm extends Component {
               <Grid item xs={10}>
                 <h4>
                   {props.data.browser.os}
-                  <span> {" (" + props.data.browser.index.substring(0, 4) + ")"}</span>
+                  <span> {' (' + props.data.browser.index.substring(0, 4) + ')'}</span>
                 </h4>
-                <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
+                <p>{props.data.browser.platform + ', ' + props.data.browser.name}</p>
                 <p>{props.data.browser.date}</p>
               </Grid>
             </Grid>
           </div>
         </Option>
-      );
-    };
+      )
+    }
     const SingleOption = (props) => {
       // debugger
       // console.log(props.data)
@@ -186,16 +186,16 @@ export default class DeviceForm extends Component {
               <Grid item xs={10}>
                 <h4>
                   {props.data.browser.os}
-                  <span> {" (" + props.data.browser.index.substring(0, 4)+")"}</span>
+                  <span> {' (' + props.data.browser.index.substring(0, 4) + ')'}</span>
                 </h4>
-                <p>{props.data.browser.platform + ", " + props.data.browser.name}</p>
+                <p>{props.data.browser.platform + ', ' + props.data.browser.name}</p>
                 <p>{props.data.browser.date}</p>
               </Grid>
             </Grid>
           </div>
         </ValueContainer>
-      );
-    };
+      )
+    }
 
     const ValueOption = (props) => {
       // debugger
@@ -204,9 +204,9 @@ export default class DeviceForm extends Component {
         <ValueContainer {...props}>
           {props.children}
         </ValueContainer>
-      );
-    };
-    
+      )
+    }
+
     return (
       <Select
         className="new-account-create-form__device-select new-account-create-form__device-select--options-device"
@@ -220,22 +220,22 @@ export default class DeviceForm extends Component {
         styles={{
           valueContainer: (base) => ({
             ...base,
-            width: "100%"
+            width: '100%',
           }),
           option: (base, { data, isDisabled, isFocused, isSelected }) => ({
             ...base,
-            color:"black"
+            color: 'black',
           }),
         }}
-        onChange={opt => {
-          this.setState({ selectedDevice: opt });
+        onChange={(opt) => {
+          this.setState({ selectedDevice: opt })
         }}
         components={{ Option: IconOption, SingleValue: SingleOption, ValueContainer: ValueOption, IndicatorSeparator: IndicatorSeparator2 }}
       />
-    );
+    )
   }
 
-  render() {
+  render () {
     const {
       inputPassword,
       defaultAccountName,
@@ -243,7 +243,7 @@ export default class DeviceForm extends Component {
       browser,
       devices,
       tabValue,
-    } = this.state;
+    } = this.state
 
     return (
       <div className="new-account-create-form">
@@ -257,7 +257,7 @@ export default class DeviceForm extends Component {
         <div className="new-account-create-form__tabs new-account-create-form__tabs--inner">
           <div
             className={`new-account-create-form__tab ${
-              tabValue === 1 ? "new-account-create-form__tab-selected" : ""
+              tabValue === 1 ? 'new-account-create-form__tab-selected' : ''
             }`}
             onClick={() => this.setState({ tabValue: 1 })}
           >
@@ -265,7 +265,7 @@ export default class DeviceForm extends Component {
           </div>
           <div
             className={`new-account-create-form__tab ${
-              tabValue === 2 ? "new-account-create-form__tab-selected" : ""
+              tabValue === 2 ? 'new-account-create-form__tab-selected' : ''
             }`}
             onClick={() => this.setState({ tabValue: 2 })}
           >
@@ -292,7 +292,7 @@ export default class DeviceForm extends Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -305,10 +305,10 @@ DeviceForm.propTypes = {
   getTotalDeviceShares: PropTypes.func,
   copyShareUsingIndexAndStoreLocally: PropTypes.func,
   generateAndStoreNewDeviceShare: PropTypes.func,
-  deleteShareDescription: PropTypes.func
-};
+  deleteShareDescription: PropTypes.func,
+}
 
 DeviceForm.contextTypes = {
   t: PropTypes.func,
-  metricsEvent: PropTypes.func
-};
+  metricsEvent: PropTypes.func,
+}

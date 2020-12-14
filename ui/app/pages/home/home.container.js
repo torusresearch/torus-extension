@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
     selectedAddress,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
+    isUnlocked,
   } = metamask
   const accountBalance = getCurrentEthBalance(state)
   const { forgottenPassword, threeBoxLastUpdated } = appState
@@ -65,6 +66,7 @@ const mapStateToProps = (state) => {
     totalUnapprovedCount,
     connectedStatusPopoverHasBeenShown,
     defaultHomeActiveTabName,
+    isUnlocked,
   }
 }
 

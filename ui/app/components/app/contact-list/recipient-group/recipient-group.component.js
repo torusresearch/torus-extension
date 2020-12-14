@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Identicon from '../../../ui/identicon'
+import AccountIcon from '../../../ui/account-icon'
 import classnames from 'classnames'
 import { ellipsify } from '../../../../pages/send/send.utils'
 
@@ -30,8 +31,9 @@ export default function RecipientGroup ({ label, items, onSelect, selectedAddres
               'send__select-recipient-wrapper__group-item--selected': addressesEqual(address, selectedAddress),
             })}
           >
-            <Identicon address={address} diameter={28} />
-            <div className="send__select-recipient-wrapper__group-item__content">
+            <AccountIcon name={name} size={28} />
+            {/* <Identicon address={address} diameter={28} /> */}
+            <div className="send__select-recipient-wrapper__group-item__content" style={{marginLeft: '12px'}}>
               <div className="send__select-recipient-wrapper__group-item__title">
                 {name || ellipsify(address)}
               </div>

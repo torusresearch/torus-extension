@@ -1759,6 +1759,6 @@
     "description": "$1 is the web3 site name"
   },
   "tkey": {
-    "message": "2FA Wallet"
+    "message": "tKey"
   }
 }
