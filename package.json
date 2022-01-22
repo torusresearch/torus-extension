@@ -151,7 +151,7 @@
     "luxon": "^1.23.0",
     "metamask-logo": "^2.1.4",
     "multihashes": "^0.4.12",
-    "nanoid": "^2.1.6",
+    "nanoid": "^3.1.31",
     "nonce-tracker": "^1.0.0",
     "obj-multiplex": "^1.0.0",
     "obs-store": "^4.0.3",
